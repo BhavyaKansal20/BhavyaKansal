@@ -194,7 +194,7 @@
                 <div class="profile-container">
                     <div class="profile-ring"></div>
                     <img 
-                        src="my proffesional image .jpg" 
+                        src="image.jpg" 
                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=800&q=80';" 
                         alt="Bhavya Kansal" 
                         class="profile-img"
