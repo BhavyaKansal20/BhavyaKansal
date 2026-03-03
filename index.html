@@ -12,6 +12,7 @@
     <meta property="og:image" content="https://bhavyakansal.dev/preview.png">
     <meta property="og:url" content="https://bhavyakansal.dev">
     <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700;800&display=swap" as="style">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVJYWQY694"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -29,7 +30,7 @@
         .ambient-orb { position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.3; z-index: 0; pointer-events: none; animation: float 20s ease-in-out infinite alternate; }
         @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, -60px) scale(1.2); } }
         .neon-text { text-shadow: 0 0 10px rgba(14,165,233,0.9), 0 0 25px rgba(14,165,233,0.7), 0 0 40px rgba(14,165,233,0.4); }
-        .neon-box { background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(56,189,248,0.03) 50%, rgba(255,255,255,0.02) 100%); backdrop-filter: blur(60px) saturate(180%); -webkit-backdrop-filter: blur(60px) saturate(180%); border: 1px solid rgba(255,255,255,0.08); border-top: 1px solid rgba(255,255,255,0.22); border-left: 1px solid rgba(255,255,255,0.12); border-radius: 24px; box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.08), 0 0 20px rgba(56,189,248,0.15), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 0 30px rgba(56,189,248,0.06); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; }
+        .neon-box { background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(56,189,248,0.03) 50%, rgba(255,255,255,0.02) 100%); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(60px) saturate(180%); border: 1px solid rgba(255,255,255,0.08); border-top: 1px solid rgba(255,255,255,0.22); border-left: 1px solid rgba(255,255,255,0.12); border-radius: 24px; box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.08), 0 0 20px rgba(56,189,248,0.15), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 0 30px rgba(56,189,248,0.06); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; }
         .neon-box::before { content: ''; position: absolute; top: -1px; left: -1px; width: 60%; height: 3px; background: linear-gradient(90deg, transparent, rgba(56,189,248,0.8), rgba(99,102,241,0.6), rgba(168,85,247,0.4), transparent); border-radius: 24px 0 0 0; opacity: 0.7; transition: opacity 0.5s ease; }
         .neon-box::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 40%; background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%); border-radius: 24px 24px 0 0; pointer-events: none; }
         .neon-box:hover { background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(56,189,248,0.05) 50%, rgba(255,255,255,0.03) 100%); box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(56,189,248,0.3), 0 0 50px rgba(56,189,248,0.5), 0 0 80px rgba(56,189,248,0.2), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 0 40px rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.4); border-top: 1px solid rgba(56,189,248,0.7); border-left: 1px solid rgba(56,189,248,0.4); transform: translateY(-8px) scale(1.02); z-index: 10; }
@@ -60,6 +61,7 @@
   ]
 }
 </script>
+
 </head>
 <body class="antialiased selection:bg-sky-500 selection:text-white relative">
 
@@ -129,7 +131,7 @@
             <div class="order-1 md:order-2 flex justify-center relative">
                 <div class="profile-container">
                     <div class="profile-ring"></div>
-                    <img src="image.jpg" onerror="this.style.display='none'" alt="Bhavya Kansal Profile" class="profile-img">
+                    <img src="image.jpg" loading="lazy" onerror="this.style.display='none'" alt="Bhavya Kansal Profile" class="profile-img">
                     <div class="absolute -bottom-4 right-0 bg-slate-900/90 border border-sky-400 px-5 py-2.5 rounded-xl shadow-[0_10px_25px_rgba(14,165,233,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center gap-3 backdrop-blur-2xl">
                         <div class="w-3.5 h-3.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.9)]"></div>
                         <span class="text-xs font-black text-white tracking-widest brand-font uppercase">OPEN TO ROLES</span>
@@ -534,11 +536,13 @@
 
     // Performance Optimization for Mobile
     document.addEventListener("DOMContentLoaded", function () {
-        if (window.innerWidth < 768) {
-            const fluidCanvas = document.getElementById('fluid-canvas');
-            if (fluidCanvas) fluidCanvas.style.display = 'none';
-        }
-    });
+    if (window.innerWidth < 768) {
+        const fluidCanvas = document.getElementById('fluid-canvas');
+        const bgCanvas = document.getElementById('bg-canvas');
+        if (fluidCanvas) fluidCanvas.style.display = 'none';
+        if (bgCanvas) bgCanvas.style.display = 'none';
+    }
+});
 
     const btn = document.getElementById('mobile-menu-btn');
     const menu = document.getElementById('mobile-menu');
