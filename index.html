@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
+<<<<<<< HEAD
     <link rel="icon" type="image/png" href="favicon.png">
     <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVJYWQY694"></script>
@@ -22,183 +23,162 @@
 
     <link rel="icon" type="image/png" href="favicon.png">
 
+=======
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="author" content="Bhavya Kansal">
+    <title>Bhavya Kansal | AI Engineer & DeepTech Innovator</title>
+    <meta name="description" content="Portfolio of Bhavya Kansal, an AI Engineer specializing in Machine Learning, Computer Vision, and Multimodal AI systems. Founder of MultiModex AI.">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Bhavya Kansal | AI Engineer & DeepTech Innovator">
+    <meta property="og:description" content="AI Engineer building intelligent multimodal systems, automation workflows, and solving real-world problems.">
+    <meta property="og:image" content="https://bhavyakansal.dev/preview.png">
+    <meta property="og:url" content="https://bhavyakansal.dev">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVJYWQY694"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-EVJYWQY694');
+    </script>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0ea5e9; /* Sky 500 */
-            --secondary: #6366f1; /* Indigo 500 */
-            --dark-bg: #0b1121; /* Darker Slate */
-            --glass: rgba(15, 23, 42, 0.7);
-        }
-        
-        body {
-            font-family: 'Rajdhani', sans-serif;
-            background-color: var(--dark-bg);
-            color: #e2e8f0;
-            overflow-x: hidden;
-        }
-
-        h1, h2, h3, .brand-font {
-            font-family: 'Orbitron', sans-serif;
-            letter-spacing: 1px;
-        }
-
-        /* --- NEON EFFECTS ENGINE --- */
-        .neon-text {
-            text-shadow: 0 0 5px rgba(14, 165, 233, 0.8), 0 0 15px rgba(14, 165, 233, 0.5);
-        }
-        
-        .neon-box {
-            box-shadow: 0 0 10px rgba(14, 165, 233, 0.2), inset 0 0 10px rgba(14, 165, 233, 0.1);
-            border: 1px solid rgba(14, 165, 233, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .neon-box:hover {
-            box-shadow: 0 0 20px rgba(14, 165, 233, 0.6), inset 0 0 20px rgba(14, 165, 233, 0.2);
-            border-color: rgba(14, 165, 233, 0.8);
-            transform: translateY(-5px);
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; }
-
-        /* Canvas Background */
-        #bg-canvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.3;
-        }
-
-        /* Profile Logic */
-        .profile-container {
-            position: relative;
-            width: 280px; height: 280px;
-            margin: 0 auto;
-            z-index: 10;
-        }
-        .profile-img {
-            width: 100%; height: 100%;
-            object-fit: cover; object-position: top center;
-            border-radius: 50%;
-            border: 3px solid rgba(56, 189, 248, 0.5);
-            box-shadow: 0 0 40px rgba(14, 165, 233, 0.4);
-        }
-        .profile-ring {
-            position: absolute;
-            top: -20px; left: -20px; right: -20px; bottom: -20px;
-            border-radius: 50%;
-            border: 2px dashed rgba(14, 165, 233, 0.6);
-            animation: spin 15s linear infinite;
-        }
+        :root { --primary: #0ea5e9; --secondary: #6366f1; --dark-bg: #030712; --neon-cyan: #38bdf8; --neon-green: #4ade80; --neon-indigo: #818cf8; }
+        body { font-family: 'Verdana', sans-serif; background-color: var(--dark-bg); color: #e2e8f0; overflow-x: hidden; }
+        h1, h2, h3, .brand-font { font-family: 'Lora', 'Times New Roman', serif; letter-spacing: 1px; }
+        .ambient-orb { position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.3; z-index: 0; pointer-events: none; animation: float 20s ease-in-out infinite alternate; }
+        @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(40px, -60px) scale(1.2); } }
+        .neon-text { text-shadow: 0 0 10px rgba(14,165,233,0.9), 0 0 25px rgba(14,165,233,0.7), 0 0 40px rgba(14,165,233,0.4); }
+        .neon-box { background: linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(56,189,248,0.03) 50%, rgba(255,255,255,0.02) 100%); backdrop-filter: blur(60px) saturate(180%); -webkit-backdrop-filter: blur(60px) saturate(180%); border: 1px solid rgba(255,255,255,0.08); border-top: 1px solid rgba(255,255,255,0.22); border-left: 1px solid rgba(255,255,255,0.12); border-radius: 24px; box-shadow: 0 8px 40px rgba(0,0,0,0.7), 0 0 0 1px rgba(56,189,248,0.08), 0 0 20px rgba(56,189,248,0.15), inset 0 1px 0 rgba(255,255,255,0.1), inset 0 0 30px rgba(56,189,248,0.06); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden; }
+        .neon-box::before { content: ''; position: absolute; top: -1px; left: -1px; width: 60%; height: 3px; background: linear-gradient(90deg, transparent, rgba(56,189,248,0.8), rgba(99,102,241,0.6), rgba(168,85,247,0.4), transparent); border-radius: 24px 0 0 0; opacity: 0.7; transition: opacity 0.5s ease; }
+        .neon-box::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 40%; background: linear-gradient(180deg, rgba(255,255,255,0.04) 0%, transparent 100%); border-radius: 24px 24px 0 0; pointer-events: none; }
+        .neon-box:hover { background: linear-gradient(135deg, rgba(255,255,255,0.09) 0%, rgba(56,189,248,0.05) 50%, rgba(255,255,255,0.03) 100%); box-shadow: 0 20px 60px rgba(0,0,0,0.8), 0 0 0 1px rgba(56,189,248,0.3), 0 0 50px rgba(56,189,248,0.5), 0 0 80px rgba(56,189,248,0.2), inset 0 1px 0 rgba(255,255,255,0.15), inset 0 0 40px rgba(56,189,248,0.12); border-color: rgba(56,189,248,0.4); border-top: 1px solid rgba(56,189,248,0.7); border-left: 1px solid rgba(56,189,248,0.4); transform: translateY(-8px) scale(1.02); z-index: 10; }
+        .neon-box:hover::before { opacity: 1; width: 80%; }
+        .exp-logo-container { width: 100px; height: 100px; border-radius: 50%; overflow: hidden; background: white; display: flex; align-items: center; justify-content: center; padding: 8px; box-shadow: 0 0 20px rgba(255,255,255,0.2), inset 0 2px 5px rgba(0,0,0,0.1); border: 2px solid rgba(56,189,248,0.6); transition: transform 0.4s ease, box-shadow 0.4s ease; }
+        .exp-card:hover .exp-logo-container { transform: scale(1.08); box-shadow: 0 0 30px rgba(56,189,248,0.9); border-color: rgba(56,189,248,1); }
+        .exp-logo { width: 100%; height: 100%; object-fit: contain; }
+        ::-webkit-scrollbar { width: 8px; } ::-webkit-scrollbar-track { background: #030712; } ::-webkit-scrollbar-thumb { background: #38bdf8; border-radius: 4px; box-shadow: 0 0 10px #38bdf8; } ::-webkit-scrollbar-thumb:hover { background: #0ea5e9; }
+        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; opacity: 0.2; }
+        .profile-container { position: relative; width: 300px; height: 300px; margin: 0 auto; z-index: 10; }
+        .profile-img { width: 100%; height: 100%; object-fit: cover; object-position: top center; border-radius: 50%; border: 4px solid rgba(56,189,248,0.8); box-shadow: 0 0 50px rgba(14,165,233,0.6), inset 0 0 20px rgba(14,165,233,0.4); background-color: #0f172a; }
+        .profile-ring { position: absolute; top: -25px; left: -25px; right: -25px; bottom: -25px; border-radius: 50%; border: 2px dashed rgba(56,189,248,0.8); box-shadow: 0 0 20px rgba(56,189,248,0.3); animation: spin 12s linear infinite; }
         @keyframes spin { 100% { transform: rotate(360deg); } }
-
-        /* Experience Logos - Circular Fix */
-        .exp-logo-container {
-            width: 100px;
-            height: 100px;
-            border-radius: 50%; /* Perfect Circle */
-            overflow: hidden;   /* Clips corners */
-            background: white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 8px;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-            border: 2px solid rgba(14, 165, 233, 0.5); /* Sky blue border ring */
-            transition: transform 0.3s ease;
-        }
-        
-        .exp-card:hover .exp-logo-container {
-            transform: scale(1.05);
-            box-shadow: 0 0 25px rgba(14, 165, 233, 0.4);
-        }
-        
-        .exp-logo {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        #fluid-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.20; }
+        .neon-green-text { text-shadow: 0 0 10px rgba(74,222,128,0.9), 0 0 25px rgba(74,222,128,0.7), 0 0 50px rgba(74,222,128,0.4); }
+        .glow-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(56,189,248,0.6), rgba(99,102,241,0.4), transparent); box-shadow: 0 0 15px rgba(56,189,248,0.4); margin: 0 auto; max-width: 600px; }
     </style>
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Bhavya Kansal",
+  "url": "https://bhavyakansal.dev",
+  "jobTitle": "AI Engineer",
+  "sameAs": [
+    "https://www.linkedin.com/in/kansal0920",
+    "https://github.com/BhavyaKansal20"
+  ]
+}
+</script>
 </head>
-<body class="antialiased selection:bg-sky-500 selection:text-white">
+<body class="antialiased selection:bg-sky-500 selection:text-white relative">
 
+    <div class="ambient-orb bg-sky-500 w-[600px] h-[600px] top-[-10%] left-[-10%]"></div>
+    <div class="ambient-orb bg-indigo-600 w-[500px] h-[500px] bottom-[10%] right-[-10%]" style="animation-delay: -5s;"></div>
+    <div class="ambient-orb bg-blue-800 w-96 h-96 top-[30%] left-[40%]" style="animation-delay: -10s;"></div>
+
+    <canvas id="fluid-canvas"></canvas>
     <canvas id="bg-canvas"></canvas>
 
     <nav class="fixed w-full z-50 top-0 transition-all duration-300" id="navbar">
-        <div class="absolute inset-0 bg-slate-900/80 backdrop-blur-md border-b border-sky-500/20"></div>
+        <div class="absolute inset-0 bg-slate-900/70 backdrop-blur-2xl border-b border-sky-500/20 shadow-[0_4px_30px_rgba(0,0,0,0.2)]"></div>
         <div class="container mx-auto px-6 py-4 relative flex justify-between items-center">
-            <a href="#" class="text-2xl font-bold brand-font tracking-widest text-white flex items-center gap-2">
-                <i data-lucide="cpu" class="w-7 h-7 text-sky-400 neon-text"></i> BK
+            <a href="#" class="flex items-center gap-4 group">
+                <div class="flex items-center justify-center w-12 h-12 rounded-[14px] bg-slate-950 border-2 border-sky-400 shadow-[0_0_25px_rgba(14,165,233,0.8),inset_0_0_15px_rgba(14,165,233,0.5)] group-hover:shadow-[0_0_40px_rgba(14,165,233,1),inset_0_0_25px_rgba(14,165,233,0.8)] group-hover:scale-110 transition-all duration-500 relative overflow-hidden transform rotate-45">
+                    <span class="text-2xl font-black text-sky-100 tracking-tighter brand-font relative z-10 transform -rotate-45 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">BK</span>
+                </div>
+                <span class="text-xl md:text-2xl font-black brand-font tracking-[0.2em] text-white drop-shadow-[0_0_12px_rgba(14,165,233,0.6)] hidden sm:block uppercase">BHAVYA KANSAL</span>
             </a>
-            
             <div class="hidden md:flex items-center gap-8 font-medium tracking-wide">
+<<<<<<< HEAD
                 <a href="#about" class="hover:text-sky-400 transition-colors text-sm uppercase">About</a>
                 <a href="#education" class="hover:text-sky-400 transition-colors text-sm uppercase">Education</a>
                 <a href="#experience" class="hover:text-sky-400 transition-colors text-sm uppercase">Experience</a>
                 <a href="#projects" class="hover:text-sky-400 transition-colors text-sm uppercase">Projects</a>
                 <a href="#contact" class="px-5 py-2 border border-sky-500 text-sky-400 rounded hover:bg-sky-500 hover:text-white transition-all duration-300 shadow-[0_0_15px_rgba(14,165,233,0.2)]">CONTACT</a>
+=======
+                <a href="#about" class="text-slate-300 hover:text-sky-400 hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.8)] transition-all text-sm uppercase font-bold">About</a>
+                <a href="#building" class="text-slate-300 hover:text-sky-400 hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.8)] transition-all text-sm uppercase font-bold">Focus</a>
+                <a href="#experience" class="text-slate-300 hover:text-sky-400 hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.8)] transition-all text-sm uppercase font-bold">Experience</a>
+                <a href="#projects" class="text-slate-300 hover:text-sky-400 hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.8)] transition-all text-sm uppercase font-bold">Projects</a>
+                <a href="#contact" class="px-6 py-2 border-2 border-sky-400 text-sky-400 rounded-lg hover:bg-sky-400 hover:text-slate-900 transition-all duration-300 shadow-[0_0_20px_rgba(14,165,233,0.5)] hover:shadow-[0_0_35px_rgba(14,165,233,0.9)] text-sm font-black tracking-widest">CONNECT</a>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
             </div>
-
-            <button id="mobile-menu-btn" class="md:hidden text-white p-2">
-                <i data-lucide="menu" class="w-6 h-6"></i>
+            <button id="mobile-menu-btn" class="md:hidden text-sky-400 hover:text-white p-2 drop-shadow-[0_0_8px_rgba(14,165,233,0.8)]" aria-label="Toggle Menu">
+                <i data-lucide="menu" class="w-8 h-8"></i>
             </button>
         </div>
-
-        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-slate-900/95 border-b border-sky-900/50 backdrop-blur-xl md:hidden flex-col p-4 space-y-4 shadow-2xl">
-            <a href="#about" class="block py-3 px-4 text-slate-300 hover:text-sky-400">About</a>
-            <a href="#experience" class="block py-3 px-4 text-slate-300 hover:text-sky-400">Experience</a>
-            <a href="#projects" class="block py-3 px-4 text-slate-300 hover:text-sky-400">Projects</a>
-            <a href="#contact" class="block py-3 px-4 text-sky-400 font-bold">Contact Me</a>
+        <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-slate-900/95 border-b border-sky-900/50 backdrop-blur-xl md:hidden flex-col p-4 space-y-2 shadow-2xl">
+            <a href="#about" class="block py-3 px-4 text-slate-300 hover:text-sky-400 rounded-lg hover:bg-slate-800/50">About</a>
+            <a href="#building" class="block py-3 px-4 text-slate-300 hover:text-sky-400 rounded-lg hover:bg-slate-800/50">Current Focus</a>
+            <a href="#experience" class="block py-3 px-4 text-slate-300 hover:text-sky-400 rounded-lg hover:bg-slate-800/50">Experience & Education</a>
+            <a href="#projects" class="block py-3 px-4 text-slate-300 hover:text-sky-400 rounded-lg hover:bg-slate-800/50">Projects</a>
+            <a href="#contact" class="block py-3 px-4 text-sky-400 font-bold rounded-lg hover:bg-slate-800/50">Contact Me</a>
         </div>
     </nav>
 
-    <section id="home" class="min-h-screen flex items-center justify-center pt-20 px-6 relative overflow-hidden">
-        <div class="absolute top-1/4 left-0 w-64 h-64 bg-sky-500/10 rounded-full blur-[100px]"></div>
-        <div class="absolute bottom-1/4 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-[100px]"></div>
-
-        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center relative z-10">
+    <section id="home" class="min-h-screen flex items-center justify-center pt-24 px-6 relative z-10">
+        <div class="container mx-auto grid md:grid-cols-2 gap-12 items-center">
             <div class="order-2 md:order-1 space-y-6">
-                <div class="inline-block px-3 py-1 border border-sky-500/30 rounded-full bg-sky-500/10 text-sky-400 text-xs tracking-widest mb-2">SYSTEM ONLINE</div>
-                <h1 class="text-5xl md:text-7xl font-bold leading-tight">
-                    Hello, I am <br>
-                    <span class="neon-text text-sky-400">Bhavya Kansal</span>
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 border border-sky-400/60 rounded-full bg-sky-500/10 text-sky-400 text-xs tracking-widest mb-2 shadow-[0_0_15px_rgba(14,165,233,0.3)] backdrop-blur-md">
+                    <div class="w-2.5 h-2.5 bg-sky-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(14,165,233,0.9)]"></div>
+                    ENGINEERING & AI
+                </div>
+                <h1 class="text-5xl md:text-6xl lg:text-7xl font-bold leading-tight text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.2)] brand-font">
+                    <span class="block text-2xl md:text-3xl text-sky-400 font-black tracking-widest mb-4 uppercase drop-shadow-[0_0_20px_rgba(14,165,233,0.9)] animate-pulse">Hello, I am</span>
+                    Bhavya Kansal
                 </h1>
+<<<<<<< HEAD
                 <h2 class="text-2xl text-slate-400 brand-font flex flex-col gap-1">
                     <span class="text-sm text-sky-300 opacity-80 tracking-wide">
 AI Engineer | Founder – MultiModex AI
 </span>
                     <span class="text-sm">AI & ML Engineer | DeepTech Innovator </span>
+=======
+                <h2 class="text-xl md:text-2xl text-slate-300 flex flex-col gap-2">
+                    <span class="text-sky-400 neon-text font-bold tracking-wide brand-font">AI Engineer | DeepTech Developer</span>
+                    <span class="text-sm md:text-base text-slate-400 font-bold tracking-widest uppercase">Founder – MultiModex AI</span>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
                 </h2>
-                <p class="text-slate-300 text-lg max-w-lg leading-relaxed">
-                    I design and build AI systems focused on <span class="text-blue-400 font-medium">solving real-world Indian problems</span> through <span class="text-sky-400 font-medium">future-ready technology.</span>
+                <p class="text-slate-300 text-lg max-w-lg leading-relaxed bg-slate-900/40 p-5 rounded-2xl border border-slate-700/50 border-t-slate-600/50 border-l-4 border-l-sky-500 backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
+                    I architect and build scalable artificial intelligence systems, specializing in <span class="text-sky-400 font-bold neon-text">machine learning models</span>, <span class="text-sky-400 font-bold neon-text">multimodal applications</span>, and deep-tech solutions for real-world engineering challenges.
                 </p>
-                <div class="flex flex-wrap gap-4 pt-6">
-                    <!-- NEW: Visit MultiModex AI (prominent button) -->
-                    <a href="https://multimodexai.vercel.app" target="_blank" rel="noopener noreferrer" class="px-8 py-3 border border-slate-600 hover:border-sky-400 hover:text-sky-400 rounded font-bold transition-all hover:shadow-[0_0_15px_rgba(14,165,233,0.2)] flex items-center gap-2">
-                        VISIT MULTIMODEX AI <i data-lucide="external-link" class="w-4 h-4"></i>
+                <div class="flex flex-wrap gap-4 pt-4">
+                    <a href="resume.pdf" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-sky-500/20 border border-sky-400 text-sky-100 rounded-xl font-bold transition-all hover:bg-sky-500 hover:text-white hover:shadow-[0_0_30px_rgba(14,165,233,0.9)] flex items-center gap-2 text-sm md:text-base backdrop-blur-md uppercase">
+                        <i data-lucide="file-text" class="w-5 h-5"></i> VIEW RESUME
                     </a>
+<<<<<<< HEAD
 
                     <a href="#projects" class="px-8 py-3 border border-slate-600 hover:border-sky-400 hover:text-sky-400 rounded font-bold transition-all hover:shadow-[0_0_15px_rgba(14,165,233,0.2)] flex items-center gap-2">
                         VIEW PROJECTS <i data-lucide="chevron-right" class="w-4 h-4"></i>
                     </a>
                     <a href="#contact" class="px-8 py-3 border border-slate-600 hover:border-sky-400 hover:text-sky-400 rounded font-bold transition-all hover:shadow-[0_0_15px_rgba(14,165,233,0.2)]">
                         CONNECT
+=======
+                    <a href="https://multimodexai.vercel.app" target="_blank" rel="noopener noreferrer" class="px-6 py-3 border border-indigo-500/60 text-indigo-200 hover:border-indigo-400 hover:text-white rounded-xl font-bold transition-all hover:shadow-[0_0_25px_rgba(99,102,241,0.8)] flex items-center gap-2 text-sm md:text-base bg-indigo-900/30 backdrop-blur-md uppercase">
+                        MULTIMODEX AI <i data-lucide="external-link" class="w-5 h-5"></i>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
                     </a>
                 </div>
             </div>
-            
             <div class="order-1 md:order-2 flex justify-center relative">
                 <div class="profile-container">
                     <div class="profile-ring"></div>
+<<<<<<< HEAD
                     <img src="image.jpg" onerror="this.src='https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800&q=80'" alt="Bhavya Kansal" class="profile-img">
                     
                     <div class="absolute -bottom-4 right-0 bg-slate-900 border border-sky-500/50 px-4 py-2 rounded-lg shadow-[0_0_20px_rgba(14,165,233,0.3)] flex items-center gap-2">
@@ -253,39 +233,108 @@ AI Engineer | Founder – MultiModex AI
                     <div class="group">
                         <div class="text-3xl font-bold text-white mb-1 brand-font group-hover:text-sky-400 transition-colors">Entrepreneurship</div>
                         <div class="text-xs text-slate-500 uppercase tracking-wider group-hover:text-slate-300">MultiModex AI</div>
+=======
+                    <img src="image.jpg" onerror="this.style.display='none'" alt="Bhavya Kansal Profile" class="profile-img">
+                    <div class="absolute -bottom-4 right-0 bg-slate-900/90 border border-sky-400 px-5 py-2.5 rounded-xl shadow-[0_10px_25px_rgba(14,165,233,0.5),inset_0_1px_1px_rgba(255,255,255,0.2)] flex items-center gap-3 backdrop-blur-2xl">
+                        <div class="w-3.5 h-3.5 bg-emerald-400 rounded-full animate-pulse shadow-[0_0_15px_rgba(16,185,129,0.9)]"></div>
+                        <span class="text-xs font-black text-white tracking-widest brand-font uppercase">OPEN TO ROLES</span>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-   <section id="experience" class="py-24 relative">
-    <div class="container mx-auto px-6">
-        <!-- Section Header -->
-        <div class="flex flex-col items-center text-center mb-16">
-            <h2 class="text-4xl font-bold mb-4 brand-font">
-                <span class="text-sky-400">///</span> EXPERIENCE
-            </h2>
-            <div class="h-1 w-24 bg-gradient-to-r from-sky-500 to-transparent rounded-full"></div>
-        </div>
-
-        <!-- Experience Cards Grid -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
-            
-            <!-- Card 1: MultiModex AI (Untouched) -->
-            <div class="neon-box bg-slate-800/30 p-8 rounded-2xl exp-card flex flex-col items-center text-center backdrop-blur-md border border-slate-700/50">
-                <div class="mb-6 w-24 h-24 flex items-center justify-center overflow-hidden">
-                    <img src="startup_logo.jpg" alt="Startup Logo" class="w-full h-full object-contain">
+    <section id="about" class="py-20 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col items-center text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+                    <i data-lucide="user" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
+                    About Me
+                </h2>
+                <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
+            </div>
+            <div class="neon-box p-8 md:p-12 max-w-5xl mx-auto">
+                <div class="space-y-6 text-slate-300 leading-relaxed text-lg md:text-xl text-center md:text-left">
+                    <p>I am an engineering student and technical innovator passionate about bridging the gap between theoretical AI models and production-ready systems. My core expertise lies in <strong class="text-sky-400 font-bold neon-text tracking-wide">Deep Learning, Computer Vision, and Generative AI integration</strong>.</p>
+                    <p>From developing <strong class="text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">Project Aagni</strong> (an advanced augmented generative AI assistant) to founding <strong class="text-sky-400 font-bold neon-text tracking-wide">MultiModex AI</strong>, my focus remains consistent: engineering multimodal AI infrastructure that enables intelligent reasoning, complex automation, and reliable real-world decision support.</p>
                 </div>
-                <div>
-                    <h3 class="text-2xl font-bold text-white brand-font uppercase tracking-wider">MultiModex AI</h3>
-                    <p class="text-sky-400 font-medium tracking-wide uppercase text-sm">Founder & CEO</p>
-                    <p class="text-slate-400 text-[15px] mt-2 italic">Startup </p>
-                    <div class="mt-6 px-4 py-3 rounded-xl border border-slate-700/50 bg-slate-900/40 text-[10px] leading-relaxed text-slate-300 uppercase font-semibold">
-                        A Multimodal Reasoning & Computer-Use Decision Infrastructure Company.
+                <div class="w-full h-px bg-sky-900/50 my-10 shadow-[0_0_10px_rgba(14,165,233,0.2)]"></div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div class="p-6 rounded-xl bg-slate-900/50 border border-sky-500/30 hover:border-sky-400 transition-all hover:shadow-[0_0_25px_rgba(14,165,233,0.5)] group backdrop-blur-xl">
+                        <i data-lucide="brain-circuit" class="w-10 h-10 text-sky-400 mx-auto mb-3 drop-shadow-[0_0_10px_rgba(14,165,233,0.8)] group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-white text-base tracking-widest brand-font">AI & ML</div>
+                        <div class="text-xs text-sky-200 mt-2 uppercase font-semibold tracking-wider">PyTorch, TensorFlow</div>
+                    </div>
+                    <div class="p-6 rounded-xl bg-slate-900/50 border border-indigo-500/30 hover:border-indigo-400 transition-all hover:shadow-[0_0_25px_rgba(99,102,241,0.5)] group backdrop-blur-xl">
+                        <i data-lucide="eye" class="w-10 h-10 text-indigo-400 mx-auto mb-3 drop-shadow-[0_0_10px_rgba(99,102,241,0.8)] group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-white text-base tracking-widest brand-font">VISION</div>
+                        <div class="text-xs text-indigo-200 mt-2 uppercase font-semibold tracking-wider">OpenCV, CNNs, OCR</div>
+                    </div>
+                    <div class="p-6 rounded-xl bg-slate-900/50 border border-blue-500/30 hover:border-blue-400 transition-all hover:shadow-[0_0_25px_rgba(59,130,246,0.5)] group backdrop-blur-xl">
+                        <i data-lucide="terminal" class="w-10 h-10 text-blue-400 mx-auto mb-3 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)] group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-white text-base tracking-widest brand-font">SOFTWARE</div>
+                        <div class="text-xs text-blue-200 mt-2 uppercase font-semibold tracking-wider">Python, C++, JS</div>
+                    </div>
+                    <div class="p-6 rounded-xl bg-slate-900/50 border border-purple-500/30 hover:border-purple-400 transition-all hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] group backdrop-blur-xl">
+                        <i data-lucide="cpu" class="w-10 h-10 text-purple-400 mx-auto mb-3 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)] group-hover:scale-110 transition-transform"></i>
+                        <div class="font-bold text-white text-base tracking-widest brand-font">HARDWARE</div>
+                        <div class="text-xs text-purple-200 mt-2 uppercase font-semibold tracking-wider">IoT, Robotics, Sensors</div>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
+
+    <section id="building" class="py-20 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col items-center text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+                    <i data-lucide="crosshair" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
+                    Current Focus
+                </h2>
+                <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
+                <p class="text-slate-300 max-w-2xl mx-auto text-lg mt-6 bg-slate-900/50 p-2 rounded-xl border border-slate-700/50 backdrop-blur-md">Active engineering domains and R&D areas I am building solutions for today.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div class="neon-box p-8 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-indigo-500/10 border border-indigo-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(99,102,241,0.4)]"><i data-lucide="sparkles" class="w-10 h-10 text-indigo-400 drop-shadow-[0_0_10px_rgba(99,102,241,0.8)]"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Generative AI</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Designing and integrating LLM-based systems into real-world applications, including structured prompting, API orchestration, and response validation pipelines.
+                        </p>
+                </div>
+                <div class="neon-box p-8 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-sky-500/10 border border-sky-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(14,165,233,0.4)]"><i data-lucide="bot" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_10px_rgba(14,165,233,0.8)]"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Agentic AI</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Building autonomous task-execution workflows using tool-calling, sequential reasoning, and backend automation scripts.
+                        </p>
+                </div>
+                <div class="neon-box p-8 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-purple-500/10 border border-purple-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(168,85,247,0.4)]"><i data-lucide="scan" class="w-10 h-10 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Multimodal Vision</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">Cross-referencing logic across text, images, and sensor data to build systems that interpret the real world comprehensively.</p>
+                </div>
+                <div class="neon-box p-8 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-orange-500/10 border border-orange-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(249,115,22,0.4)]"><i data-lucide="cpu" class="w-10 h-10 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Hybrid Assistants</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">
+                        Combining LLM reasoning with deterministic logic layers to improve reliability and reduce hallucinations in deployed systems.
+                        </p>
+                </div>
+                <div class="neon-box p-8 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(16,185,129,0.4)]"><i data-lucide="shield-check" class="w-10 h-10 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Ethical AI</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">Ensuring model safety, mitigating bias, and building transparent reasoning pathways for enterprise-grade deployments.</p>
+                </div>
+                <div class="neon-box p-8 flex flex-col items-center text-center">
+                    <div class="w-20 h-20 rounded-2xl bg-blue-500/10 border border-blue-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(59,130,246,0.4)]"><i data-lucide="cog" class="w-10 h-10 text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"></i></div>
+                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Applied Automation</h3>
+                    <p class="text-sm text-slate-300 leading-relaxed">Directly embedding trained ML models into existing software architectures to automate redundant analytical pipelines.</p>
+                </div>
+            </div>
+<<<<<<< HEAD
 
             <!-- Card 2: IIT Ropar (Untouched) -->
             <div class="neon-box bg-slate-800/30 p-8 rounded-2xl exp-card flex flex-col items-center text-center backdrop-blur-md border border-slate-700/50">
@@ -318,115 +367,155 @@ AI Engineer | Founder – MultiModex AI
                 </div>
             </div>
 
+=======
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
         </div>
-    </div>
-</section>
+    </section>
 
-
-
-
-
-
-    <section id="education" class="py-24 bg-slate-900/30">
+    <section id="experience" class="py-24 relative z-10">
         <div class="container mx-auto px-6">
             <div class="flex flex-col items-center text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4 brand-font"><span class="text-sky-400">///</span> EDUCATION</h2>
+                <h2 class="text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+                    <i data-lucide="briefcase" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
+                    Experience
+                </h2>
+                <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
             </div>
-            
-            <div class="max-w-4xl mx-auto relative border-l-2 border-slate-700 pl-8 ml-4 md:ml-auto md:pl-0">
-                <div class="mb-12 md:flex items-center justify-between w-full relative group">
-                    <div class="absolute -left-[43px] md:left-1/2 md:-ml-[11px] w-6 h-6 rounded-full bg-sky-500 border-4 border-slate-900 z-10 shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
-                    
-                    <div class="md:w-5/12 mb-4 md:mb-0 md:text-right pr-8 order-1">
-                        <h3 class="text-2xl font-bold text-white brand-font">Engineering Student</h3>
-                        <p class="text-sky-400">Artificial Intelligence & ML</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div class="neon-box p-8 exp-card flex flex-col items-center text-center">
+                    <div class="mb-6 w-24 h-24 flex items-center justify-center overflow-hidden bg-slate-900 rounded-2xl border border-sky-500 shadow-[0_0_15px_rgba(14,165,233,0.5)] p-2">
+                        <img src="startup_logo.jpg" alt="Startup Logo" class="w-full h-full object-contain rounded-xl">
                     </div>
-                    
-                    <div class="hidden md:block md:w-2/12"></div>
-
-                    <div class="md:w-5/12 pl-0 md:pl-8 order-2">
-                         <div class="neon-box bg-slate-800/40 p-6 rounded-xl">
-                            <h4 class="font-bold text-lg mb-2 text-white">Thapar Institute of Engineering and Technology (Present - 2029) </h4>
-                            <p class="text-slate-400 text-sm">
-                                Specializing in Artificial Intelligence , Machine Learning, and Software integration. Working on real-time AI/ML & software Projects .
-                            </p>
-                         </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white brand-font uppercase tracking-wider">MultiModex AI</h3>
+                        <p class="text-sky-400 font-bold tracking-widest uppercase text-sm neon-text mt-2">Founder</p>
+                        <p class="text-slate-400 text-[15px] mt-2 italic">Startup</p>
+                        <div class="mt-6 px-4 py-3 rounded-xl border border-slate-700/50 bg-slate-900/40 text-[11px] leading-relaxed text-slate-300 uppercase font-semibold">Architecting multimodal AI infrastructure. Designing modular reasoning pipelines and deploying custom ML workflows for applied automation systems.</div>
                     </div>
                 </div>
-
-                <div class="mb-12 md:flex flex-row-reverse items-center justify-between w-full relative group">
-                    <div class="absolute -left-[43px] md:left-1/2 md:-ml-[11px] w-6 h-6 rounded-full bg-indigo-500 border-4 border-slate-900 z-10 shadow-[0_0_10px_rgba(99,102,241,0.8)]"></div>
-                    
-                    <div class="md:w-5/12 mb-4 md:mb-0 md:text-left pl-8 order-1">
-                        <h3 class="text-2xl font-bold text-white brand-font">Diploma in CSE (Completed 2023 - 2026) </h3>
-                        <p class="text-indigo-400">Technical Foundation</p>
+                <div class="neon-box p-8 exp-card flex flex-col items-center text-center">
+                    <div class="mb-6 w-24 h-24 flex items-center justify-center overflow-hidden bg-black rounded-full border border-indigo-500 shadow-[0_0_15px_rgba(99,102,241,0.5)] p-2">
+                        <img src="iit_logo.png" alt="IIT Ropar Logo" class="w-full h-full object-contain">
                     </div>
-
-                    <div class="hidden md:block md:w-2/12"></div>
-
-                    <div class="md:w-5/12 pr-0 md:pr-8 order-2">
-                        <div class="neon-box bg-slate-800/40 p-6 rounded-xl">
-                           <h4 class="font-bold text-lg mb-2 text-white">Thapar Polytechnic College</h4>
-                           <p class="text-slate-400 text-sm">
-                               Laid the groundwork in computer engineering principles, Python foundation, and practical technical skills for Industry.
-                           </p>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white brand-font">IIT Ropar</h3>
+                        <p class="text-indigo-400 font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(99,102,241,0.8)] mt-2 uppercase">AI/ML Intern Trainee</p>
+                        <p class="text-slate-400 text-[15px] mt-2 italic">Indian Institute of Technology, Ropar</p>
+                        <div class="mt-6 inline-block px-6 py-2 rounded-full border border-slate-700/50 bg-slate-900/40 text-[11px] text-slate-300 font-medium tracking-wider uppercase">
+                            Completed a 6-month AI & ML industrial training program under NIELIT in collaboration with IIT Ropar, focusing on applied machine learning workflows and model experimentation.
                         </div>
-                   </div>
+                    </div>
+                </div>
+                <div class="neon-box p-8 exp-card flex flex-col items-center text-center">
+                    <div class="mb-6 w-24 h-24 flex items-center justify-center bg-white rounded-full p-3 overflow-hidden shadow-[0_0_15px_rgba(255,255,255,0.1)] border border-blue-500">
+                        <img src="nielit_logo.png" alt="NIELIT Logo" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white brand-font">NIELIT</h3>
+                        <p class="text-blue-400 font-bold tracking-widest text-sm drop-shadow-[0_0_5px_rgba(59,130,246,0.8)] mt-2 uppercase">AI/ML Intern Trainee</p>
+                        <p class="text-slate-400 text-[15px] mt-2 italic">National Institute of Electronics & IT</p>
+                        <div class="mt-6 inline-block px-6 py-2 rounded-full border border-slate-700/50 bg-slate-900/40 text-[11px] text-slate-300 font-medium tracking-wider uppercase">Completed structured industrial training.</div>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section id="projects" class="py-24 relative">
+    <!-- Education Section -->
+    <section id="education" class="py-24 bg-slate-900/20 relative z-10">
         <div class="container mx-auto px-6">
             <div class="flex flex-col items-center text-center mb-16">
-                <h2 class="text-4xl font-bold mb-4 brand-font"><span class="text-sky-400">///</span> INNOVATIONS</h2>
-                <div class="h-1 w-24 bg-gradient-to-r from-sky-500 to-transparent rounded-full"></div>
+                <h2 class="text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+                    <i data-lucide="graduation-cap" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
+                    Education
+                </h2>
+                <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
             </div>
-            
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                
-                <div class="neon-box bg-slate-800/30 rounded-xl overflow-hidden group relative">
-                    <div class="absolute inset-0 bg-sky-500/10 opacity-0 group-hover:opacity-100 transition-opacity z-0"></div>
-                    
-                    <div class="h-48 bg-slate-900 relative overflow-hidden flex items-center justify-center p-6">
-                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-900/40 to-slate-900"></div>
-                        <img src="startup_logo.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="h-full object-contain z-10 drop-shadow-[0_0_15px_rgba(14,165,233,0.5)]" alt="MultiModex AI Logo">
-                        <div class="hidden z-10 text-center">
-                            <i data-lucide="shield-check" class="w-16 h-16 text-sky-400 mx-auto mb-2"></i>
-                            <span class="text-sky-400 font-bold tracking-widest brand-font">MultiModex AI</span>
-                        </div>
-                    </div>
-                    <div class="p-6 relative z-10">
-                        <div class="flex justify-between items-start mb-2">
-                            <h3 class="text-2xl font-bold text-white group-hover:text-sky-400 transition-colors brand-font">MultiModex AI</h3>
-                            <span class="text-xs bg-sky-900 text-sky-300 px-2 py-1 rounded border border-sky-700">Flagship</span>
-                        </div>
-                        <p class="text-slate-400 text-sm mb-4 line-clamp-3">
-                        A Multimodal Reasoning & Computer-Use Decision Infrastructure Company.
-                        </p>
-                        <div class="flex gap-2 mb-4 flex-wrap">
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">MultiModal</span>
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">DEEP-LEARNING</span>
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">DEEP-TECH</span>
-                        </div>
+            <div class="max-w-4xl mx-auto relative border-l-2 border-slate-700 pl-8 ml-4 md:ml-auto md:pl-0">
 
-                        <!-- NEW: Visit Us link for MultiModex AI -->
-                        <div class="flex gap-3 items-center">
-                            <a href="https://multimodexai.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-bold text-blue-400 hover:text-white transition-colors">
-                                VISIT US <i data-lucide="external-link" class="w-4 h-4 ml-1"></i>
-                            </a>
+                <!-- TIET -->
+                <div class="mb-12 md:flex items-center justify-between w-full relative group">
+                    <div class="absolute -left-[43px] md:left-1/2 md:-ml-[11px] w-6 h-6 rounded-full bg-sky-500 border-4 border-slate-900 z-10 shadow-[0_0_15px_rgba(14,165,233,0.9)]"></div>
+                    <div class="md:w-5/12 mb-4 md:mb-0 md:text-right pr-8 order-1">
+                        <h3 class="text-2xl font-bold text-white brand-font">B.Tech, Artificial Intelligence & ML</h3>
+                        <p class="text-sky-400 font-bold tracking-widest mt-2 neon-text text-lg">2026 &mdash; 2029</p>
+                    </div>
+                    <div class="hidden md:block md:w-2/12"></div>
+                    <div class="md:w-5/12 pl-0 md:pl-8 order-2">
+                        <div class="neon-box p-6">
+                            <div class="flex items-center gap-3 mb-3">
+                                <img src="tiet_logo.png" alt="TIET" class="w-10 h-10 object-contain flex-shrink-0 drop-shadow-[0_0_14px_rgba(220,38,38,0.95)]">
+                                <h4 class="font-bold text-lg text-white brand-font">Thapar Institute of Engineering and Technology</h4>
+                            </div>
+                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                                Advanced coursework focusing on deep learning architectures, statistical modeling, and large-scale software engineering. Active in practical technical projects.
+                            </p>
                         </div>
                     </div>
                 </div>
 
-                <div class="neon-box bg-slate-800/30 rounded-xl overflow-hidden group">
-                    <div class="h-48 bg-slate-900 relative overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
-                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-60 group-hover:opacity-80 transition-opacity">
-                            <i data-lucide="flame" class="w-16 h-16 text-orange-500 z-20 drop-shadow-[0_0_20px_rgba(249,115,22,0.6)]"></i>
+                <!-- TPC -->
+                <div class="mb-12 md:flex flex-row-reverse items-center justify-between w-full relative group">
+                    <div class="absolute -left-[43px] md:left-1/2 md:-ml-[11px] w-6 h-6 rounded-full bg-indigo-500 border-4 border-slate-900 z-10 shadow-[0_0_15px_rgba(99,102,241,0.9)]"></div>
+                    <div class="md:w-5/12 mb-4 md:mb-0 md:text-left pl-8 order-1">
+                        <h3 class="text-2xl font-bold text-white brand-font">Diploma in Computer Science</h3>
+                        <p class="text-indigo-400 font-bold tracking-widest mt-2 drop-shadow-[0_0_8px_rgba(99,102,241,0.8)] text-lg">2023 &mdash; 2026</p>
+                    </div>
+                    <div class="hidden md:block md:w-2/12"></div>
+                    <div class="md:w-5/12 pr-0 md:pr-8 order-2">
+                        <div class="neon-box p-6">
+                            <div class="flex items-center gap-3 mb-3">
+                                <h4 class="font-bold text-lg text-white brand-font">Thapar Polytechnic College</h4>
+                            </div>
+                            <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+                                Laid the groundwork in computer engineering principles, Python foundation, and practical technical skills for Industry.
+                            </p>
                         </div>
                     </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="py-24 relative z-10">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col items-center text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+                    <i data-lucide="code-2" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
+                    Engineering Projects
+                </h2>
+                <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
+                <p class="text-slate-300 max-w-2xl mx-auto text-lg mt-6 bg-slate-900/50 p-2 rounded-xl border border-slate-700/50 backdrop-blur-md">Applied implementations of machine learning models and software architectures.</p>
+            </div>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
+                    <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(14,165,233,0.2)] pointer-events-none z-20 rounded-24"></div>
+                    <div class="h-48 bg-slate-900 relative overflow-hidden flex items-center justify-center p-6 border-b border-sky-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-sky-900/50 to-slate-900"></div>
+                        <img src="startup_logo.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='block'" class="h-full object-contain z-10 drop-shadow-[0_0_25px_rgba(14,165,233,0.8)] group-hover:scale-110 transition-transform duration-500" alt="MultiModex AI">
+                        <div class="hidden z-10 text-center"><i data-lucide="shield-check" class="w-16 h-16 text-sky-400 mx-auto mb-2 drop-shadow-[0_0_20px_rgba(14,165,233,0.9)]"></i></div>
+                    </div>
+                    <div class="p-8 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-sky-400 transition-colors brand-font tracking-wide">MultiModex AI Stack</h3>
+                        <p class="text-slate-300 text-sm mb-5 flex-grow leading-relaxed">Engineered core reasoning infrastructure combining visual and textual models to automate analytical workflows. Designed modular pipelines for data ingestion and inference.</p>
+                        <div class="flex gap-2 mb-6 flex-wrap">
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-sky-500/50 text-sky-300 shadow-[0_0_10px_rgba(14,165,233,0.2)] font-bold">PyTorch</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-sky-500/50 text-sky-300 shadow-[0_0_10px_rgba(14,165,233,0.2)] font-bold">Transformers</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-sky-500/50 text-sky-300 shadow-[0_0_10px_rgba(14,165,233,0.2)] font-bold">API Design</span>
+                        </div>
+                        <a href="https://multimodexai.vercel.app" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-black text-sky-400 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all mt-auto w-fit tracking-widest bg-sky-900/30 px-4 py-2 rounded-lg border border-sky-500/30 hover:border-sky-400 uppercase">VIEW PLATFORM <i data-lucide="external-link" class="w-5 h-5 ml-2"></i></a>
+                    </div>
+                </div>
+                <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
+                    <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(249,115,22,0.2)] pointer-events-none z-20 rounded-24"></div>
+                    <div class="h-48 bg-slate-900 relative overflow-hidden border-b border-orange-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
+                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1531746790731-6c087fecd65a?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <i data-lucide="flame" class="w-20 h-20 text-orange-500 z-20 drop-shadow-[0_0_30px_rgba(249,115,22,1)] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                    </div>
+<<<<<<< HEAD
                     <div class="p-6 relative z-20">
                         <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-orange-400 transition-colors brand-font">AAGNI BOT</h3>
                         <p class="text-slate-400 text-sm mb-4">
@@ -435,106 +524,97 @@ AI Engineer | Founder – MultiModex AI
                         <div class="flex gap-2 mb-4">
                             <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">NLP</span>
                             <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Python</span>
+=======
+                    <div class="p-8 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-orange-400 transition-colors brand-font tracking-wide">AAGNI Assistant</h3>
+                        <p class="text-slate-300 text-sm mb-5 flex-grow leading-relaxed">Developed an NLP-driven conversational agent integrating language models to handle real-time querying and trigger automated backend scripts.</p>
+                        <div class="flex gap-2 mb-6 flex-wrap">
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-orange-500/50 text-orange-300 shadow-[0_0_10px_rgba(249,115,22,0.2)] font-bold">Python</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-orange-500/50 text-orange-300 shadow-[0_0_10px_rgba(249,115,22,0.2)] font-bold">NLP</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-orange-500/50 text-orange-300 shadow-[0_0_10px_rgba(249,115,22,0.2)] font-bold">Telegram API</span>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
                         </div>
-                        <a href="https://github.com/BhavyaKansal20/Telegram-Chatbot-" target="_blank" class="inline-flex items-center text-sm font-bold text-sky-400 hover:text-white transition-colors">
-                            ACCESS CODE <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </a>
+                        <a href="https://github.com/BhavyaKansal20/Telegram-Chatbot-" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-black text-orange-400 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all mt-auto w-fit tracking-widest bg-orange-900/30 px-4 py-2 rounded-lg border border-orange-500/30 hover:border-orange-400 uppercase">VIEW CODE <i data-lucide="github" class="w-5 h-5 ml-2 drop-shadow-[0_0_5px_rgba(249,115,22,0.8)]"></i></a>
                     </div>
                 </div>
-
-                <div class="neon-box bg-slate-800/30 rounded-xl overflow-hidden group">
-                    <div class="h-48 bg-slate-900 relative overflow-hidden">
+                <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
+                    <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(99,102,241,0.2)] pointer-events-none z-20 rounded-24"></div>
+                    <div class="h-48 bg-slate-900 relative overflow-hidden border-b border-indigo-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
-                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-60 group-hover:opacity-80 transition-opacity">
-                             <i data-lucide="scan-face" class="w-16 h-16 text-indigo-500 z-20 drop-shadow-[0_0_20px_rgba(99,102,241,0.6)]"></i>
+                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <i data-lucide="scan-face" class="w-20 h-20 text-indigo-400 z-20 drop-shadow-[0_0_30px_rgba(99,102,241,1)] group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
-                    <div class="p-6 relative z-20">
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-indigo-400 transition-colors brand-font">Emotion Detector</h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Deep learning model utilizing CNNs to detect and classify human emotions in real-time.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">OpenCV</span>
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">TensorFlow</span>
+                    <div class="p-8 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-indigo-400 transition-colors brand-font tracking-wide">CV Classifier</h3>
+                        <p class="text-slate-300 text-sm mb-5 flex-grow leading-relaxed">
+                            Trained and deployed a Convolutional Neural Network (CNN) for real-time facial expression classification. Achieved 89% validation accuracy on a 5,000+ image dataset with optimized inference performance.
+                            </p>
+                        <div class="flex gap-2 mb-6 flex-wrap">
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-indigo-500/50 text-indigo-300 shadow-[0_0_10px_rgba(99,102,241,0.2)] font-bold">TensorFlow</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-indigo-500/50 text-indigo-300 shadow-[0_0_10px_rgba(99,102,241,0.2)] font-bold">OpenCV</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-indigo-500/50 text-indigo-300 shadow-[0_0_10px_rgba(99,102,241,0.2)] font-bold">CNNs</span>
                         </div>
-                        <a href="https://github.com/Kansal0920/Emotion-Detection" target="_blank" class="inline-flex items-center text-sm font-bold text-sky-400 hover:text-white transition-colors">
-                            ACCESS CODE <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </a>
+                        <a href="https://github.com/Kansal0920/Emotion-Detection" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-black text-indigo-400 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all mt-auto w-fit tracking-widest bg-indigo-900/30 px-4 py-2 rounded-lg border border-indigo-500/30 hover:border-indigo-400 uppercase">VIEW CODE <i data-lucide="github" class="w-5 h-5 ml-2 drop-shadow-[0_0_5px_rgba(99,102,241,0.8)]"></i></a>
                     </div>
                 </div>
-
-                <div class="neon-box bg-slate-800/30 rounded-xl overflow-hidden group">
-                    <div class="h-48 bg-slate-900 relative overflow-hidden">
+                <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
+                    <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(16,185,129,0.2)] pointer-events-none z-20 rounded-24"></div>
+                    <div class="h-48 bg-slate-900 relative overflow-hidden border-b border-emerald-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
-                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-60 group-hover:opacity-80 transition-opacity">
-                            <i data-lucide="lock" class="w-16 h-16 text-emerald-500 z-20 drop-shadow-[0_0_20px_rgba(16,185,129,0.6)]"></i>
+                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <i data-lucide="lock" class="w-20 h-20 text-emerald-400 z-20 drop-shadow-[0_0_30px_rgba(16,185,129,1)] group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
-                    <div class="p-6 relative z-20">
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-emerald-400 transition-colors brand-font">Neurolock AI</h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Security system integrating neural networks for advanced authentication and anomaly detection.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Security</span>
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">AI</span>
+                    <div class="p-8 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-emerald-400 transition-colors brand-font tracking-wide">Neurolock System</h3>
+                        <p class="text-slate-300 text-sm mb-5 flex-grow leading-relaxed">Conceptualized an anomaly detection model designed to identify irregular authentication patterns, utilizing basic feedforward neural networks.</p>
+                        <div class="flex gap-2 mb-6 flex-wrap">
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-emerald-500/50 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold">Machine Learning</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-emerald-500/50 text-emerald-300 shadow-[0_0_10px_rgba(16,185,129,0.2)] font-bold">Security</span>
                         </div>
                     </div>
                 </div>
-
-                <div class="neon-box bg-slate-800/30 rounded-xl overflow-hidden group">
-                    <div class="h-48 bg-slate-900 relative overflow-hidden">
+                <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
+                    <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(168,85,247,0.2)] pointer-events-none z-20 rounded-24"></div>
+                    <div class="h-48 bg-slate-900 relative overflow-hidden border-b border-purple-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
                         <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
-                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-60 group-hover:opacity-80 transition-opacity">
-                            <i data-lucide="file-check" class="w-16 h-16 text-purple-500 z-20 drop-shadow-[0_0_20px_rgba(168,85,247,0.6)]"></i>
+                        <div class="w-full h-full flex items-center justify-center bg-[url('https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-70 group-hover:opacity-100 group-hover:scale-110 transition-all duration-700">
+                            <i data-lucide="file-check" class="w-20 h-20 text-purple-400 z-20 drop-shadow-[0_0_30px_rgba(168,85,247,1)] group-hover:scale-110 transition-transform"></i>
                         </div>
                     </div>
-                    <div class="p-6 relative z-20">
-                        <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-purple-400 transition-colors brand-font">Cert Verifier</h3>
-                        <p class="text-slate-400 text-sm mb-4">
-                            Robust verification system utilizing Blockchain and OCR to ensure document authenticity.
-                        </p>
-                        <div class="flex gap-2 mb-4">
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">Blockchain</span>
-                            <span class="text-xs px-2 py-1 rounded bg-slate-900 border border-slate-700 text-slate-300">OCR</span>
+                    <div class="p-8 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                        <h3 class="text-2xl font-bold text-white mb-3 group-hover:text-purple-400 transition-colors brand-font tracking-wide">Immutable Doc-Verify</h3>
+                        <p class="text-slate-300 text-sm mb-5 flex-grow leading-relaxed">Engineered a verification pipeline combining Optical Character Recognition (OCR) with a simulated blockchain backend to ensure digital document integrity.</p>
+                        <div class="flex gap-2 mb-6 flex-wrap">
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-purple-500/50 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)] font-bold">Python</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-purple-500/50 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)] font-bold">OCR</span>
+                            <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-purple-500/50 text-purple-300 shadow-[0_0_10px_rgba(168,85,247,0.2)] font-bold">Cryptography</span>
                         </div>
-                        <a href="https://github.com/Kansal0920/Certificate-Verifier" target="_blank" class="inline-flex items-center text-sm font-bold text-sky-400 hover:text-white transition-colors">
-                            ACCESS CODE <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i>
-                        </a>
+                        <a href="https://github.com/Kansal0920/Certificate-Verifier" target="_blank" rel="noopener noreferrer" class="inline-flex items-center text-sm font-black text-purple-400 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all mt-auto w-fit tracking-widest bg-purple-900/30 px-4 py-2 rounded-lg border border-purple-500/30 hover:border-purple-400 uppercase">VIEW CODE <i data-lucide="github" class="w-5 h-5 ml-2 drop-shadow-[0_0_5px_rgba(168,85,247,0.8)]"></i></a>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
 
-    <section id="contact" class="py-24 bg-slate-900">
-        <div class="container mx-auto px-6 text-center">
-            <h2 class="text-4xl font-bold mb-8 brand-font"><span class="text-sky-400">///</span> GET IN TOUCH</h2>
-            <p class="text-slate-400 text-lg max-w-2xl mx-auto mb-12">
-                Whether you have a question about my research, want to collaborate on a project, or just want to discuss the future of AI.
-            </p>
-            
-            <div class="flex flex-wrap justify-center gap-6">
-                <a href="https://mail.google.com/mail/?view=cm&fs=1&to=kansalbhavya27@gmail.com" target="_blank" class="group neon-box bg-slate-800/40 px-8 py-6 rounded-xl flex flex-col items-center min-w-[200px]">
-                    <i data-lucide="mail" class="w-8 h-8 text-sky-400 mb-4 group-hover:scale-110 transition-transform neon-text"></i>
-                    <span class="text-white font-bold text-lg">Gmail</span>
-                    <span class="text-slate-400 text-sm mt-1">kansalbhavya27@gmail.com</span>
-                </a>
-
-                <a href="https://www.linkedin.com/in/kansal0920" target="_blank" class="group neon-box bg-slate-800/40 px-8 py-6 rounded-xl flex flex-col items-center min-w-[200px]">
-                    <i data-lucide="linkedin" class="w-8 h-8 text-sky-400 mb-4 group-hover:scale-110 transition-transform neon-text"></i>
-                    <span class="text-white font-bold text-lg">LinkedIn</span>
-                    <span class="text-slate-400 text-sm mt-1">Connect Professionaly</span>
-                </a>
-
-                <a href="https://github.com/BhavyaKansal20" target="_blank" class="group neon-box bg-slate-800/40 px-8 py-6 rounded-xl flex flex-col items-center min-w-[200px]">
-                    <i data-lucide="github" class="w-8 h-8 text-sky-400 mb-4 group-hover:scale-110 transition-transform neon-text"></i>
-                    <span class="text-white font-bold text-lg">GitHub</span>
-                    <span class="text-slate-400 text-sm mt-1">Review Code</span>
-                </a>
+    <section id="contact" class="pt-16 pb-24 relative z-10">
+        <div class="container mx-auto px-6 max-w-7xl">
+            <div class="neon-box p-8 text-center shadow-[0_0_40px_rgba(14,165,233,0.3)] max-w-4xl mx-auto">
+                <h3 class="text-2xl md:text-3xl font-black text-white mb-6 flex items-center justify-center gap-4 brand-font uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">
+                    <div class="p-2 bg-sky-500/20 rounded-lg border border-sky-400/50 shadow-[0_0_15px_rgba(14,165,233,0.5)]">
+                        <i data-lucide="briefcase" class="text-sky-400 w-8 h-8 drop-shadow-[0_0_10px_rgba(14,165,233,0.9)]"></i>
+                    </div>
+                    Currently Open To
+                </h3>
+                <div class="flex flex-wrap justify-center gap-4 mt-8">
+                    <span class="px-6 py-3 border border-sky-400/50 rounded-xl bg-slate-900/90 text-sm font-bold text-sky-100 hover:border-sky-300 hover:text-white hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] transition-all cursor-default uppercase tracking-widest shadow-[inset_0_0_10px_rgba(14,165,233,0.2)]">AI/ML Internships</span>
+                    <span class="px-6 py-3 border border-sky-400/50 rounded-xl bg-slate-900/90 text-sm font-bold text-sky-100 hover:border-sky-300 hover:text-white hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] transition-all cursor-default uppercase tracking-widest shadow-[inset_0_0_10px_rgba(14,165,233,0.2)]">Research Collaborations</span>
+                    <span class="px-6 py-3 border border-sky-400/50 rounded-xl bg-slate-900/90 text-sm font-bold text-sky-100 hover:border-sky-300 hover:text-white hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] transition-all cursor-default uppercase tracking-widest shadow-[inset_0_0_10px_rgba(14,165,233,0.2)]">DeepTech Projects</span>
+                    <span class="px-6 py-3 border border-sky-400/50 rounded-xl bg-slate-900/90 text-sm font-bold text-sky-100 hover:border-sky-300 hover:text-white hover:shadow-[0_0_20px_rgba(14,165,233,0.6)] transition-all cursor-default uppercase tracking-widest shadow-[inset_0_0_10px_rgba(14,165,233,0.2)]">Startup Partnerships</span>
+                </div>
             </div>
+<<<<<<< HEAD
             <div class="mt-16 text-center">
     <h3 class="text-2xl font-bold text-white brand-font mb-4">Currently Open To</h3>
     <div class="flex flex-wrap justify-center gap-4 text-sm">
@@ -546,17 +626,88 @@ AI Engineer | Founder – MultiModex AI
 </div>
             <footer class="mt-20 text-slate-600 text-sm">
                 <p>&copy; 2026 Bhavya Kansal. All Rights Reserved.</p>
+=======
+            <div class="py-24 flex flex-col items-center justify-center gap-6">
+                <div class="glow-divider w-full"></div>
+                <div class="flex items-center gap-3 text-slate-600 text-xs tracking-widest uppercase font-bold">
+                    <div class="w-2 h-2 rounded-full bg-sky-500/40 shadow-[0_0_8px_rgba(56,189,248,0.6)]"></div>
+                    <span>reach out</span>
+                    <div class="w-2 h-2 rounded-full bg-sky-500/40 shadow-[0_0_8px_rgba(56,189,248,0.6)]"></div>
+                </div>
+                <div class="glow-divider w-full"></div>
+            </div>
+            <div class="text-center w-full">
+                <div class="flex flex-col items-center text-center mb-16">
+                    <h2 class="text-3xl md:text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+                        <i data-lucide="radio-tower" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
+                        Initiate Contact
+                    </h2>
+                    <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
+                    <p class="text-slate-300 max-w-2xl mx-auto text-lg mt-6 bg-slate-900/50 p-2 rounded-xl border border-slate-700/50 backdrop-blur-md">Whether regarding technical roles, research collaboration, or discussing the engineering behind AI systems.</p>
+                </div>
+                <div class="grid md:grid-cols-3 gap-8 w-full">
+                    <a href="mailto:kansalbhavya27@gmail.com" target="_blank" rel="noopener noreferrer" class="neon-box overflow-hidden group flex flex-col relative text-left h-full !p-0">
+                        <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(14,165,233,0.2)] pointer-events-none z-20 rounded-24"></div>
+                        <div class="h-32 bg-slate-900 relative overflow-hidden flex items-center justify-center border-b border-sky-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
+                            <i data-lucide="mail" class="w-16 h-16 text-sky-400 z-20 drop-shadow-[0_0_20px_rgba(14,165,233,0.9)] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <div class="p-6 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-sky-400 transition-colors brand-font tracking-wide">Email Me</h3>
+                            <p class="text-slate-300 text-sm mb-4 flex-grow leading-relaxed">Direct line for collaboration and professional inquiries.</p>
+                            <span class="inline-flex items-center text-sm font-black text-sky-400 group-hover:text-white transition-all mt-auto w-fit tracking-widest bg-sky-900/30 px-4 py-2 rounded-lg border border-sky-500/30 uppercase">kansalbhavya27@gmail.com</span>
+                        </div>
+                    </a>
+                    <a href="https://www.linkedin.com/in/kansal0920" target="_blank" rel="noopener noreferrer" class="neon-box overflow-hidden group flex flex-col relative text-left h-full !p-0">
+                        <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(59,130,246,0.2)] pointer-events-none z-20 rounded-24"></div>
+                        <div class="h-32 bg-slate-900 relative overflow-hidden flex items-center justify-center border-b border-blue-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
+                            <i data-lucide="linkedin" class="w-16 h-16 text-blue-400 z-20 drop-shadow-[0_0_20px_rgba(59,130,246,0.9)] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <div class="p-6 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-blue-400 transition-colors brand-font tracking-wide">LinkedIn</h3>
+                            <p class="text-slate-300 text-sm mb-4 flex-grow leading-relaxed">Connect to discuss professional roles and networking.</p>
+                            <span class="inline-flex items-center text-sm font-black text-blue-400 group-hover:text-white transition-all mt-auto w-fit tracking-widest bg-blue-900/30 px-4 py-2 rounded-lg border border-blue-500/30 uppercase">CONNECT PROFILE <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i></span>
+                        </div>
+                    </a>
+                    <a href="https://github.com/BhavyaKansal20" target="_blank" rel="noopener noreferrer" class="neon-box overflow-hidden group flex flex-col relative text-left h-full !p-0">
+                        <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(203,213,225,0.2)] pointer-events-none z-20 rounded-24"></div>
+                        <div class="h-32 bg-slate-900 relative overflow-hidden flex items-center justify-center border-b border-slate-400/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
+                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 to-transparent z-10"></div>
+                            <i data-lucide="github" class="w-16 h-16 text-slate-200 z-20 drop-shadow-[0_0_20px_rgba(203,213,225,0.9)] group-hover:scale-110 transition-transform"></i>
+                        </div>
+                        <div class="p-6 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                            <h3 class="text-2xl font-bold text-white mb-2 group-hover:text-slate-300 transition-colors brand-font tracking-wide">GitHub</h3>
+                            <p class="text-slate-300 text-sm mb-4 flex-grow leading-relaxed">Review my open-source models, codebases, and architectures.</p>
+                            <span class="inline-flex items-center text-sm font-black text-slate-300 group-hover:text-white transition-all mt-auto w-fit tracking-widest bg-slate-800/80 px-4 py-2 rounded-lg border border-slate-500/30 uppercase">VIEW REPOS <i data-lucide="arrow-right" class="w-4 h-4 ml-2"></i></span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            <footer class="mt-32 pt-8 border-t border-sky-900/50 text-center text-slate-400 text-sm flex flex-col md:flex-row justify-between items-center gap-4">
+                <p>&copy; <span id="year">2025</span> Bhavya Kansal. All Rights Reserved.</p>
+                <div class="flex items-center gap-4">
+                    <a href="#" class="hover:text-sky-400 transition-colors uppercase tracking-widest font-black text-xs px-4 py-2 bg-slate-900 rounded-lg border border-slate-800 hover:border-sky-500 hover:shadow-[0_0_15px_rgba(14,165,233,0.4)]">Return to Top &uarr;</a>
+                </div>
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
             </footer>
         </div>
     </section>
 
     <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+    document.getElementById('year').textContent = new Date().getFullYear();
+    lucide.createIcons();
 
-        // Mobile Menu Logic
-        const btn = document.getElementById('mobile-menu-btn');
-        const menu = document.getElementById('mobile-menu');
+    // Performance Optimization for Mobile
+    document.addEventListener("DOMContentLoaded", function () {
+        if (window.innerWidth < 768) {
+            const fluidCanvas = document.getElementById('fluid-canvas');
+            if (fluidCanvas) fluidCanvas.style.display = 'none';
+        }
+    });
+
+    const btn = document.getElementById('mobile-menu-btn');
+    const menu = document.getElementById('mobile-menu');
         btn.addEventListener('click', () => {
             menu.classList.toggle('hidden');
             menu.classList.toggle('flex');
@@ -568,82 +719,177 @@ AI Engineer | Founder – MultiModex AI
             });
         });
 
-        // Particle System
+        window.addEventListener('scroll', () => {
+            const nav = document.getElementById('navbar');
+            if(window.scrollY > 50) {
+                nav.classList.add('shadow-[0_10px_40px_rgba(0,0,0,0.8)]');
+                nav.classList.replace('bg-slate-900/70', 'bg-slate-900/95');
+            } else {
+                nav.classList.remove('shadow-[0_10px_40px_rgba(0,0,0,0.8)]');
+                nav.classList.replace('bg-slate-900/95', 'bg-slate-900/70');
+            }
+        });
+
+        (function() {
+            const fluidCanvas = document.getElementById('fluid-canvas');
+            const fCtx = fluidCanvas.getContext('2d');
+            let fw, fh;
+            let time = 0;
+            function resizeFluid() { fw = fluidCanvas.width = window.innerWidth; fh = fluidCanvas.height = window.innerHeight; }
+            resizeFluid();
+            window.addEventListener('resize', resizeFluid);
+            const ribbons = [
+                { color: [0, 210, 200], speed: 0.003, amplitude: 0.28, frequency: 1.4, phase: 0.0, thickness: 0.22 },
+                { color: [0, 180, 220], speed: 0.0018, amplitude: 0.20, frequency: 1.8, phase: 1.5, thickness: 0.18 },
+                { color: [20, 150, 180], speed: 0.0025, amplitude: 0.35, frequency: 1.1, phase: 3.0, thickness: 0.25 },
+                { color: [0, 120, 160], speed: 0.0015, amplitude: 0.15, frequency: 2.2, phase: 0.8, thickness: 0.15 },
+                { color: [40, 200, 180], speed: 0.004, amplitude: 0.12, frequency: 2.8, phase: 4.2, thickness: 0.12 },
+            ];
+            function drawFluid() {
+                fCtx.clearRect(0, 0, fw, fh);
+                const bgGrad = fCtx.createRadialGradient(fw * 0.5, fh * 0.4, 0, fw * 0.5, fh * 0.4, Math.max(fw, fh) * 0.8);
+                bgGrad.addColorStop(0, 'rgba(0, 50, 60, 0.9)');
+                bgGrad.addColorStop(0.5, 'rgba(0, 25, 35, 0.8)');
+                bgGrad.addColorStop(1, 'rgba(0, 5, 15, 0.95)');
+                fCtx.fillStyle = bgGrad;
+                fCtx.fillRect(0, 0, fw, fh);
+                ribbons.forEach((r, i) => {
+                    const t = time * r.speed;
+                    const segments = 200;
+                    const ribbonHeight = fh * r.thickness;
+                    fCtx.beginPath();
+                    for (let s = 0; s <= segments; s++) {
+                        const x = (s / segments) * fw;
+                        const waveY = Math.sin(s / segments * Math.PI * 2 * r.frequency + t + r.phase) * fh * r.amplitude;
+                        const baseY = fh * (0.3 + i * 0.1) + waveY;
+                        const topY = baseY - ribbonHeight / 2;
+                        if (s === 0) fCtx.moveTo(x, topY);
+                        else fCtx.lineTo(x, topY);
+                    }
+                    for (let s = segments; s >= 0; s--) {
+                        const x = (s / segments) * fw;
+                        const waveY = Math.sin(s / segments * Math.PI * 2 * r.frequency + t + r.phase) * fh * r.amplitude;
+                        const baseY = fh * (0.3 + i * 0.1) + waveY;
+                        const botY = baseY + ribbonHeight / 2;
+                        fCtx.lineTo(x, botY);
+                    }
+                    fCtx.closePath();
+                    const gradY = fh * (0.3 + i * 0.1);
+                    const ribbonGrad = fCtx.createLinearGradient(0, gradY - ribbonHeight, 0, gradY + ribbonHeight);
+                    ribbonGrad.addColorStop(0, `rgba(${r.color[0]}, ${r.color[1]}, ${r.color[2]}, 0.0)`);
+                    ribbonGrad.addColorStop(0.3, `rgba(${r.color[0]}, ${r.color[1]}, ${r.color[2]}, 0.6)`);
+                    ribbonGrad.addColorStop(0.5, `rgba(${r.color[0]}, ${r.color[1]}, ${r.color[2]}, 0.9)`);
+                    ribbonGrad.addColorStop(0.7, `rgba(${r.color[0]}, ${r.color[1]}, ${r.color[2]}, 0.6)`);
+                    ribbonGrad.addColorStop(1, `rgba(${r.color[0]}, ${r.color[1]}, ${r.color[2]}, 0.0)`);
+                    fCtx.fillStyle = ribbonGrad;
+                    fCtx.fill();
+                });
+                time++;
+                requestAnimationFrame(drawFluid);
+            }
+            drawFluid();
+        })();
+
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
-        let particlesArray;
+        let codeStrings = [];
+        let nodes = [];
+        let animationFrameId;
+        let isVisible = true;
+
+        const codeSnippets = [
+            "function init() {", "return np.dot(X, self.w)", "loss.backward()", "import tensorflow as tf",
+            "await process_data()", "model.add(Dense(256))", "Q_target = r + gamma", "cv2.cvtColor(frame)",
+            "self.weights = np.random", "torch.cuda.is_available()", "class NeuralNet(nn.Module):",
+            "optimizer.step()", "while(True):", "sys.stdout.write(f'Epoch {e}')"
+        ];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', () => {
-            resizeCanvas();
             init();
-        });
-        resizeCanvas();
+        }
+        let resizeTimeout;
+        window.addEventListener('resize', () => { clearTimeout(resizeTimeout); resizeTimeout = setTimeout(resizeCanvas, 200); });
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
 
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.directionX = (Math.random() * 0.4) - 0.2;
-                this.directionY = (Math.random() * 0.4) - 0.2;
-                this.size = Math.random() * 2;
-                this.color = '#0ea5e9';
-            }
-            draw() {
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2, false);
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = 0.4;
-                ctx.fill();
+        class BackgroundCode {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height;
+                this.z = Math.random() * 3 + 1; this.speedX = (Math.random() - 0.5) * 0.5; this.speedY = (Math.random() - 0.5) * 0.5;
+                this.text = codeSnippets[Math.floor(Math.random() * codeSnippets.length)];
+                this.alpha = 0; this.targetAlpha = Math.random() * 0.4 + 0.1; this.fadeSpeed = 0.005;
+                this.state = 'in'; this.holdTime = Math.random() * 200 + 100;
             }
             update() {
-                if (this.x > canvas.width || this.x < 0) this.directionX = -this.directionX;
-                if (this.y > canvas.height || this.y < 0) this.directionY = -this.directionY;
-                this.x += this.directionX;
-                this.y += this.directionY;
+                this.x += this.speedX; this.y += this.speedY;
+                if (this.state === 'in') { this.alpha += this.fadeSpeed; if (this.alpha >= this.targetAlpha) this.state = 'hold'; }
+                else if (this.state === 'hold') { this.holdTime--; if (this.holdTime <= 0) this.state = 'out'; }
+                else if (this.state === 'out') { this.alpha -= this.fadeSpeed; if (this.alpha <= 0) this.reset(); }
                 this.draw();
             }
+            draw() {
+                ctx.save(); ctx.globalAlpha = Math.max(0, this.alpha);
+                ctx.font = `bold ${14 * this.z}px monospace`; ctx.fillStyle = '#0ea5e9';
+                if (this.z > 2) ctx.filter = `blur(${this.z - 1}px)`;
+                ctx.fillText(this.text, this.x, this.y); ctx.restore();
+            }
+        }
+
+        class PlexusNode {
+            constructor() { this.x = Math.random() * canvas.width; this.y = Math.random() * canvas.height; this.vx = (Math.random() - 0.5) * 0.4; this.vy = (Math.random() - 0.5) * 0.4; this.radius = Math.random() * 2 + 1; }
+            update() {
+                this.x += this.vx; this.y += this.vy;
+                if (this.x < -50) this.x = canvas.width + 50; if (this.x > canvas.width + 50) this.x = -50;
+                if (this.y < -50) this.y = canvas.height + 50; if (this.y > canvas.height + 50) this.y = -50;
+                this.draw();
+            }
+            draw() { ctx.beginPath(); ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2); ctx.fillStyle = 'rgba(56, 189, 248, 0.6)'; ctx.fill(); }
         }
 
         function init() {
+<<<<<<< HEAD
             particlesArray = [];
             let numberOfParticles = Math.min((canvas.height * canvas.width) / 20000, 120);
             for (let i = 0; i < numberOfParticles; i++) {
                 particlesArray.push(new Particle());
             }
+=======
+            codeStrings = []; nodes = [];
+            let numCode = Math.min((canvas.width * canvas.height) / 40000, 30);
+            for (let i = 0; i < numCode; i++) codeStrings.push(new BackgroundCode());
+            let numNodes = Math.min((canvas.width * canvas.height) / 25000, 60);
+            for (let i = 0; i < numNodes; i++) nodes.push(new PlexusNode());
+>>>>>>> 9103244 (Portfolio upgraded - performance & positioning optimization)
         }
 
         function animate() {
-            requestAnimationFrame(animate);
+            if (!isVisible) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-            }
-            connect();
-        }
-
-        function connect() {
-            let opacityValue = 1;
-            for (let a = 0; a < particlesArray.length; a++) {
-                for (let b = a; b < particlesArray.length; b++) {
-                    let distance = ((particlesArray[a].x - particlesArray[b].x) * (particlesArray[a].x - particlesArray[b].x))
-                    + ((particlesArray[a].y - particlesArray[b].y) * (particlesArray[a].y - particlesArray[b].y));
-                    if (distance < (canvas.width/7) * (canvas.height/7)) {
-                        opacityValue = 1 - (distance/20000);
-                        ctx.strokeStyle = 'rgba(14, 165, 233,' + opacityValue + ')';
-                        ctx.lineWidth = 1;
-                        ctx.beginPath();
-                        ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-                        ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-                        ctx.stroke();
+            for (let i = 0; i < codeStrings.length; i++) codeStrings[i].update();
+            for (let a = 0; a < nodes.length; a++) {
+                nodes[a].update();
+                for (let b = a; b < nodes.length; b++) {
+                    let dx = nodes[a].x - nodes[b].x, dy = nodes[a].y - nodes[b].y, distance = dx * dx + dy * dy;
+                    if (distance < 25000) {
+                        let opacity = 1 - (distance / 25000);
+                        ctx.strokeStyle = `rgba(56, 189, 248, ${opacity * 0.4})`; ctx.lineWidth = 1;
+                        ctx.beginPath(); ctx.moveTo(nodes[a].x, nodes[a].y); ctx.lineTo(nodes[b].x, nodes[b].y); ctx.stroke();
                     }
                 }
             }
+            animationFrameId = requestAnimationFrame(animate);
         }
 
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) { if (!isVisible) { isVisible = true; animate(); } }
+                else { isVisible = false; cancelAnimationFrame(animationFrameId); }
+            });
+        }, { threshold: 0.1 });
+        observer.observe(document.body);
         init();
         animate();
     </script>
