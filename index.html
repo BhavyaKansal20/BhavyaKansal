@@ -748,6 +748,32 @@
         init();
         animate();
     </script>
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/916283332944" target="_blank" rel="noopener noreferrer"
+   style="
+     position: fixed;
+     bottom: 24px;
+     left: 24px;
+     z-index: 9999;
+     width: 56px;
+     height: 56px;
+     background-color: #25D366;
+     border-radius: 50%;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     box-shadow: 0 4px 16px rgba(37, 211, 102, 0.5);
+     transition: transform 0.2s ease, box-shadow 0.2s ease;
+     text-decoration: none;
+   "
+   onmouseover="this.style.transform='scale(1.1)';this.style.boxShadow='0 6px 24px rgba(37,211,102,0.7)'"
+   onmouseout="this.style.transform='scale(1)';this.style.boxShadow='0 4px 16px rgba(37,211,102,0.5)'"
+   title="Chat on WhatsApp"
+>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="30" height="30" fill="white">
+    <path d="M16 0C7.164 0 0 7.163 0 16c0 2.822.736 5.469 2.027 7.774L0 32l8.469-2.004A15.938 15.938 0 0016 32c8.836 0 16-7.164 16-16S24.836 0 16 0zm0 29.333a13.27 13.27 0 01-6.771-1.854l-.486-.289-4.99 1.18 1.248-4.858-.317-.499A13.263 13.263 0 012.667 16C2.667 8.636 8.636 2.667 16 2.667S29.333 8.636 29.333 16 23.364 29.333 16 29.333zm7.293-9.961c-.399-.2-2.361-1.164-2.727-1.297-.366-.133-.632-.2-.898.2-.266.399-1.031 1.297-1.265 1.563-.233.266-.466.3-.865.1-.399-.2-1.685-.621-3.21-1.979-1.187-1.058-1.988-2.364-2.22-2.763-.233-.399-.025-.615.175-.814.18-.179.399-.466.598-.699.2-.233.266-.399.399-.665.133-.266.067-.499-.033-.699-.1-.2-.898-2.163-1.23-2.962-.324-.778-.653-.672-.898-.685l-.765-.013c-.266 0-.699.1-1.065.499-.366.399-1.397 1.364-1.397 3.327s1.43 3.859 1.629 4.125c.2.266 2.814 4.296 6.818 6.026.953.411 1.696.657 2.275.841.956.304 1.827.261 2.515.158.767-.114 2.361-.965 2.694-1.897.333-.932.333-1.731.233-1.897-.1-.166-.366-.266-.765-.466z"/>
+  </svg>
+</a>
 </body>
 </html>
  
