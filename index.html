@@ -55,6 +55,188 @@
         #fluid-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.20; }
         .neon-green-text { text-shadow: 0 0 10px rgba(74,222,128,0.9), 0 0 25px rgba(74,222,128,0.7), 0 0 50px rgba(74,222,128,0.4); }
         .glow-divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(56,189,248,0.6), rgba(99,102,241,0.4), transparent); box-shadow: 0 0 15px rgba(56,189,248,0.4); margin: 0 auto; max-width: 600px; }
+
+@media (max-width: 767px) {
+
+    /* 1. AMBIENT BACKGROUND — static gradient fallback since canvas is off */
+    body {
+        background: radial-gradient(ellipse at 10% 0%, rgba(14,165,233,0.18) 0%, transparent 55%),
+                    radial-gradient(ellipse at 90% 80%, rgba(99,102,241,0.15) 0%, transparent 55%),
+                    #030712 !important;
+    }
+
+    /* 2. AMBIENT ORBS — hide them on mobile (they overflow/blur wrong) */
+    .ambient-orb { display: none !important; }
+
+    /* 3. NEON BOX — fix backdrop-filter on iOS Safari */
+    .neon-box {
+        backdrop-filter: blur(12px) !important;
+        -webkit-backdrop-filter: blur(12px) !important;
+        background: linear-gradient(135deg, rgba(255,255,255,0.07) 0%, rgba(56,189,248,0.05) 50%, rgba(255,255,255,0.03) 100%) !important;
+        box-shadow: 0 4px 24px rgba(0,0,0,0.6), 0 0 0 1px rgba(56,189,248,0.12), 0 0 16px rgba(56,189,248,0.18), inset 0 1px 0 rgba(255,255,255,0.08) !important;
+        border-radius: 16px !important;
+    }
+
+    /* 4. NEON BOX HOVER — disable transform on mobile (causes layout shift) */
+    .neon-box:hover {
+        transform: none !important;
+    }
+
+    /* 5. HERO SECTION — fix stacking and spacing */
+    #home {
+        padding-top: 100px !important;
+        padding-bottom: 40px !important;
+    }
+    #home .container {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 32px !important;
+    }
+
+    /* 6. PROFILE IMAGE — scale down for mobile */
+    .profile-container {
+        width: 200px !important;
+        height: 200px !important;
+    }
+
+    /* 7. HERO TEXT — tighter sizing */
+    #home h1 {
+        font-size: 2.4rem !important;
+        line-height: 1.2 !important;
+    }
+
+    /* 8. HERO BUTTONS — stack vertically, full width */
+    #home .flex.flex-wrap.gap-4 {
+        flex-direction: column !important;
+        align-items: flex-start !important;
+        gap: 12px !important;
+    }
+    #home .flex.flex-wrap.gap-4 a {
+        width: 100% !important;
+        justify-content: center !important;
+    }
+
+    /* 9. EXPERIENCE GRID — single column */
+    #experience .grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    /* 10. ABOUT SKILLS GRID — keep 2x2 */
+    #about .grid-cols-2 {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 12px !important;
+    }
+
+    /* 11. CURRENT FOCUS — single col */
+    #building .grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    /* 12. PROJECTS — single col */
+    #projects .grid {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+
+    /* 13. CONTACT CARDS — single col */
+    #contact .grid {
+        grid-template-columns: 1fr !important;
+        gap: 16px !important;
+    }
+
+    /* 14. EDUCATION TIMELINE — simplify */
+    #education .border-l-2 {
+        padding-left: 20px !important;
+        margin-left: 12px !important;
+    }
+    #education .md\:flex {
+        display: block !important;
+    }
+    #education .md\:w-5\/12 {
+        width: 100% !important;
+        padding: 0 !important;
+        margin-bottom: 8px !important;
+        text-align: left !important;
+    }
+
+    /* 15. SECTION HEADINGS — tighter sizing */
+    h2.brand-font {
+        font-size: 1.6rem !important;
+        letter-spacing: 0.1em !important;
+        flex-wrap: wrap !important;
+        gap: 10px !important;
+    }
+
+    /* 16. NEON TEXT GLOW — reduce intensity for mobile readability */
+    .neon-text {
+        text-shadow: 0 0 8px rgba(14,165,233,0.7), 0 0 16px rgba(14,165,233,0.4) !important;
+    }
+
+    /* 17. NEON BOX INNER PADDING — breathe on small screens */
+    .neon-box.p-8 {
+        padding: 20px !important;
+    }
+    .neon-box.p-12 {
+        padding: 24px !important;
+    }
+
+    /* 18. PROJECT CARD IMAGE HEIGHT — shorter */
+    .neon-box .h-48 {
+        height: 140px !important;
+    }
+
+    /* 19. OPEN TO ROLES badge — smaller font */
+    .profile-container .absolute {
+        font-size: 9px !important;
+        padding: 5px 10px !important;
+        gap: 6px !important;
+        bottom: -6px !important;
+        right: -6px !important;
+    }
+
+    /* 20. CONTACT OPEN-TO TAGS — smaller */
+    #contact .flex.flex-wrap.justify-center span {
+        font-size: 10px !important;
+        padding: 8px 12px !important;
+    }
+
+    /* 21. FOOTER — stack vertically */
+    footer {
+        flex-direction: column !important;
+        gap: 12px !important;
+        text-align: center !important;
+    }
+
+    /* 22. WhatsApp FAB — slightly smaller */
+    a[href*="wa.me"] {
+        width: 48px !important;
+        height: 48px !important;
+        bottom: 16px !important;
+        right: 16px !important;
+    }
+
+    /* 23. ABOUT ABOUT PARAGRAPH CARD — full readability */
+    #about .neon-box p {
+        font-size: 1rem !important;
+        text-align: left !important;
+    }
+
+    /* 24. PROFILE RING — scale with container */
+    .profile-ring {
+        top: -16px !important;
+        left: -16px !important;
+        right: -16px !important;
+        bottom: -16px !important;
+    }
+
+    /* 25. HERO BADGE (ENGINEERING & AI pill) */
+    #home .inline-flex {
+        font-size: 9px !important;
+        padding: 5px 10px !important;
+    }
+}
     </style>
     <script type="application/ld+json">
 {
