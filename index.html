@@ -450,53 +450,118 @@ bottom:-16px;
         </div>
     </section>
 
-    <section id="building" class="py-20 relative z-10">
+    <section id="building" class="py-24 relative z-10" style="background:linear-gradient(180deg,transparent 0%,rgba(14,165,233,0.02) 50%,transparent 100%);">
         <div class="container mx-auto px-6">
-            <div class="flex flex-col items-center text-center mb-12">
-                <h2 class="text-3xl md:text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
+
+            <div class="flex flex-col items-center text-center mb-16">
+                <h2 class="text-4xl font-black brand-font text-white uppercase tracking-widest drop-shadow-[0_0_10px_rgba(255,255,255,0.2)] flex items-center justify-center gap-4">
                     <i data-lucide="crosshair" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_15px_rgba(14,165,233,0.9)]"></i>
                     Current Focus
                 </h2>
                 <div class="h-1 w-24 bg-gradient-to-r from-transparent via-sky-400 to-transparent mt-4 rounded-full shadow-[0_0_10px_rgba(14,165,233,0.8)]"></div>
-                <p class="text-slate-300 max-w-2xl mx-auto text-lg mt-6 bg-slate-900/50 p-2 rounded-xl border border-slate-700/50 backdrop-blur-md">Active engineering domains and R&D areas I am building solutions for today.</p>
+                <p class="text-slate-400 max-w-xl mx-auto text-sm mt-4 font-bold tracking-widest uppercase">Active engineering domains & R&D areas I am building solutions for today</p>
             </div>
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
-                <div class="neon-box p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 rounded-2xl bg-indigo-500/10 border border-indigo-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(99,102,241,0.4)]"><i data-lucide="sparkles" class="w-10 h-10 text-indigo-400 drop-shadow-[0_0_10px_rgba(99,102,241,0.8)]"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Generative AI</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Designing and integrating LLM-based systems into real-world applications, including structured prompting, API orchestration, and response validation pipelines.
-                        </p>
+
+            <!-- 3-col focus grid — large feature cards -->
+            <div class="max-w-6xl mx-auto grid md:grid-cols-3 gap-6 focus-grid">
+
+                <!-- 1 — Generative AI (tall card, col-span-1) -->
+                <div class="neon-box p-8 flex flex-col group relative overflow-hidden"
+                     style="border-color:rgba(99,102,241,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 25px rgba(99,102,241,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <!-- orbit dot -->
+                    <div style="position:absolute;top:32px;right:32px;width:56px;height:56px;">
+                        <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;background:rgba(99,102,241,0.9);border-radius:50%;animation:orbit-spin 3s linear infinite;box-shadow:0 0 10px rgba(99,102,241,0.9);margin:-3px 0 0 -3px;"></div>
+                        <div style="position:absolute;top:50%;left:50%;width:56px;height:56px;border:1px solid rgba(99,102,241,0.2);border-radius:50%;transform:translate(-50%,-50%);"></div>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-indigo-900/40 border border-indigo-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(99,102,241,0.3)] group-hover:shadow-[0_0_35px_rgba(99,102,241,0.6)] transition-all">
+                        <i data-lucide="sparkles" class="w-7 h-7 text-indigo-400 drop-shadow-[0_0_10px_rgba(99,102,241,0.9)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 brand-font tracking-wide group-hover:text-indigo-400 transition-colors">Generative AI</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed flex-grow">Designing and integrating LLM-based systems into real-world applications — structured prompting, API orchestration, and response validation pipelines. Building toward a fully Indian-built AI.</p>
+                    <div class="mt-6 pt-4 border-t border-indigo-500/20 flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse shadow-[0_0_6px_rgba(99,102,241,0.9)]"></div>
+                        <span class="text-[10px] text-indigo-400 font-black tracking-widest uppercase">Active Research</span>
+                    </div>
                 </div>
-                <div class="neon-box p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 rounded-2xl bg-sky-500/10 border border-sky-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(14,165,233,0.4)]"><i data-lucide="bot" class="w-10 h-10 text-sky-400 drop-shadow-[0_0_10px_rgba(14,165,233,0.8)]"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Agentic AI</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Building autonomous task-execution workflows using tool-calling, sequential reasoning, and backend automation scripts.
-                        </p>
+
+                <!-- 2 — Agentic AI -->
+                <div class="neon-box p-8 flex flex-col group relative overflow-hidden"
+                     style="border-color:rgba(14,165,233,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 25px rgba(14,165,233,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="position:absolute;top:32px;right:32px;width:56px;height:56px;">
+                        <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;background:rgba(14,165,233,0.9);border-radius:50%;animation:orbit-spin 4s linear infinite reverse;box-shadow:0 0 10px rgba(14,165,233,0.9);margin:-3px 0 0 -3px;"></div>
+                        <div style="position:absolute;top:50%;left:50%;width:56px;height:56px;border:1px solid rgba(14,165,233,0.2);border-radius:50%;transform:translate(-50%,-50%);"></div>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-sky-900/40 border border-sky-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(14,165,233,0.3)] group-hover:shadow-[0_0_35px_rgba(14,165,233,0.6)] transition-all">
+                        <i data-lucide="bot" class="w-7 h-7 text-sky-400 drop-shadow-[0_0_10px_rgba(14,165,233,0.9)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 brand-font tracking-wide group-hover:text-sky-400 transition-colors">Agentic AI</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed flex-grow">Building autonomous task-execution workflows using tool-calling, sequential reasoning chains, and backend automation scripts that run without human intervention.</p>
+                    <div class="mt-6 pt-4 border-t border-sky-500/20 flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse shadow-[0_0_6px_rgba(14,165,233,0.9)]"></div>
+                        <span class="text-[10px] text-sky-400 font-black tracking-widest uppercase">In Development</span>
+                    </div>
                 </div>
-                <div class="neon-box p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 rounded-2xl bg-purple-500/10 border border-purple-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(168,85,247,0.4)]"><i data-lucide="scan" class="w-10 h-10 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.8)]"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Multimodal Vision</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">Cross-referencing logic across text, images, and sensor data to build systems that interpret the real world comprehensively.</p>
+
+                <!-- 3 — Multimodal Vision -->
+                <div class="neon-box p-8 flex flex-col group relative overflow-hidden"
+                     style="border-color:rgba(168,85,247,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 25px rgba(168,85,247,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div style="position:absolute;top:32px;right:32px;width:56px;height:56px;">
+                        <div style="position:absolute;top:50%;left:50%;width:6px;height:6px;background:rgba(168,85,247,0.9);border-radius:50%;animation:orbit-spin 2.5s linear infinite;box-shadow:0 0 10px rgba(168,85,247,0.9);margin:-3px 0 0 -3px;"></div>
+                        <div style="position:absolute;top:50%;left:50%;width:56px;height:56px;border:1px solid rgba(168,85,247,0.2);border-radius:50%;transform:translate(-50%,-50%);"></div>
+                    </div>
+                    <div class="w-14 h-14 rounded-2xl bg-purple-900/40 border border-purple-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(168,85,247,0.3)] group-hover:shadow-[0_0_35px_rgba(168,85,247,0.6)] transition-all">
+                        <i data-lucide="scan" class="w-7 h-7 text-purple-400 drop-shadow-[0_0_10px_rgba(168,85,247,0.9)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 brand-font tracking-wide group-hover:text-purple-400 transition-colors">Multimodal Vision</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed flex-grow">Cross-referencing logic across text, images, and sensor data to build systems that interpret the real world comprehensively — the core of MultiModex AI's architecture.</p>
+                    <div class="mt-6 pt-4 border-t border-purple-500/20 flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-purple-400 animate-pulse shadow-[0_0_6px_rgba(168,85,247,0.9)]"></div>
+                        <span class="text-[10px] text-purple-400 font-black tracking-widest uppercase">Core Focus</span>
+                    </div>
                 </div>
-                <div class="neon-box p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 rounded-2xl bg-orange-500/10 border border-orange-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(249,115,22,0.4)]"><i data-lucide="cpu" class="w-10 h-10 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,0.8)]"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Hybrid Assistants</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">
-                        Combining LLM reasoning with deterministic logic layers to improve reliability and reduce hallucinations in deployed systems.
-                        </p>
+
+                <!-- 4 — Hybrid Assistants -->
+                <div class="neon-box p-8 flex flex-col group relative overflow-hidden"
+                     style="border-color:rgba(249,115,22,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 25px rgba(249,115,22,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div class="w-14 h-14 rounded-2xl bg-orange-900/40 border border-orange-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(249,115,22,0.3)] group-hover:shadow-[0_0_35px_rgba(249,115,22,0.6)] transition-all">
+                        <i data-lucide="cpu" class="w-7 h-7 text-orange-400 drop-shadow-[0_0_10px_rgba(249,115,22,0.9)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 brand-font tracking-wide group-hover:text-orange-400 transition-colors">Hybrid Assistants</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed flex-grow">Combining LLM reasoning with deterministic logic layers to improve reliability and reduce hallucinations in deployed systems. Best of both worlds.</p>
+                    <div class="mt-6 pt-4 border-t border-orange-500/20 flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-orange-400 animate-pulse shadow-[0_0_6px_rgba(249,115,22,0.9)]"></div>
+                        <span class="text-[10px] text-orange-400 font-black tracking-widest uppercase">Prototyping</span>
+                    </div>
                 </div>
-                <div class="neon-box p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 rounded-2xl bg-emerald-500/10 border border-emerald-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(16,185,129,0.4)]"><i data-lucide="shield-check" class="w-10 h-10 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.8)]"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Ethical AI</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">Ensuring model safety, mitigating bias, and building transparent reasoning pathways for enterprise-grade deployments.</p>
+
+                <!-- 5 — Ethical AI -->
+                <div class="neon-box p-8 flex flex-col group relative overflow-hidden"
+                     style="border-color:rgba(16,185,129,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 25px rgba(16,185,129,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div class="w-14 h-14 rounded-2xl bg-emerald-900/40 border border-emerald-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(16,185,129,0.3)] group-hover:shadow-[0_0_35px_rgba(16,185,129,0.6)] transition-all">
+                        <i data-lucide="shield-check" class="w-7 h-7 text-emerald-400 drop-shadow-[0_0_10px_rgba(16,185,129,0.9)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 brand-font tracking-wide group-hover:text-emerald-400 transition-colors">Ethical AI</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed flex-grow">Ensuring model safety, mitigating bias, and building transparent reasoning pathways for enterprise-grade and India-scale deployments. Responsibility by design.</p>
+                    <div class="mt-6 pt-4 border-t border-emerald-500/20 flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_6px_rgba(16,185,129,0.9)]"></div>
+                        <span class="text-[10px] text-emerald-400 font-black tracking-widest uppercase">Always On</span>
+                    </div>
                 </div>
-                <div class="neon-box p-8 flex flex-col items-center text-center">
-                    <div class="w-20 h-20 rounded-2xl bg-blue-500/10 border border-blue-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(59,130,246,0.4)]"><i data-lucide="cog" class="w-10 h-10 text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]"></i></div>
-                    <h3 class="text-2xl font-bold text-white mb-3 brand-font tracking-wide">Applied Automation</h3>
-                    <p class="text-sm text-slate-300 leading-relaxed">Directly embedding trained ML models into existing software architectures to automate redundant analytical pipelines.</p>
+
+                <!-- 6 — Applied Automation -->
+                <div class="neon-box p-8 flex flex-col group relative overflow-hidden"
+                     style="border-color:rgba(59,130,246,0.25);box-shadow:0 8px 40px rgba(0,0,0,0.7),0 0 25px rgba(59,130,246,0.15),inset 0 1px 0 rgba(255,255,255,0.1);">
+                    <div class="w-14 h-14 rounded-2xl bg-blue-900/40 border border-blue-500/50 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:shadow-[0_0_35px_rgba(59,130,246,0.6)] transition-all">
+                        <i data-lucide="cog" class="w-7 h-7 text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.9)]"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-3 brand-font tracking-wide group-hover:text-blue-400 transition-colors">Applied Automation</h3>
+                    <p class="text-sm text-slate-400 leading-relaxed flex-grow">Directly embedding trained ML models into existing software architectures to automate redundant analytical pipelines — turning research into real ROI.</p>
+                    <div class="mt-6 pt-4 border-t border-blue-500/20 flex items-center gap-2">
+                        <div class="w-1.5 h-1.5 rounded-full bg-blue-400 animate-pulse shadow-[0_0_6px_rgba(59,130,246,0.9)]"></div>
+                        <span class="text-[10px] text-blue-400 font-black tracking-widest uppercase">Production</span>
+                    </div>
                 </div>
+
             </div>
         </div>
     </section>
