@@ -1,38 +1,70 @@
 <!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="author" content="Bhavya Kansal">
-    <title>Bhavya Kansal | AI Engineer, ML Researcher & Founder</title>
-    <meta name="description" content="Portfolio of Bhavya Kansal, an AI Engineer specializing in Machine Learning, Computer Vision, and Multimodal AI systems. Founder of MultiModex AI.">
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Bhavya Kansal | AI Engineer & DeepTech Innovator">
-    <meta property="og:description" content="AI Engineer building intelligent multimodal systems, automation workflows, and solving real-world problems.">
-    <meta property="og:url" content="https://bhavyakansal.dev">
-    <meta property="og:image" content="https://bhavyakansal.dev/preview.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:image" content="https://bhavyakansal.dev/preview.png">
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="apple-touch-icon" href="/favicon.png">
-    <link rel="canonical" href="https://bhavyakansal.dev">
-    <link rel="icon" type="image/png" href="favicon.png">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700;800&display=swap" as="style">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EVJYWQY694"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-EVJYWQY694');
-    </script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="author" content="Bhavya Kansal">
+
+<title>Bhavya Kansal | AI Engineer, ML Researcher & Founder</title>
+
+<meta name="description" content="Portfolio of Bhavya Kansal, an AI Engineer specializing in Machine Learning, Computer Vision, and Multimodal AI systems. Founder of MultiModex AI.">
+
+<link rel="canonical" href="https://bhavyakansal.dev">
+
+<!-- SEO Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bhavya Kansal | AI Engineer & DeepTech Innovator">
+<meta property="og:description" content="AI Engineer building intelligent multimodal systems, automation workflows, and solving real-world problems.">
+<meta property="og:url" content="https://bhavyakansal.dev">
+<meta property="og:image" content="https://bhavyakansal.dev/preview.png">
+
+<!-- Twitter Preview -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://bhavyakansal.dev/preview.png">
+
+<!-- Favicons -->
+<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/favicon.png">
+
+<!-- Preconnect for faster font loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Optimized Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+media="print"
+onload="this.media='all'">
+
+<!-- Tailwind (temporary CDN version) -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Lucide Icons -->
+<script src="https://unpkg.com/lucide@latest" defer></script>
+
+<!-- Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EVJYWQY694"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-EVJYWQY694');
+</script>
+
+<!-- Preload hero image for faster LCP -->
+<link rel="preload" as="image" href="image.jpg">
+
+<style>
+
+/* ===========================
+ROOT VARIABLES
+=========================== */
 
 :root{
 --primary:#0ea5e9;
@@ -43,6 +75,14 @@
 --neon-indigo:#818cf8;
 }
 
+/* ===========================
+GLOBAL
+=========================== */
+
+*{
+box-sizing:border-box;
+}
+
 body{
 font-family:'Verdana',sans-serif;
 background-color:var(--dark-bg);
@@ -50,25 +90,80 @@ color:#e2e8f0;
 overflow-x:hidden;
 }
 
+img{
+max-width:100%;
+height:auto;
+}
+
+/* ===========================
+TYPOGRAPHY
+=========================== */
+
 h1,h2,h3,.brand-font{
 font-family:'Lora','Times New Roman',serif;
 letter-spacing:1px;
 }
+
+/* ===========================
+CANVAS PERFORMANCE
+=========================== */
+
+#bg-canvas,
+#fluid-canvas{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+will-change:transform;
+transform:translateZ(0);
+}
+
+#bg-canvas{
+z-index:-1;
+opacity:.2;
+}
+
+#fluid-canvas{
+z-index:-2;
+opacity:.20;
+}
+
+/* ===========================
+ANIMATIONS
+=========================== */
+
+@keyframes float{
+0%{transform:translate(0,0) scale(1);}
+100%{transform:translate(40px,-60px) scale(1.2);}
+}
+
+@keyframes spin{
+100%{transform:rotate(360deg);}
+}
+
+@keyframes blink{
+0%,100%{opacity:1;}
+50%{opacity:0;}
+}
+
+/* ===========================
+AMBIENT ORBS
+=========================== */
 
 .ambient-orb{
 position:absolute;
 border-radius:50%;
 filter:blur(150px);
 opacity:0.3;
-z-index:0;
 pointer-events:none;
+z-index:0;
 animation:float 20s ease-in-out infinite alternate;
 }
 
-@keyframes float{
-0%{transform:translate(0,0) scale(1);}
-100%{transform:translate(40px,-60px) scale(1.2);}
-}
+/* ===========================
+NEON TEXT
+=========================== */
 
 .neon-text{
 text-shadow:
@@ -77,96 +172,49 @@ text-shadow:
 0 0 40px rgba(14,165,233,0.4);
 }
 
+/* ===========================
+NEON BOX
+=========================== */
+
 .neon-box{
-background:linear-gradient(135deg,rgba(255,255,255,0.06) 0%,rgba(56,189,248,0.03) 50%,rgba(255,255,255,0.02) 100%);
+background:linear-gradient(135deg,rgba(255,255,255,0.06),rgba(56,189,248,0.03),rgba(255,255,255,0.02));
 backdrop-filter:blur(20px) saturate(180%);
--webkit-backdrop-filter:blur(60px) saturate(180%);
+-webkit-backdrop-filter:blur(20px) saturate(180%);
 border:1px solid rgba(255,255,255,0.08);
 border-top:1px solid rgba(255,255,255,0.22);
 border-left:1px solid rgba(255,255,255,0.12);
 border-radius:24px;
+
 box-shadow:
 0 8px 40px rgba(0,0,0,0.7),
-0 0 0 1px rgba(56,189,248,0.08),
 0 0 20px rgba(56,189,248,0.15),
-inset 0 1px 0 rgba(255,255,255,0.1),
-inset 0 0 30px rgba(56,189,248,0.06);
-transition:all .5s cubic-bezier(.175,.885,.32,1.275);
+inset 0 1px 0 rgba(255,255,255,0.1);
+
+transition:
+transform .5s cubic-bezier(.175,.885,.32,1.275),
+box-shadow .5s,
+background .5s;
+
 position:relative;
 overflow:hidden;
 }
 
-.neon-box::before{
-content:'';
-position:absolute;
-top:-1px;
-left:-1px;
-width:60%;
-height:3px;
-background:linear-gradient(90deg,transparent,rgba(56,189,248,.8),rgba(99,102,241,.6),rgba(168,85,247,.4),transparent);
-border-radius:24px 0 0 0;
-opacity:.7;
-transition:opacity .5s ease;
-}
-
-.neon-box::after{
-content:'';
-position:absolute;
-top:0;
-left:0;
-right:0;
-height:40%;
-background:linear-gradient(180deg,rgba(255,255,255,.04) 0%,transparent 100%);
-border-radius:24px 24px 0 0;
-pointer-events:none;
-}
-
 .neon-box:hover{
-background:linear-gradient(135deg,rgba(255,255,255,.09) 0%,rgba(56,189,248,.05) 50%,rgba(255,255,255,.03) 100%);
+transform:translateY(-8px) scale(1.02);
 box-shadow:
 0 20px 60px rgba(0,0,0,.8),
-0 0 0 1px rgba(56,189,248,.3),
-0 0 50px rgba(56,189,248,.5),
-0 0 80px rgba(56,189,248,.2),
-inset 0 1px 0 rgba(255,255,255,.15),
-inset 0 0 40px rgba(56,189,248,.12);
-border-color:rgba(56,189,248,.4);
-border-top:1px solid rgba(56,189,248,.7);
-border-left:1px solid rgba(56,189,248,.4);
-transform:translateY(-8px) scale(1.02);
-z-index:10;
+0 0 50px rgba(56,189,248,.5);
 }
 
-.neon-box:hover::before{
-opacity:1;
-width:80%;
-}
-
-#bg-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-1;
-opacity:.2;
-}
-
-#fluid-canvas{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-height:100%;
-z-index:-2;
-opacity:.20;
-}
+/* ===========================
+PROFILE
+=========================== */
 
 .profile-container{
 position:relative;
 width:300px;
 height:300px;
-margin:0 auto;
+margin:auto;
 z-index:10;
 }
 
@@ -178,7 +226,7 @@ object-position:top center;
 border-radius:50%;
 border:4px solid rgba(56,189,248,.8);
 box-shadow:0 0 50px rgba(14,165,233,.6),inset 0 0 20px rgba(14,165,233,.4);
-background-color:#0f172a;
+background:#0f172a;
 }
 
 .profile-ring{
@@ -193,24 +241,11 @@ box-shadow:0 0 20px rgba(56,189,248,.3);
 animation:spin 12s linear infinite;
 }
 
-@keyframes spin{
-100%{transform:rotate(360deg);}
-}
+/* ===========================
+MOBILE
+=========================== */
 
-/* MOBILE RESPONSIVE (LAYOUT ONLY — EFFECTS SAME) */
-
-@media (max-width:767px){
-
-#home{
-padding-top:100px;
-padding-bottom:40px;
-}
-
-#home .container{
-display:flex;
-flex-direction:column;
-gap:32px;
-}
+@media (max-width:768px){
 
 .profile-container{
 width:220px;
@@ -218,188 +253,33 @@ height:220px;
 }
 
 #home h1{
-font-size:2.5rem;
+font-size:2.4rem;
 line-height:1.2;
 }
 
-#home .flex.flex-wrap.gap-4{
-flex-direction:column;
-align-items:flex-start;
-gap:12px;
+.grid{
+grid-template-columns:1fr !important;
 }
 
-#home .flex.flex-wrap.gap-4 a{
-width:100%;
-justify-content:center;
-}
-
-#experience .grid,
-#building .grid,
-#projects .grid,
-#contact .grid{
-grid-template-columns:1fr;
-gap:20px;
-}
-
-#about .grid-cols-2{
-grid-template-columns:1fr 1fr;
-gap:12px;
-}
-
-.neon-box.p-8{
-padding:20px;
-}
-
-.neon-box.p-12{
-padding:24px;
-}
-
-.profile-ring{
-top:-16px;
-left:-16px;
-right:-16px;
-bottom:-16px;
-}
-
-}
-
-@keyframes ecg-draw {
-    0%   { stroke-dashoffset: 700; }
-    70%  { stroke-dashoffset: 0; }
-    100% { stroke-dashoffset: 0; }
-}
-
-/* Real-time looping tail wipe */
-@keyframes ecg-loop {
-    0%   { stroke-dashoffset: 700; stroke-dasharray: 0 700; }
-    40%  { stroke-dasharray: 350 350; }
-    80%  { stroke-dashoffset: -700; stroke-dasharray: 0 700; }
-    100% { stroke-dashoffset: -700; stroke-dasharray: 0 700; }
-}
-@keyframes badge-glow {
-    0%, 100% { box-shadow: 0 0 10px rgba(16,185,129,0.6), 0 0 20px rgba(16,185,129,0.3); }
-    50%       { box-shadow: 0 0 20px rgba(16,185,129,0.9), 0 0 40px rgba(16,185,129,0.5); }
-}
-@keyframes float-particle {
-    0%, 100% { transform: translateY(0px) scale(1); opacity: 0.8; }
-    50%       { transform: translateY(-12px) scale(1.3); opacity: 1; }
-}
-@keyframes scan-line {
-    0%   { top: 0%; opacity: 0; }
-    10%  { opacity: 1; }
-    90%  { opacity: 1; }
-    100% { top: 100%; opacity: 0; }
-}
-@keyframes radar-ring {
-    0%   { transform: translate(-50%, -50%) scale(0.8); opacity: 0.8; }
-    100% { transform: translate(-50%, -50%) scale(2.2); opacity: 0; }
-}
-@keyframes hash-drift {
-    0%   { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
-@keyframes blink {
-    0%, 100% { opacity: 1; }
-    50%       { opacity: 0; }
-}
-
-/* About section grid background */
-.about-grid-bg {
-    background-image:
-        linear-gradient(rgba(14,165,233,0.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(14,165,233,0.04) 1px, transparent 1px);
-    background-size: 60px 60px;
-}
-
-/* Scroll-reveal base state */
-.about-reveal {
-    opacity: 0;
-    transform: translateY(28px);
-    transition: opacity 0.65s ease, transform 0.65s ease;
-    transition-delay: var(--delay, 0s);
-}
-.about-reveal.in-view {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* Terminal lines */
-.about-line {
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: opacity 0.4s ease, transform 0.4s ease;
-    transition-delay: var(--line-delay, 0s);
-}
-.about-line.in-view {
-    opacity: 1;
-    transform: translateX(0);
-}
-
-/* Skill bars */
-.about-bar {
-    width: 0%;
-    transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.about-bar.in-view {
-    width: var(--bar-width);
-}
-
-/* Bio block left-border glow on hover */
-.about-bio-block {
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-}
-.about-bio-block:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px rgba(14,165,233,0.1);
-}
-
-/* Trait pills subtle lift */
-.about-trait-pill {
-    transition: transform 0.3s ease, border-color 0.3s, background 0.3s, box-shadow 0.3s;
-}
-.about-trait-pill:hover {
-    transform: translateY(-3px);
-}
-
-/* Domain cards subtle lift */
-.about-domain-card {
-    transition: transform 0.4s ease, border-color 0.4s, box-shadow 0.4s, background 0.4s;
-}
-.about-domain-card:hover {
-    transform: translateY(-4px);
 }
 
 </style>
-    <script type="application/ld+json">
+
+<!-- Schema.org -->
+<script type="application/ld+json">
 {
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Bhavya Kansal",
-  "url": "https://bhavyakansal.dev",
-  "jobTitle": "AI Engineer",
-  "sameAs": [
-    "https://www.linkedin.com/in/kansal0920",
-    "https://github.com/BhavyaKansal20"
-  ]
+"@context":"https://schema.org",
+"@type":"Person",
+"name":"Bhavya Kansal",
+"url":"https://bhavyakansal.dev",
+"jobTitle":"AI Engineer",
+"sameAs":[
+"https://www.linkedin.com/in/kansal0920",
+"https://github.com/BhavyaKansal20"
+]
 }
 </script>
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Bhavya Kansal",
-  "url": "https://bhavyakansal.dev",
-  "sameAs": [
-    "https://www.linkedin.com/in/kansal0920",
-    "https://github.com/BhavyaKansal20"
-  ],
-  "jobTitle": "AI Engineer",
-  "worksFor": {
-    "@type": "Organization"
-  }
-}
-</script>
 </head>
 <body class="antialiased selection:bg-sky-500 selection:text-white relative">
 <h1>Bhavya Kansal – AI Engineer & DeepTech Innovator</h1>
