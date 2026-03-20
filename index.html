@@ -1087,7 +1087,104 @@ bottom:-16px;
             </div>
 
             <!-- ══════════════════════════════════════ -->
-            <!-- CARD 2 — AAGNI TELEGRAM CHATBOT       -->
+            <!-- CARD 2 — SIGNLANG AI (NEW)             -->
+            <!-- ══════════════════════════════════════ -->
+            <div class="neon-box overflow-hidden group flex flex-col relative !p-0"
+                 style="border-color:rgba(34,211,238,0.3);
+                        box-shadow:0 8px 40px rgba(0,0,0,0.7),
+                                   0 0 0 1px rgba(34,211,238,0.15),
+                                   0 0 30px rgba(34,211,238,0.25),
+                                   inset 0 1px 0 rgba(255,255,255,0.1),
+                                   inset 0 0 30px rgba(34,211,238,0.08);">
+                
+                <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(34,211,238,0.1)] pointer-events-none z-20 rounded-[24px]"></div>
+                
+                <!-- Header image -->
+                <div class="h-48 bg-slate-900 relative overflow-hidden border-b border-cyan-500/50 shadow-[0_5px_15px_rgba(0,0,0,0.5)] rounded-t-[24px]">
+                    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(8,145,178,0.6)_0%,rgba(3,7,18,0.95)_70%)]"></div>
+                    <!-- bg photo -->
+                    <div class="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1551001614-41d7c34b1757?auto=format&fit=crop&w=800&q=80')] bg-cover bg-center opacity-10 group-hover:opacity-30 group-hover:scale-110 transition-all duration-700"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/30 to-transparent z-10"></div>
+
+                    <!-- Hand Tracking Animation (MediaPipe style) -->
+                    <div class="absolute inset-0 flex items-center justify-center z-20">
+                        <div class="relative w-24 h-24 group-hover:scale-110 transition-transform duration-500">
+                            <!-- Icon Base -->
+                            <i data-lucide="hand" class="absolute inset-0 w-full h-full text-cyan-500/40 drop-shadow-[0_0_10px_rgba(34,211,238,0.5)]"></i>
+                            
+                            <!-- SVG Skeleton Overlay -->
+                            <svg class="absolute inset-0 w-full h-full drop-shadow-[0_0_6px_rgba(34,211,238,0.8)]" viewBox="0 0 100 100" style="transform: scale(0.9) translateY(-2px);">
+                                <!-- Connecting lines -->
+                                <polyline points="50,80 35,45 30,25" stroke="rgba(34,211,238,0.8)" stroke-width="1.5" fill="none"/>
+                                <polyline points="50,80 45,40 45,15" stroke="rgba(34,211,238,0.8)" stroke-width="1.5" fill="none"/>
+                                <polyline points="50,80 55,40 60,15" stroke="rgba(34,211,238,0.8)" stroke-width="1.5" fill="none"/>
+                                <polyline points="50,80 65,45 75,25" stroke="rgba(34,211,238,0.8)" stroke-width="1.5" fill="none"/>
+                                <polyline points="50,80 75,60 85,50" stroke="rgba(34,211,238,0.8)" stroke-width="1.5" fill="none"/>
+                                
+                                <!-- Joint Nodes -->
+                                <circle cx="50" cy="80" r="3" fill="#fff" class="animate-pulse shadow-[0_0_10px_rgba(255,255,255,1)]"/>
+                                <circle cx="35" cy="45" r="2" fill="#67e8f9" />
+                                <circle cx="30" cy="25" r="2.5" fill="#fff" class="animate-pulse" style="animation-delay: 0.1s"/>
+                                <circle cx="45" cy="40" r="2" fill="#67e8f9" />
+                                <circle cx="45" cy="15" r="2.5" fill="#fff" class="animate-pulse" style="animation-delay: 0.2s"/>
+                                <circle cx="55" cy="40" r="2" fill="#67e8f9" />
+                                <circle cx="60" cy="15" r="2.5" fill="#fff" class="animate-pulse" style="animation-delay: 0.3s"/>
+                                <circle cx="65" cy="45" r="2" fill="#67e8f9" />
+                                <circle cx="75" cy="25" r="2.5" fill="#fff" class="animate-pulse" style="animation-delay: 0.4s"/>
+                                <circle cx="75" cy="60" r="2" fill="#67e8f9" />
+                                <circle cx="85" cy="50" r="2.5" fill="#fff" class="animate-pulse" style="animation-delay: 0.5s"/>
+                            </svg>
+
+                            <!-- AI Detection Bounding Box & Scan line -->
+                            <div class="absolute inset-[-10%] border border-cyan-400/20 rounded-lg overflow-hidden">
+                                <!-- Scanning laser -->
+                                <div class="absolute top-0 left-0 w-full h-[2px] bg-cyan-300 shadow-[0_0_15px_rgba(34,211,238,1)]" style="animation: scan-line 2.5s ease-in-out infinite;"></div>
+                                
+                                <!-- Futuristic Corners -->
+                                <div class="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-cyan-400 shadow-[0_0_5px_rgba(34,211,238,0.5)]"></div>
+                                <div class="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-cyan-400 shadow-[0_0_5px_rgba(34,211,238,0.5)]"></div>
+                                <div class="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-cyan-400 shadow-[0_0_5px_rgba(34,211,238,0.5)]"></div>
+                                <div class="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-cyan-400 shadow-[0_0_5px_rgba(34,211,238,0.5)]"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Bottom Status -->
+                    <div class="absolute bottom-4 left-5 z-20 flex items-center gap-2">
+                        <div class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse shadow-[0_0_8px_rgba(34,211,238,1)]"></div>
+                        <span class="text-[10px] text-cyan-300 font-bold tracking-widest uppercase">Live on Hugging Face</span>
+                    </div>
+                </div>
+
+                <!-- Body -->
+                <div class="p-8 relative z-10 flex flex-col flex-grow bg-slate-900/40 rounded-b-[24px]">
+                    <h3 class="text-2xl font-bold text-white mb-1 group-hover:text-cyan-400 transition-colors brand-font tracking-wide">SignLang AI</h3>
+                    <p class="text-[11px] text-cyan-400/80 font-black tracking-widest uppercase mb-3">Real-time ASL Translation · Computer Vision · MediaPipe</p>
+                    <p class="text-slate-300 text-sm mb-5 flex-grow leading-relaxed">
+                        A real-time AI system that detects and translates American Sign Language (ASL) gestures into text and speech. Built using <span class="text-cyan-400 font-bold">MediaPipe</span> for precise hand landmark tracking and <span class="text-white font-bold">Deep Learning</span> for sequence classification. Engineered for high-framerate inference with a live web-based interface.
+                    </p>
+                    <div class="flex gap-2 mb-6 flex-wrap">
+                        <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-cyan-500/50 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.2)] font-bold">Python</span>
+                        <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-cyan-500/50 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.2)] font-bold">MediaPipe</span>
+                        <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-cyan-500/50 text-cyan-300 shadow-[0_0_10px_rgba(34,211,238,0.2)] font-bold">OpenCV</span>
+                        <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-teal-500/50 text-teal-300 shadow-[0_0_10px_rgba(20,184,166,0.2)] font-bold">Deep Learning</span>
+                        <span class="text-xs px-3 py-1.5 rounded-md bg-slate-800 border border-teal-500/50 text-teal-300 shadow-[0_0_10px_rgba(20,184,166,0.2)] font-bold">HuggingFace</span>
+                    </div>
+                    <div class="flex flex-wrap gap-3 mt-auto">
+                        <a href="https://kansal0920-signlang-ai.hf.space" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center text-sm font-black text-cyan-300 hover:text-white hover:drop-shadow-[0_0_10px_rgba(255,255,255,0.8)] transition-all tracking-widest bg-cyan-900/30 px-4 py-2 rounded-lg border border-cyan-500/40 hover:border-cyan-400 uppercase">
+                            <i data-lucide="external-link" class="w-4 h-4 mr-2"></i> LIVE DEMO
+                        </a>
+                        <a href="https://github.com/BhavyaKansal20/SignLang-AI.git" target="_blank" rel="noopener noreferrer"
+                           class="inline-flex items-center text-sm font-black text-slate-300 hover:text-white transition-all tracking-widest bg-slate-800/60 px-4 py-2 rounded-lg border border-slate-600/40 hover:border-slate-400 uppercase">
+                            <i data-lucide="github" class="w-4 h-4 mr-2"></i> REPO
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ══════════════════════════════════════ -->
+            <!-- CARD 3 — AAGNI TELEGRAM CHATBOT       -->
             <!-- ══════════════════════════════════════ -->
             <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
                 <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(249,115,22,0.2)] pointer-events-none z-20 rounded-[24px]"></div>
@@ -1129,7 +1226,7 @@ bottom:-16px;
             </div>
 
             <!-- ══════════════════════════════════════ -->
-            <!-- CARD 3 — EMOTION DETECTION / CV       -->
+            <!-- CARD 4 — EMOTION DETECTION / CV       -->
             <!-- ══════════════════════════════════════ -->
             <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
                 <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(99,102,241,0.2)] pointer-events-none z-20 rounded-[24px]"></div>
@@ -1174,7 +1271,7 @@ bottom:-16px;
             </div>
 
             <!-- ══════════════════════════════════════ -->
-            <!-- CARD 4 — NEUROLOCK AI                 -->
+            <!-- CARD 5 — NEUROLOCK AI                 -->
             <!-- ══════════════════════════════════════ -->
             <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
                 <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(16,185,129,0.2)] pointer-events-none z-20 rounded-[24px]"></div>
@@ -1219,7 +1316,7 @@ bottom:-16px;
             </div>
 
             <!-- ══════════════════════════════════════ -->
-            <!-- CARD 5 — CERTIFICATE VERIFIER         -->
+            <!-- CARD 6 — CERTIFICATE VERIFIER         -->
             <!-- ══════════════════════════════════════ -->
             <div class="neon-box overflow-hidden group flex flex-col relative !p-0">
                 <div class="absolute inset-0 shadow-[inset_0_0_30px_rgba(168,85,247,0.2)] pointer-events-none z-20 rounded-[24px]"></div>
@@ -1727,4 +1824,3 @@ bottom:-16px;
 </script>
 </body>
 </html>
- 
