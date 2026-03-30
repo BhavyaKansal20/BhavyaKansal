@@ -1,3 +1,6 @@
+[![MIT License](https://img.shields.io/badge/License-MIT-ffcc00?style=for-the-badge&logo=github&logoColor=black)](LICENSE)
+[![Portfolio](https://img.shields.io/badge/Website-bhavyakansal.dev-0a0a0a?style=for-the-badge&logo=google-chrome&logoColor=white)](https://bhavyakansal.dev)
+
 # ⚡ Bhavya Kansal
 ### AI Engineer • ML Researcher • Builder
 
@@ -48,7 +51,7 @@ Every project featured in this portfolio is:
 
 This project is licensed under the **MIT License**.
 
-© 2026 **Bhavya Kansal. All Rights Reserved.**
+© 2026 **Bhavya Kansal**
 
 ---
 
@@ -60,14 +63,18 @@ Any cloned, modified, or redistributed versions of this project:
 - Must include proper attribution  
 - Must not misrepresent identity or ownership  
 
-Unauthorized impersonation or misuse may result in Legal takedown actions.
-
 ---
 
 ## 🛡️ Brand Identity
 
 **Bhavya Kansal** is the original creator and owner of this work.  
 This portfolio represents verified work, real projects, and authentic contributions.
+
+---
+
+## 🚨 Legal
+
+Unauthorized copying, impersonation, or misuse of this project may result in DMCA takedown requests and legal action.
 
 ---
 
