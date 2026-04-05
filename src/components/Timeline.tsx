@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
@@ -66,91 +66,8 @@ function renderCompany(company?: string) {
 const Timeline = () => {
   const { ref, isVisible } = useScrollAnimation();
   const timelineRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [visibleItems, setVisibleItems] = useState(0);
-  const [hasPassedProjects, setHasPassedProjects] = useState(false);
-  const [hasStartedAutoReveal, setHasStartedAutoReveal] = useState(false);
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    if (document.body.classList.contains("chrome-desktop-safe")) {
-      setVisibleItems(timelineData.length);
-      setScrollProgress(100);
-      setHasStartedAutoReveal(true);
-      setHasPassedProjects(true);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && document.body.classList.contains("chrome-desktop-safe")) {
-      return;
-    }
-
-    const handleScroll = () => {
-      if (!timelineRef.current) return;
-
-      const rect = timelineRef.current.getBoundingClientRect();
-      const elementTop = rect.top;
-      const elementHeight = rect.height;
-      const windowHeight = window.innerHeight;
-
-      if (elementTop < windowHeight && elementTop > -elementHeight) {
-        const progress = Math.max(
-          0,
-          Math.min(100, ((windowHeight - elementTop) / (windowHeight + elementHeight)) * 100)
-        );
-        setScrollProgress(progress);
-      }
-
-      if (!hasStartedAutoReveal && elementTop < windowHeight * 0.75 && elementTop > -elementHeight * 0.25) {
-        setHasStartedAutoReveal(true);
-      }
-
-      if (!hasPassedProjects) {
-        const projectsEl =
-          document.getElementById("projects") ||
-          (document.querySelector('[data-section="projects"]') as HTMLElement | null);
-        if (projectsEl) {
-          const projBottom = projectsEl.getBoundingClientRect().bottom + window.scrollY;
-          if (window.scrollY > projBottom) {
-            setHasPassedProjects(true);
-            setVisibleItems(timelineData.length);
-            setScrollProgress(100);
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
-
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasPassedProjects, hasStartedAutoReveal]);
-
-  useEffect(() => {
-    if (typeof window !== "undefined" && document.body.classList.contains("chrome-desktop-safe")) {
-      return;
-    }
-
-    if (!hasStartedAutoReveal) return;
-
-    if (visibleItems >= timelineData.length) {
-      setScrollProgress(100);
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setVisibleItems((prev) => Math.min(prev + 1, timelineData.length));
-    }, 650);
-
-    return () => window.clearTimeout(timer);
-  }, [hasStartedAutoReveal, visibleItems]);
-
-  useEffect(() => {
-    if (hasStartedAutoReveal) {
-      setScrollProgress((visibleItems / timelineData.length) * 100);
-    }
-  }, [hasStartedAutoReveal, visibleItems]);
+  const scrollProgress = 100;
+  const visibleItems = timelineData.length;
 
   return (
     <section
