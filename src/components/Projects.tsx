@@ -68,6 +68,26 @@ const Projects = () => {
         .project-card-shell:hover .project-scan-line {
           opacity: 1;
         }
+        .project-scan-line,
+        .project-glow-line {
+          animation-play-state: paused;
+        }
+        .project-card-shell:hover .project-scan-line,
+        .project-card-shell:hover .project-glow-line {
+          animation-play-state: running;
+        }
+        body.chrome-safe .project-scan-line,
+        body.chrome-safe .project-glow-line {
+          animation: none !important;
+          opacity: 0.3;
+        }
+        @media (hover: none), (pointer: coarse) {
+          .project-scan-line,
+          .project-glow-line {
+            animation: none !important;
+            opacity: 0.3;
+          }
+        }
       `}</style>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -143,7 +163,7 @@ const Projects = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
                   {isSignLang && (
                     <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute inset-x-8 top-10 h-24 rounded-full bg-cyan-400/20 blur-3xl animate-pulse" />
+                      <div className="absolute inset-x-8 top-10 h-24 rounded-full bg-cyan-400/20 blur-3xl" />
                       <div
                         className="absolute left-1/2 top-6 h-44 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-300/80 to-transparent opacity-70"
                         style={{ animation: "project-scan 2.1s ease-in-out infinite" }}
@@ -156,7 +176,7 @@ const Projects = () => {
                       style={{ animation: isSignLang ? "project-scan 2.1s ease-in-out infinite" : "project-scan 3s ease-in-out infinite" }}
                     />
                     <div
-                      className="absolute inset-x-6 bottom-6 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                      className="project-glow-line absolute inset-x-6 bottom-6 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
                       style={{ animation: isSignLang ? "project-glow 1.8s ease-in-out infinite" : "project-glow 2.4s ease-in-out infinite" }}
                     />
                   </div>

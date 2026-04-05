@@ -192,6 +192,32 @@ All colors MUST be HSL.
     }
   }
 
+  /* Chrome stability mode: keep look, reduce costly continuous effects */
+  body.chrome-safe.dark::before,
+  body.chrome-safe.dark::after {
+    animation: none !important;
+    filter: blur(24px) !important;
+  }
+
+  body.chrome-safe.dark::before {
+    opacity: 0.5 !important;
+  }
+
+  body.chrome-safe.dark::after {
+    opacity: 0.35 !important;
+  }
+
+  body.chrome-safe .glass-card {
+    backdrop-filter: blur(8px);
+  }
+
+  @media (max-width: 768px) {
+    body.chrome-safe .glass-card {
+      backdrop-filter: none;
+      -webkit-backdrop-filter: none;
+    }
+  }
+
   /* Ensure root div sits above grid overlay but grid still shows through */
   #root {
     position: relative;
