@@ -70,8 +70,27 @@ const Timeline = () => {
   const [visibleItems, setVisibleItems] = useState(0);
   const [hasPassedProjects, setHasPassedProjects] = useState(false);
   const [hasStartedAutoReveal, setHasStartedAutoReveal] = useState(false);
+  const isDesktopChromeRef = useRef(false);
 
   useEffect(() => {
+    const ua = typeof window !== "undefined" ? window.navigator.userAgent || "" : "";
+    const isDesktopChrome =
+      /(Chrome|CriOS)/.test(ua) &&
+      !/(Edg|OPR|Opera)/.test(ua) &&
+      window.matchMedia?.("(hover: hover) and (pointer: fine)")?.matches;
+
+    isDesktopChromeRef.current = Boolean(isDesktopChrome);
+
+    if (isDesktopChromeRef.current) {
+      setHasStartedAutoReveal(true);
+      setVisibleItems(timelineData.length);
+      setScrollProgress(100);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (isDesktopChromeRef.current) return;
+
     if (!timelineRef.current || hasStartedAutoReveal) return;
 
     if (!("IntersectionObserver" in window)) {
@@ -98,6 +117,8 @@ const Timeline = () => {
   }, [hasStartedAutoReveal]);
 
   useEffect(() => {
+    if (isDesktopChromeRef.current) return;
+
     let rafId: number | null = null;
 
     const handleScroll = () => {
@@ -148,6 +169,8 @@ const Timeline = () => {
   }, [hasPassedProjects]);
 
   useEffect(() => {
+    if (isDesktopChromeRef.current) return;
+
     if (!hasStartedAutoReveal) return;
 
     if (visibleItems >= timelineData.length) {
@@ -163,6 +186,8 @@ const Timeline = () => {
   }, [hasStartedAutoReveal, visibleItems]);
 
   useEffect(() => {
+    if (isDesktopChromeRef.current) return;
+
     if (hasStartedAutoReveal) {
       setScrollProgress((visibleItems / timelineData.length) * 100);
     }
