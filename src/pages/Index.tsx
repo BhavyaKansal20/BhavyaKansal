@@ -9,7 +9,6 @@ import CodingDashboard from "@/components/CodingDashboard";
 import FAQ from "@/components/FAQ";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import MobileFAB from "@/components/MobileFAB";
 
 const Index = () => {
   const [footerHeight, setFooterHeight] = useState(0);
@@ -75,9 +74,6 @@ const Index = () => {
           <Footer />
         </div>
       </div>
-
-      {/* Kept outside the stacking contexts so it remains floating above all */}
-      <MobileFAB />
     </div>
   );
 };
