@@ -109,6 +109,10 @@ const Hero = () => {
             I architect and build scalable AI systems focused on machine learning models, multimodal applications, and deep-tech solutions for real-world engineering challenges.
           </p>
 
+          <p className="text-sm text-muted-foreground max-w-xl">
+            Based in Patiala, Punjab, I work across AI/ML engineering and research collaborations, including projects connected to the TIET ecosystem.
+          </p>
+
           <div className="flex flex-wrap gap-4">
             <Button 
               size="lg" 

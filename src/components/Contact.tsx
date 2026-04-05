@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Mail, MapPin, ArrowRight } from "lucide-react";
+import { Mail, MapPin, ArrowRight, Phone } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const Contact = () => {
@@ -34,11 +34,21 @@ const Contact = () => {
 
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center shadow-md border border-gray-200 dark:border-gray-700">
-                  <MapPin className="w-5 h-5 text-gray-900 dark:text-gray-100" />
+                  <Phone className="w-5 h-5 text-gray-900 dark:text-gray-100" />
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground">Phone</p>
                   <p className="font-medium">+91 62833 32944</p>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 rounded-full bg-white dark:bg-gray-800 flex items-center justify-center shadow-md border border-gray-200 dark:border-gray-700">
+                  <MapPin className="w-5 h-5 text-gray-900 dark:text-gray-100" />
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground">Location</p>
+                  <p className="font-medium">Patiala, Punjab, India</p>
                 </div>
               </div>
             </div>
