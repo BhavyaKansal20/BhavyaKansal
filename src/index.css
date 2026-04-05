@@ -19,55 +19,6 @@ All colors MUST be HSL.
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 5%;
 
-  body::before,
-  body::after {
-    content: '';
-    position: fixed;
-    inset: -20%;
-    pointer-events: none;
-    z-index: 0;
-    opacity: 0;
-    transform: translate3d(0, 0, 0);
-    filter: blur(70px);
-    transition: opacity 0.35s ease;
-  }
-
-  .dark body::before {
-    opacity: 1;
-    background:
-      radial-gradient(circle at 18% 18%, rgba(255, 255, 255, 0.18), transparent 30%),
-      radial-gradient(circle at 78% 22%, rgba(146, 180, 255, 0.18), transparent 28%),
-      radial-gradient(circle at 42% 80%, rgba(255, 255, 255, 0.08), transparent 34%);
-    animation: ambientGlowDrift 18s ease-in-out infinite alternate;
-  }
-
-  .dark body::after {
-    opacity: 0.9;
-    background:
-      radial-gradient(circle at 70% 72%, rgba(255, 255, 255, 0.12), transparent 26%),
-      radial-gradient(circle at 30% 68%, rgba(150, 200, 255, 0.1), transparent 24%),
-      radial-gradient(circle at 88% 52%, rgba(255, 255, 255, 0.06), transparent 22%);
-    animation: ambientGlowDriftReverse 24s ease-in-out infinite alternate;
-  }
-
-  @keyframes ambientGlowDrift {
-    0% {
-      transform: translate3d(-1.5%, -1%, 0) scale(1);
-    }
-    100% {
-      transform: translate3d(1.5%, 1.5%, 0) scale(1.04);
-    }
-  }
-
-  @keyframes ambientGlowDriftReverse {
-    0% {
-      transform: translate3d(1.2%, 1%, 0) scale(1.02);
-    }
-    100% {
-      transform: translate3d(-1.2%, -1.4%, 0) scale(1);
-    }
-  }
-
     --primary: 0 0% 5%;
     --primary-foreground: 0 0% 98%;
 
@@ -190,6 +141,57 @@ All colors MUST be HSL.
     padding: 0;
     /* ensure body doesn't produce horizontal scrollbar */
     overflow-x: hidden;
+  }
+
+  /* Global ambient glow: kept subtle and GPU-friendly for Chrome performance */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    inset: -10%;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+    filter: blur(46px);
+    will-change: transform, opacity;
+    transition: opacity 240ms ease;
+  }
+
+  .dark body::before {
+    opacity: 0.72;
+    background:
+      radial-gradient(circle at 16% 18%, rgba(255, 255, 255, 0.14), transparent 28%),
+      radial-gradient(circle at 80% 20%, rgba(146, 180, 255, 0.14), transparent 26%),
+      radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.06), transparent 32%);
+    animation: ambientGlowDrift 22s ease-in-out infinite alternate;
+  }
+
+  .dark body::after {
+    opacity: 0.58;
+    background:
+      radial-gradient(circle at 68% 74%, rgba(255, 255, 255, 0.1), transparent 24%),
+      radial-gradient(circle at 28% 68%, rgba(150, 200, 255, 0.08), transparent 22%),
+      radial-gradient(circle at 88% 52%, rgba(255, 255, 255, 0.05), transparent 20%);
+    animation: ambientGlowDriftReverse 28s ease-in-out infinite alternate;
+  }
+
+  @keyframes ambientGlowDrift {
+    0% { transform: translate3d(-1%, -0.8%, 0) scale(1); }
+    100% { transform: translate3d(1%, 1.1%, 0) scale(1.02); }
+  }
+
+  @keyframes ambientGlowDriftReverse {
+    0% { transform: translate3d(0.8%, 0.7%, 0) scale(1.01); }
+    100% { transform: translate3d(-0.8%, -1%, 0) scale(1); }
+  }
+
+  @media (max-width: 1024px), (prefers-reduced-motion: reduce) {
+    .dark body::before,
+    .dark body::after {
+      animation: none;
+      filter: blur(34px);
+    }
   }
 
   /* Ensure root div sits above grid overlay but grid still shows through */
