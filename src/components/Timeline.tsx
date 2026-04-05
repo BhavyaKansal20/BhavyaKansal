@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
@@ -66,8 +66,19 @@ function renderCompany(company?: string) {
 const Timeline = () => {
   const { ref, isVisible } = useScrollAnimation();
   const timelineRef = useRef<HTMLDivElement>(null);
-  const scrollProgress = 100;
-  const visibleItems = timelineData.length;
+  const [visibleItems, setVisibleItems] = useState(0);
+  const scrollProgress = (visibleItems / timelineData.length) * 100;
+
+  useEffect(() => {
+    if (!isVisible) return;
+    if (visibleItems >= timelineData.length) return;
+
+    const timer = window.setTimeout(() => {
+      setVisibleItems((prev) => Math.min(prev + 1, timelineData.length));
+    }, 260);
+
+    return () => window.clearTimeout(timer);
+  }, [isVisible, visibleItems]);
 
   return (
     <section

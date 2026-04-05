@@ -60,11 +60,13 @@ const App = () => {
       document.body.classList.add("chrome-safe");
       if (!isMobileUA) {
         document.body.classList.add("chrome-desktop-safe");
+        document.documentElement.style.scrollBehavior = "auto";
       }
     }
     return () => {
       document.body.classList.remove("chrome-safe");
       document.body.classList.remove("chrome-desktop-safe");
+      document.documentElement.style.scrollBehavior = "";
     };
   }, []);
 
