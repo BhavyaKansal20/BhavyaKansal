@@ -3,72 +3,39 @@ import { useEffect, useRef, useState } from "react";
 export const useScrollAnimation = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
-  const visibleRef = useRef(false);
 
   useEffect(() => {
-    const ua = typeof window !== "undefined" ? window.navigator.userAgent || "" : "";
-    const isDesktopChrome =
-      /(Chrome|CriOS)/.test(ua) &&
-      !/(Edg|OPR|Opera)/.test(ua) &&
-      window.matchMedia?.("(hover: hover) and (pointer: fine)")?.matches;
+    if (typeof window === "undefined") return;
 
-    // On desktop Chrome, disable scroll-reveal choreography to avoid scroll-time jank/crashes.
-    if (isDesktopChrome) {
-      visibleRef.current = true;
+    // Desktop Chrome stability path: avoid intersection timing edge-cases and reveal instantly.
+    if (document.body.classList.contains("chrome-desktop-safe")) {
       setIsVisible(true);
       return;
     }
 
-    const element = ref.current;
-    if (!element) return;
-
-    const markVisible = () => {
-      if (visibleRef.current) return;
-      visibleRef.current = true;
+    if (!("IntersectionObserver" in window)) {
       setIsVisible(true);
-    };
-
-    // Fallback visibility check for browsers/situations where observer callbacks can be missed.
-    const checkViewport = () => {
-      if (visibleRef.current || !ref.current) return;
-      const rect = ref.current.getBoundingClientRect();
-      if (rect.top <= window.innerHeight * 0.92 && rect.bottom >= 0) {
-        markVisible();
-        observer?.disconnect();
-        window.removeEventListener("scroll", checkViewport);
-        window.removeEventListener("resize", checkViewport);
-      }
-    };
-
-    checkViewport();
-
-    let observer: IntersectionObserver | null = null;
-    if (typeof window !== "undefined" && "IntersectionObserver" in window) {
-      observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            markVisible();
-            observer?.disconnect();
-            window.removeEventListener("scroll", checkViewport);
-            window.removeEventListener("resize", checkViewport);
-          }
-        },
-        {
-          threshold: 0.15,
-          rootMargin: "0px 0px -40px 0px",
-        }
-      );
-      observer.observe(element);
+      return;
     }
 
-    window.addEventListener("scroll", checkViewport, { passive: true });
-    window.addEventListener("resize", checkViewport);
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.2,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
 
-    return () => {
-      observer?.disconnect();
-      window.removeEventListener("scroll", checkViewport);
-      window.removeEventListener("resize", checkViewport);
-    };
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
   }, []);
 
   return { ref, isVisible };
