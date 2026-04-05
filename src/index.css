@@ -247,6 +247,27 @@ All colors MUST be HSL.
     animation: none !important;
   }
 
+  /* Emergency compositor-safe mode for desktop Chrome: prevents black-layer tearing. */
+  body.chrome-desktop-safe * {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    filter: none !important;
+    will-change: auto !important;
+    transition: none !important;
+  }
+
+  body.chrome-desktop-safe .bg-background::before,
+  body.chrome-desktop-safe .grid-overlay {
+    display: none !important;
+  }
+
+  body.chrome-desktop-safe header,
+  body.chrome-desktop-safe nav,
+  body.chrome-desktop-safe section,
+  body.chrome-desktop-safe footer {
+    transform: none !important;
+  }
+
   @media (max-width: 768px) {
     body.chrome-safe .glass-card {
       backdrop-filter: none;
