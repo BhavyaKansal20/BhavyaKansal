@@ -72,7 +72,39 @@ const Timeline = () => {
   const [hasStartedAutoReveal, setHasStartedAutoReveal] = useState(false);
 
   useEffect(() => {
+    if (!timelineRef.current || hasStartedAutoReveal) return;
+
+    if (!("IntersectionObserver" in window)) {
+      setHasStartedAutoReveal(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setHasStartedAutoReveal(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.12,
+        rootMargin: "0px 0px -40px 0px",
+      }
+    );
+
+    observer.observe(timelineRef.current);
+
+    return () => observer.disconnect();
+  }, [hasStartedAutoReveal]);
+
+  useEffect(() => {
+    let rafId: number | null = null;
+
     const handleScroll = () => {
+      if (rafId !== null) return;
+
+      rafId = window.requestAnimationFrame(() => {
+        rafId = null;
       if (!timelineRef.current) return;
 
       const rect = timelineRef.current.getBoundingClientRect();
@@ -88,10 +120,6 @@ const Timeline = () => {
         setScrollProgress(progress);
       }
 
-      if (!hasStartedAutoReveal && elementTop < windowHeight * 0.75 && elementTop > -elementHeight * 0.25) {
-        setHasStartedAutoReveal(true);
-      }
-
       if (!hasPassedProjects) {
         const projectsEl =
           document.getElementById("projects") ||
@@ -105,13 +133,19 @@ const Timeline = () => {
           }
         }
       }
+      });
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, [hasPassedProjects, hasStartedAutoReveal]);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      if (rafId !== null) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, [hasPassedProjects]);
 
   useEffect(() => {
     if (!hasStartedAutoReveal) return;

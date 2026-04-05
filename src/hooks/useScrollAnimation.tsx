@@ -5,26 +5,46 @@ export const useScrollAnimation = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      {
-        threshold: 0.2,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
+    const element = ref.current;
+    if (!element) return;
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const markVisible = () => setIsVisible(true);
+
+    // Fallback visibility check for browsers/situations where observer callbacks can be missed.
+    const checkViewport = () => {
+      if (isVisible || !ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      if (rect.top <= window.innerHeight * 0.92 && rect.bottom >= 0) {
+        markVisible();
+      }
+    };
+
+    checkViewport();
+
+    let observer: IntersectionObserver | null = null;
+    if (typeof window !== "undefined" && "IntersectionObserver" in window) {
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          if (entry.isIntersecting) {
+            markVisible();
+            observer?.disconnect();
+          }
+        },
+        {
+          threshold: 0.15,
+          rootMargin: "0px 0px -40px 0px",
+        }
+      );
+      observer.observe(element);
     }
 
+    window.addEventListener("scroll", checkViewport, { passive: true });
+    window.addEventListener("resize", checkViewport);
+
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
-      }
+      observer?.disconnect();
+      window.removeEventListener("scroll", checkViewport);
+      window.removeEventListener("resize", checkViewport);
     };
   }, []);
 
