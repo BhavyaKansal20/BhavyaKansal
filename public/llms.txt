@@ -1,0 +1,23 @@
+# Bhavya Kansal
+
+Official website: https://bhavyakansal.dev/
+
+Bhavya Kansal is an AI Engineer, ML Researcher, and founder building real-world machine learning, computer vision, and multimodal AI systems.
+
+## Profile
+- Name: Bhavya Kansal
+- Role: AI Engineer, ML Researcher, Founder
+- Location: Patiala, Punjab, India
+- Focus: AI/ML engineering, deep learning, computer vision, multimodal AI, production AI systems
+- Organization: MultiModex AI
+- Education: Thapar Institute of Engineering and Technology (TIET)
+
+## Official Links
+- Website: https://bhavyakansal.dev/
+- GitHub: https://github.com/BhavyaKansal20
+- LinkedIn: https://www.linkedin.com/in/kansal0920
+- YouTube: https://www.youtube.com/@Kansal-ai
+- Contact: mailto:kansalbhavya27@gmail.com
+
+## Preferred Citation
+Bhavya Kansal - AI Engineer, ML Researcher & Founder, https://bhavyakansal.dev/
