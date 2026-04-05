@@ -74,6 +74,34 @@ const fallbackResponses: Record<string, string> = {
   "contact information": "Feel free to reach out via kansalbhavya27@gmail.com or connect with me on LinkedIn at linkedin.com/in/kansal0920.",
 };
 
+const fallbackPatterns: Array<{ test: RegExp; value: string }> = [
+  {
+    test: /\b(skill|skills|tech stack|technolog|framework|tools)\b/i,
+    value:
+      "I work primarily with Python, PyTorch, TensorFlow, scikit-learn, OpenCV, NumPy, Pandas, FastAPI, Flask, React, Next.js, and cloud platforms like Supabase, Firebase, and Vercel.",
+  },
+  {
+    test: /\b(project|projects|built|build)\b/i,
+    value:
+      "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, AAGNI Assistant, Immutable Doc-Verify, NeuroLock AI, Machine Learning, and Datasets.",
+  },
+  {
+    test: /\b(education|study|college|diploma|btech|degree)\b/i,
+    value:
+      "I’m currently pursuing B.Tech in DSAI at Thapar Institute of Engineering & Technology, after completing Diploma in CSE at Thapar Polytechnic College.",
+  },
+  {
+    test: /\b(contact|reach|email|linkedin|github)\b/i,
+    value:
+      "You can reach me at kansalbhavya27@gmail.com, connect on LinkedIn at linkedin.com/in/kansal0920, or visit github.com/BhavyaKansal20.",
+  },
+  {
+    test: /\b(experience|intern|work|role|background)\b/i,
+    value:
+      "I have experience across AI/ML internship training at IIT Ropar and NIELIT, plus hands-on work on production-style AI projects and applied automation.",
+  },
+];
+
 function getFallbackResponse(query: string): string | null {
   const normalizedQuery = query.toLowerCase().trim();
   
@@ -86,6 +114,12 @@ function getFallbackResponse(query: string): string | null {
   for (const [key, value] of Object.entries(fallbackResponses)) {
     if (normalizedQuery.includes(key) || key.includes(normalizedQuery)) {
       return value;
+    }
+  }
+
+  for (const pattern of fallbackPatterns) {
+    if (pattern.test.test(query)) {
+      return pattern.value;
     }
   }
   
@@ -312,21 +346,19 @@ Remember: You are representing a professional developer's portfolio. Your respon
 }
 
 export function isHardcodedQuery(query: string): boolean {
-  const hardcodedKeywords = [
-    // Navigation
+  const hardcodedQueries = new Set([
     "projects",
     "contact",
     "resume",
     "theme",
     "cv",
     "github",
-    "linkedin"
-  ];
+    "linkedin",
+    "about",
+  ]);
 
   const lowerQuery = query.toLowerCase().trim();
-  
-  // Check if query starts with or matches any hardcoded keyword (prefix matching)
-  return hardcodedKeywords.some((keyword) =>
-    keyword.startsWith(lowerQuery) || lowerQuery.startsWith(keyword)
-  );
+
+  // Only short command-style queries should be blocked from AI lookup.
+  return hardcodedQueries.has(lowerQuery);
 }
