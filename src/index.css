@@ -216,6 +216,16 @@ All colors MUST be HSL.
     -webkit-backdrop-filter: none;
   }
 
+  body.chrome-desktop-safe::before,
+  body.chrome-desktop-safe::after {
+    display: none !important;
+  }
+
+  body.chrome-desktop-safe,
+  body.chrome-desktop-safe * {
+    scroll-behavior: auto !important;
+  }
+
   body.chrome-desktop-safe .glass-card:hover,
   body.chrome-desktop-safe .project-card-shell:hover {
     transform: none !important;

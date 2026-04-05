@@ -91,7 +91,7 @@ const Projects = () => {
       `}</style>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className={`mb-12 ${projectsVisible ? "scroll-animate" : ""}`}>
+        <div className="mb-12">
           <p className="text-sm uppercase tracking-wider text-muted-foreground mb-4">
             Projects
           </p>
@@ -131,9 +131,7 @@ const Projects = () => {
               <div
                 key={project.id}
                 onClick={() => setSelectedProject(project)}
-                className={`project-card-shell group glass-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border border-border relative ${
-                  projectsVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 3) + 1, 3)}` : ""
-                }`}
+                className="project-card-shell group glass-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border border-border relative"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
