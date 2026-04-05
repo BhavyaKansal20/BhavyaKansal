@@ -19,15 +19,6 @@ export const preloadImages = async (imagePaths: string[]): Promise<void> => {
 // Extract thumbnail images from projects data
 export const getProjectThumbnails = (): string[] => {
   return [
-    "/projects/5.png",      // Brain Tumor Detector
-    "/projects/66.png",     // AI-RoadIntelligence  
-    "/projects/2.png",      // RoomsOnRent
-    "/projects/6.png",      // Dot Ignorer
-    "/projects/Dot-ignorer.png", // Another Dot Ignorer variant
-    "/projects/4.png",      // Additional project images
-    "/projects/3.png",      
-    "/projects/66a.png",
-    "/projects/a4.png",
-    "/projects/a5.png"
+    "/Bhavya-Kansal-PFP.jpg"
   ];
 };
