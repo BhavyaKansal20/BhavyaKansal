@@ -10,7 +10,7 @@ import {
 } from "react-router-dom";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Index from "./pages/Index";
 import NotFound from "./pages/NotFound";
 import CommandPalette from "@/components/CommandPalette";
@@ -43,16 +43,28 @@ const router = createBrowserRouter([
 
 const App = () => {
   const [showPreloader, setShowPreloader] = useState(true);
+  const isDesktopChrome = useMemo(() => {
+    if (typeof window === "undefined") return false;
+    const ua = navigator.userAgent || "";
+    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
+    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    return isChromeLike && !isMobileUA;
+  }, []);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
     const ua = navigator.userAgent || "";
     const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
+    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
     if (isChromeLike) {
       document.body.classList.add("chrome-safe");
+      if (!isMobileUA) {
+        document.body.classList.add("chrome-desktop-safe");
+      }
     }
     return () => {
       document.body.classList.remove("chrome-safe");
+      document.body.classList.remove("chrome-desktop-safe");
     };
   }, []);
 
@@ -88,7 +100,14 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
-        {showPreloader && <Preloader onDone={() => setShowPreloader(false)} />}
+        {showPreloader && (
+          <Preloader
+            onDone={() => setShowPreloader(false)}
+            enterDurationMs={isDesktopChrome ? 520 : 400}
+            exitAfterMs={isDesktopChrome ? 900 : undefined}
+            exitDurationMs={isDesktopChrome ? 320 : 250}
+          />
+        )}
         <Toaster />
         <Sonner />
         <RouterProvider router={router} />

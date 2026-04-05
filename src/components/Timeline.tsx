@@ -70,62 +70,23 @@ const Timeline = () => {
   const [visibleItems, setVisibleItems] = useState(0);
   const [hasPassedProjects, setHasPassedProjects] = useState(false);
   const [hasStartedAutoReveal, setHasStartedAutoReveal] = useState(false);
-  const isDesktopChromeRef = useRef(false);
 
   useEffect(() => {
-    const ua = typeof window !== "undefined" ? window.navigator.userAgent || "" : "";
-    const isDesktopChrome =
-      /(Chrome|CriOS)/.test(ua) &&
-      !/(Edg|OPR|Opera)/.test(ua) &&
-      window.matchMedia?.("(hover: hover) and (pointer: fine)")?.matches;
-
-    isDesktopChromeRef.current = Boolean(isDesktopChrome);
-
-    if (isDesktopChromeRef.current) {
-      setHasStartedAutoReveal(true);
+    if (typeof window === "undefined") return;
+    if (document.body.classList.contains("chrome-desktop-safe")) {
       setVisibleItems(timelineData.length);
       setScrollProgress(100);
+      setHasStartedAutoReveal(true);
+      setHasPassedProjects(true);
     }
   }, []);
 
   useEffect(() => {
-    if (isDesktopChromeRef.current) return;
-
-    if (!timelineRef.current || hasStartedAutoReveal) return;
-
-    if (!("IntersectionObserver" in window)) {
-      setHasStartedAutoReveal(true);
+    if (typeof window !== "undefined" && document.body.classList.contains("chrome-desktop-safe")) {
       return;
     }
 
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setHasStartedAutoReveal(true);
-          observer.disconnect();
-        }
-      },
-      {
-        threshold: 0.12,
-        rootMargin: "0px 0px -40px 0px",
-      }
-    );
-
-    observer.observe(timelineRef.current);
-
-    return () => observer.disconnect();
-  }, [hasStartedAutoReveal]);
-
-  useEffect(() => {
-    if (isDesktopChromeRef.current) return;
-
-    let rafId: number | null = null;
-
     const handleScroll = () => {
-      if (rafId !== null) return;
-
-      rafId = window.requestAnimationFrame(() => {
-        rafId = null;
       if (!timelineRef.current) return;
 
       const rect = timelineRef.current.getBoundingClientRect();
@@ -141,6 +102,10 @@ const Timeline = () => {
         setScrollProgress(progress);
       }
 
+      if (!hasStartedAutoReveal && elementTop < windowHeight * 0.75 && elementTop > -elementHeight * 0.25) {
+        setHasStartedAutoReveal(true);
+      }
+
       if (!hasPassedProjects) {
         const projectsEl =
           document.getElementById("projects") ||
@@ -154,22 +119,18 @@ const Timeline = () => {
           }
         }
       }
-      });
     };
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("scroll", handleScroll);
     handleScroll();
 
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafId !== null) {
-        window.cancelAnimationFrame(rafId);
-      }
-    };
-  }, [hasPassedProjects]);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [hasPassedProjects, hasStartedAutoReveal]);
 
   useEffect(() => {
-    if (isDesktopChromeRef.current) return;
+    if (typeof window !== "undefined" && document.body.classList.contains("chrome-desktop-safe")) {
+      return;
+    }
 
     if (!hasStartedAutoReveal) return;
 
@@ -186,8 +147,6 @@ const Timeline = () => {
   }, [hasStartedAutoReveal, visibleItems]);
 
   useEffect(() => {
-    if (isDesktopChromeRef.current) return;
-
     if (hasStartedAutoReveal) {
       setScrollProgress((visibleItems / timelineData.length) * 100);
     }
