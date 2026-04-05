@@ -45,6 +45,18 @@ const App = () => {
   const [showPreloader, setShowPreloader] = useState(true);
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+    const ua = navigator.userAgent || "";
+    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
+    if (isChromeLike) {
+      document.body.classList.add("chrome-safe");
+    }
+    return () => {
+      document.body.classList.remove("chrome-safe");
+    };
+  }, []);
+
+  useEffect(() => {
     // Defer non-critical thumbnail preloading to idle time to improve initial paint/LCP.
     let timeoutId: number | null = null;
     let idleId: number | null = null;
