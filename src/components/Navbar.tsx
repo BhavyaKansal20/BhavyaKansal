@@ -24,9 +24,15 @@ const Navbar = () => {
   const [isDesktop, setIsDesktop] = useState<boolean>(
     typeof window !== "undefined" ? window.innerWidth >= 915 : true
   );
+  const [isChromeDesktopSafe, setIsChromeDesktopSafe] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
+
+    const ua = navigator.userAgent || "";
+    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
+    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    setIsChromeDesktopSafe(isChromeLike && !isMobileUA);
 
     const handleResize = () => setIsDesktop(window.innerWidth >= 915);
     window.addEventListener("resize", handleResize);
@@ -64,7 +70,9 @@ const Navbar = () => {
       if (scrollTop < 100) setActiveSection("home");
     };
 
-    window.addEventListener("mousemove", handleMouseMove);
+    if (!(isChromeLike && !isMobileUA)) {
+      window.addEventListener("mousemove", handleMouseMove);
+    }
     window.addEventListener("scroll", handleScroll);
     handleScroll();
 
@@ -179,9 +187,9 @@ const Navbar = () => {
                 className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute transition-transform duration-100 ease-out"
                 style={{
                   transform: `translate(${
-                    isDesktop ? calculateEyePosition(leftEyeRef.current).x : 0
+                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(leftEyeRef.current).x : 0
                   }px, ${
-                    isDesktop ? calculateEyePosition(leftEyeRef.current).y : 0
+                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(leftEyeRef.current).y : 0
                   }px)`,
                 }}
               />
@@ -194,9 +202,9 @@ const Navbar = () => {
                 className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute transition-transform duration-100 ease-out"
                 style={{
                   transform: `translate(${
-                    isDesktop ? calculateEyePosition(rightEyeRef.current).x : 0
+                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(rightEyeRef.current).x : 0
                   }px, ${
-                    isDesktop ? calculateEyePosition(rightEyeRef.current).y : 0
+                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(rightEyeRef.current).y : 0
                   }px)`,
                 }}
               />

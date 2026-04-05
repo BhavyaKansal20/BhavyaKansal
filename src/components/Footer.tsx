@@ -4,7 +4,11 @@ import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    const ua = navigator.userAgent || "";
+    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
+    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    const behavior = isChromeLike && !isMobileUA ? "auto" : "smooth";
+    window.scrollTo({ top: 0, behavior });
   };
 
   return (
