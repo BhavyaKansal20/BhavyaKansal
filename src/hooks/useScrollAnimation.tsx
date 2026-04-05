@@ -7,8 +7,12 @@ export const useScrollAnimation = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    const ua = navigator.userAgent || "";
+    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
+    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+
     // Desktop Chrome stability path: avoid intersection timing edge-cases and reveal instantly.
-    if (document.body.classList.contains("chrome-desktop-safe")) {
+    if (isChromeLike && !isMobileUA) {
       setIsVisible(true);
       return;
     }
