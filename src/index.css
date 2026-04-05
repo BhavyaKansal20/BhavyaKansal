@@ -212,60 +212,53 @@ All colors MUST be HSL.
   }
 
   body.chrome-desktop-safe .glass-card {
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
-  body.chrome-desktop-safe::before,
-  body.chrome-desktop-safe::after {
-    display: none !important;
+  body.chrome-desktop-safe.dark::before,
+  body.chrome-desktop-safe.dark::after {
+    display: block !important;
+    animation: none !important;
+    filter: blur(30px) !important;
   }
 
-  body.chrome-desktop-safe,
-  body.chrome-desktop-safe * {
-    scroll-behavior: auto !important;
+  body.chrome-desktop-safe.dark::before {
+    opacity: 0.52 !important;
+  }
+
+  body.chrome-desktop-safe.dark::after {
+    opacity: 0.4 !important;
   }
 
   body.chrome-desktop-safe .glass-card:hover,
   body.chrome-desktop-safe .project-card-shell:hover {
-    transform: none !important;
-    box-shadow: none !important;
-  }
-
-  body.chrome-desktop-safe .scroll-animate,
-  body.chrome-desktop-safe [class*="scroll-animate-delay-"] {
-    opacity: 1 !important;
-    animation: none !important;
-    transform: none !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 12px 28px -14px rgba(0, 0, 0, 0.28) !important;
   }
 
   body.chrome-desktop-safe .project-scan-line,
   body.chrome-desktop-safe .project-glow-line,
-  body.chrome-desktop-safe .animate-pulse,
   body.chrome-desktop-safe .animate-float,
   body.chrome-desktop-safe .animate-float-sm {
     animation: none !important;
   }
 
-  /* Emergency compositor-safe mode for desktop Chrome: prevents black-layer tearing. */
-  body.chrome-desktop-safe * {
-    -webkit-backdrop-filter: none !important;
-    backdrop-filter: none !important;
-    filter: none !important;
-    will-change: auto !important;
-    transition: none !important;
+  body.chrome-desktop-safe .project-scan-line,
+  body.chrome-desktop-safe .project-glow-line {
+    opacity: 0.45;
   }
 
   body.chrome-desktop-safe .bg-background::before,
   body.chrome-desktop-safe .grid-overlay {
-    display: none !important;
+    opacity: 0.5;
   }
 
-  body.chrome-desktop-safe header,
-  body.chrome-desktop-safe nav,
-  body.chrome-desktop-safe section,
-  body.chrome-desktop-safe footer {
-    transform: none !important;
+  body.chrome-desktop-safe .fixed,
+  body.chrome-desktop-safe .absolute {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    transform: translateZ(0);
   }
 
   @media (max-width: 768px) {
