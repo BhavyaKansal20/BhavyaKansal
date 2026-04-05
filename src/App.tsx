@@ -45,9 +45,32 @@ const App = () => {
   const [showPreloader, setShowPreloader] = useState(true);
 
   useEffect(() => {
-    // Preload project thumbnail images on app initialization
-    const thumbnails = getProjectThumbnails();
-    preloadImages(thumbnails);
+    // Defer non-critical thumbnail preloading to idle time to improve initial paint/LCP.
+    let timeoutId: number | null = null;
+    let idleId: number | null = null;
+
+    const startPreload = () => {
+      const thumbnails = getProjectThumbnails();
+      preloadImages(thumbnails);
+    };
+
+    if (typeof window !== "undefined" && "requestIdleCallback" in window) {
+      idleId = (window as Window & { requestIdleCallback: (cb: IdleRequestCallback, opts?: IdleRequestOptions) => number }).requestIdleCallback(
+        () => startPreload(),
+        { timeout: 2000 }
+      );
+    } else {
+      timeoutId = window.setTimeout(startPreload, 1200);
+    }
+
+    return () => {
+      if (idleId !== null && typeof window !== "undefined" && "cancelIdleCallback" in window) {
+        (window as Window & { cancelIdleCallback: (id: number) => void }).cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== null) {
+        window.clearTimeout(timeoutId);
+      }
+    };
   }, []);
 
   return (
