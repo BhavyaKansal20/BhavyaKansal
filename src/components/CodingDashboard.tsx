@@ -140,31 +140,26 @@ const CodingDashboard = () => {
 
   useEffect(() => {
     const run = async () => {
+      setLoading(true);
       try {
-        // Prefer locally generated profile data (stable and fast), then fallback to API.
-        const localRes = await fetch("/github-contributions.json", { cache: "no-store" });
-        let data: { contributions?: ContributionPayload[] | ContributionPayload[][]; data?: ContributionPayload[] };
-
-        if (localRes.ok) {
-          data = await localRes.json();
+        // Use our backend GitHub API
+        const res = await fetch(`/api/github-contributions?user=${GITHUB_USER}&ts=${Date.now()}`);
+        if (!res.ok) throw new Error("GitHub API failed");
+        const json = await res.json();
+        
+        if (json.contributions && json.contributions.length > 0) {
+          const normalized = json.contributions.map((d: any) => ({
+            date: d.date || "",
+            count: Number(d.count ?? d.contributionCount ?? 0),
+          })).filter((entry: any) => Boolean(entry.date));
+          setContributions(normalized);
+          console.log("[GitHub] ✓ Fetched", normalized.length, "days of contributions");
         } else {
-          const res = await fetch(`https://github-contributions-api.deno.dev/${GITHUB_USER}.json`);
-          if (!res.ok) throw new Error("GitHub contributions fetch failed");
-          data = await res.json();
+          console.warn("[GitHub] No contributions returned");
+          setContributions([]);
         }
-
-        const raw = Array.isArray(data.contributions)
-          ? data.contributions.flat()
-          : Array.isArray(data.data)
-            ? data.data
-            : [];
-
-        const normalized = (raw as ContributionPayload[]).map((d) => ({
-          date: d.date || "",
-          count: Number(d.count ?? d.contributionCount ?? 0),
-        })).filter((entry) => Boolean(entry.date));
-        setContributions(normalized);
-      } catch {
+      } catch (error) {
+        console.error("[GitHub] Fetch error:", error);
         setContributions([]);
       } finally {
         setLoading(false);
@@ -182,13 +177,21 @@ const CodingDashboard = () => {
       setGoogleLoading(true);
       try {
         // Use our backend API endpoint
-        const res = await fetch(`/api/google-profile?ts=${Date.now()}`, {
+        const res = await fetch(`/api/google-profile?ts=${Date.now()}&retry=${Math.random()}`, {
           cache: "no-store",
+          headers: {
+            "Cache-Control": "no-cache, no-store, must-revalidate",
+            "Pragma": "no-cache",
+          }
         });
         if (!res.ok) throw new Error("Google profile API failed");
         const profile = await res.json();
         setGoogleProfile(profile);
-        console.log("[GoogleProfile] Fetched:", profile);
+        console.log("[GoogleProfile] ✓ Fetched:", {
+          totalBadges: profile.totalBadges,
+          favorites: profile.favoriteBadges?.length || 0,
+          isMock: profile.isMockData
+        });
       } catch (error) {
         console.error("[GoogleProfile] Fetch error:", error);
         // Fallback to empty state with message
