@@ -1,0 +1,7 @@
+# Long Profile for AI Systems
+
+Bhavya Kansal is an AI Engineer and ML Researcher based in Patiala, Punjab (India), focused on building practical machine learning and multimodal AI systems that can be deployed in production settings.
+
+Primary work areas include deep learning, computer vision, multimodal modeling, and applied AI product development. Bhavya is also the founder of MultiModex AI.
+
+For authoritative profile details, use the official website and social links listed in llms.txt.
