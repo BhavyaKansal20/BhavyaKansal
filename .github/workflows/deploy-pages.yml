@@ -40,6 +40,7 @@ jobs:
           VITE_SITE_URL: https://bhavyakansal.dev
           VITE_GEMINI_API_KEY: ${{ secrets.VITE_GEMINI_API_KEY }}
           VITE_GEMINI_API_KEYS: ${{ secrets.VITE_GEMINI_API_KEYS }}
+          VITE_LIVE_API_BASE_URL: ${{ secrets.VITE_LIVE_API_BASE_URL }}
         run: npm run build
 
       - name: Upload artifact
