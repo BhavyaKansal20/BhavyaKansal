@@ -44,12 +44,12 @@ const curatedGoogleBadges: GoogleBadge[] = [
   {
     name: "Gemini Enterprise Agent Ready",
     date: "7 Apr 2026",
-    icon: "https://www.gstatic.com/images/branding/product/1x/gemini_48dp.png",
+    icon: "https://developers.google.com/static/focus/images/gemini-icon-2025.png",
   },
   {
     name: "Google Developer Group member",
     date: "9 Nov 2025",
-    icon: "https://developers.google.com/static/profile/badges/meetup.png",
+    icon: "https://developers.google.com/static/site-assets/logo-google-g.svg",
   },
   {
     name: "Google Cloud & NVIDIA community member",
@@ -59,12 +59,12 @@ const curatedGoogleBadges: GoogleBadge[] = [
   {
     name: "I/O 2026 - Registered",
     date: "7 Apr 2026",
-    icon: "https://developers.google.com/static/profile/badges/io.png",
+    icon: "https://developers.google.com/static/focus/images/aistudio-icon.png",
   },
   {
     name: "Google Developer Program premium tier",
     date: "31 Jan 2026",
-    icon: "https://developers.google.com/static/profile/badges/premium.png",
+    icon: "https://developers.google.com/static/site-assets/logo-google-g.svg",
   },
 ];
 
