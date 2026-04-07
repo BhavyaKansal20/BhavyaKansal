@@ -40,6 +40,43 @@ const GITHUB_PRIMARY_API = "https://github-contributions.vercel.app/api/v1";
 const GITHUB_FALLBACK_API = "https://github-contributions-api.deno.dev";
 const LIVE_API_BASE_URL = (import.meta.env.VITE_LIVE_API_BASE_URL || "").replace(/\/$/, "");
 
+const curatedGoogleBadges: GoogleBadge[] = [
+  {
+    name: "Gemini Enterprise Agent Ready",
+    date: "7 Apr 2026",
+    icon: "https://www.gstatic.com/images/branding/product/1x/gemini_48dp.png",
+  },
+  {
+    name: "Google Developer Group member",
+    date: "9 Nov 2025",
+    icon: "https://developers.google.com/static/profile/badges/meetup.png",
+  },
+  {
+    name: "Google Cloud & NVIDIA community member",
+    date: "7 Apr 2026",
+    icon: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg",
+  },
+  {
+    name: "I/O 2026 - Registered",
+    date: "7 Apr 2026",
+    icon: "https://developers.google.com/static/profile/badges/io.png",
+  },
+  {
+    name: "Google Developer Program premium tier",
+    date: "31 Jan 2026",
+    icon: "https://developers.google.com/static/profile/badges/premium.png",
+  },
+];
+
+const curatedGoogleProfile: GoogleDevProfile = {
+  headline: "Google Developer Program Member",
+  location: "Patiala, Punjab, India",
+  experience: "Early Career (0 - 5 years)",
+  totalBadges: 12,
+  favoriteBadges: curatedGoogleBadges,
+  activeThisYear: 16,
+};
+
 const GoogleGIcon = ({ className = "" }: { className?: string }) => (
   <img
     src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"
@@ -255,7 +292,13 @@ const CodingDashboard = () => {
         ];
 
         if (parsedProfile) {
-          setGoogleProfile(parsedProfile);
+          setGoogleProfile({
+            ...curatedGoogleProfile,
+            ...parsedProfile,
+            favoriteBadges: curatedGoogleBadges,
+            totalBadges: 12,
+            activeThisYear: 16,
+          });
           setGoogleLoading(false);
           return;
         }
@@ -276,31 +319,23 @@ const CodingDashboard = () => {
         }
 
         if (parsedProfile) {
-          setGoogleProfile(parsedProfile);
+          setGoogleProfile({
+            ...curatedGoogleProfile,
+            ...parsedProfile,
+            favoriteBadges: curatedGoogleBadges,
+            totalBadges: 12,
+            activeThisYear: 16,
+          });
           console.log("[GoogleProfile] Live sync result:", {
             totalBadges: parsedProfile.totalBadges,
             favorites: parsedProfile.favoriteBadges?.length || 0,
           });
         } else {
-          setGoogleProfile({
-            headline: "Google Developer Program Member",
-            location: "Patiala, Punjab, India",
-            experience: "Early Career (0 - 5 years)",
-            totalBadges: 0,
-            favoriteBadges: [],
-            activeThisYear: 0,
-          });
+          setGoogleProfile(curatedGoogleProfile);
         }
       } catch (error) {
         console.error("[GoogleProfile] Fetch error:", error);
-        setGoogleProfile({
-          headline: "Google Developer Program Member",
-          location: "Patiala, Punjab, India",
-          experience: "Early Career (0 - 5 years)",
-          totalBadges: 0,
-          favoriteBadges: [],
-          activeThisYear: 0,
-        });
+        setGoogleProfile(curatedGoogleProfile);
       } finally {
         setGoogleLoading(false);
       }
@@ -432,7 +467,7 @@ const CodingDashboard = () => {
                 <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Days Active</p>
                 <p className="text-3xl font-bold">{loading ? "..." : stats.daysActive}</p>
                 <div className="mt-3 inline-flex items-center gap-2 text-xs text-muted-foreground">
-                  <Flame className="w-3.5 h-3.5 text-orange-500" /> Active contribution days in last year
+                  <Flame className="w-3.5 h-3.5 text-orange-500" /> Active contribution days in this month
                 </div>
               </div>
 
@@ -531,7 +566,7 @@ const CodingDashboard = () => {
                         </p>
                       </div>
                       <div className="rounded-xl border border-border/70 px-3 py-2 bg-background/60">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Active This Year</p>
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Active This Month</p>
                         <p className="text-xl font-bold mt-1">{googleProfile.activeThisYear}</p>
                       </div>
                     </div>
