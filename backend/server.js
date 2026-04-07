@@ -1,6 +1,9 @@
 import dotenv from "dotenv";
 import express from "express";
 import cors from "cors";
+import fs from "fs/promises";
+import path from "path";
+import { fileURLToPath } from "url";
 
 dotenv.config();
 
@@ -9,7 +12,15 @@ const PORT = Number(process.env.PORT || 8787);
 const CORS_ORIGIN = process.env.CORS_ORIGIN || "*";
 const GITHUB_TOKEN = process.env.GITHUB_TOKEN || "";
 
-app.use(cors({ origin: CORS_ORIGIN === "*" ? true : CORS_ORIGIN }));
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const GOOGLE_SNAPSHOT_FILE = path.join(__dirname, ".cache", "google-profile.json");
+
+const corsOrigins = CORS_ORIGIN === "*"
+  ? true
+  : CORS_ORIGIN.split(",").map((origin) => origin.trim()).filter(Boolean);
+
+app.use(cors({ origin: corsOrigins }));
 app.use(express.json());
 
 const cache = {
@@ -18,6 +29,37 @@ const cache = {
 };
 
 const CACHE_TTL_MS = 60_000;
+
+const DEFAULT_GOOGLE_PROFILE = {
+  headline: "Google Developer Program Member",
+  location: "Patiala, Punjab, India",
+  experience: "Early Career (0 - 5 years)",
+  totalBadges: 0,
+  favoriteBadges: [],
+  activeThisYear: 0,
+};
+
+const loadGoogleSnapshot = async () => {
+  try {
+    const text = await fs.readFile(GOOGLE_SNAPSHOT_FILE, "utf-8");
+    const data = JSON.parse(text);
+    if (data && (data.totalBadges > 0 || (data.favoriteBadges || []).length > 0)) {
+      cache.google = { data, timestamp: Date.now() };
+      console.log("Loaded persisted Google profile snapshot");
+    }
+  } catch {
+    // Ignore if file doesn't exist on first run
+  }
+};
+
+const saveGoogleSnapshot = async (profile) => {
+  try {
+    await fs.mkdir(path.dirname(GOOGLE_SNAPSHOT_FILE), { recursive: true });
+    await fs.writeFile(GOOGLE_SNAPSHOT_FILE, JSON.stringify(profile, null, 2));
+  } catch (error) {
+    console.warn("Unable to persist Google snapshot:", error);
+  }
+};
 
 const normalizeContributions = (payload) => {
   const raw = Array.isArray(payload?.contributions)
@@ -214,6 +256,7 @@ app.get("/api/google-profile", async (_, res) => {
 
         if (parsed.totalBadges > 0 || parsed.favoriteBadges.length > 0) {
           cache.google = { data: parsed, timestamp: Date.now() };
+          await saveGoogleSnapshot(parsed);
           return res.json({ ...parsed, source, cached: false });
         }
       } catch {
@@ -226,12 +269,8 @@ app.get("/api/google-profile", async (_, res) => {
     }
 
     return res.status(502).json({
-      headline: "Google Developer Program Member",
-      location: "Patiala, Punjab, India",
-      experience: "Early Career (0 - 5 years)",
-      totalBadges: 0,
-      favoriteBadges: [],
-      activeThisYear: 0,
+      ...DEFAULT_GOOGLE_PROFILE,
+      stale: true,
       error: "Google source is currently rate-limited",
     });
   } catch (error) {
@@ -239,17 +278,15 @@ app.get("/api/google-profile", async (_, res) => {
       return res.json({ ...cache.google.data, cached: true, stale: true });
     }
     return res.status(500).json({
-      headline: "Google Developer Program Member",
-      location: "Patiala, Punjab, India",
-      experience: "Early Career (0 - 5 years)",
-      totalBadges: 0,
-      favoriteBadges: [],
-      activeThisYear: 0,
+      ...DEFAULT_GOOGLE_PROFILE,
+      stale: true,
       error: String(error),
     });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`bhavya-live-api running on http://localhost:${PORT}`);
+loadGoogleSnapshot().finally(() => {
+  app.listen(PORT, () => {
+    console.log(`bhavya-live-api running on http://localhost:${PORT}`);
+  });
 });
