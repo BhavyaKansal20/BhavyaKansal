@@ -409,16 +409,16 @@ const CodingDashboard = () => {
       icon: Youtube,
     },
     {
-      label: "Email",
-      href: "mailto:kansalbhavya27@gmail.com",
-      handle: "kansalbhavya27@gmail.com",
-      icon: Mail,
-    },
-    {
       label: "Google Dev",
       href: GOOGLE_PROFILE_URL,
       handle: "g.dev/BhavyaKansal20",
       icon: GoogleGIcon,
+    },
+    {
+      label: "Email",
+      href: "mailto:kansalbhavya27@gmail.com",
+      handle: "kansalbhavya27@gmail.com",
+      icon: Mail,
     },
   ];
 
@@ -588,11 +588,11 @@ const CodingDashboard = () => {
                           {googleProfile.favoriteBadges.map((badge, idx) => (
                             <div
                               key={`${badge.icon}-${idx}`}
-                              className="rounded-3xl border border-border/70 bg-background/55 min-h-[152px] p-4 flex flex-col items-center justify-center text-center gap-3"
+                              className="rounded-3xl border border-border/70 bg-background/55 min-h-[168px] p-4 flex flex-col items-center justify-center text-center gap-3"
                               title={badge.name}
                             >
                               <div className="h-20 w-20 rounded-full bg-background/70 border border-border/60 flex items-center justify-center overflow-hidden shadow-sm">
-                                <img src={badge.icon} alt={badge.name} className="w-14 h-14 object-contain" loading="lazy" decoding="async" />
+                                <img src={badge.icon} alt={badge.name} className="w-16 h-16 object-contain" loading="lazy" decoding="async" />
                               </div>
                               <div className="space-y-1">
                                 <p className="text-xs font-medium leading-snug line-clamp-3">{badge.name}</p>
