@@ -33,78 +33,92 @@ type GoogleDevProfile = {
 const GOOGLE_PROFILE_URL = "https://g.dev/BhavyaKansal20";
 
 const parseGoogleProfile = (raw: string): GoogleDevProfile => {
-  const lines = raw.split("\n").map((line) => line.trim());
+  try {
+    const lines = raw.split("\n").map((line) => line.trim());
 
-  const nextNonEmpty = (start: number) => {
-    for (let i = start; i < lines.length; i += 1) {
-      if (lines[i]) return lines[i];
-    }
-    return "";
-  };
-
-  const dateRegex = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},\s+\d{4}$/;
-  const iconRegex = /^!\[Image\s+\d+\]\((https:\/\/developers\.google\.com\/static\/profile\/badges\/[^)]+)\)$/;
-
-  const headlineLine = lines.find((line) => line.startsWith("### Student at")) || "";
-  const cityIndex = lines.findIndex((line) => line === "#### City/Town");
-  const expIndex = lines.findIndex((line) => line === "#### Experience level");
-  const favStart = lines.findIndex((line) => line === "### Favorite badges");
-  const badgesStart = lines.findIndex((line) => line === "### Badges");
-
-  const parseBadgesBetween = (startIdx: number, endIdx: number) => {
-    if (startIdx === -1) return [] as GoogleBadge[];
-    const badges: GoogleBadge[] = [];
-
-    for (let i = startIdx; i < endIdx && i < lines.length; i += 1) {
-      const iconMatch = lines[i].match(iconRegex);
-      if (!iconMatch) continue;
-
-      const icon = iconMatch[1];
-      const name = nextNonEmpty(i + 1);
-      const maybeDate = nextNonEmpty(i + 2);
-      const date = dateRegex.test(maybeDate) ? maybeDate : "";
-
-      if (name) {
-        badges.push({ name, date, icon });
+    const nextNonEmpty = (start: number) => {
+      for (let i = start; i < lines.length; i += 1) {
+        if (lines[i]) return lines[i];
       }
-    }
+      return "";
+    };
 
-    return badges;
-  };
+    const dateRegex = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},\s+\d{4}$/;
+    const iconRegex = /^!\[Image\s+\d+\]\((https:\/\/developers\.google\.com\/static\/profile\/badges\/[^)]+)\)$/;
 
-  const favoriteBadges = parseBadgesBetween(
-    favStart,
-    badgesStart > -1 ? badgesStart : lines.length
-  );
-  const allBadgesRaw = parseBadgesBetween(
-    badgesStart,
-    lines.length
-  );
+    // More flexible headline detection
+    const headlineLine = lines.find((line) => line.includes("Student at") || line.includes("Developer")) || "";
+    const cityIndex = lines.findIndex((line) => line.includes("City/Town") || line.includes("Location"));
+    const expIndex = lines.findIndex((line) => line.includes("Experience"));
+    const favStart = lines.findIndex((line) => line.includes("Favorite badges"));
+    const badgesStart = lines.findIndex((line) => line.includes("### Badges") || line.includes("All badges"));
 
-  const uniqueByName = new Map<string, GoogleBadge>();
-  [...favoriteBadges, ...allBadgesRaw].forEach((badge) => {
-    if (!uniqueByName.has(badge.name)) {
-      uniqueByName.set(badge.name, badge);
-    }
-  });
+    const parseBadgesBetween = (startIdx: number, endIdx: number) => {
+      if (startIdx === -1) return [] as GoogleBadge[];
+      const badges: GoogleBadge[] = [];
 
-  const allBadges = Array.from(uniqueByName.values());
-  const currentYear = new Date().getFullYear();
-  const activeThisYear = allBadges
-    .filter((badge) => badge.date)
-    .filter((badge) => {
-      const d = Date.parse(badge.date);
-      return !Number.isNaN(d) && new Date(d).getFullYear() === currentYear;
-    }).length;
+      for (let i = startIdx; i < endIdx && i < lines.length; i += 1) {
+        const iconMatch = lines[i].match(iconRegex);
+        if (!iconMatch) continue;
 
-  return {
-    headline: headlineLine.replace("### ", "") || "Google Developer Program Member",
-    location: cityIndex > -1 ? nextNonEmpty(cityIndex + 1) : "Patiala, Punjab, India",
-    experience: expIndex > -1 ? nextNonEmpty(expIndex + 1) : "Early Career (0 - 5 years)",
-    totalBadges: allBadges.length,
-    favoriteBadges: favoriteBadges.slice(0, 5),
-    activeThisYear,
-  };
+        const icon = iconMatch[1];
+        const name = nextNonEmpty(i + 1);
+        const maybeDate = nextNonEmpty(i + 2);
+        const date = dateRegex.test(maybeDate) ? maybeDate : "";
+
+        if (name && icon) {
+          badges.push({ name, date, icon });
+        }
+      }
+
+      return badges;
+    };
+
+    const favoriteBadges = parseBadgesBetween(
+      favStart,
+      badgesStart > -1 ? badgesStart : lines.length
+    );
+    const allBadgesRaw = badgesStart > -1 
+      ? parseBadgesBetween(badgesStart, lines.length)
+      : [];
+
+    const uniqueByName = new Map<string, GoogleBadge>();
+    [...favoriteBadges, ...allBadgesRaw].forEach((badge) => {
+      if (!uniqueByName.has(badge.name)) {
+        uniqueByName.set(badge.name, badge);
+      }
+    });
+
+    const allBadges = Array.from(uniqueByName.values());
+    const currentYear = new Date().getFullYear();
+    const activeThisYear = allBadges
+      .filter((badge) => badge.date)
+      .filter((badge) => {
+        const d = Date.parse(badge.date);
+        return !Number.isNaN(d) && new Date(d).getFullYear() === currentYear;
+      }).length;
+
+    console.log("[GoogleProfile] Parsed - Total Badges:", allBadges.length, "Favorite:", favoriteBadges.length);
+
+    return {
+      headline: headlineLine.replace(/^#+\s*/, "") || "Google Developer Program Member",
+      location: cityIndex > -1 ? nextNonEmpty(cityIndex + 1) : "Patiala, Punjab, India",
+      experience: expIndex > -1 ? nextNonEmpty(expIndex + 1) : "Early Career (0 - 5 years)",
+      totalBadges: allBadges.length,
+      favoriteBadges: favoriteBadges.slice(0, 10),
+      activeThisYear,
+    };
+  } catch (error) {
+    console.error("[GoogleProfile] Parse error:", error);
+    return {
+      headline: "Google Developer Program Member",
+      location: "Patiala, Punjab, India",
+      experience: "Early Career (0 - 5 years)",
+      totalBadges: 0,
+      favoriteBadges: [],
+      activeThisYear: 0,
+    };
+  }
 };
 
 const levelClass = (count: number) => {
@@ -167,15 +181,25 @@ const CodingDashboard = () => {
     const run = async () => {
       setGoogleLoading(true);
       try {
-        const res = await fetch(`https://r.jina.ai/http://g.dev/BhavyaKansal20?ts=${Date.now()}`, {
+        // Use our backend API endpoint
+        const res = await fetch(`/api/google-profile?ts=${Date.now()}`, {
           cache: "no-store",
         });
-        if (!res.ok) throw new Error("Google profile fetch failed");
-        const text = await res.text();
-        const parsed = parseGoogleProfile(text);
-        setGoogleProfile(parsed);
-      } catch {
-        setGoogleProfile(null);
+        if (!res.ok) throw new Error("Google profile API failed");
+        const profile = await res.json();
+        setGoogleProfile(profile);
+        console.log("[GoogleProfile] Fetched:", profile);
+      } catch (error) {
+        console.error("[GoogleProfile] Fetch error:", error);
+        // Fallback to empty state with message
+        setGoogleProfile({
+          headline: "Google Developer Program Member",
+          location: "Patiala, Punjab, India",
+          experience: "Early Career (0 - 5 years)",
+          totalBadges: 0,
+          favoriteBadges: [],
+          activeThisYear: 0,
+        });
       } finally {
         setGoogleLoading(false);
       }
