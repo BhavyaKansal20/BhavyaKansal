@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import { Github, Linkedin, Youtube, Activity, Flame, Mail, ExternalLink, BadgeCheck, Globe, Code2 } from "lucide-react";
+import { Github, Linkedin, Youtube, Activity, Flame, Mail, ExternalLink, BadgeCheck, Code2 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 type ContributionDay = {
@@ -39,6 +39,16 @@ const GOOGLE_PROFILE_URL = "https://g.dev/BhavyaKansal20";
 const GITHUB_PRIMARY_API = "https://github-contributions.vercel.app/api/v1";
 const GITHUB_FALLBACK_API = "https://github-contributions-api.deno.dev";
 const LIVE_API_BASE_URL = (import.meta.env.VITE_LIVE_API_BASE_URL || "").replace(/\/$/, "");
+
+const GoogleGIcon = ({ className = "" }: { className?: string }) => (
+  <img
+    src="https://www.gstatic.com/images/branding/product/1x/googleg_32dp.png"
+    alt="Google"
+    className={className}
+    loading="lazy"
+    decoding="async"
+  />
+);
 
 const parseGoogleProfile = (raw: string): GoogleDevProfile => {
   try {
@@ -265,13 +275,6 @@ const CodingDashboard = () => {
           }
         }
 
-        if (!parsedProfile) {
-          const mockRes = await fetch(`/google-profile-mock.json?ts=${Date.now()}`, { cache: "no-store" });
-          if (mockRes.ok) {
-            parsedProfile = await mockRes.json();
-          }
-        }
-
         if (parsedProfile) {
           setGoogleProfile(parsedProfile);
           console.log("[GoogleProfile] Live sync result:", {
@@ -375,7 +378,7 @@ const CodingDashboard = () => {
       label: "Google Dev",
       href: GOOGLE_PROFILE_URL,
       handle: "g.dev/BhavyaKansal20",
-      icon: Globe,
+      icon: GoogleGIcon,
     },
   ];
 
@@ -385,11 +388,11 @@ const CodingDashboard = () => {
         .heatmap-wrap .react-calendar-heatmap {
           width: 100%;
         }
-        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: rgba(40,49,67,0.45); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: rgba(122,128,139,0.55); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: rgba(153,159,170,0.72); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: rgba(187,192,201,0.86); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: rgba(234,238,243,0.96); }
+        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: #161b22; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: #0e4429; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: #006d32; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: #26a641; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: #39d353; }
         .heatmap-wrap .react-calendar-heatmap text { fill: rgb(166,173,187); font-size: 10px; }
         .heatmap-wrap .react-calendar-heatmap rect {
           rx: 2;
@@ -484,11 +487,11 @@ const CodingDashboard = () => {
               </div>
 
               <div className="relative z-10 mt-5 flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-400/20 border border-border/50" />No activity</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-400/45 border border-border/50" />Low</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-300/60 border border-border/50" />Moderate</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-200/75 border border-border/50" />High</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-100/90 border border-border/50" />Peak</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded border border-border/50" style={{ backgroundColor: "#161b22" }} />No activity</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded border border-border/50" style={{ backgroundColor: "#0e4429" }} />Low</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded border border-border/50" style={{ backgroundColor: "#006d32" }} />Moderate</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded border border-border/50" style={{ backgroundColor: "#26a641" }} />High</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded border border-border/50" style={{ backgroundColor: "#39d353" }} />Peak</span>
               </div>
             </div>
 
@@ -497,7 +500,7 @@ const CodingDashboard = () => {
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-3 mb-4">
                   <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground inline-flex items-center gap-2">
-                    <Globe className="w-4 h-4" /> Google Developer Profile
+                    <GoogleGIcon className="w-4 h-4" /> Google Developer Profile
                   </p>
                   <a
                     href={GOOGLE_PROFILE_URL}
