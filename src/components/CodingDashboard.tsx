@@ -54,17 +54,17 @@ const curatedGoogleBadges: GoogleBadge[] = [
   {
     name: "Google Cloud & NVIDIA community member",
     date: "7 Apr 2026",
-    icon: "https://upload.wikimedia.org/wikipedia/commons/2/21/Nvidia_logo.svg",
+    icon: "/badges/nvidia-community.png",
   },
   {
     name: "I/O 2026 - Registered",
     date: "7 Apr 2026",
-    icon: "https://developers.google.com/static/focus/images/aistudio-icon.png",
+    icon: "/badges/io-2026-registered.png",
   },
   {
     name: "Google Developer Program premium tier",
     date: "31 Jan 2026",
-    icon: "https://developers.google.com/static/site-assets/logo-google-g.svg",
+    icon: "https://developers.google.com/static/focus/images/antigravity-icon.png",
   },
 ];
 
