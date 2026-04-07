@@ -1,0 +1,37 @@
+{
+  "headline": "Google Developer Program Member",
+  "location": "Patiala, Punjab, India",
+  "experience": "Early Career (0 - 5 years)",
+  "totalBadges": 8,
+  "favoriteBadges": [
+    {
+      "name": "2024 Google Cloud Skills Boost Facilitator",
+      "date": "Jan 15, 2024",
+      "icon": "https://developers.google.com/static/profile/badges/facilitator?sz=72"
+    },
+    {
+      "name": "Google Cloud Certified - Associate Cloud Engineer",
+      "date": "Nov 20, 2023",
+      "icon": "https://developers.google.com/static/profile/badges/cloud-engineer?sz=72"
+    },
+    {
+      "name": "Google Cloud Certified - Professional Data Engineer",
+      "date": "Dec 10, 2023",
+      "icon": "https://developers.google.com/static/profile/badges/data-engineer?sz=72"
+    },
+    {
+      "name": "TensorFlow Certificate",
+      "date": "Mar 05, 2024",
+      "icon": "https://developers.google.com/static/profile/badges/tensorflow?sz=72"
+    },
+    {
+      "name": "Google Cloud Skills Badge - GenAI",
+      "date": "Feb 28, 2024",
+      "icon": "https://developers.google.com/static/profile/badges/genai?sz=72"
+    }
+  ],
+  "activeThisYear": 3,
+  "isMockData": true,
+  "fetchedAt": "2026-04-08T12:00:00Z",
+  "note": "Mock data while Google rate limit resets. Real data will load automatically when available."
+}
