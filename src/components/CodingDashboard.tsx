@@ -158,6 +158,9 @@ const CodingDashboard = () => {
     };
 
     run();
+    // Live sync every 60 seconds
+    const interval = setInterval(run, 60000);
+    return () => clearInterval(interval);
   }, [GITHUB_USER]);
 
   useEffect(() => {
@@ -179,6 +182,9 @@ const CodingDashboard = () => {
     };
 
     run();
+    // Live sync every 60 seconds
+    const interval = setInterval(run, 60000);
+    return () => clearInterval(interval);
   }, []);
 
   const stats = useMemo(() => {
