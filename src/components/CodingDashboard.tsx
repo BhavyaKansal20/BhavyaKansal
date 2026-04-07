@@ -15,6 +15,11 @@ type ContributionPayload = {
   contributionCount?: number;
 };
 
+type GitHubContributionApiPayload = {
+  contributions?: ContributionPayload[] | ContributionPayload[][];
+  data?: ContributionPayload[];
+};
+
 type GoogleBadge = {
   name: string;
   date: string;
@@ -31,6 +36,8 @@ type GoogleDevProfile = {
 };
 
 const GOOGLE_PROFILE_URL = "https://g.dev/BhavyaKansal20";
+const GITHUB_PRIMARY_API = "https://github-contributions.vercel.app/api/v1";
+const GITHUB_FALLBACK_API = "https://github-contributions-api.deno.dev";
 
 const parseGoogleProfile = (raw: string): GoogleDevProfile => {
   try {
@@ -139,28 +146,57 @@ const CodingDashboard = () => {
   const GITHUB_USER = import.meta.env.VITE_GITHUB_USERNAME || "BhavyaKansal20";
 
   useEffect(() => {
+    const normalizeContributionPayload = (payload: GitHubContributionApiPayload) => {
+      const raw = Array.isArray(payload.contributions)
+        ? (Array.isArray(payload.contributions[0])
+            ? (payload.contributions as ContributionPayload[][]).flat()
+            : payload.contributions as ContributionPayload[])
+        : Array.isArray(payload.data)
+          ? payload.data
+          : [];
+
+      return raw
+        .map((d) => ({
+          date: d.date || "",
+          count: Number(d.count ?? d.contributionCount ?? 0),
+        }))
+        .filter((entry) => Boolean(entry.date));
+    };
+
     const run = async () => {
       setLoading(true);
       try {
-        // Use our backend GitHub API
-        const res = await fetch(`/api/github-contributions?user=${GITHUB_USER}&ts=${Date.now()}`);
-        if (!res.ok) throw new Error("GitHub API failed");
-        const json = await res.json();
-        
-        if (json.contributions && json.contributions.length > 0) {
-          const normalized = json.contributions.map((d: any) => ({
-            date: d.date || "",
-            count: Number(d.count ?? d.contributionCount ?? 0),
-          })).filter((entry: any) => Boolean(entry.date));
-          setContributions(normalized);
-          console.log("[GitHub] ✓ Fetched", normalized.length, "days of contributions");
-        } else {
-          console.warn("[GitHub] No contributions returned");
-          setContributions([]);
+        const sources = [
+          `${GITHUB_PRIMARY_API}/${GITHUB_USER}`,
+          `${GITHUB_FALLBACK_API}/${GITHUB_USER}.json`,
+          "/github-contributions.json",
+        ];
+
+        let liveData: ContributionDay[] = [];
+
+        for (const source of sources) {
+          try {
+            const res = await fetch(`${source}${source.includes("?") ? "&" : "?"}ts=${Date.now()}`, {
+              cache: "no-store",
+            });
+            if (!res.ok) continue;
+            const json = await res.json();
+            const normalized = normalizeContributionPayload(json as GitHubContributionApiPayload);
+            if (normalized.length > 0) {
+              liveData = normalized;
+              break;
+            }
+          } catch {
+            // Try next source
+          }
+        }
+
+        if (liveData.length > 0) {
+          setContributions(liveData);
+          console.log("[GitHub] Live contributions synced:", liveData.length);
         }
       } catch (error) {
         console.error("[GitHub] Fetch error:", error);
-        setContributions([]);
       } finally {
         setLoading(false);
       }
@@ -176,25 +212,53 @@ const CodingDashboard = () => {
     const run = async () => {
       setGoogleLoading(true);
       try {
-        // Use our backend API endpoint
-        const res = await fetch(`/api/google-profile?ts=${Date.now()}&retry=${Math.random()}`, {
-          cache: "no-store",
-          headers: {
-            "Cache-Control": "no-cache, no-store, must-revalidate",
-            "Pragma": "no-cache",
+        const sources = [
+          `https://r.jina.ai/http://g.dev/BhavyaKansal20?ts=${Date.now()}`,
+          `https://r.jina.ai/http://developers.google.com/profile/u/BhavyaKansal20?hl=en&ts=${Date.now()}`,
+        ];
+
+        let parsedProfile: GoogleDevProfile | null = null;
+
+        for (const source of sources) {
+          try {
+            const res = await fetch(source, { cache: "no-store" });
+            if (!res.ok) continue;
+            const text = await res.text();
+            const parsed = parseGoogleProfile(text);
+            if (parsed.totalBadges > 0 || parsed.favoriteBadges.length > 0) {
+              parsedProfile = parsed;
+              break;
+            }
+          } catch {
+            // Try next source
           }
-        });
-        if (!res.ok) throw new Error("Google profile API failed");
-        const profile = await res.json();
-        setGoogleProfile(profile);
-        console.log("[GoogleProfile] ✓ Fetched:", {
-          totalBadges: profile.totalBadges,
-          favorites: profile.favoriteBadges?.length || 0,
-          isMock: profile.isMockData
-        });
+        }
+
+        if (!parsedProfile) {
+          const mockRes = await fetch(`/google-profile-mock.json?ts=${Date.now()}`, { cache: "no-store" });
+          if (mockRes.ok) {
+            parsedProfile = await mockRes.json();
+          }
+        }
+
+        if (parsedProfile) {
+          setGoogleProfile(parsedProfile);
+          console.log("[GoogleProfile] Live sync result:", {
+            totalBadges: parsedProfile.totalBadges,
+            favorites: parsedProfile.favoriteBadges?.length || 0,
+          });
+        } else {
+          setGoogleProfile({
+            headline: "Google Developer Program Member",
+            location: "Patiala, Punjab, India",
+            experience: "Early Career (0 - 5 years)",
+            totalBadges: 0,
+            favoriteBadges: [],
+            activeThisYear: 0,
+          });
+        }
       } catch (error) {
         console.error("[GoogleProfile] Fetch error:", error);
-        // Fallback to empty state with message
         setGoogleProfile({
           headline: "Google Developer Program Member",
           location: "Patiala, Punjab, India",
