@@ -34,13 +34,13 @@ interface SearchResult {
 }
 
 const aiSuggestions = [
-  "What are your top skills",
-  "Tell me about your experience",
-  "What AI projects have you built",
-  "What technologies do you use",
-  "What is your education background",
-  "What is your current research focus",
-  "Tell me about MultiModex AI"
+  "Give me your old to latest timeline",
+  "What are you doing currently in AI",
+  "What have you built and what comes next",
+  "Explain your tech stack like a system map",
+  "Tell me about MultiModex AI and leadership",
+  "What internships and training shaped you",
+  "Give me A to Z profile summary"
 ];
 
 const CommandPalette = () => {

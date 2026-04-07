@@ -59,6 +59,142 @@ interface OpenRouterResponse {
   }>;
 }
 
+type KnowledgeChunk = {
+  id: string;
+  title: string;
+  period: "past" | "current" | "future" | "foundation";
+  tags: string[];
+  content: string;
+};
+
+const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
+  {
+    id: "identity-core",
+    title: "Identity and Core Positioning",
+    period: "foundation",
+    tags: ["about", "summary", "identity", "profile"],
+    content:
+      "Bhavya Kansal is an AI Engineer, ML Researcher, and Founder focused on production-grade machine learning, multimodal AI systems, and deep-tech automation for real-world problems.",
+  },
+  {
+    id: "current-phase",
+    title: "Current Focus",
+    period: "current",
+    tags: ["current", "focus", "now", "research", "work"],
+    content:
+      "Current focus includes applied AI deployment, multimodal reasoning systems, ethical AI, and building practical products through MultiModex AI while pursuing B.Tech in DSAI at TIET (2026-2029).",
+  },
+  {
+    id: "past-education-timeline",
+    title: "Past Timeline",
+    period: "past",
+    tags: ["past", "timeline", "education", "internship", "experience"],
+    content:
+      "Completed Diploma in CSE at Thapar Polytechnic College (2023-2026). Completed summer training in Python, AI/ML, and cybersecurity (Jun-Aug 2025). Completed AI/ML intern training at IIT Ropar and NIELIT Ropar (Jan-Jul 2026).",
+  },
+  {
+    id: "future-direction",
+    title: "Future Direction",
+    period: "future",
+    tags: ["future", "roadmap", "goals", "plans", "next"],
+    content:
+      "Future direction is to scale multimodal AI products, strengthen research-to-production execution, and collaborate on deep-tech systems in AI infrastructure, automation, and practical deployment pipelines.",
+  },
+  {
+    id: "stack-ai-ml",
+    title: "AI and ML Stack",
+    period: "foundation",
+    tags: ["skills", "tech", "stack", "ai", "ml", "frameworks"],
+    content:
+      "Core AI/ML stack includes Python, PyTorch, TensorFlow, scikit-learn, OpenCV, NumPy, Pandas, Matplotlib, Plotly, SciPy, MLflow, CUDA, HuggingFace Transformers, YOLO, OCR, MediaPipe, and edge AI workflows.",
+  },
+  {
+    id: "stack-web-cloud",
+    title: "Web and Cloud Stack",
+    period: "foundation",
+    tags: ["backend", "frontend", "cloud", "deployment", "engineering"],
+    content:
+      "Engineering stack includes FastAPI, Flask, React, Next.js, Node.js, NestJS, TailwindCSS, Three.js, Vite, Streamlit, PostgreSQL, MongoDB, MySQL, SQLite, Supabase, Firebase, Google Cloud, Render, and Vercel.",
+  },
+  {
+    id: "projects-signature",
+    title: "Signature Projects",
+    period: "foundation",
+    tags: ["projects", "portfolio", "build", "systems"],
+    content:
+      "Signature projects include Healthy AI, SignLang AI, DeepFake Scanner, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI, with practical focus on healthcare AI, accessibility, authenticity detection, and automation.",
+  },
+  {
+    id: "leadership-impact",
+    title: "Leadership and Impact",
+    period: "current",
+    tags: ["leadership", "impact", "founder", "multimodex", "achievements"],
+    content:
+      "Founder of MultiModex AI. Built 10+ projects including 5+ AI-first systems. Open to AI/ML internships, research collaborations, deep-tech projects, and startup partnerships.",
+  },
+];
+
+const PERIOD_BOOST: Record<KnowledgeChunk["period"], number> = {
+  past: 0,
+  current: 0,
+  future: 0,
+  foundation: 0,
+};
+
+function tokenize(query: string): string[] {
+  return query
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .split(/\s+/)
+    .filter((token) => token.length > 1);
+}
+
+function inferPeriodBoost(query: string): Record<KnowledgeChunk["period"], number> {
+  const q = query.toLowerCase();
+  const boost = { ...PERIOD_BOOST };
+
+  if (/\b(old|previous|past|before|history|earlier|pehle|purani?)\b/.test(q)) boost.past += 2;
+  if (/\b(current|now|present|ongoing|abhi|taji|latest|recent|new)\b/.test(q)) boost.current += 2;
+  if (/\b(future|next|roadmap|plan|goal|karunga|will do)\b/.test(q)) boost.future += 2;
+  if (/\b(a\s*to\s*z|complete|all|everything|110|full profile)\b/.test(q)) {
+    boost.foundation += 1;
+    boost.current += 1;
+    boost.past += 1;
+    boost.future += 1;
+  }
+
+  return boost;
+}
+
+function retrieveKnowledge(query: string, limit = 6): KnowledgeChunk[] {
+  const terms = tokenize(query);
+  const periodBoost = inferPeriodBoost(query);
+
+  const ranked = PERSONAL_KNOWLEDGE_BASE.map((chunk) => {
+    const haystack = `${chunk.title} ${chunk.content} ${chunk.tags.join(" ")}`.toLowerCase();
+    let score = periodBoost[chunk.period];
+
+    for (const term of terms) {
+      if (haystack.includes(term)) score += 1;
+      if (chunk.tags.some((tag) => tag.includes(term))) score += 1;
+    }
+
+    return { chunk, score };
+  })
+    .filter((entry) => entry.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map((entry) => entry.chunk);
+
+  return ranked.length > 0 ? ranked : PERSONAL_KNOWLEDGE_BASE.slice(0, limit);
+}
+
+function buildRagContext(query: string): string {
+  return retrieveKnowledge(query)
+    .map((chunk, index) => `${index + 1}. [${chunk.period.toUpperCase()}] ${chunk.title}: ${chunk.content}`)
+    .join("\n");
+}
+
 // Fallback responses for common queries when AI fails
 const fallbackResponses: Record<string, string> = {
   "work style": "I work in a research-driven but execution-focused way, validating models with metrics and shipping robust systems with practical deployment constraints in mind.",
@@ -131,9 +267,13 @@ export async function queryAI(query: string): Promise<string> {
     const env = (import.meta.env || {}) as Record<string, string | undefined>;
     const openRouterApiKey = String(env.VITE_OPENROUTER_API_KEY || "").trim();
     const openRouterModel = String(env.VITE_OPENROUTER_MODEL || "openrouter/auto").trim();
+   const ragContext = buildRagContext(query);
 
     const prompt = `You are an AI assistant for Bhavya Kansal's portfolio website. You have access to Bhavya's complete professional profile and should provide helpful, accurate responses to visitors' questions. Consider the following detailed information:
 ${RESUME_CONTEXT}
+
+Retrieved RAG context for this question:
+${ragContext}
 
 Question: ${query}
 Instructions for providing responses:
@@ -143,6 +283,8 @@ Instructions for providing responses:
 2. Content Guidelines:
    - Provide specific, data-backed information when available
    - Highlight achievements and metrics that support your answer
+  - If asked about old/new/current/future, answer in timeline order
+  - Prefer retrieved RAG context over generic statements
 3. Response Structure:
   - Prefer concise answers, but always finish sentences and include proper punctuation. Do not truncate important details. And DON'T Exceed 2 lines in response.
   - Keep the response as condensed as possible while ensuring clarity and completeness.
