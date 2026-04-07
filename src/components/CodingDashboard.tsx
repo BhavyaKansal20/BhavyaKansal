@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import { Github, Linkedin, Youtube, Sparkles, Activity, Flame, Mail, ExternalLink } from "lucide-react";
+import { Github, Linkedin, Youtube, Sparkles, Activity, Flame, Mail, ExternalLink, BadgeCheck, Globe, CalendarDays } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 type ContributionDay = {
@@ -13,6 +13,100 @@ type ContributionPayload = {
   date?: string;
   count?: number;
   contributionCount?: number;
+};
+
+type GoogleBadge = {
+  name: string;
+  date: string;
+  icon: string;
+};
+
+type GoogleDevProfile = {
+  headline: string;
+  location: string;
+  experience: string;
+  totalBadges: number;
+  favoriteBadges: GoogleBadge[];
+  recentActivity: GoogleBadge[];
+};
+
+const GOOGLE_PROFILE_URL = "https://g.dev/BhavyaKansal20";
+
+const parseGoogleProfile = (raw: string): GoogleDevProfile => {
+  const lines = raw.split("\n").map((line) => line.trim());
+
+  const nextNonEmpty = (start: number) => {
+    for (let i = start; i < lines.length; i += 1) {
+      if (lines[i]) return lines[i];
+    }
+    return "";
+  };
+
+  const dateRegex = /^(Jan|Feb|Mar|Apr|May|Jun|Jul|Aug|Sep|Oct|Nov|Dec)\s+\d{1,2},\s+\d{4}$/;
+  const iconRegex = /^!\[Image\s+\d+\]\((https:\/\/developers\.google\.com\/static\/profile\/badges\/[^)]+)\)$/;
+
+  const headlineLine = lines.find((line) => line.startsWith("### Student at")) || "";
+  const cityIndex = lines.findIndex((line) => line === "#### City/Town");
+  const expIndex = lines.findIndex((line) => line === "#### Experience level");
+  const favStart = lines.findIndex((line) => line === "### Favorite badges");
+  const badgesStart = lines.findIndex((line) => line === "### Badges");
+
+  const parseBadgesBetween = (startIdx: number, endIdx: number) => {
+    if (startIdx === -1) return [] as GoogleBadge[];
+    const badges: GoogleBadge[] = [];
+
+    for (let i = startIdx; i < endIdx && i < lines.length; i += 1) {
+      const iconMatch = lines[i].match(iconRegex);
+      if (!iconMatch) continue;
+
+      const icon = iconMatch[1];
+      const name = nextNonEmpty(i + 1);
+      const maybeDate = nextNonEmpty(i + 2);
+      const date = dateRegex.test(maybeDate) ? maybeDate : "";
+
+      if (name) {
+        badges.push({ name, date, icon });
+      }
+    }
+
+    return badges;
+  };
+
+  const favoriteBadges = parseBadgesBetween(
+    favStart,
+    badgesStart > -1 ? badgesStart : lines.length
+  );
+  const allBadgesRaw = parseBadgesBetween(
+    badgesStart,
+    lines.length
+  );
+
+  const uniqueByName = new Map<string, GoogleBadge>();
+  [...favoriteBadges, ...allBadgesRaw].forEach((badge) => {
+    if (!uniqueByName.has(badge.name)) {
+      uniqueByName.set(badge.name, badge);
+    }
+  });
+
+  const allBadges = Array.from(uniqueByName.values());
+  const recentActivity = allBadges
+    .filter((badge) => badge.date)
+    .sort((a, b) => {
+      const da = Date.parse(a.date);
+      const db = Date.parse(b.date);
+      if (Number.isNaN(da) || Number.isNaN(db)) return 0;
+      return db - da;
+    })
+    .slice(0, 4);
+
+  return {
+    headline: headlineLine.replace("### ", "") || "Google Developer Program Member",
+    location: cityIndex > -1 ? nextNonEmpty(cityIndex + 1) : "Patiala, Punjab, India",
+    experience: expIndex > -1 ? nextNonEmpty(expIndex + 1) : "Early Career (0 - 5 years)",
+    totalBadges: allBadges.length,
+    favoriteBadges: favoriteBadges.slice(0, 5),
+    recentActivity,
+  };
 };
 
 const levelClass = (count: number) => {
@@ -27,6 +121,8 @@ const CodingDashboard = () => {
   const { ref, isVisible } = useScrollAnimation();
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [loading, setLoading] = useState(true);
+  const [googleProfile, setGoogleProfile] = useState<GoogleDevProfile | null>(null);
+  const [googleLoading, setGoogleLoading] = useState(true);
 
   const GITHUB_USER = import.meta.env.VITE_GITHUB_USERNAME || "BhavyaKansal20";
 
@@ -65,6 +161,27 @@ const CodingDashboard = () => {
 
     run();
   }, [GITHUB_USER]);
+
+  useEffect(() => {
+    const run = async () => {
+      setGoogleLoading(true);
+      try {
+        const res = await fetch(`https://r.jina.ai/http://g.dev/BhavyaKansal20?ts=${Date.now()}`, {
+          cache: "no-store",
+        });
+        if (!res.ok) throw new Error("Google profile fetch failed");
+        const text = await res.text();
+        const parsed = parseGoogleProfile(text);
+        setGoogleProfile(parsed);
+      } catch {
+        setGoogleProfile(null);
+      } finally {
+        setGoogleLoading(false);
+      }
+    };
+
+    run();
+  }, []);
 
   const stats = useMemo(() => {
     const daysActive = contributions.filter((d) => d.count > 0).length;
@@ -128,6 +245,12 @@ const CodingDashboard = () => {
       handle: "kansalbhavya27@gmail.com",
       icon: Mail,
     },
+    {
+      label: "Google Dev",
+      href: GOOGLE_PROFILE_URL,
+      handle: "g.dev/BhavyaKansal20",
+      icon: Globe,
+    },
   ];
 
   return (
@@ -136,15 +259,15 @@ const CodingDashboard = () => {
         .heatmap-wrap .react-calendar-heatmap {
           width: 100%;
         }
-        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: rgba(148,163,184,0.14); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: rgba(56,189,248,0.32); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: rgba(34,197,94,0.40); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: rgba(168,85,247,0.48); }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: rgba(249,115,22,0.62); }
-        .heatmap-wrap .react-calendar-heatmap text { fill: rgb(148,163,184); font-size: 9px; }
+        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: rgba(40,49,67,0.45); }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: rgba(122,128,139,0.55); }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: rgba(153,159,170,0.72); }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: rgba(187,192,201,0.86); }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: rgba(234,238,243,0.96); }
+        .heatmap-wrap .react-calendar-heatmap text { fill: rgb(166,173,187); font-size: 10px; }
         .heatmap-wrap .react-calendar-heatmap rect {
-          rx: 3;
-          ry: 3;
+          rx: 2;
+          ry: 2;
           transition: transform 0.2s ease, filter 0.2s ease;
           shape-rendering: geometricPrecision;
         }
@@ -156,10 +279,10 @@ const CodingDashboard = () => {
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className={`text-center mb-12 ${isVisible ? "scroll-animate" : ""}`}>
-          <p className="text-sm uppercase tracking-wider text-muted-foreground mb-3">Developer Presence</p>
-          <h2 className="text-5xl font-bold">GitHub & Social Activity</h2>
+          <p className="text-sm uppercase tracking-wider text-muted-foreground mb-3">Coding Journey</p>
+          <h2 className="text-5xl font-bold">Contributions & Developer Activity</h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-4">
-            A clean snapshot of your public developer activity and profile presence, focused on GitHub and your social channels.
+            A live snapshot of your GitHub contribution graph and Google Developer profile badges, activity, and ecosystem presence.
           </p>
         </div>
 
@@ -251,6 +374,82 @@ const CodingDashboard = () => {
                 <p className="text-sm text-muted-foreground leading-relaxed">
                   Founder-led work on multimodal AI systems, applied machine learning, and deployable deep-tech products.
                 </p>
+              </div>
+            </div>
+
+            <div className="glass-card rounded-3xl p-6 border border-border overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-blue-500/10 pointer-events-none" />
+              <div className="relative z-10">
+                <div className="flex items-center justify-between gap-3 mb-4">
+                  <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Google Developer Profile</p>
+                  <a
+                    href={GOOGLE_PROFILE_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground"
+                  >
+                    View Profile <ExternalLink className="w-3.5 h-3.5" />
+                  </a>
+                </div>
+
+                {googleLoading && (
+                  <p className="text-sm text-muted-foreground">Loading live profile data...</p>
+                )}
+
+                {!googleLoading && googleProfile && (
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm font-medium">{googleProfile.headline}</p>
+                      <p className="text-xs text-muted-foreground mt-1">{googleProfile.location} • {googleProfile.experience}</p>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="rounded-xl border border-border/70 px-3 py-2 bg-background/60">
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Total Badges</p>
+                        <p className="text-xl font-bold mt-1 inline-flex items-center gap-2">
+                          <BadgeCheck className="w-4 h-4" /> {googleProfile.totalBadges}
+                        </p>
+                      </div>
+                      <div className="rounded-xl border border-border/70 px-3 py-2 bg-background/60">
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Recent Activity</p>
+                        <p className="text-xl font-bold mt-1 inline-flex items-center gap-2">
+                          <CalendarDays className="w-4 h-4" /> {googleProfile.recentActivity.length}
+                        </p>
+                      </div>
+                    </div>
+
+                    {googleProfile.favoriteBadges.length > 0 && (
+                      <div>
+                        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Favorite Badges</p>
+                        <div className="space-y-2">
+                          {googleProfile.favoriteBadges.map((badge) => (
+                            <div key={`${badge.name}-${badge.date}`} className="flex items-center gap-3 rounded-xl border border-border/70 px-3 py-2 bg-background/50">
+                              <img src={badge.icon} alt={badge.name} className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
+                              <div className="min-w-0">
+                                <p className="text-sm font-medium truncate">{badge.name}</p>
+                                {badge.date && <p className="text-xs text-muted-foreground">{badge.date}</p>}
+                              </div>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )}
+
+                {!googleLoading && !googleProfile && (
+                  <div className="rounded-xl border border-border/70 px-3 py-3 bg-background/60">
+                    <p className="text-sm text-muted-foreground mb-2">Unable to fetch live badge data right now.</p>
+                    <a
+                      href={GOOGLE_PROFILE_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 text-sm font-medium hover:underline"
+                    >
+                      Open Google Developer Profile <ExternalLink className="w-4 h-4" />
+                    </a>
+                  </div>
+                )}
               </div>
             </div>
 
