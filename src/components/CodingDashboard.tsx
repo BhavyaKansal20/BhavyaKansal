@@ -38,6 +38,7 @@ type GoogleDevProfile = {
 const GOOGLE_PROFILE_URL = "https://g.dev/BhavyaKansal20";
 const GITHUB_PRIMARY_API = "https://github-contributions.vercel.app/api/v1";
 const GITHUB_FALLBACK_API = "https://github-contributions-api.deno.dev";
+const LIVE_API_BASE_URL = (import.meta.env.VITE_LIVE_API_BASE_URL || "").replace(/\/$/, "");
 
 const parseGoogleProfile = (raw: string): GoogleDevProfile => {
   try {
@@ -167,10 +168,13 @@ const CodingDashboard = () => {
       setLoading(true);
       try {
         const sources = [
+          LIVE_API_BASE_URL
+            ? `${LIVE_API_BASE_URL}/api/github-contributions?user=${encodeURIComponent(GITHUB_USER)}`
+            : "",
           `${GITHUB_PRIMARY_API}/${GITHUB_USER}`,
           `${GITHUB_FALLBACK_API}/${GITHUB_USER}.json`,
           "/github-contributions.json",
-        ];
+        ].filter(Boolean);
 
         let liveData: ContributionDay[] = [];
 
@@ -212,12 +216,39 @@ const CodingDashboard = () => {
     const run = async () => {
       setGoogleLoading(true);
       try {
+        const backendSources = [
+          LIVE_API_BASE_URL
+            ? `${LIVE_API_BASE_URL}/api/google-profile?ts=${Date.now()}`
+            : "",
+          "/api/google-profile",
+        ].filter(Boolean);
+
+        let parsedProfile: GoogleDevProfile | null = null;
+
+        for (const source of backendSources) {
+          try {
+            const res = await fetch(`${source}${source.includes("?") ? "&" : "?"}ts=${Date.now()}`, { cache: "no-store" });
+            if (!res.ok) continue;
+            const profile = await res.json();
+            if (profile && (profile.totalBadges > 0 || profile.favoriteBadges?.length > 0)) {
+              parsedProfile = profile;
+              break;
+            }
+          } catch {
+            // Try next source
+          }
+        }
+
         const sources = [
           `https://r.jina.ai/http://g.dev/BhavyaKansal20?ts=${Date.now()}`,
           `https://r.jina.ai/http://developers.google.com/profile/u/BhavyaKansal20?hl=en&ts=${Date.now()}`,
         ];
 
-        let parsedProfile: GoogleDevProfile | null = null;
+        if (parsedProfile) {
+          setGoogleProfile(parsedProfile);
+          setGoogleLoading(false);
+          return;
+        }
 
         for (const source of sources) {
           try {
