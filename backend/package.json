@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
+    "build": "echo 'backend build: nothing to compile'",
     "dev": "node --watch server.js",
     "start": "node server.js"
   },
