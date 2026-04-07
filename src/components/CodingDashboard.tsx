@@ -190,6 +190,7 @@ const CodingDashboard = () => {
   const [loading, setLoading] = useState(true);
   const [googleProfile, setGoogleProfile] = useState<GoogleDevProfile | null>(null);
   const [googleLoading, setGoogleLoading] = useState(true);
+  const [googleLastSynced, setGoogleLastSynced] = useState<string>("");
 
   const GITHUB_USER = import.meta.env.VITE_GITHUB_USERNAME || "BhavyaKansal20";
 
@@ -299,6 +300,7 @@ const CodingDashboard = () => {
             totalBadges: 12,
             activeThisYear: 16,
           });
+          setGoogleLastSynced(new Date().toLocaleString([], { dateStyle: "medium", timeStyle: "short" }));
           setGoogleLoading(false);
           return;
         }
@@ -326,16 +328,19 @@ const CodingDashboard = () => {
             totalBadges: 12,
             activeThisYear: 16,
           });
+          setGoogleLastSynced(new Date().toLocaleString([], { dateStyle: "medium", timeStyle: "short" }));
           console.log("[GoogleProfile] Live sync result:", {
             totalBadges: parsedProfile.totalBadges,
             favorites: parsedProfile.favoriteBadges?.length || 0,
           });
         } else {
           setGoogleProfile(curatedGoogleProfile);
+          setGoogleLastSynced(new Date().toLocaleString([], { dateStyle: "medium", timeStyle: "short" }));
         }
       } catch (error) {
         console.error("[GoogleProfile] Fetch error:", error);
         setGoogleProfile(curatedGoogleProfile);
+        setGoogleLastSynced(new Date().toLocaleString([], { dateStyle: "medium", timeStyle: "short" }));
       } finally {
         setGoogleLoading(false);
       }
@@ -556,6 +561,11 @@ const CodingDashboard = () => {
                     <div>
                       <p className="text-sm font-medium">{googleProfile.headline}</p>
                       <p className="text-xs text-muted-foreground mt-1">{googleProfile.location} • {googleProfile.experience}</p>
+                      {googleLastSynced && (
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground mt-2">
+                          Last synced {googleLastSynced}
+                        </p>
+                      )}
                     </div>
 
                     <div className="grid grid-cols-2 gap-3">
@@ -573,15 +583,21 @@ const CodingDashboard = () => {
 
                     {googleProfile.favoriteBadges.length > 0 && (
                       <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Badge Wall</p>
-                        <div className="grid grid-cols-5 sm:grid-cols-6 gap-3">
+                        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Featured Badges</p>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-3">
                           {googleProfile.favoriteBadges.map((badge, idx) => (
                             <div
                               key={`${badge.icon}-${idx}`}
-                              className="rounded-2xl border border-border/70 bg-background/55 h-16 w-16 flex items-center justify-center"
+                              className="rounded-3xl border border-border/70 bg-background/55 min-h-[152px] p-4 flex flex-col items-center justify-center text-center gap-3"
                               title={badge.name}
                             >
-                              <img src={badge.icon} alt="Google badge" className="w-10 h-10 object-contain" loading="lazy" decoding="async" />
+                              <div className="h-20 w-20 rounded-full bg-background/70 border border-border/60 flex items-center justify-center overflow-hidden shadow-sm">
+                                <img src={badge.icon} alt={badge.name} className="w-14 h-14 object-contain" loading="lazy" decoding="async" />
+                              </div>
+                              <div className="space-y-1">
+                                <p className="text-xs font-medium leading-snug line-clamp-3">{badge.name}</p>
+                                <p className="text-[11px] text-muted-foreground">{badge.date}</p>
+                              </div>
                             </div>
                           ))}
                         </div>
