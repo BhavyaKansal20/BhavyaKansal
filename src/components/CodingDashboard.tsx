@@ -357,10 +357,10 @@ const CodingDashboard = () => {
 
               <div className="relative z-10 mt-5 flex items-center gap-4 text-xs text-muted-foreground flex-wrap">
                 <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-400/20 border border-border/50" />No activity</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-sky-400/35 border border-border/50" />Low</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-emerald-400/40 border border-border/50" />Moderate</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-violet-400/45 border border-border/50" />High</span>
-                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-orange-400/55 border border-border/50" />Peak</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-400/45 border border-border/50" />Low</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-300/60 border border-border/50" />Moderate</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-200/75 border border-border/50" />High</span>
+                <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-slate-100/90 border border-border/50" />Peak</span>
               </div>
             </div>
 
