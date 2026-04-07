@@ -24,7 +24,7 @@ const Footer = () => {
           {/* Left Column */}
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-white">bhavyakansal.dev</h3>
-            <p className="text-gray-400">
+            <p className="text-gray-400" style={{ textAlign: "justify" }}>
               AI Engineer, ML Researcher, and Founder building production-ready deep-tech systems across multimodal AI, vision, and automation.
             </p>
             <div className="flex gap-3">

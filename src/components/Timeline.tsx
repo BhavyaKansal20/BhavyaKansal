@@ -159,7 +159,7 @@ const Timeline = () => {
                     </div>
                   )}
 
-                  <p className="text-sm text-muted-foreground leading-relaxed mt-2" dangerouslySetInnerHTML={{ __html: item.summary }} />
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-2" style={{ textAlign: "justify" }} dangerouslySetInnerHTML={{ __html: item.summary }} />
 
                   <div className="mt-3 flex flex-wrap gap-2">
                     {item.tech.map((tag) => (
@@ -239,7 +239,7 @@ const Timeline = () => {
                     </div>
                   )}
 
-                  <p className="text-sm text-muted-foreground leading-relaxed mt-1" dangerouslySetInnerHTML={{ __html: item.summary }} />
+                  <p className="text-sm text-muted-foreground leading-relaxed mt-1" style={{ textAlign: "justify" }} dangerouslySetInnerHTML={{ __html: item.summary }} />
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.tech.map((tag) => (

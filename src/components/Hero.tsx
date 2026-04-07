@@ -104,12 +104,12 @@ const Hero = () => {
             Building scalable AI systems, specializing in Machine Learning and Deep-tech solutions for real-world engineering.
           </h1>
 
-          <p className="text-lg text-muted-foreground max-w-lg">
+          <p className="text-lg text-muted-foreground max-w-lg" style={{ textAlign: "justify" }}>
             Hi, I'm <span className="text-foreground font-medium">Bhavya Kansal</span>.<br />
             I architect and build scalable AI systems focused on machine learning models, multimodal applications, and deep-tech solutions for real-world engineering challenges.
           </p>
 
-          <p className="text-sm text-muted-foreground max-w-xl">
+          <p className="text-sm text-muted-foreground max-w-xl" style={{ textAlign: "justify" }}>
             Based in Patiala, Punjab, I work across AI/ML engineering and research collaborations, including projects connected to the TIET ecosystem.
           </p>
 

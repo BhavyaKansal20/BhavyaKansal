@@ -65,15 +65,15 @@ const About = () => {
             </div>
 
             <div className="space-y-6 text-lg text-muted-foreground">
-              <p>
+              <p style={{ textAlign: "justify" }}>
                 I build AI systems that actually ship, closing the gap between research-grade models and production infrastructure. I specialize in deep learning, computer vision, and generative AI with a strong focus on solving real-world engineering problems.
               </p>
 
-              <p>
+              <p style={{ textAlign: "justify" }}>
                 I am the founder of <span className="font-bold text-black dark:text-white">MultiModex AI</span>, where I am engineering multimodal reasoning infrastructure that unifies vision, language, and decision logic into one deployable system. I also created Project AAGNI, an augmented assistant designed for complex real-time decision support.
               </p>
 
-              <p>
+              <p style={{ textAlign: "justify" }}>
                 My mindset is research-driven, execution-focused, and systems-oriented. I prioritize reliability, measurable impact, and turning experimental AI workflows into production-grade products.
               </p>
             </div>

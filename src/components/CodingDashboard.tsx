@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import CalendarHeatmap from "react-calendar-heatmap";
 import "react-calendar-heatmap/dist/styles.css";
-import { Github, Linkedin, Youtube, Sparkles, Activity, Flame, Mail, ExternalLink, BadgeCheck, Globe, CalendarDays } from "lucide-react";
+import { Github, Linkedin, Youtube, Activity, Flame, Mail, ExternalLink, BadgeCheck, Globe, Code2 } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 type ContributionDay = {
@@ -27,7 +27,7 @@ type GoogleDevProfile = {
   experience: string;
   totalBadges: number;
   favoriteBadges: GoogleBadge[];
-  recentActivity: GoogleBadge[];
+  activeThisYear: number;
 };
 
 const GOOGLE_PROFILE_URL = "https://g.dev/BhavyaKansal20";
@@ -89,15 +89,13 @@ const parseGoogleProfile = (raw: string): GoogleDevProfile => {
   });
 
   const allBadges = Array.from(uniqueByName.values());
-  const recentActivity = allBadges
+  const currentYear = new Date().getFullYear();
+  const activeThisYear = allBadges
     .filter((badge) => badge.date)
-    .sort((a, b) => {
-      const da = Date.parse(a.date);
-      const db = Date.parse(b.date);
-      if (Number.isNaN(da) || Number.isNaN(db)) return 0;
-      return db - da;
-    })
-    .slice(0, 4);
+    .filter((badge) => {
+      const d = Date.parse(badge.date);
+      return !Number.isNaN(d) && new Date(d).getFullYear() === currentYear;
+    }).length;
 
   return {
     headline: headlineLine.replace("### ", "") || "Google Developer Program Member",
@@ -105,7 +103,7 @@ const parseGoogleProfile = (raw: string): GoogleDevProfile => {
     experience: expIndex > -1 ? nextNonEmpty(expIndex + 1) : "Early Career (0 - 5 years)",
     totalBadges: allBadges.length,
     favoriteBadges: favoriteBadges.slice(0, 5),
-    recentActivity,
+    activeThisYear,
   };
 };
 
@@ -280,7 +278,9 @@ const CodingDashboard = () => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className={`text-center mb-12 ${isVisible ? "scroll-animate" : ""}`}>
           <p className="text-sm uppercase tracking-wider text-muted-foreground mb-3">Coding Journey</p>
-          <h2 className="text-5xl font-bold">Contributions & Developer Activity</h2>
+          <h2 className="text-5xl font-bold inline-flex items-center gap-3">
+            <Code2 className="w-10 h-10" /> Contributions & Developer Activity
+          </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto mt-4">
             A live snapshot of your GitHub contribution graph and Google Developer profile badges, activity, and ecosystem presence.
           </p>
@@ -363,25 +363,14 @@ const CodingDashboard = () => {
                 <span className="inline-flex items-center gap-2"><span className="w-3 h-3 rounded bg-orange-400/55 border border-border/50" />Peak</span>
               </div>
             </div>
-          </div>
-
-          <div className={`space-y-6 ${isVisible ? "scroll-animate scroll-animate-delay-2" : ""}`}>
-            <div className="glass-card rounded-3xl p-6 border border-border overflow-hidden relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 pointer-events-none" />
-              <div className="relative z-10">
-                <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground mb-3">Profile Snapshot</p>
-                <h3 className="text-2xl font-bold mb-3">Bhavya Kansal</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  Founder-led work on multimodal AI systems, applied machine learning, and deployable deep-tech products.
-                </p>
-              </div>
-            </div>
 
             <div className="glass-card rounded-3xl p-6 border border-border overflow-hidden relative">
               <div className="absolute inset-0 bg-gradient-to-br from-amber-500/10 via-transparent to-blue-500/10 pointer-events-none" />
               <div className="relative z-10">
                 <div className="flex items-center justify-between gap-3 mb-4">
-                  <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground">Google Developer Profile</p>
+                  <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground inline-flex items-center gap-2">
+                    <Globe className="w-4 h-4" /> Google Developer Profile
+                  </p>
                   <a
                     href={GOOGLE_PROFILE_URL}
                     target="_blank"
@@ -397,7 +386,7 @@ const CodingDashboard = () => {
                 )}
 
                 {!googleLoading && googleProfile && (
-                  <div className="space-y-4">
+                  <div className="space-y-5">
                     <div>
                       <p className="text-sm font-medium">{googleProfile.headline}</p>
                       <p className="text-xs text-muted-foreground mt-1">{googleProfile.location} • {googleProfile.experience}</p>
@@ -411,24 +400,22 @@ const CodingDashboard = () => {
                         </p>
                       </div>
                       <div className="rounded-xl border border-border/70 px-3 py-2 bg-background/60">
-                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Recent Activity</p>
-                        <p className="text-xl font-bold mt-1 inline-flex items-center gap-2">
-                          <CalendarDays className="w-4 h-4" /> {googleProfile.recentActivity.length}
-                        </p>
+                        <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground">Active This Year</p>
+                        <p className="text-xl font-bold mt-1">{googleProfile.activeThisYear}</p>
                       </div>
                     </div>
 
                     {googleProfile.favoriteBadges.length > 0 && (
                       <div>
-                        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-2">Favorite Badges</p>
-                        <div className="space-y-2">
-                          {googleProfile.favoriteBadges.map((badge) => (
-                            <div key={`${badge.name}-${badge.date}`} className="flex items-center gap-3 rounded-xl border border-border/70 px-3 py-2 bg-background/50">
-                              <img src={badge.icon} alt={badge.name} className="w-8 h-8 object-contain" loading="lazy" decoding="async" />
-                              <div className="min-w-0">
-                                <p className="text-sm font-medium truncate">{badge.name}</p>
-                                {badge.date && <p className="text-xs text-muted-foreground">{badge.date}</p>}
-                              </div>
+                        <p className="text-xs uppercase tracking-[0.3em] text-muted-foreground mb-3">Badge Wall</p>
+                        <div className="grid grid-cols-5 sm:grid-cols-6 gap-3">
+                          {googleProfile.favoriteBadges.map((badge, idx) => (
+                            <div
+                              key={`${badge.icon}-${idx}`}
+                              className="rounded-2xl border border-border/70 bg-background/55 h-16 w-16 flex items-center justify-center"
+                              title={badge.name}
+                            >
+                              <img src={badge.icon} alt="Google badge" className="w-10 h-10 object-contain" loading="lazy" decoding="async" />
                             </div>
                           ))}
                         </div>
@@ -450,6 +437,19 @@ const CodingDashboard = () => {
                     </a>
                   </div>
                 )}
+              </div>
+            </div>
+          </div>
+
+          <div className={`space-y-6 ${isVisible ? "scroll-animate scroll-animate-delay-2" : ""}`}>
+            <div className="glass-card rounded-3xl p-6 border border-border overflow-hidden relative">
+              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 via-transparent to-blue-500/10 pointer-events-none" />
+              <div className="relative z-10">
+                <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground mb-3">Profile Snapshot</p>
+                <h3 className="text-2xl font-bold mb-3">Bhavya Kansal</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  Founder-led work on multimodal AI systems, applied machine learning, and deployable deep-tech products.
+                </p>
               </div>
             </div>
 
