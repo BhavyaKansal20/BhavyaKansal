@@ -183,7 +183,7 @@ const Projects = () => {
                     <div className="space-y-3">
                       <div className={`text-[11px] uppercase tracking-[0.4em] font-black ${isSignLang ? "text-cyan-200/80" : "text-white/70"}`}>{style.label}</div>
                       <h3 className="text-3xl font-bold text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.2)]">{project.title}</h3>
-                      <p className="text-sm text-white/75 max-w-xs mx-auto leading-relaxed">{project.description}</p>
+                      <p className="text-sm text-white/75 max-w-xs mx-auto leading-relaxed" style={{ textAlign: "justify" }}>{project.description}</p>
                     </div>
                   </div>
 
@@ -196,7 +196,7 @@ const Projects = () => {
                 </div>
 
                 <div className="p-6 space-y-4 bg-background/90">
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3">
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3" style={{ textAlign: "justify" }}>
                     {project.fullDescription}
                   </p>
 
