@@ -352,6 +352,17 @@ All colors MUST be HSL.
     animation: slideUp 260ms cubic-bezier(.2,.8,.2,1) both;
   }
 
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .animate-scroll {
+    animation: scroll 26s linear infinite;
+    width: fit-content;
+    will-change: transform;
+  }
+
   /* Mobile-specific faster float animation (fallback/direct override) */
   @keyframes floatMobile {
     0%, 100% { transform: translateY(0px); }
@@ -433,8 +444,7 @@ All colors MUST be HSL.
 
   /* Target both the plugin class and common Radix/Shadcn data-state classes */
   .slide-in-from-bottom-full,
-  [data-state="open"].slide-in-from-bottom,
-  [data-state="open"]\:slide-in-from-bottom {
+  [data-state="open"].slide-in-from-bottom {
     transform-origin: center bottom !important;
     backface-visibility: hidden !important;
     will-change: transform, opacity !important;

@@ -37,44 +37,51 @@ export const projectsData: Project[] = [
     id: "healthy-ai",
     title: "Healthy AI",
     description:
-      "Production-grade AI health prediction platform for real-time heart disease risk scoring.",
+      "Live AI health intelligence platform for heart, diabetes, and brain tumor risk workflows.",
     fullDescription:
-      "Healthy AI is a production-ready platform built during NIELIT x IIT Ropar training. It uses a Gradient Boosting Classifier on heart-disease datasets, provides interactive EDA, and generates automated PDF reports per patient for practical clinical workflows.",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1400&q=80"],
-    tags: ["Python", "Flask", "Scikit-learn", "Pandas", "ReportLab"],
-    techStack: ["Python", "Flask", "Scikit-learn", "Pandas", "Matplotlib", "ReportLab"],
+      "Healthy AI is a deployable ML product that combines tabular and vision pipelines in one Flask application. It supports heart disease and diabetes risk prediction, brain tumor MRI classification, EDA dashboards, and downloadable PDF reports with secure session-based access.",
+    image: "https://images.unsplash.com/photo-1576671081837-49000212a370?auto=format&fit=crop&w=1400&q=80",
+    images: [
+      "https://images.unsplash.com/photo-1576671081837-49000212a370?auto=format&fit=crop&w=1400&q=80",
+      "https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1400&q=80",
+    ],
+    tags: ["Python", "Flask", "Scikit-learn", "PyTorch", "ReportLab"],
+    techStack: ["Python", "Flask", "Scikit-learn", "PyTorch", "SQLite", "Matplotlib", "ReportLab"],
     category: "Live Projects",
     featured: true,
     githubUrl: "https://github.com/BhavyaKansal20/healthy-ai.git",
     liveUrl: "https://healthyai-dlog.onrender.com",
     features: [
-      "Real-time risk scoring",
-      "Interactive exploratory analytics",
-      "Patient-wise PDF report generation",
-      "Deployable web interface",
+      "Heart disease prediction with Gradient Boosting",
+      "Diabetes risk prediction with high-accuracy ML pipeline",
+      "Brain MRI tumor classification with EfficientNet model",
+      "EDA charts, report history, and downloadable PDF summaries",
+      "Secure login flow and protected dashboard routes",
     ],
     challenges: [
-      "Balancing interpretability and performance for clinical use",
-      "Building stable report generation for varied input quality",
+      "Serving both tabular and image inference flows in one production app",
+      "Maintaining clear UX for non-technical users in healthcare-like workflows",
+      "Keeping deployment stable on Render with compatible ML dependencies",
     ],
     metrics: [
       { value: "Live", label: "Deployment", description: "Hosted on Render" },
-      { value: "1", label: "Core Model", description: "Gradient Boosting Classifier" },
-      { value: "Auto", label: "Reporting", description: "Per-patient PDF export" },
+      { value: "97.2%", label: "Diabetes Model", description: "Reported project accuracy" },
+      { value: "83.7%", label: "Heart Model", description: "Reported project accuracy" },
+      { value: "3", label: "Prediction Modules", description: "Heart, Diabetes, Brain MRI" },
     ],
     implementation: {
       approach:
-        "Built as an end-to-end Flask workflow: data processing, model inference, visualization, and downloadable reports.",
+        "Architected as a modular Flask platform with route-level feature separation: prediction APIs, secure report history, and analytics dashboards sharing a consistent inference and storage layer.",
       technologies: [
-        { name: "Flask", reason: "Simple and reliable web serving layer for model inference" },
-        { name: "Scikit-learn", reason: "Fast experimentation and stable classical ML pipeline" },
-        { name: "ReportLab", reason: "Programmatic PDF report generation for practical sharing" },
+        { name: "Flask", reason: "Production-friendly routing, templates, and auth flow in a single service" },
+        { name: "Scikit-learn", reason: "Reliable tabular ML pipelines for heart and diabetes predictions" },
+        { name: "PyTorch", reason: "Brain MRI classification with deep learning model serving" },
+        { name: "ReportLab", reason: "Automated medical-style PDF report generation" },
       ],
     },
-    architecture: "Input form -> ML inference -> analytics visualization -> generated report",
+    architecture: "Client -> Flask auth/routes -> tabular or MRI inference engine -> SQLite/report layer -> dashboard + PDF export",
     documentation: {
-      overview: "Heart disease risk prediction system built for applied AI deployment.",
+      overview: "End-to-end AI health prediction platform built for practical deployment and portfolio-grade product execution.",
     },
   },
   {
@@ -82,14 +89,14 @@ export const projectsData: Project[] = [
     title: "SignLang AI",
     description: "Real-time sign language gesture translation into text and speech.",
     fullDescription:
-      "SignLang AI tracks hand landmarks with MediaPipe and classifies gesture sequences using a PyTorch LSTM model. It is engineered for high frame-rate inference and accessible interaction.",
-    image: "https://images.unsplash.com/photo-1520975682031-ae1a6f1d3e2c?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1520975682031-ae1a6f1d3e2c?auto=format&fit=crop&w=1400&q=80"],
+      "SignLang AI is a real-time Indian Sign Language recognition app that detects hand landmarks with MediaPipe and classifies temporal gesture sequences using a PyTorch LSTM model, then converts output to readable text and speech for accessibility.",
+    image: "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Python", "MediaPipe", "PyTorch", "LSTM", "Flask"],
     techStack: ["Python", "MediaPipe", "PyTorch", "LSTM", "Flask", "Hugging Face Spaces"],
     category: "Live Projects",
     featured: true,
-    githubUrl: "https://github.com/BhavyaKansal20/SignLang-Al.git",
+    githubUrl: "https://github.com/BhavyaKansal20/SignLang-AI.git",
     liveUrl: "https://kansal0920-signlang-ai.hf.space",
     features: [
       "Live hand landmark detection",
@@ -104,7 +111,7 @@ export const projectsData: Project[] = [
     metrics: [
       { value: "Live", label: "Deployment", description: "Hosted on Hugging Face Spaces" },
       { value: "Real-time", label: "Inference", description: "Designed for continuous gesture input" },
-      { value: "LSTM", label: "Sequence Model", description: "Temporal gesture modeling" },
+      { value: "LSTM", label: "Sequence Model", description: "Temporal sign classification" },
     ],
     implementation: {
       approach:
@@ -125,11 +132,11 @@ export const projectsData: Project[] = [
     title: "DeepFake Scanner",
     description: "Real-time deepfake detection with confidence scoring and forensic overlays.",
     fullDescription:
-      "DeepFake Scanner is an AI-powered media verification system trained with EfficientNet-B4 on DFDC-style data. It classifies media as real or manipulated and presents confidence-driven outputs in an interactive app.",
-    image: "https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1535378917042-10a22c95931a?auto=format&fit=crop&w=1400&q=80"],
+      "DeepFake Scanner is an AI-powered media authenticity system focused on practical deepfake screening. It uses deep learning backbones to classify manipulated content and surfaces confidence-oriented outputs for faster trust decisions.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Python", "EfficientNet", "PyTorch", "Gradio"],
-    techStack: ["Python", "EfficientNet-B4", "PyTorch", "Gradio", "Hugging Face Spaces"],
+    techStack: ["Python", "EfficientNet", "PyTorch", "Streamlit", "Hugging Face Spaces"],
     category: "Live Projects",
     featured: true,
     githubUrl: "https://github.com/BhavyaKansal20/DeepFake-Detector.git",
@@ -146,7 +153,7 @@ export const projectsData: Project[] = [
     ],
     metrics: [
       { value: "Live", label: "Deployment", description: "Hosted on Hugging Face Spaces" },
-      { value: "B4", label: "Model Backbone", description: "EfficientNet-B4 fine-tuning" },
+      { value: "CNN", label: "Model Family", description: "Deep learning-based media classification" },
       { value: "CV", label: "Domain", description: "Computer vision authenticity checking" },
     ],
     implementation: {
@@ -168,9 +175,9 @@ export const projectsData: Project[] = [
     title: "AAGNI Assistant",
     description: "Telegram-based NLP assistant for real-time query handling and script automation.",
     fullDescription:
-      "AAGNI is an NLP-driven assistant that responds to natural language prompts over Telegram and can trigger backend actions. It is designed for context-aware responses and practical automation support.",
-    image: "https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?auto=format&fit=crop&w=1400&q=80"],
+      "AAGNI Assistant is a Telegram-based conversational automation bot that handles natural-language inputs, maps them to intents, and executes backend actions for productivity-oriented workflows.",
+    image: "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Python", "NLP", "Telegram API", "Automation"],
     techStack: ["Python", "NLP", "Telegram Bot API", "python-telegram-bot"],
     category: "Codes",
@@ -187,7 +194,7 @@ export const projectsData: Project[] = [
     ],
     metrics: [
       { value: "Telegram", label: "Platform", description: "Assistant interface via bot" },
-      { value: "NLP", label: "Core", description: "Natural language query handling" },
+      { value: "2", label: "Stars", description: "GitHub community signal" },
     ],
     implementation: {
       approach: "Telegram message processing layer plus NLP intent routing and backend action handlers.",
@@ -203,9 +210,9 @@ export const projectsData: Project[] = [
     title: "Immutable Doc-Verify",
     description: "Document verification workflow combining OCR and cryptographic integrity checks.",
     fullDescription:
-      "Immutable Doc-Verify extracts text from documents with OCR, generates secure hashes, and validates records against a tamper-resistant ledger model to protect certificate integrity.",
-    image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=1400&q=80"],
+      "Immutable Doc-Verify extracts certificate data with OCR, creates cryptographic integrity fingerprints, and verifies authenticity through deterministic comparison flows to reduce fake document risk.",
+    image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Python", "OCR", "Cryptography", "SHA-256"],
     techStack: ["Python", "Tesseract OCR", "Cryptography", "SHA-256"],
     category: "Codes",
@@ -238,9 +245,9 @@ export const projectsData: Project[] = [
     title: "NeuroLock AI",
     description: "Facial emotion analytics platform for live tracking, session insights, and PDF reporting.",
     fullDescription:
-      "NeuroLock AI is an upgraded real-time facial emotion recognition system built on top of earlier CV work. It combines Flask, WebSockets, and FER-based inference for continuous emotion tracking and reporting.",
-    image: "https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1558346490-a72e53ae2d4f?auto=format&fit=crop&w=1400&q=80"],
+      "NeuroLock AI is a real-time emotion analytics system that processes webcam streams, classifies emotional states, and generates session summaries for behavior-aware educational and engagement scenarios.",
+    image: "https://images.unsplash.com/photo-1526378800651-c32d170fe6f8?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1526378800651-c32d170fe6f8?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Flask", "OpenCV", "Socket.IO", "FER", "ReportLab"],
     techStack: ["Flask", "OpenCV", "Socket.IO", "FER", "ReportLab"],
     category: "Codes",
@@ -266,9 +273,9 @@ export const projectsData: Project[] = [
     title: "Machine Learning",
     description: "Repository of machine learning experiments, notebooks, and model-building practice.",
     fullDescription:
-      "A curated GitHub repository for machine learning practice, experiments, and reusable notebooks covering supervised learning, evaluation, and iterative model development.",
-    image: "https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1555949963-aa79dcee981c?auto=format&fit=crop&w=1400&q=80"],
+      "A curated machine learning lab repository with notebook-driven experimentation, model benchmarking, and beginner-to-intermediate practice flows designed for consistent upskilling and reproducible learning.",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Python", "ML", "Notebooks", "Experiments"],
     techStack: ["Python", "Scikit-learn", "Pandas", "Jupyter"],
     category: "ML/Datasets",
@@ -278,7 +285,7 @@ export const projectsData: Project[] = [
     challenges: ["Organizing repeated experiments", "Keeping notebooks easy to revisit"],
     metrics: [
       { value: "GitHub", label: "Repo", description: "Machine learning practice repository" },
-      { value: "ML", label: "Scope", description: "General model building and experimentation" },
+      { value: "1", label: "Star", description: "Public engagement signal" },
     ],
     implementation: {
       approach: "Notebook-driven repository for ML experimentation and concept validation.",
@@ -294,9 +301,9 @@ export const projectsData: Project[] = [
     title: "Datasets",
     description: "Repository of datasets and data resources used across AI and ML work.",
     fullDescription:
-      "A clean GitHub repository for managing datasets, collection references, and reusable data sources that support training, testing, and analysis across ML projects.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1400&q=80"],
+      "A structured datasets repository containing curated, original, and refined resources used across multiple AI/ML experiments. It is organized for fast reuse in training, validation, and comparative evaluation workflows.",
+    image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1400&q=80",
+    images: ["https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1400&q=80"],
     tags: ["Data", "Curation", "Python", "Resources"],
     techStack: ["Python", "CSV/JSON", "Data Curation", "Research"],
     category: "ML/Datasets",
@@ -306,7 +313,7 @@ export const projectsData: Project[] = [
     challenges: ["Keeping datasets organized and traceable", "Supporting multiple experiment workflows"],
     metrics: [
       { value: "GitHub", label: "Repo", description: "Dataset management repository" },
-      { value: "Data", label: "Focus", description: "Curation and reuse for ML workflows" },
+      { value: "1", label: "Star", description: "Public engagement signal" },
     ],
     implementation: {
       approach: "Repository structure for dataset organization, references, and experiment-ready data assets.",

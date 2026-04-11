@@ -15,8 +15,10 @@ const Footer = () => {
     <footer className="bg-[#0a0a0a] py-16 relative overflow-hidden">
       {/* Decorative gradient blobs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
+        <div className="absolute top-0 left-1/3 w-80 h-80 bg-emerald-400/12 rounded-full blur-3xl" />
+        <div className="absolute -bottom-20 right-1/3 w-72 h-72 bg-blue-500/18 rounded-full blur-3xl" />
+        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-pink-500/16 rounded-full blur-3xl" />
       </div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
@@ -25,7 +27,7 @@ const Footer = () => {
           <div className="space-y-6">
             <h3 className="text-2xl font-bold text-white">bhavyakansal.dev</h3>
             <p className="text-gray-400" style={{ textAlign: "justify" }}>
-              AI Engineer, ML Researcher, and Founder building production-ready deep-tech systems across multimodal AI, vision, and automation.
+              AI/ML engineer building production-ready systems across healthcare AI, accessibility, computer vision, and practical automation.
             </p>
             <div className="flex gap-3">
               <a

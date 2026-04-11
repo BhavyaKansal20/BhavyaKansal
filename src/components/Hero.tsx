@@ -90,18 +90,18 @@ const Hero = () => {
             {isNarrow ? (
               <div className="marquee" aria-hidden>
                 <div className="marquee__inner bg-black text-white px-6 py-2 rounded-full text-sm font-medium uppercase tracking-wide">
-                  <span>AI Engineer, ML Researcher & Founder</span>
+                  <span>AI/ML Engineer and Deep-Tech Builder</span>
                 </div>
               </div>
             ) : (
                 <span className="bg-black text-white px-6 py-2 rounded-full text-sm font-medium uppercase tracking-wide">
-                DeepTech Developer • Founder - MultiModex AI
+                AI/ML Engineer • Deep-Tech Builder
               </span>
             )}
           </div>
 
           <h1 className="text-3xl md:text-5xl font-bold leading-tight">
-            Building scalable AI systems, specializing in Machine Learning and Deep-tech solutions for real-world engineering.
+            Building production-ready AI systems across machine learning, computer vision, and intelligent automation.
           </h1>
 
           <p className="text-lg text-muted-foreground max-w-lg" style={{ textAlign: "justify" }}>

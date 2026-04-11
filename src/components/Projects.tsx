@@ -59,8 +59,16 @@ const Projects = () => {
           0%, 100% { opacity: 0.45; transform: scaleX(0.9); }
           50% { opacity: 1; transform: scaleX(1); }
         }
+        @keyframes project-pulse {
+          0%, 100% { transform: scale(1); opacity: 0.48; }
+          50% { transform: scale(1.18); opacity: 0.18; }
+        }
         .project-card-shell {
           transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
+          isolation: isolate;
+          backface-visibility: hidden;
+          transform: translateZ(0);
+          will-change: transform;
         }
         .project-card-shell:hover {
           transform: translateY(-8px);
@@ -76,10 +84,24 @@ const Projects = () => {
         .project-card-shell:hover .project-glow-line {
           animation-play-state: running;
         }
+        .project-hero-surface {
+          transform: translateZ(0);
+          backface-visibility: hidden;
+          will-change: opacity, transform;
+        }
         body.chrome-safe .project-scan-line,
         body.chrome-safe .project-glow-line {
           animation: none !important;
           opacity: 0.3;
+        }
+        body.chrome-desktop-safe .project-card-shell,
+        body.chrome-desktop-safe .project-hero-surface,
+        body.chrome-desktop-safe .project-card-shell * {
+          backface-visibility: hidden;
+        }
+        body.chrome-desktop-safe .project-pulse-orb {
+          animation: none !important;
+          opacity: 0.18 !important;
         }
         @media (hover: none), (pointer: coarse) {
           .project-scan-line,
@@ -152,8 +174,15 @@ const Projects = () => {
                   </div>
                 )}
 
-                <div className="relative overflow-hidden h-64 bg-slate-950">
+                <div className="relative overflow-hidden h-64 bg-slate-950 project-hero-surface">
                   <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-900" />
+                  <div
+                    className="project-pulse-orb absolute -top-16 -right-12 h-44 w-44 rounded-full blur-3xl"
+                    style={{
+                      background: `radial-gradient(circle, ${isSignLang ? "rgba(103,232,249,0.38)" : "rgba(255,255,255,0.24)"} 0%, rgba(255,255,255,0) 70%)`,
+                      animation: "project-pulse 2.7s ease-in-out infinite",
+                    }}
+                  />
                   <div
                     className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700"
                     style={{ backgroundImage: `url('${project.image}')` }}
@@ -166,6 +195,12 @@ const Projects = () => {
                         className="absolute left-1/2 top-6 h-44 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-300/80 to-transparent opacity-70"
                         style={{ animation: "project-scan 2.1s ease-in-out infinite" }}
                       />
+                    </div>
+                  )}
+                  {project.id === "healthy-ai" && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute left-8 top-8 rounded-full border border-emerald-300/50 w-24 h-24" style={{ animation: "project-pulse 2.2s ease-in-out infinite" }} />
+                      <div className="absolute left-8 top-8 rounded-full border border-emerald-200/40 w-24 h-24" style={{ animation: "project-pulse 2.2s ease-in-out 0.5s infinite" }} />
                     </div>
                   )}
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
