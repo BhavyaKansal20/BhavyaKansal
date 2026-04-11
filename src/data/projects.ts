@@ -40,9 +40,9 @@ export const projectsData: Project[] = [
       "Live AI health intelligence platform for heart, diabetes, and brain tumor risk workflows.",
     fullDescription:
       "Healthy AI is a deployable ML product that combines tabular and vision pipelines in one Flask application. It supports heart disease and diabetes risk prediction, brain tumor MRI classification, EDA dashboards, and downloadable PDF reports with secure session-based access.",
-    image: "https://opengraph.githubassets.com/1/BhavyaKansal20/healthy-ai",
+    image: "/healthyai.png",
     images: [
-      "https://opengraph.githubassets.com/1/BhavyaKansal20/healthy-ai",
+      "/healthyai.png",
       "https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1400&q=80",
     ],
     tags: ["Python", "Flask", "Scikit-learn", "PyTorch", "ReportLab"],
@@ -90,8 +90,8 @@ export const projectsData: Project[] = [
     description: "Real-time sign language gesture translation into text and speech.",
     fullDescription:
       "SignLang AI is a real-time Indian Sign Language recognition app that detects hand landmarks with MediaPipe and classifies temporal gesture sequences using a PyTorch LSTM model, then converts output to readable text and speech for accessibility.",
-    image: "https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1400&q=80"],
+    image: "/signlangai.png",
+    images: ["/signlangai.png"],
     tags: ["Python", "MediaPipe", "PyTorch", "LSTM", "Flask"],
     techStack: ["Python", "MediaPipe", "PyTorch", "LSTM", "Flask", "Hugging Face Spaces"],
     category: "Live Projects",
@@ -133,8 +133,8 @@ export const projectsData: Project[] = [
     description: "Real-time deepfake detection with confidence scoring and forensic overlays.",
     fullDescription:
       "DeepFake Scanner is an AI-powered media authenticity system focused on practical deepfake screening. It uses deep learning backbones to classify manipulated content and surfaces confidence-oriented outputs for faster trust decisions.",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80",
-    images: ["https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1400&q=80"],
+    image: "/deepfakeai.png",
+    images: ["/deepfakeai.png"],
     tags: ["Python", "EfficientNet", "PyTorch", "Gradio"],
     techStack: ["Python", "EfficientNet", "PyTorch", "Streamlit", "Hugging Face Spaces"],
     category: "Live Projects",
@@ -176,8 +176,8 @@ export const projectsData: Project[] = [
     description: "Streamlit-based regression app for house price prediction using tree models.",
     fullDescription:
       "ML House Price Prediction is a deployable machine learning web app that estimates property prices using Random Forest and Decision Tree regression models. It is built with Streamlit for practical usage, quick experimentation, and accessible model-driven predictions.",
-    image: "https://opengraph.githubassets.com/1/BhavyaKansal20/ML_HousePricePrediction",
-    images: ["https://opengraph.githubassets.com/1/BhavyaKansal20/ML_HousePricePrediction"],
+    image: "/homeprediction.png",
+    images: ["/homeprediction.png"],
     tags: ["Python", "Streamlit", "Random Forest", "Decision Tree", "Regression"],
     techStack: ["Python", "Scikit-learn", "Streamlit", "Pandas", "Jupyter Notebook"],
     category: "Live Projects",
