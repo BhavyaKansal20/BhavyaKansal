@@ -30,6 +30,17 @@ const groupStyles: Record<string, { ring: string; accent: string; label: string;
 };
 
 const featuredKeys = new Set(["Healthy AI", "SignLang AI", "DeepFake Scanner"]);
+const preferredProjectOrder = [
+  "healthy-ai",
+  "signlang-ai",
+  "deepfake-scanner",
+  "ml-house-price-prediction",
+  "machine-learning",
+  "datasets",
+  "aagni-assistant",
+  "immutable-doc-verify",
+  "neurolock-ai",
+];
 
 const Projects = () => {
   const { ref: projectsRef, isVisible: projectsVisible } = useScrollAnimation();
@@ -38,10 +49,11 @@ const Projects = () => {
 
   const displayedProjects = useMemo(() => {
     const items = projectsData.filter((project) => filter === "All" || project.category === filter);
+    const orderIndex = new Map(preferredProjectOrder.map((id, index) => [id, index]));
     return items.slice().sort((a, b) => {
-      const aFeatured = featuredKeys.has(a.title);
-      const bFeatured = featuredKeys.has(b.title);
-      if (aFeatured !== bFeatured) return aFeatured ? -1 : 1;
+      const aOrder = orderIndex.get(a.id) ?? Number.MAX_SAFE_INTEGER;
+      const bOrder = orderIndex.get(b.id) ?? Number.MAX_SAFE_INTEGER;
+      if (aOrder !== bOrder) return aOrder - bOrder;
       return projectsData.indexOf(a) - projectsData.indexOf(b);
     });
   }, [filter]);
@@ -141,6 +153,7 @@ const Projects = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayedProjects.map((project, index) => {
             const isSignLang = project.title === "SignLang AI";
+            const isHealthy = project.id === "healthy-ai";
             const style = groupStyles[project.category] || {
               ring: "rgba(148,163,184,0.24)",
               accent: "#94a3b8",
@@ -206,11 +219,19 @@ const Projects = () => {
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div
                       className="project-scan-line absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-transparent via-white/90 to-transparent opacity-0"
-                      style={{ animation: isSignLang ? "project-scan 2.1s ease-in-out infinite" : "project-scan 3s ease-in-out infinite" }}
+                      style={{
+                        animation: isSignLang ? "project-scan 2.1s ease-in-out infinite" : isHealthy ? "project-scan 2.3s ease-in-out infinite" : "project-scan 3s ease-in-out infinite",
+                        animationPlayState: isHealthy ? "running" : undefined,
+                        opacity: isHealthy ? 0.82 : undefined,
+                      }}
                     />
                     <div
                       className="project-glow-line absolute inset-x-6 bottom-6 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                      style={{ animation: isSignLang ? "project-glow 1.8s ease-in-out infinite" : "project-glow 2.4s ease-in-out infinite" }}
+                      style={{
+                        animation: isSignLang ? "project-glow 1.8s ease-in-out infinite" : isHealthy ? "project-glow 1.9s ease-in-out infinite" : "project-glow 2.4s ease-in-out infinite",
+                        animationPlayState: isHealthy ? "running" : undefined,
+                        opacity: isHealthy ? 0.75 : undefined,
+                      }}
                     />
                   </div>
 

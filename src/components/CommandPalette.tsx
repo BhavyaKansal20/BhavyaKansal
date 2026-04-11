@@ -79,28 +79,12 @@ const CommandPalette = () => {
       action: () => window.open("https://github.com/BhavyaKansal20/DeepFake-Detector.git", "_blank")
     },
     {
-      id: "aagni",
-      title: "AAGNI Assistant",
-      description: "Telegram-based NLP assistant for conversational automation workflows",
+      id: "ml-house-price-prediction",
+      title: "ML House Price Prediction",
+      description: "Streamlit regression app for house price prediction with tree models",
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/Telegram-Chatbot-", "_blank")
-    },
-    {
-      id: "neurolock",
-      title: "NeuroLock AI",
-      description: "Real-time facial analytics and session reporting platform",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/neurolock-ai-", "_blank")
-    },
-    {
-      id: "certificate-verifier",
-      title: "Immutable Doc-Verify",
-      description: "OCR and cryptography-based certificate verification workflow",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/Certificate-Verifier", "_blank")
+      action: () => window.open("https://github.com/BhavyaKansal20/ML_HousePricePrediction.git", "_blank")
     },
     {
       id: "machine-learning",
@@ -117,6 +101,30 @@ const CommandPalette = () => {
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
       action: () => window.open("https://github.com/BhavyaKansal20/Datasets.git", "_blank")
+    },
+    {
+      id: "aagni",
+      title: "AAGNI Assistant",
+      description: "Telegram-based NLP assistant for conversational automation workflows",
+      category: "project" as const,
+      icon: <Briefcase className="mr-2 h-4 w-4" />,
+      action: () => window.open("https://github.com/BhavyaKansal20/Telegram-Chatbot-", "_blank")
+    },
+    {
+      id: "certificate-verifier",
+      title: "Immutable Doc-Verify",
+      description: "OCR and cryptography-based certificate verification workflow",
+      category: "project" as const,
+      icon: <Briefcase className="mr-2 h-4 w-4" />,
+      action: () => window.open("https://github.com/BhavyaKansal20/Certificate-Verifier", "_blank")
+    },
+    {
+      id: "neurolock",
+      title: "NeuroLock AI",
+      description: "Real-time facial analytics and session reporting platform",
+      category: "project" as const,
+      icon: <Briefcase className="mr-2 h-4 w-4" />,
+      action: () => window.open("https://github.com/BhavyaKansal20/neurolock-ai-", "_blank")
     },
   ], []);
 

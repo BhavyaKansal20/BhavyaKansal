@@ -40,9 +40,9 @@ export const projectsData: Project[] = [
       "Live AI health intelligence platform for heart, diabetes, and brain tumor risk workflows.",
     fullDescription:
       "Healthy AI is a deployable ML product that combines tabular and vision pipelines in one Flask application. It supports heart disease and diabetes risk prediction, brain tumor MRI classification, EDA dashboards, and downloadable PDF reports with secure session-based access.",
-    image: "https://images.unsplash.com/photo-1576671081837-49000212a370?auto=format&fit=crop&w=1400&q=80",
+    image: "https://opengraph.githubassets.com/1/BhavyaKansal20/healthy-ai",
     images: [
-      "https://images.unsplash.com/photo-1576671081837-49000212a370?auto=format&fit=crop&w=1400&q=80",
+      "https://opengraph.githubassets.com/1/BhavyaKansal20/healthy-ai",
       "https://images.unsplash.com/photo-1584982751601-97dcc096659c?auto=format&fit=crop&w=1400&q=80",
     ],
     tags: ["Python", "Flask", "Scikit-learn", "PyTorch", "ReportLab"],
@@ -168,6 +168,49 @@ export const projectsData: Project[] = [
     architecture: "Media input -> preprocessing -> EfficientNet inference -> confidence and label output",
     documentation: {
       overview: "Applied deepfake detection for media authenticity workflows.",
+    },
+  },
+  {
+    id: "ml-house-price-prediction",
+    title: "ML House Price Prediction",
+    description: "Streamlit-based regression app for house price prediction using tree models.",
+    fullDescription:
+      "ML House Price Prediction is a deployable machine learning web app that estimates property prices using Random Forest and Decision Tree regression models. It is built with Streamlit for practical usage, quick experimentation, and accessible model-driven predictions.",
+    image: "https://opengraph.githubassets.com/1/BhavyaKansal20/ML_HousePricePrediction",
+    images: ["https://opengraph.githubassets.com/1/BhavyaKansal20/ML_HousePricePrediction"],
+    tags: ["Python", "Streamlit", "Random Forest", "Decision Tree", "Regression"],
+    techStack: ["Python", "Scikit-learn", "Streamlit", "Pandas", "Jupyter Notebook"],
+    category: "Live Projects",
+    featured: true,
+    githubUrl: "https://github.com/BhavyaKansal20/ML_HousePricePrediction.git",
+    liveUrl: "https://bhavyakansal20-house-price-prediction.hf.space",
+    features: [
+      "Interactive house price prediction interface",
+      "Model comparison across Random Forest and Decision Tree",
+      "Fast user input-to-prediction workflow",
+      "Live deployment for recruiter-ready demonstration",
+    ],
+    challenges: [
+      "Balancing model explainability with practical prediction quality",
+      "Designing simple UX for non-technical users to enter property features",
+    ],
+    metrics: [
+      { value: "Live", label: "Deployment", description: "Hosted on Hugging Face Spaces" },
+      { value: "2", label: "Core Models", description: "Random Forest + Decision Tree" },
+      { value: "1", label: "Star", description: "GitHub community signal" },
+    ],
+    implementation: {
+      approach:
+        "Built as a lightweight Streamlit product with preprocessing + inference layers to support real-time housing price predictions from tabular feature inputs.",
+      technologies: [
+        { name: "Streamlit", reason: "Fast and clean web app delivery for ML demos" },
+        { name: "Scikit-learn", reason: "Reliable regression model training and prediction" },
+        { name: "Pandas", reason: "Tabular data preprocessing and feature handling" },
+      ],
+    },
+    architecture: "User input form -> preprocessing -> regression inference -> predicted price output",
+    documentation: {
+      overview: "Practical ML regression app for house price estimation with a deployable interface.",
     },
   },
   {

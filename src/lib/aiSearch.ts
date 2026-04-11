@@ -28,11 +28,12 @@ PROJECT PORTFOLIO:
 1. Healthy AI (Live on Render)
 2. SignLang AI (Live on Hugging Face)
 3. DeepFake Scanner (Live on Hugging Face)
-4. AAGNI Assistant (Telegram Powered)
-5. Immutable Doc-Verify
-6. NeuroLock AI
-7. Machine Learning
-8. Datasets
+4. ML House Price Prediction (Live on Hugging Face)
+5. Machine Learning
+6. Datasets
+7. AAGNI Assistant (Telegram Powered)
+8. Immutable Doc-Verify
+9. NeuroLock AI
 ACHIEVEMENTS & LEADERSHIP:
 - Built 10+ projects, including 5+ AI-first systems
 - Active in generative AI, multimodal reasoning, and ethical AI development
@@ -121,7 +122,7 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     period: "foundation",
     tags: ["projects", "portfolio", "build", "systems"],
     content:
-      "Signature projects include Healthy AI, SignLang AI, DeepFake Scanner, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI, with practical focus on healthcare AI, accessibility, authenticity detection, and automation.",
+      "Signature projects include Healthy AI, SignLang AI, DeepFake Scanner, ML House Price Prediction, Machine Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI, with practical focus on healthcare AI, accessibility, authenticity detection, and automation.",
   },
   {
     id: "leadership-impact",
@@ -288,7 +289,7 @@ const fallbackResponses: Record<string, string> = {
   "experience": "I completed summer training in Python, AI/ML, and cybersecurity at Thapar Polytechnic College, followed by AI/ML internship training at IIT Ropar and NIELIT Ropar focused on applied machine learning, experimentation, and deployment-ready implementations.",
   "skills": "I primarily work with Python, PyTorch, TensorFlow, scikit-learn, OpenCV, NumPy, Pandas, FastAPI, Flask, React, Next.js, and cloud platforms like Supabase, Firebase, and Vercel, along with applied automation and multimodal AI pipelines.",
   "education": "I completed my Diploma in Computer Science Engineering at Thapar Polytechnic College (2023-2026), completed summer training in Python, AI/ML, and cybersecurity, completed AI/ML intern training at IIT & NIELIT Ropar, and am pursuing B.Tech in DSAI at Thapar Institute (2026-2029).",
-  "projects": "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, AAGNI Assistant, Immutable Doc-Verify, NeuroLock AI, Machine Learning, and Datasets.",
+  "projects": "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, ML House Price Prediction, Machine Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
   "contact": "You can reach me at kansalbhavya27@gmail.com or thebhavyakansal20@gmail.com, connect on LinkedIn (linkedin.com/in/kansal0920), or visit github.com/BhavyaKansal20.",
   "achievements": "I have built 10+ projects including 5+ AI-first systems with practical deployment experience across healthcare AI, accessibility, and computer vision.",
   "leadership": "I focus on leading projects end-to-end, from model prototyping to production-ready implementation and deployment.",
@@ -306,7 +307,7 @@ const fallbackPatterns: Array<{ test: RegExp; value: string }> = [
   {
     test: /\b(project|projects|built|build)\b/i,
     value:
-      "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, AAGNI Assistant, Immutable Doc-Verify, NeuroLock AI, Machine Learning, and Datasets.",
+      "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, ML House Price Prediction, Machine Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
   },
   {
     test: /\b(education|study|college|diploma|btech|degree)\b/i,
