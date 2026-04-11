@@ -97,7 +97,7 @@ export const projectsData: Project[] = [
     category: "Live Projects",
     featured: true,
     githubUrl: "https://github.com/BhavyaKansal20/SignLang-AI.git",
-    liveUrl: "https://kansal0920-signlang-ai.hf.space",
+    liveUrl: "https://bhavyakansal20-signlang-ai.hf.space",
     features: [
       "Live hand landmark detection",
       "Sequence-based sign classification",
@@ -140,7 +140,7 @@ export const projectsData: Project[] = [
     category: "Live Projects",
     featured: true,
     githubUrl: "https://github.com/BhavyaKansal20/DeepFake-Detector.git",
-    liveUrl: "https://kansal0920-deepfake-scanner.hf.space",
+    liveUrl: "https://bhavyakansal20-deepfake-scanner.hf.space",
     features: [
       "Real-vs-fake classification",
       "Confidence score visualization",
