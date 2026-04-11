@@ -12,22 +12,22 @@ const FAQ = () => {
   {
     question: "What do you do and what are you currently working on?",
     answer:
-      "I am an AI engineer and founder focused on building deployable machine learning systems. Right now I am building multimodal reasoning infrastructure at MultiModex AI and developing Project AAGNI for real-time decision support.",
+      "I am an AI/ML engineer focused on building deployable systems. I am currently working on practical machine learning products in health AI, accessibility, and computer vision.",
   },
   {
     question: "What kind of projects excite you the most?",
     answer:
-      "I am most excited by real-world AI projects where research turns into measurable outcomes. Projects like health risk prediction, sign language translation, deepfake detection, and automation assistants are exactly where I do my best work.",
+      "I enjoy projects where AI directly solves user problems. My strongest areas are healthcare prediction, assistive AI, authenticity detection, and workflow automation.",
   },
   {
     question: "What tools and technologies do you feel most comfortable with?",
     answer:
-      "I work primarily with Python, PyTorch, TensorFlow, HuggingFace, OpenCV, and FastAPI. For vision and sequence tasks I use tools like YOLO, OCR, MediaPipe, and LSTM pipelines. I also build supporting automation and integration layers in production workflows.",
+      "My core stack includes Python, PyTorch, TensorFlow, scikit-learn, OpenCV, Flask/FastAPI, and React. I also use MediaPipe, OCR, and cloud deployment tools for end-to-end delivery.",
   },
   {
     question: "How do you usually approach a new problem or project?",
     answer:
-      "I start by defining the problem and the deployment constraints first. Then I build modular pipelines, validate model behavior with metrics, and harden reliability using deterministic logic where needed. My approach is always research-driven but production-focused.",
+      "I start with the business goal and deployment constraints, then design a modular pipeline, validate it with metrics, and optimize for reliability before release.",
   },
 ];
 

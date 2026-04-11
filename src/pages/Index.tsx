@@ -68,7 +68,7 @@ const Index = () => {
         3. IMPORTANT: Change 'bg-black' to whatever background color class your <Footer /> component uses!
       */}
       <div 
-        className="fixed inset-0 w-full h-full z-0 flex flex-col justify-end bg-black"
+        className="fixed inset-0 w-full h-full z-0 flex flex-col justify-end bg-transparent"
       >
         <div ref={footerRef} className="w-full">
           <Footer />

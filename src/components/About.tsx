@@ -70,7 +70,7 @@ const About = () => {
               </p>
 
               <p style={{ textAlign: "justify" }}>
-                I am the founder of <span className="font-bold text-black dark:text-white">MultiModex AI</span>, where I am engineering multimodal reasoning infrastructure that unifies vision, language, and decision logic into one deployable system. I also created Project AAGNI, an augmented assistant designed for complex real-time decision support.
+                My recent work includes applied healthcare AI, accessibility systems, deepfake screening, and assistant automation. I focus on dependable engineering, clear UX, and measurable product outcomes.
               </p>
 
               <p style={{ textAlign: "justify" }}>

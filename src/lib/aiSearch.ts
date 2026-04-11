@@ -1,7 +1,7 @@
 // Resume context for AI assistant
 const RESUME_CONTEXT = `PERSONAL INFORMATION & CONTACT:
 Name: Bhavya Kansal
-Role: AI Engineer, ML Researcher & Founder
+Role: AI/ML Engineer and Applied Research Builder
 Education: Diploma in CSE at Thapar Polytechnic College (2023-2026), Summer Training in Python/AI-ML/Cybersecurity (Jun-Aug 2025), AI/ML Intern Trainee at IIT & NIELIT Ropar (Jan-Jul 2026), B.Tech DSAI at TIET (2026-2029)
 Email: kansalbhavya27@gmail.com
 LinkedIn: linkedin.com/in/kansal0920
@@ -34,7 +34,6 @@ PROJECT PORTFOLIO:
 7. Machine Learning
 8. Datasets
 ACHIEVEMENTS & LEADERSHIP:
-- Founder of MultiModex AI
 - Built 10+ projects, including 5+ AI-first systems
 - Active in generative AI, multimodal reasoning, and ethical AI development
 ADDITIONAL INFORMATION:
@@ -74,7 +73,7 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     period: "foundation",
     tags: ["about", "summary", "identity", "profile"],
     content:
-      "Bhavya Kansal is an AI Engineer, ML Researcher, and Founder focused on production-grade machine learning, multimodal AI systems, and deep-tech automation for real-world problems.",
+      "Bhavya Kansal is an AI/ML engineer focused on production-grade machine learning, multimodal AI systems, and practical deep-tech automation for real-world problems.",
   },
   {
     id: "current-phase",
@@ -82,7 +81,7 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     period: "current",
     tags: ["current", "focus", "now", "research", "work"],
     content:
-      "Current focus includes applied AI deployment, multimodal reasoning systems, ethical AI, and building practical products through MultiModex AI while pursuing B.Tech in DSAI at TIET (2026-2029).",
+      "Current focus includes applied AI deployment, multimodal reasoning systems, ethical AI, and practical product-grade engineering while pursuing B.Tech in DSAI at TIET (2026-2029).",
   },
   {
     id: "past-education-timeline",
@@ -128,11 +127,99 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     id: "leadership-impact",
     title: "Leadership and Impact",
     period: "current",
-    tags: ["leadership", "impact", "founder", "multimodex", "achievements"],
+    tags: ["leadership", "impact", "engineering", "achievements"],
     content:
-      "Founder of MultiModex AI. Built 10+ projects including 5+ AI-first systems. Open to AI/ML internships, research collaborations, deep-tech projects, and startup partnerships.",
+      "Built 10+ projects including 5+ AI-first systems. Open to AI/ML internships, research collaborations, and deep-tech engineering projects.",
   },
 ];
+
+type GithubRepoSnapshot = {
+  name: string;
+  description: string;
+  language: string;
+  stars: number;
+  updatedAt: string;
+  url: string;
+  homepage: string;
+};
+
+type GithubCache = {
+  timestamp: number;
+  profileSummary: string;
+};
+
+const GITHUB_CACHE_KEY = "portfolio_github_snapshot_v1";
+const GITHUB_CACHE_TTL_MS = 12 * 60 * 60 * 1000;
+
+function safeDateLabel(iso: string): string {
+  if (!iso) return "recently";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "recently";
+  return d.toISOString().slice(0, 10);
+}
+
+function parseRepoSnapshot(data: unknown): GithubRepoSnapshot[] {
+  if (!Array.isArray(data)) return [];
+  return data
+    .filter((item) => item && typeof item === "object")
+    .slice(0, 8)
+    .map((repo) => {
+      const r = repo as Record<string, unknown>;
+      return {
+        name: String(r.name || ""),
+        description: String(r.description || "No description"),
+        language: String(r.language || "Mixed"),
+        stars: Number(r.stargazers_count || 0),
+        updatedAt: String(r.pushed_at || r.updated_at || ""),
+        url: String(r.html_url || ""),
+        homepage: String(r.homepage || ""),
+      };
+    })
+    .filter((repo) => repo.name && repo.url);
+}
+
+async function fetchLiveGithubSnapshot(): Promise<string> {
+  if (typeof window === "undefined") return "";
+
+  try {
+    const cachedRaw = localStorage.getItem(GITHUB_CACHE_KEY);
+    if (cachedRaw) {
+      const cached = JSON.parse(cachedRaw) as GithubCache;
+      if (Date.now() - cached.timestamp < GITHUB_CACHE_TTL_MS && cached.profileSummary) {
+        return cached.profileSummary;
+      }
+    }
+  } catch (error) {
+    console.warn("GitHub snapshot cache read failed", error);
+  }
+
+  try {
+    const response = await fetch("https://api.github.com/users/BhavyaKansal20/repos?per_page=20&sort=updated");
+    if (!response.ok) return "";
+
+    const raw = await response.json();
+    const repos = parseRepoSnapshot(raw);
+    if (repos.length === 0) return "";
+
+    const summary = repos
+      .map((repo, idx) => {
+        const live = repo.homepage ? ` | Live: ${repo.homepage}` : "";
+        return `${idx + 1}. ${repo.name} (${repo.language}, ${repo.stars} stars, updated ${safeDateLabel(repo.updatedAt)}) - ${repo.description}${live}`;
+      })
+      .join("\n");
+
+    const payload: GithubCache = {
+      timestamp: Date.now(),
+      profileSummary: summary,
+    };
+
+    localStorage.setItem(GITHUB_CACHE_KEY, JSON.stringify(payload));
+    return summary;
+  } catch (error) {
+    console.warn("Unable to fetch live GitHub snapshot", error);
+    return "";
+  }
+}
 
 const PERIOD_BOOST: Record<KnowledgeChunk["period"], number> = {
   past: 0,
@@ -203,8 +290,8 @@ const fallbackResponses: Record<string, string> = {
   "education": "I completed my Diploma in Computer Science Engineering at Thapar Polytechnic College (2023-2026), completed summer training in Python, AI/ML, and cybersecurity, completed AI/ML intern training at IIT & NIELIT Ropar, and am pursuing B.Tech in DSAI at Thapar Institute (2026-2029).",
   "projects": "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, AAGNI Assistant, Immutable Doc-Verify, NeuroLock AI, Machine Learning, and Datasets.",
   "contact": "You can reach me at kansalbhavya27@gmail.com or thebhavyakansal20@gmail.com, connect on LinkedIn (linkedin.com/in/kansal0920), or visit github.com/BhavyaKansal20.",
-  "achievements": "I have built 10+ projects including 5+ AI-first systems and I am currently building multimodal infrastructure as the founder of MultiModex AI.",
-  "leadership": "As founder of MultiModex AI, I focus on building multimodal reasoning systems that combine vision, language, and decision logic for real-world deployment.",
+  "achievements": "I have built 10+ projects including 5+ AI-first systems with practical deployment experience across healthcare AI, accessibility, and computer vision.",
+  "leadership": "I focus on leading projects end-to-end, from model prototyping to production-ready implementation and deployment.",
   "availability": "I am open to AI/ML internships, research collaborations, deep-tech projects, and startup partnerships.",
   "text": "You can reach me through bhavyakansal.dev, LinkedIn (linkedin.com/in/kansal0920), or email (kansalbhavya27@gmail.com).",
   "contact information": "Feel free to reach out via kansalbhavya27@gmail.com or connect with me on LinkedIn at linkedin.com/in/kansal0920.",
@@ -267,13 +354,17 @@ export async function queryAI(query: string): Promise<string> {
     const env = (import.meta.env || {}) as Record<string, string | undefined>;
     const openRouterApiKey = String(env.VITE_OPENROUTER_API_KEY || "").trim();
     const openRouterModel = String(env.VITE_OPENROUTER_MODEL || "openrouter/auto").trim();
-   const ragContext = buildRagContext(query);
+    const ragContext = buildRagContext(query);
+    const liveGithubContext = await fetchLiveGithubSnapshot();
 
     const prompt = `You are an AI assistant for Bhavya Kansal's portfolio website. You have access to Bhavya's complete professional profile and should provide helpful, accurate responses to visitors' questions. Consider the following detailed information:
 ${RESUME_CONTEXT}
 
 Retrieved RAG context for this question:
 ${ragContext}
+
+Live GitHub updates (auto-refreshed from profile API):
+${liveGithubContext || "No fresh GitHub snapshot available. Use curated profile context above."}
 
 Question: ${query}
 Instructions for providing responses:
@@ -286,7 +377,7 @@ Instructions for providing responses:
   - If asked about old/new/current/future, answer in timeline order
   - Prefer retrieved RAG context over generic statements
 3. Response Structure:
-  - Prefer concise answers, but always finish sentences and include proper punctuation. Do not truncate important details. And DON'T Exceed 2 lines in response.
+  - Prefer concise answers, but always finish sentences and include proper punctuation. Do not truncate important details. Do not exceed 3 lines in response.
   - Keep the response as condensed as possible while ensuring clarity and completeness.
   - Start with the most relevant information
 5. Always:

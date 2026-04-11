@@ -38,7 +38,7 @@ const aiSuggestions = [
   "What are you doing currently in AI",
   "What have you built and what comes next",
   "Explain your tech stack like a system map",
-  "Tell me about MultiModex AI and leadership",
+  "Which live projects are production deployed",
   "What internships and training shaped you",
   "Give me A to Z profile summary"
 ];
@@ -57,7 +57,7 @@ const CommandPalette = () => {
     {
       id: "healthy-ai",
       title: "Healthy AI",
-      description: "Heart disease risk prediction platform with PDF reporting and EDA dashboards",
+      description: "Live health intelligence platform with heart, diabetes, and brain MRI modules",
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
       action: () => window.open("https://github.com/BhavyaKansal20/healthy-ai.git", "_blank")
@@ -73,7 +73,7 @@ const CommandPalette = () => {
     {
       id: "deepfake-scanner",
       title: "DeepFake Scanner",
-      description: "EfficientNet-based deepfake classification with confidence scoring",
+      description: "Real-time deepfake screening system with confidence-led classification",
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
       action: () => window.open("https://github.com/BhavyaKansal20/DeepFake-Detector.git", "_blank")
@@ -81,7 +81,7 @@ const CommandPalette = () => {
     {
       id: "aagni",
       title: "AAGNI Assistant",
-      description: "NLP-driven Telegram assistant with backend automation workflows",
+      description: "Telegram-based NLP assistant for conversational automation workflows",
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
       action: () => window.open("https://github.com/BhavyaKansal20/Telegram-Chatbot-", "_blank")
@@ -105,7 +105,7 @@ const CommandPalette = () => {
     {
       id: "machine-learning",
       title: "Machine Learning",
-      description: "Machine learning experiments and notebook repository",
+      description: "Hands-on machine learning lab with curated notebooks and experiments",
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
       action: () => window.open("https://github.com/BhavyaKansal20/MachineLearning.git", "_blank")
@@ -113,7 +113,7 @@ const CommandPalette = () => {
     {
       id: "datasets",
       title: "Datasets",
-      description: "Curated datasets and data resources repository",
+      description: "Curated dataset repository for AI and ML training workflows",
       category: "project" as const,
       icon: <Briefcase className="mr-2 h-4 w-4" />,
       action: () => window.open("https://github.com/BhavyaKansal20/Datasets.git", "_blank")

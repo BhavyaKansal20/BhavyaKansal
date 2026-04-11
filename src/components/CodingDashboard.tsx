@@ -630,7 +630,7 @@ const CodingDashboard = () => {
                 <p className="text-xs uppercase tracking-[0.35em] text-muted-foreground mb-3">Profile Snapshot</p>
                 <h3 className="text-2xl font-bold mb-3">Bhavya Kansal</h3>
                 <p className="text-sm text-muted-foreground leading-relaxed">
-                  Founder-led work on multimodal AI systems, applied machine learning, and deployable deep-tech products.
+                  Applied work on deployable AI systems, machine learning products, and real-world deep-tech engineering.
                 </p>
               </div>
             </div>
