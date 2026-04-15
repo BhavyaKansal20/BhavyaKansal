@@ -36,6 +36,7 @@ const preferredProjectOrder = [
   "deepfake-scanner",
   "ml-house-price-prediction",
   "machine-learning",
+  "deep-learning",
   "datasets",
   "aagni-assistant",
   "immutable-doc-verify",

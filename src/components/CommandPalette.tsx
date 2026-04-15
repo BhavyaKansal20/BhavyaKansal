@@ -95,6 +95,14 @@ const CommandPalette = () => {
       action: () => window.open("https://github.com/BhavyaKansal20/MachineLearning.git", "_blank")
     },
     {
+      id: "deep-learning",
+      title: "Deep Learning",
+      description: "Structured deep learning notebooks across ANN, CNN, RNN, and optimization",
+      category: "project" as const,
+      icon: <Briefcase className="mr-2 h-4 w-4" />,
+      action: () => window.open("https://github.com/BhavyaKansal20/DeepLearning.git", "_blank")
+    },
+    {
       id: "datasets",
       title: "Datasets",
       description: "Curated dataset repository for AI and ML training workflows",
