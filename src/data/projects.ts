@@ -340,6 +340,48 @@ export const projectsData: Project[] = [
     documentation: { overview: "Machine learning experiment repository." },
   },
   {
+    id: "deep-learning",
+    title: "Deep Learning",
+    description: "Structured deep learning notebook repository from fundamentals to advanced architectures.",
+    fullDescription:
+      "Deep Learning is a continuously updated, notebook-first repository covering end-to-end deep learning foundations and practice. It includes ANN, CNN, RNN, LSTM, preprocessing, model evaluation, and optimization workflows with beginner-friendly yet production-aware explanations.",
+    image: "/deeplearning.png",
+    images: ["/deeplearning.png"],
+    tags: ["Python", "TensorFlow", "Keras", "Jupyter", "Deep Learning"],
+    techStack: ["Python", "TensorFlow", "Keras", "NumPy", "Pandas", "Scikit-learn", "Jupyter"],
+    category: "ML/Datasets",
+    featured: false,
+    githubUrl: "https://github.com/BhavyaKansal20/DeepLearning.git",
+    features: [
+      "Structured notebook index across core DL domains",
+      "ANN, CNN, RNN, and sequence-model learning tracks",
+      "Data preprocessing, feature engineering, and optimization modules",
+      "Beginner-to-advanced educational progression with practical code",
+    ],
+    challenges: [
+      "Maintaining consistent structure and clarity across many deep learning topics",
+      "Balancing conceptual explanations with implementation-first notebooks",
+    ],
+    metrics: [
+      { value: "1", label: "Star", description: "Public engagement signal" },
+      { value: "Jupyter", label: "Primary Language", description: "Notebook-first repository" },
+      { value: "MIT", label: "License", description: "Open source educational repository" },
+    ],
+    implementation: {
+      approach:
+        "Designed as a modular deep learning knowledge base, organized by topic progression: preprocessing, neural fundamentals, sequence models, CNNs, and model optimization.",
+      technologies: [
+        { name: "TensorFlow", reason: "Core framework for deep learning modeling and experimentation" },
+        { name: "Keras", reason: "Simplified high-level API for neural network prototyping" },
+        { name: "Jupyter", reason: "Interactive notebook workflow for concept-to-code learning" },
+      ],
+    },
+    architecture: "Notebook modules -> data preparation -> model building -> evaluation and tuning -> reusable DL references",
+    documentation: {
+      overview: "Production-grade deep learning knowledge repository with structured notebooks and practical implementation tracks.",
+    },
+  },
+  {
     id: "datasets",
     title: "Datasets",
     description: "Repository of datasets and data resources used across AI and ML work.",
