@@ -145,8 +145,8 @@ const Hero = () => {
             {/* subtle framed border */}
             <div className="rounded-3xl p-1 bg-white/60 dark:bg-black/30 relative">
               <img
-                src="/Bhavya-Kansal-PFP.jpg"
-                alt="Profile"
+                src="/Bhavya-Kansal-PFP.jpg?v=20260509"
+                alt="Bhavya Kansal - AI Systems Architect & Developer"
                 loading="eager"
                 decoding="async"
                 fetchPriority="high"
