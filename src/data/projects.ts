@@ -85,6 +85,46 @@ export const projectsData: Project[] = [
     },
   },
   {
+    id: "chromacrystal-uhd",
+    title: "ChromaCrystal UHD",
+    description: "Enterprise-grade, memory-optimized AI pipeline for colorizing, enhancing, and upscaling vintage photographs.",
+    fullDescription: "ChromaCrystal_UHD is an enterprise-grade, memory-optimized AI pipeline that colorizes, enhances, and upscales vintage photographs. Built with an unbreakable Zero-Crash Memory Isolation architecture, it can seamlessly process massive AI inferences (like DeOldify, GFPGAN, and Real-ESRGAN) on a single machine without ever running out of RAM.",
+    image: "/chromacrystal.png",
+    images: ["/chromacrystal.png"],
+    tags: ["Python", "PyTorch", "DeOldify", "GFPGAN", "Real-ESRGAN"],
+    techStack: ["Python", "PyTorch", "Gradio", "DeOldify", "GFPGAN", "Real-ESRGAN"],
+    category: "Live Projects",
+    featured: true,
+    githubUrl: "https://github.com/BhavyaKansal20/ChromaCrystal_UHD.git",
+    liveUrl: "https://bhavyakansal20-chromacrystal-uhd.hf.space",
+    features: [
+      "Colorizes vintage black and white photographs",
+      "Enhances facial details with GFPGAN",
+      "Upscales resolution with Real-ESRGAN",
+      "Zero-Crash Memory Isolation architecture",
+    ],
+    challenges: [
+      "Handling massive AI inferences on a single machine",
+      "Preventing out-of-memory errors during cascaded model execution",
+    ],
+    metrics: [
+      { value: "Live", label: "Deployment", description: "Hosted on Hugging Face Spaces" },
+      { value: "3", label: "Models", description: "DeOldify, GFPGAN, Real-ESRGAN" },
+    ],
+    implementation: {
+      approach: "Cascaded AI pipeline using memory isolation to sequentially process images through colorization, face enhancement, and upscaling without memory crashes.",
+      technologies: [
+        { name: "DeOldify", reason: "For high-quality image colorization" },
+        { name: "GFPGAN", reason: "For restoring and enhancing facial details" },
+        { name: "Real-ESRGAN", reason: "For general image upscaling" },
+      ],
+    },
+    architecture: "Input Image -> DeOldify Colorization -> GFPGAN Face Enhancement -> Real-ESRGAN Upscaling -> Output Image (with memory isolation at each step)",
+    documentation: {
+      overview: "Memory-optimized AI pipeline for vintage photo restoration.",
+    },
+  },
+  {
     id: "signlang-ai",
     title: "SignLang AI",
     description: "Real-time sign language gesture translation into text and speech.",

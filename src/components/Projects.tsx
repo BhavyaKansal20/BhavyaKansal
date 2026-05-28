@@ -29,11 +29,12 @@ const groupStyles: Record<string, { ring: string; accent: string; label: string;
   },
 };
 
-const featuredKeys = new Set(["Healthy AI", "SignLang AI", "DeepFake Scanner"]);
+const featuredKeys = new Set(["Healthy AI", "ChromaCrystal UHD", "SignLang AI", "DeepFake Scanner"]);
 const preferredProjectOrder = [
   "healthy-ai",
-  "signlang-ai",
+  "chromacrystal-uhd",
   "deepfake-scanner",
+  "signlang-ai",
   "ml-house-price-prediction",
   "machine-learning",
   "deep-learning",
@@ -79,9 +80,6 @@ const Projects = () => {
         .project-card-shell {
           transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
           isolation: isolate;
-          backface-visibility: hidden;
-          transform: translateZ(0);
-          will-change: transform;
         }
         .project-card-shell:hover {
           transform: translateY(-8px);
@@ -98,8 +96,6 @@ const Projects = () => {
           animation-play-state: running;
         }
         .project-hero-surface {
-          transform: translateZ(0);
-          backface-visibility: hidden;
           will-change: opacity, transform;
         }
         body.chrome-safe .project-scan-line,
@@ -155,6 +151,7 @@ const Projects = () => {
           {displayedProjects.map((project, index) => {
             const isSignLang = project.title === "SignLang AI";
             const isHealthy = project.id === "healthy-ai";
+            const isChroma = project.id === "chromacrystal-uhd";
             const style = groupStyles[project.category] || {
               ring: "rgba(148,163,184,0.24)",
               accent: "#94a3b8",
@@ -193,7 +190,7 @@ const Projects = () => {
                   <div
                     className="project-pulse-orb absolute -top-16 -right-12 h-44 w-44 rounded-full blur-3xl"
                     style={{
-                      background: `radial-gradient(circle, ${isSignLang ? "rgba(103,232,249,0.38)" : "rgba(255,255,255,0.24)"} 0%, rgba(255,255,255,0) 70%)`,
+                      background: `radial-gradient(circle, ${isSignLang ? "rgba(103,232,249,0.38)" : isChroma ? "rgba(168,85,247,0.38)" : "rgba(255,255,255,0.24)"} 0%, rgba(255,255,255,0) 70%)`,
                       animation: "project-pulse 2.7s ease-in-out infinite",
                     }}
                   />
@@ -217,21 +214,26 @@ const Projects = () => {
                       <div className="absolute left-8 top-8 rounded-full border border-emerald-200/40 w-24 h-24" style={{ animation: "project-pulse 2.2s ease-in-out 0.5s infinite" }} />
                     </div>
                   )}
+                  {isChroma && (
+                    <div className="absolute inset-0 pointer-events-none">
+                      <div className="absolute right-8 bottom-8 rounded-full border border-purple-400/40 w-32 h-32 blur-md" style={{ animation: "project-pulse 3s ease-in-out infinite" }} />
+                    </div>
+                  )}
                   <div className="absolute inset-0 overflow-hidden pointer-events-none">
                     <div
                       className="project-scan-line absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-transparent via-white/90 to-transparent opacity-0"
                       style={{
-                        animation: isSignLang ? "project-scan 2.1s ease-in-out infinite" : isHealthy ? "project-scan 2.3s ease-in-out infinite" : "project-scan 3s ease-in-out infinite",
-                        animationPlayState: isHealthy ? "running" : undefined,
-                        opacity: isHealthy ? 0.82 : undefined,
+                        animation: isSignLang ? "project-scan 2.1s ease-in-out infinite" : isHealthy ? "project-scan 2.3s ease-in-out infinite" : isChroma ? "project-scan 2.5s ease-in-out infinite" : "project-scan 3s ease-in-out infinite",
+                        animationPlayState: (isHealthy || isChroma) ? "running" : undefined,
+                        opacity: (isHealthy || isChroma) ? 0.82 : undefined,
                       }}
                     />
                     <div
                       className="project-glow-line absolute inset-x-6 bottom-6 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
                       style={{
-                        animation: isSignLang ? "project-glow 1.8s ease-in-out infinite" : isHealthy ? "project-glow 1.9s ease-in-out infinite" : "project-glow 2.4s ease-in-out infinite",
-                        animationPlayState: isHealthy ? "running" : undefined,
-                        opacity: isHealthy ? 0.75 : undefined,
+                        animation: isSignLang ? "project-glow 1.8s ease-in-out infinite" : isHealthy ? "project-glow 1.9s ease-in-out infinite" : isChroma ? "project-glow 2.1s ease-in-out infinite" : "project-glow 2.4s ease-in-out infinite",
+                        animationPlayState: (isHealthy || isChroma) ? "running" : undefined,
+                        opacity: (isHealthy || isChroma) ? 0.75 : undefined,
                       }}
                     />
                   </div>
@@ -245,8 +247,8 @@ const Projects = () => {
                   </div>
 
                   <div className="absolute bottom-4 left-5 z-20 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: isSignLang ? "#67e8f9" : style.accent, boxShadow: `0 0 10px ${isSignLang ? "#67e8f9" : style.accent}` }} />
-                    <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: isSignLang ? "#67e8f9" : style.accent }}>
+                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: isSignLang ? "#67e8f9" : isChroma ? "#c084fc" : style.accent, boxShadow: `0 0 10px ${isSignLang ? "#67e8f9" : isChroma ? "#c084fc" : style.accent}` }} />
+                    <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: isSignLang ? "#67e8f9" : isChroma ? "#c084fc" : style.accent }}>
                       {isLive ? "Live on web" : "GitHub repository"}
                     </span>
                   </div>
