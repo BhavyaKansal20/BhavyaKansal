@@ -187,9 +187,9 @@ const Navbar = () => {
                 className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute transition-transform duration-100 ease-out"
                 style={{
                   transform: `translate(${
-                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(leftEyeRef.current).x : 0
+                    isDesktop ? calculateEyePosition(leftEyeRef.current).x : 0
                   }px, ${
-                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(leftEyeRef.current).y : 0
+                    isDesktop ? calculateEyePosition(leftEyeRef.current).y : 0
                   }px)`,
                 }}
               />
@@ -202,9 +202,9 @@ const Navbar = () => {
                 className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute transition-transform duration-100 ease-out"
                 style={{
                   transform: `translate(${
-                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(rightEyeRef.current).x : 0
+                    isDesktop ? calculateEyePosition(rightEyeRef.current).x : 0
                   }px, ${
-                    isDesktop && !isChromeDesktopSafe ? calculateEyePosition(rightEyeRef.current).y : 0
+                    isDesktop ? calculateEyePosition(rightEyeRef.current).y : 0
                   }px)`,
                 }}
               />

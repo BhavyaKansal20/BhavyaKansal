@@ -54,19 +54,14 @@ const App = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
     const ua = navigator.userAgent || "";
-    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
-    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
-    if (isChromeLike) {
-      document.body.classList.add("chrome-safe");
-      if (!isMobileUA) {
-        document.body.classList.add("chrome-desktop-safe");
-        document.documentElement.style.scrollBehavior = "auto";
-      }
+    const isIOS = /iPhone|iPad|iPod/.test(ua);
+
+    if (isIOS) {
+      document.body.classList.add("ios-safe");
     }
+
     return () => {
-      document.body.classList.remove("chrome-safe");
-      document.body.classList.remove("chrome-desktop-safe");
-      document.documentElement.style.scrollBehavior = "";
+      document.body.classList.remove("ios-safe");
     };
   }, []);
 
