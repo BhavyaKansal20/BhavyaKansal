@@ -186,7 +186,6 @@ All colors MUST be HSL.
     .dark body::before,
     .dark body::after {
       animation: none;
-      filter: blur(34px);
     }
   }
 
@@ -376,8 +375,7 @@ All colors MUST be HSL.
 
 /* While sheet is animating we reduce expensive visual effects to avoid jank */
 body.sheet-animating {
-  /* hint to the browser */
-  will-change: transform, opacity !important;
+  /* Avoid will-change on body as it crashes Chromium GPU */
 }
 
 /* reduce overlay effects while animating (remove backdrop-filter/blurs) */
