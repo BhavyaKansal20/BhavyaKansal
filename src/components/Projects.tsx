@@ -1,5 +1,5 @@
-import { useMemo, useState } from "react";
-import { ExternalLink, Github, Star } from "lucide-react";
+import { useMemo, useState, useEffect, useRef, useCallback } from "react";
+import { ExternalLink, Github, Star, ArrowUpRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { projectsData, type Project } from "@/data/projects";
 import ProjectDetailModal from "@/components/ProjectDetailModal";
@@ -8,28 +8,102 @@ type ProjectGroup = "All" | "Live Projects" | "Codes" | "ML/Datasets";
 
 const filterGroups: ProjectGroup[] = ["All", "Live Projects", "Codes", "ML/Datasets"];
 
-const groupStyles: Record<string, { ring: string; accent: string; label: string; badge: string }> = {
+/* ── Tech stack icon system ── */
+const techMeta: Record<string, { color: string; abbr: string }> = {
+  Python: { color: "#3776AB", abbr: "Py" },
+  PyTorch: { color: "#EE4C2C", abbr: "PT" },
+  Flask: { color: "#61DAFB", abbr: "Fl" },
+  "Scikit-learn": { color: "#F7931E", abbr: "Sk" },
+  TensorFlow: { color: "#FF6F00", abbr: "TF" },
+  Keras: { color: "#D00000", abbr: "Kr" },
+  MediaPipe: { color: "#0F9D58", abbr: "MP" },
+  Gradio: { color: "#F97316", abbr: "Gr" },
+  Streamlit: { color: "#FF4B4B", abbr: "St" },
+  OpenCV: { color: "#5C3EE8", abbr: "CV" },
+  LSTM: { color: "#8B5CF6", abbr: "LS" },
+  Jupyter: { color: "#F37626", abbr: "Jp" },
+  SQLite: { color: "#003B57", abbr: "SQ" },
+  ReportLab: { color: "#2563EB", abbr: "RL" },
+  DeOldify: { color: "#A78BFA", abbr: "DO" },
+  GFPGAN: { color: "#EC4899", abbr: "GF" },
+  "Real-ESRGAN": { color: "#14B8A6", abbr: "RE" },
+  "Hugging Face Spaces": { color: "#FFD21E", abbr: "HF" },
+  "Socket.IO": { color: "#010101", abbr: "IO" },
+  FER: { color: "#7C3AED", abbr: "FE" },
+  NLP: { color: "#06B6D4", abbr: "NL" },
+  "Telegram Bot API": { color: "#26A5E4", abbr: "TG" },
+  Pandas: { color: "#150458", abbr: "Pd" },
+  NumPy: { color: "#4DABCF", abbr: "Np" },
+  Matplotlib: { color: "#11557C", abbr: "Mp" },
+  "python-telegram-bot": { color: "#26A5E4", abbr: "TB" },
+  "Tesseract OCR": { color: "#4285F4", abbr: "OC" },
+  Cryptography: { color: "#059669", abbr: "Cr" },
+  "SHA-256": { color: "#059669", abbr: "#" },
+  EfficientNet: { color: "#4F46E5", abbr: "EN" },
+  "EfficientNet-B4": { color: "#4F46E5", abbr: "E4" },
+};
+
+const TechIcon = ({ name }: { name: string }) => {
+  const meta = techMeta[name] || { color: "#94a3b8", abbr: name.slice(0, 2) };
+  return (
+    <div
+      className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase transition-all duration-200 hover:scale-105"
+      style={{
+        background: `${meta.color}18`,
+        color: meta.color,
+        border: `1px solid ${meta.color}30`,
+      }}
+      title={name}
+    >
+      <span
+        className="w-4 h-4 rounded-sm flex items-center justify-center text-[8px] font-black text-white"
+        style={{ background: meta.color }}
+      >
+        {meta.abbr.slice(0, 2)}
+      </span>
+      <span className="hidden sm:inline">{name.length > 12 ? name.slice(0, 10) + "…" : name}</span>
+    </div>
+  );
+};
+
+/* ── Category accent system ── */
+const categoryAccents: Record<string, { accent: string; glow: string; ring: string; label: string }> = {
   "Live Projects": {
-    ring: "rgba(16,185,129,0.28)",
     accent: "#34d399",
+    glow: "rgba(52,211,153,0.25)",
+    ring: "rgba(52,211,153,0.35)",
     label: "Live Projects",
-    badge: "from-emerald-500/20 via-emerald-400/10 to-transparent",
   },
   Codes: {
-    ring: "rgba(59,130,246,0.28)",
     accent: "#60a5fa",
+    glow: "rgba(96,165,250,0.25)",
+    ring: "rgba(96,165,250,0.35)",
     label: "Codes",
-    badge: "from-sky-500/20 via-cyan-400/10 to-transparent",
   },
   "ML/Datasets": {
-    ring: "rgba(168,85,247,0.28)",
     accent: "#c084fc",
+    glow: "rgba(192,132,252,0.25)",
+    ring: "rgba(192,132,252,0.35)",
     label: "ML/Datasets",
-    badge: "from-purple-500/20 via-fuchsia-400/10 to-transparent",
   },
 };
 
-const featuredKeys = new Set(["Healthy AI", "ChromaCrystal UHD", "SignLang AI", "DeepFake Scanner"]);
+/* ── Per-project accent overrides ── */
+const projectAccents: Record<string, string> = {
+  "healthy-ai": "#34d399",
+  "chromacrystal-uhd": "#c084fc",
+  "signlang-ai": "#67e8f9",
+  "deepfake-scanner": "#f87171",
+  "ml-house-price-prediction": "#fbbf24",
+  "aagni-assistant": "#60a5fa",
+  "immutable-doc-verify": "#a78bfa",
+  "neurolock-ai": "#f472b6",
+  "machine-learning": "#818cf8",
+  "deep-learning": "#fb923c",
+  "datasets": "#94a3b8",
+};
+
+const featuredKeys = new Set(["Healthy AI", "ChromaCrystal UHD", "SignLang AI", "DeepFake Scanner", "ML House Price Prediction"]);
 const preferredProjectOrder = [
   "healthy-ai",
   "chromacrystal-uhd",
@@ -44,10 +118,53 @@ const preferredProjectOrder = [
   "neurolock-ai",
 ];
 
+/* ── Intersection Observer hook for staggered entrance ── */
+function useStaggeredReveal(count: number) {
+  const [visible, setVisible] = useState<Set<number>>(new Set());
+  const observers = useRef<Map<number, IntersectionObserver>>(new Map());
+
+  const setRef = useCallback((index: number) => (el: HTMLDivElement | null) => {
+    // Clean up old observer for this index
+    observers.current.get(index)?.disconnect();
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => {
+            setVisible((prev) => new Set(prev).add(index));
+          }, index * 80); // stagger delay
+          obs.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    obs.observe(el);
+    observers.current.set(index, obs);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      observers.current.forEach((obs) => obs.disconnect());
+    };
+  }, []);
+
+  // Reset when count changes (filter change)
+  useEffect(() => {
+    setVisible(new Set());
+  }, [count]);
+
+  return { visible, setRef };
+}
+
+/* ══════════════════════════════════════════════════════ */
+/*                    MAIN COMPONENT                     */
+/* ══════════════════════════════════════════════════════ */
+
 const Projects = () => {
   const { ref: projectsRef, isVisible: projectsVisible } = useScrollAnimation();
   const [filter, setFilter] = useState<ProjectGroup>("All");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
   const displayedProjects = useMemo(() => {
     const items = projectsData.filter((project) => filter === "All" || project.category === filter);
@@ -60,111 +177,159 @@ const Projects = () => {
     });
   }, [filter]);
 
+  const { visible: visibleCards, setRef: setCardRef } = useStaggeredReveal(displayedProjects.length);
+
+  const filterCounts = useMemo(() => {
+    const counts: Record<string, number> = { All: projectsData.length };
+    projectsData.forEach((p) => {
+      counts[p.category] = (counts[p.category] || 0) + 1;
+    });
+    return counts;
+  }, []);
+
   return (
     <section id="projects" ref={projectsRef} className="py-24 bg-background relative overflow-hidden">
+      {/* ── Inline keyframes ── */}
       <style>{`
-        @keyframes project-scan {
-          0% { transform: translateY(-120%); opacity: 0; }
-          15% { opacity: 1; }
-          85% { opacity: 1; }
-          100% { transform: translateY(120%); opacity: 0; }
+        @keyframes proj-scan {
+          0% { transform: translateY(-100%); opacity: 0; }
+          10% { opacity: 1; }
+          90% { opacity: 1; }
+          100% { transform: translateY(calc(100% + 256px)); opacity: 0; }
         }
-        @keyframes project-glow {
-          0%, 100% { opacity: 0.45; transform: scaleX(0.9); }
-          50% { opacity: 1; transform: scaleX(1); }
+        @keyframes proj-shimmer {
+          0% { background-position: -200% 0; }
+          100% { background-position: 200% 0; }
         }
-        @keyframes project-pulse {
-          0%, 100% { transform: scale(1); opacity: 0.48; }
-          50% { transform: scale(1.18); opacity: 0.18; }
+        @keyframes proj-pulse-ring {
+          0%, 100% { transform: scale(1); opacity: 0.6; }
+          50% { transform: scale(1.4); opacity: 0; }
         }
-        .project-card-shell {
-          transition: transform 0.45s ease, box-shadow 0.45s ease, border-color 0.45s ease;
-          isolation: isolate;
+        @keyframes proj-float {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-6px); }
         }
-        .project-card-shell:hover {
-          transform: translateY(-8px);
+        @keyframes proj-fade-up {
+          0% { opacity: 0; transform: translateY(32px) scale(0.97); }
+          100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        .project-card-shell:hover .project-scan-line {
+        @keyframes proj-glow-pulse {
+          0%, 100% { opacity: 0.4; }
+          50% { opacity: 0.8; }
+        }
+        .proj-card {
+          opacity: 0;
+          transform: translateY(32px) scale(0.97);
+        }
+        .proj-card.proj-visible {
+          animation: proj-fade-up 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        .proj-card:hover .proj-image {
+          transform: scale(1.08);
+          filter: brightness(1.1);
+        }
+        .proj-card:hover .proj-scan-bar {
+          animation: proj-scan 1.8s ease-in-out infinite;
+        }
+        .proj-card:hover .proj-glow-border {
           opacity: 1;
         }
-        .project-scan-line,
-        .project-glow-line {
-          animation-play-state: paused;
+        .proj-card:hover {
+          transform: translateY(-8px) scale(1);
         }
-        .project-card-shell:hover .project-scan-line,
-        .project-card-shell:hover .project-glow-line {
-          animation-play-state: running;
+        .proj-card.proj-visible:hover {
+          transform: translateY(-8px) scale(1);
         }
-        .project-hero-surface {
-          will-change: opacity, transform;
-        }
-        body.chrome-safe .project-scan-line,
-        body.chrome-safe .project-glow-line {
-          animation: none !important;
-          opacity: 0.3;
-        }
-        body.chrome-desktop-safe .project-card-shell,
-        body.chrome-desktop-safe .project-hero-surface,
-        body.chrome-desktop-safe .project-card-shell * {
-          backface-visibility: hidden;
-        }
-        body.chrome-desktop-safe .project-pulse-orb {
-          animation: none !important;
-          opacity: 0.18 !important;
-        }
-        @media (hover: none), (pointer: coarse) {
-          .project-scan-line,
-          .project-glow-line {
-            animation: none !important;
-            opacity: 0.3;
-          }
+        .proj-featured-shimmer {
+          background: linear-gradient(90deg, transparent 0%, rgba(255,215,0,0.3) 50%, transparent 100%);
+          background-size: 200% 100%;
+          animation: proj-shimmer 2s ease-in-out infinite;
         }
       `}</style>
 
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="mb-12">
-          <p className="text-sm uppercase tracking-wider text-muted-foreground mb-4">
-            Projects
-          </p>
-          <h2 className="text-5xl font-bold mb-8" >Selected work</h2>
+      {/* ── Background subtle pattern ── */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl" />
+      </div>
 
-          <div className="flex justify-start overflow-x-auto pb-2 sm:pb-0">
-            <div className="inline-flex items-center bg-gray-100/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-full p-1.5 border border-gray-200/60 dark:border-gray-700/30 shadow-sm min-w-max">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* ── Section Header ── */}
+        <div className={`mb-14 ${projectsVisible ? "scroll-animate" : ""}`}>
+          <div className="flex items-center gap-3 mb-4">
+            <div className="h-px flex-1 max-w-[40px] bg-gradient-to-r from-transparent to-muted-foreground/40" />
+            <p className="text-sm uppercase tracking-[0.3em] text-muted-foreground font-medium">
+              Projects
+            </p>
+            <div className="h-px flex-1 max-w-[40px] bg-gradient-to-l from-transparent to-muted-foreground/40" />
+          </div>
+          <h2 className="text-4xl md:text-5xl font-bold mb-3 tracking-tight">Selected Work</h2>
+          <p className="text-muted-foreground text-lg max-w-2xl">
+            Production-grade AI systems, live deployments, and research implementations.
+          </p>
+
+          {/* ── Filter Tabs ── */}
+          <div className="flex justify-start overflow-x-auto pb-2 sm:pb-0 mt-8">
+            <div className="inline-flex items-center bg-gray-100/80 dark:bg-gray-800/50 backdrop-blur-sm rounded-2xl p-1.5 border border-gray-200/60 dark:border-gray-700/30 shadow-sm min-w-max gap-1">
               {filterGroups.map((group) => (
                 <button
                   key={group}
                   onClick={() => setFilter(group)}
-                  className={`px-4 sm:px-5 py-2.5 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap ${
+                  className={`px-4 sm:px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-300 whitespace-nowrap flex items-center gap-2 ${
                     filter === group
-                      ? "bg-foreground text-background shadow-sm"
+                      ? "bg-foreground text-background shadow-md"
                       : "text-muted-foreground hover:text-foreground hover:bg-white/60 dark:hover:bg-gray-700/50"
                   }`}
                 >
                   {group}
+                  <span
+                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-full transition-colors ${
+                      filter === group
+                        ? "bg-background/20 text-background"
+                        : "bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    {filterCounts[group] || 0}
+                  </span>
                 </button>
               ))}
             </div>
           </div>
         </div>
 
+        {/* ── Project Grid ── */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayedProjects.map((project, index) => {
-            const isSignLang = project.title === "SignLang AI";
-            const isHealthy = project.id === "healthy-ai";
-            const isChroma = project.id === "chromacrystal-uhd";
-            const style = groupStyles[project.category] || {
-              ring: "rgba(148,163,184,0.24)",
+            const catStyle = categoryAccents[project.category] || {
               accent: "#94a3b8",
+              glow: "rgba(148,163,184,0.25)",
+              ring: "rgba(148,163,184,0.35)",
               label: project.category,
-              badge: "from-slate-500/20 via-slate-400/10 to-transparent",
             };
+            const accent = projectAccents[project.id] || catStyle.accent;
             const isLive = Boolean(project.liveUrl);
+            const isFeatured = featuredKeys.has(project.title);
+            const isCardVisible = visibleCards.has(index);
+            const isHovered = hoveredCard === project.id;
 
             return (
               <div
                 key={project.id}
+                ref={setCardRef(index)}
                 onClick={() => setSelectedProject(project)}
-                className="project-card-shell group glass-card rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer border border-border relative"
+                onMouseEnter={() => setHoveredCard(project.id)}
+                onMouseLeave={() => setHoveredCard(null)}
+                className={`proj-card group relative rounded-2xl overflow-hidden cursor-pointer border border-border/60 bg-background/80 backdrop-blur-sm ${
+                  isCardVisible ? "proj-visible" : ""
+                }`}
+                style={{
+                  animationDelay: `${index * 80}ms`,
+                  transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease, border-color 0.4s ease",
+                  boxShadow: isHovered
+                    ? `0 20px 60px -15px ${accent}40, 0 0 0 1px ${accent}30`
+                    : "0 4px 20px -5px rgba(0,0,0,0.1)",
+                  borderColor: isHovered ? `${accent}50` : undefined,
+                }}
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => {
@@ -174,137 +339,175 @@ const Projects = () => {
                   }
                 }}
               >
+                {/* ── Glow border on hover ── */}
                 <div
-                  className={`absolute inset-x-0 top-0 h-1 bg-gradient-to-r ${style.badge} opacity-80`}
-                  style={{ boxShadow: `0 0 18px ${style.ring}` }}
+                  className="proj-glow-border absolute inset-0 rounded-2xl pointer-events-none opacity-0 transition-opacity duration-500 z-10"
+                  style={{
+                    background: `radial-gradient(circle at 50% 0%, ${accent}20 0%, transparent 60%)`,
+                  }}
                 />
 
-                {featuredKeys.has(project.title) && (
-                  <div className="absolute top-4 left-4 z-30 bg-white/90 dark:bg-gray-900/90 text-gray-900 dark:text-gray-100 px-3 py-1 rounded-full text-[10px] font-black tracking-widest uppercase border border-white/20 backdrop-blur-md flex items-center gap-1.5">
-                    <Star className="w-3 h-3" /> Featured
+                {/* ── Top accent line ── */}
+                <div
+                  className="absolute inset-x-0 top-0 h-[2px] z-20"
+                  style={{
+                    background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+                    opacity: isHovered ? 1 : 0.5,
+                    transition: "opacity 0.3s",
+                  }}
+                />
+
+                {/* ── Featured badge ── */}
+                {isFeatured && (
+                  <div className="absolute top-3 left-3 z-30 flex items-center gap-1.5 bg-black/70 dark:bg-white/10 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-white/10">
+                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
+                    <span>Featured</span>
+                    <div className="absolute inset-0 rounded-full proj-featured-shimmer pointer-events-none" />
                   </div>
                 )}
 
-                <div className="relative overflow-hidden h-64 bg-slate-950 project-hero-surface">
-                  <div className="absolute inset-0 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-900" />
+                {/* ── Live status badge ── */}
+                {isLive && (
+                  <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-emerald-500/30">
+                    <span className="relative flex h-2 w-2">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
+                    </span>
+                    Live
+                  </div>
+                )}
+
+                {/* ── Hero Image Area ── */}
+                <div className="relative overflow-hidden h-52 bg-slate-950">
+                  {/* Background gradient */}
                   <div
-                    className="project-pulse-orb absolute -top-16 -right-12 h-44 w-44 rounded-full blur-3xl"
+                    className="absolute inset-0"
                     style={{
-                      background: `radial-gradient(circle, ${isSignLang ? "rgba(103,232,249,0.38)" : isChroma ? "rgba(168,85,247,0.38)" : "rgba(255,255,255,0.24)"} 0%, rgba(255,255,255,0) 70%)`,
-                      animation: "project-pulse 2.7s ease-in-out infinite",
+                      background: `linear-gradient(135deg, ${accent}15 0%, rgba(15,23,42,1) 60%)`,
                     }}
                   />
+
+                  {/* Project image */}
                   <div
-                    className="absolute inset-0 bg-cover bg-center opacity-25 group-hover:opacity-50 group-hover:scale-110 transition-all duration-700"
-                    style={{ backgroundImage: `url('${project.image}')` }}
+                    className="proj-image absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
+                    style={{
+                      backgroundImage: `url('${project.image}')`,
+                      opacity: isHovered ? 0.55 : 0.3,
+                    }}
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent" />
-                  {isSignLang && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute inset-x-8 top-10 h-24 rounded-full bg-cyan-400/20 blur-3xl" />
+
+                  {/* Gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
+
+                  {/* Animated scan bar on hover */}
+                  <div
+                    className="proj-scan-bar absolute left-0 right-0 top-0 h-[2px] pointer-events-none z-10"
+                    style={{
+                      background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
+                      boxShadow: `0 0 20px ${accent}80`,
+                      opacity: 0,
+                    }}
+                  />
+
+                  {/* Floating glow orb */}
+                  <div
+                    className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl pointer-events-none"
+                    style={{
+                      background: `radial-gradient(circle, ${accent}30 0%, transparent 70%)`,
+                      animation: "proj-glow-pulse 3s ease-in-out infinite",
+                    }}
+                  />
+
+                  {/* Center content */}
+                  <div className="absolute inset-0 flex items-center justify-center z-10 px-6">
+                    <div className="text-center space-y-2">
                       <div
-                        className="absolute left-1/2 top-6 h-44 w-px -translate-x-1/2 bg-gradient-to-b from-transparent via-cyan-300/80 to-transparent opacity-70"
-                        style={{ animation: "project-scan 2.1s ease-in-out infinite" }}
-                      />
-                    </div>
-                  )}
-                  {project.id === "healthy-ai" && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute left-8 top-8 rounded-full border border-emerald-300/50 w-24 h-24" style={{ animation: "project-pulse 2.2s ease-in-out infinite" }} />
-                      <div className="absolute left-8 top-8 rounded-full border border-emerald-200/40 w-24 h-24" style={{ animation: "project-pulse 2.2s ease-in-out 0.5s infinite" }} />
-                    </div>
-                  )}
-                  {isChroma && (
-                    <div className="absolute inset-0 pointer-events-none">
-                      <div className="absolute right-8 bottom-8 rounded-full border border-purple-400/40 w-32 h-32 blur-md" style={{ animation: "project-pulse 3s ease-in-out infinite" }} />
-                    </div>
-                  )}
-                  <div className="absolute inset-0 overflow-hidden pointer-events-none">
-                    <div
-                      className="project-scan-line absolute left-0 right-0 top-0 h-1 bg-gradient-to-r from-transparent via-white/90 to-transparent opacity-0"
-                      style={{
-                        animation: isSignLang ? "project-scan 2.1s ease-in-out infinite" : isHealthy ? "project-scan 2.3s ease-in-out infinite" : isChroma ? "project-scan 2.5s ease-in-out infinite" : "project-scan 3s ease-in-out infinite",
-                        animationPlayState: (isHealthy || isChroma) ? "running" : undefined,
-                        opacity: (isHealthy || isChroma) ? 0.82 : undefined,
-                      }}
-                    />
-                    <div
-                      className="project-glow-line absolute inset-x-6 bottom-6 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent"
-                      style={{
-                        animation: isSignLang ? "project-glow 1.8s ease-in-out infinite" : isHealthy ? "project-glow 1.9s ease-in-out infinite" : isChroma ? "project-glow 2.1s ease-in-out infinite" : "project-glow 2.4s ease-in-out infinite",
-                        animationPlayState: (isHealthy || isChroma) ? "running" : undefined,
-                        opacity: (isHealthy || isChroma) ? 0.75 : undefined,
-                      }}
-                    />
-                  </div>
-
-                  <div className="absolute inset-0 flex items-center justify-center z-20 px-6 text-center">
-                    <div className="space-y-3">
-                      <div className={`text-[11px] uppercase tracking-[0.4em] font-black ${isSignLang ? "text-cyan-200/80" : "text-white/70"}`}>{style.label}</div>
-                      <h3 className="text-3xl font-bold text-white drop-shadow-[0_0_18px_rgba(255,255,255,0.2)]">{project.title}</h3>
-                      <p className="text-sm text-white/75 max-w-xs mx-auto leading-relaxed" style={{ textAlign: "justify" }}>{project.description}</p>
+                        className="text-[10px] uppercase tracking-[0.4em] font-bold"
+                        style={{ color: `${accent}CC` }}
+                      >
+                        {catStyle.label}
+                      </div>
+                      <h3 className="text-2xl md:text-3xl font-bold text-white">
+                        {project.title}
+                      </h3>
                     </div>
                   </div>
 
-                  <div className="absolute bottom-4 left-5 z-20 flex items-center gap-2">
-                    <div className="w-2 h-2 rounded-full animate-pulse" style={{ backgroundColor: isSignLang ? "#67e8f9" : isChroma ? "#c084fc" : style.accent, boxShadow: `0 0 10px ${isSignLang ? "#67e8f9" : isChroma ? "#c084fc" : style.accent}` }} />
-                    <span className="text-[10px] font-bold tracking-widest uppercase" style={{ color: isSignLang ? "#67e8f9" : isChroma ? "#c084fc" : style.accent }}>
-                      {isLive ? "Live on web" : "GitHub repository"}
-                    </span>
-                  </div>
+                  {/* Bottom metrics chips */}
+                  {project.metrics && project.metrics.length > 0 && (
+                    <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap gap-1.5">
+                      {project.metrics.slice(0, 3).map((metric, idx) => (
+                        <div
+                          key={idx}
+                          className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white/90 px-2 py-0.5 rounded-md text-[10px] font-semibold border border-white/10"
+                        >
+                          <span style={{ color: accent }}>{metric.value}</span>
+                          <span className="text-white/50">·</span>
+                          <span className="text-white/70">{metric.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
-                <div className="p-6 space-y-4 bg-background/90">
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-3" style={{ textAlign: "justify" }}>
-                    {project.fullDescription}
+                {/* ── Card Body ── */}
+                <div className="p-5 space-y-4 bg-background">
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                    {project.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.slice(0, 4).map((tag) => (
-                      <span key={tag} className="text-xs px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground border border-border">
-                        {tag}
-                      </span>
+                  {/* Tech Stack Row */}
+                  <div className="flex flex-wrap gap-1.5">
+                    {project.techStack.slice(0, 5).map((tech) => (
+                      <TechIcon key={tech} name={tech} />
                     ))}
-                    {project.tags.length > 4 && (
-                      <span className="text-xs px-3 py-1.5 rounded-full bg-secondary text-secondary-foreground border border-border">
-                        +{project.tags.length - 4}
-                      </span>
+                    {project.techStack.length > 5 && (
+                      <div className="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold text-muted-foreground bg-muted/50 border border-border">
+                        +{project.techStack.length - 5}
+                      </div>
                     )}
                   </div>
 
-                  <div className="flex flex-wrap gap-3 pt-2">
-                    {project.liveUrl ? (
+                  {/* Divider */}
+                  <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
+
+                  {/* Action Buttons */}
+                  <div className="flex items-center gap-2">
+                    {project.liveUrl && (
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center text-xs font-black text-foreground transition-all tracking-widest bg-secondary/70 px-4 py-2 rounded-lg border border-border uppercase hover:border-foreground"
+                        className="inline-flex items-center gap-1.5 text-[11px] font-bold text-white tracking-wider uppercase px-3.5 py-2 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
+                        style={{
+                          background: accent,
+                          boxShadow: `0 2px 10px ${accent}40`,
+                        }}
                       >
-                        <ExternalLink className="w-4 h-4 mr-2" /> LIVE DEMO
+                        <ExternalLink className="w-3.5 h-3.5" />
+                        Live Demo
                       </a>
-                    ) : (
+                    )}
+                    {project.githubUrl && (
                       <a
                         href={project.githubUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center text-xs font-black text-foreground transition-all tracking-widest bg-secondary/70 px-4 py-2 rounded-lg border border-border uppercase hover:border-foreground"
+                        className="inline-flex items-center gap-1.5 text-[11px] font-bold text-foreground tracking-wider uppercase px-3.5 py-2 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-foreground/30 transition-all duration-200"
                       >
-                        <Github className="w-4 h-4 mr-2" /> REPO
+                        <Github className="w-3.5 h-3.5" />
+                        {project.liveUrl ? "Code" : "Repo"}
                       </a>
                     )}
-                    {project.githubUrl && project.liveUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center text-xs font-black text-muted-foreground hover:text-foreground transition-all tracking-widest bg-background px-4 py-2 rounded-lg border border-border uppercase hover:border-foreground"
-                      >
-                        <Github className="w-4 h-4 mr-2" /> REPO
-                      </a>
-                    )}
+                    <div className="flex-1" />
+                    <div
+                      className="w-8 h-8 rounded-full flex items-center justify-center bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+                    >
+                      <ArrowUpRight className="w-4 h-4" />
+                    </div>
                   </div>
                 </div>
               </div>
@@ -313,6 +516,7 @@ const Projects = () => {
         </div>
       </div>
 
+      {/* ── Detail Modal ── */}
       {selectedProject && (
         <ProjectDetailModal
           project={selectedProject}
