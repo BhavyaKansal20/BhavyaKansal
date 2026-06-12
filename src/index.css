@@ -151,8 +151,6 @@ All colors MUST be HSL.
     z-index: 0;
     opacity: 0;
     transform: translate3d(0, 0, 0);
-    filter: blur(46px);
-    will-change: transform, opacity;
     transition: opacity 240ms ease;
   }
 

@@ -26,18 +26,20 @@ Frameworks & Technologies:
 - HuggingFace, Transformers, YOLO, OCR, MediaPipe, Telegram API, IoT, Robotics, Edge AI, Sensor Fusion
 PROJECT PORTFOLIO:
 1. Healthy AI (Live on Render)
-2. SignLang AI (Live on Hugging Face)
-3. DeepFake Scanner (Live on Hugging Face)
-4. ML House Price Prediction (Live on Hugging Face)
-5. Machine Learning
-6. Deep Learning
-7. Datasets
-8. AAGNI Assistant (Telegram Powered)
-9. Immutable Doc-Verify
-10. NeuroLock AI
+2. ChromaCrystal UHD (Live on Hugging Face Spaces)
+3. SignLang AI (Live on Hugging Face Spaces)
+4. DeepFake Scanner (Live on Hugging Face Spaces)
+5. ML House Price Prediction (Live on Hugging Face Spaces)
+6. RetiNex AI (Diabetic Retinopathy Detection with GradCAM)
+7. Machine Learning
+8. Deep Learning
+9. Datasets
+10. AAGNI Assistant (Telegram Powered)
+11. Immutable Doc-Verify
+12. NeuroLock AI
 ACHIEVEMENTS & LEADERSHIP:
-- Built 10+ projects, including 5+ AI-first systems
-- Active in generative AI, multimodal reasoning, and ethical AI development
+- Built 12+ projects, including 7+ AI-first systems
+- Active in generative AI, multimodal reasoning, medical CV, and ethical AI development
 ADDITIONAL INFORMATION:
 Open to AI/ML internships, deep-tech projects, and research collaborations.
 `;
@@ -123,7 +125,7 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     period: "foundation",
     tags: ["projects", "portfolio", "build", "systems"],
     content:
-      "Signature projects include Healthy AI, SignLang AI, DeepFake Scanner, ML House Price Prediction, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI, with practical focus on healthcare AI, accessibility, authenticity detection, and automation.",
+      "Signature projects include Healthy AI, ChromaCrystal UHD, SignLang AI, DeepFake Scanner, ML House Price Prediction, RetiNex AI, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI, with practical focus on healthcare AI, accessibility, authenticity detection, and automation.",
   },
   {
     id: "leadership-impact",
@@ -131,7 +133,7 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     period: "current",
     tags: ["leadership", "impact", "engineering", "achievements"],
     content:
-      "Built 10+ projects including 5+ AI-first systems. Open to AI/ML internships, research collaborations, and deep-tech engineering projects.",
+      "Built 12+ projects including 7+ AI-first systems. Open to AI/ML internships, research collaborations, and deep-tech engineering projects.",
   },
 ];
 
