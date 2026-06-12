@@ -292,9 +292,9 @@ const fallbackResponses: Record<string, string> = {
   "experience": "I completed summer training in Python, AI/ML, and cybersecurity at Thapar Polytechnic College, followed by AI/ML internship training at IIT Ropar and NIELIT Ropar focused on applied machine learning, experimentation, and deployment-ready implementations.",
   "skills": "I primarily work with Python, PyTorch, TensorFlow, scikit-learn, OpenCV, NumPy, Pandas, FastAPI, Flask, React, Next.js, and cloud platforms like Supabase, Firebase, and Vercel, along with applied automation and multimodal AI pipelines.",
   "education": "I completed my Diploma in Computer Science Engineering at Thapar Polytechnic College (2023-2026), completed summer training in Python, AI/ML, and cybersecurity, completed AI/ML intern training at IIT & NIELIT Ropar, and am pursuing B.Tech in DSAI at Thapar Institute (2026-2029).",
-  "projects": "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, ML House Price Prediction, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
+  "projects": "My key projects include Healthy AI, ChromaCrystal UHD, SignLang AI, DeepFake Scanner, ML House Price Prediction, RetiNex AI, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
   "contact": "You can reach me at kansalbhavya27@gmail.com or thebhavyakansal20@gmail.com, connect on LinkedIn (linkedin.com/in/kansal0920), or visit github.com/BhavyaKansal20.",
-  "achievements": "I have built 10+ projects including 5+ AI-first systems with practical deployment experience across healthcare AI, accessibility, and computer vision.",
+  "achievements": "I have built 12+ projects including 7+ AI-first systems with practical deployment experience across healthcare AI, accessibility, computer vision, and automation.",
   "leadership": "I focus on leading projects end-to-end, from model prototyping to production-ready implementation and deployment.",
   "availability": "I am open to AI/ML internships, research collaborations, deep-tech projects, and startup partnerships.",
   "text": "You can reach me through bhavyakansal.dev, LinkedIn (linkedin.com/in/kansal0920), or email (kansalbhavya27@gmail.com).",
@@ -310,7 +310,7 @@ const fallbackPatterns: Array<{ test: RegExp; value: string }> = [
   {
     test: /\b(project|projects|built|build)\b/i,
     value:
-      "My key projects include Healthy AI, SignLang AI, DeepFake Scanner, ML House Price Prediction, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
+      "My key projects include Healthy AI, ChromaCrystal UHD, SignLang AI, DeepFake Scanner, ML House Price Prediction, RetiNex AI, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
   },
   {
     test: /\b(education|study|college|diploma|btech|degree)\b/i,
