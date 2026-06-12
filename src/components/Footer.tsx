@@ -111,11 +111,11 @@ const Footer = () => {
               </span>
               <span className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                Projects: 10+
+                Projects: 12+
               </span>
               <span className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-                AI Projects: 5+
+                AI Projects: 10+
               </span>
             </div>
             <p className="text-sm text-gray-400">
