@@ -269,6 +269,8 @@ const CodingDashboard = () => {
             ? `${LIVE_API_BASE_URL}/api/google-profile?ts=${Date.now()}`
             : "",
           "/api/google-profile",
+          "/google-profile.json",
+          "/google-profile-mock.json",
         ].filter(Boolean);
 
         let parsedProfile: GoogleDevProfile | null = null;
