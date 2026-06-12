@@ -95,6 +95,7 @@ const projectAccents: Record<string, string> = {
   "signlang-ai": "#67e8f9",
   "deepfake-scanner": "#f87171",
   "ml-house-price-prediction": "#fbbf24",
+  "retinex-ai": "#f43f5e",
   "aagni-assistant": "#60a5fa",
   "immutable-doc-verify": "#a78bfa",
   "neurolock-ai": "#f472b6",
@@ -103,13 +104,14 @@ const projectAccents: Record<string, string> = {
   "datasets": "#94a3b8",
 };
 
-const featuredKeys = new Set(["Healthy AI", "ChromaCrystal UHD", "SignLang AI", "DeepFake Scanner", "ML House Price Prediction"]);
+const featuredKeys = new Set(["Healthy AI", "ChromaCrystal UHD", "SignLang AI", "DeepFake Scanner", "ML House Price Prediction", "RetiNex AI"]);
 const preferredProjectOrder = [
   "healthy-ai",
   "chromacrystal-uhd",
   "deepfake-scanner",
   "signlang-ai",
   "ml-house-price-prediction",
+  "retinex-ai",
   "machine-learning",
   "deep-learning",
   "datasets",
