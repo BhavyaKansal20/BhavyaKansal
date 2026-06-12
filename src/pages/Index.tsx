@@ -11,9 +11,6 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 
 const Index = () => {
-  const [footerHeight, setFooterHeight] = useState(0);
-  const footerRef = useRef<HTMLDivElement>(null);
-
   // Handle hash navigation when component mounts
   useEffect(() => {
     const hash = window.location.hash;
@@ -27,32 +24,10 @@ const Index = () => {
     }
   }, []);
 
-  // Dynamically measure the footer's height to ensure perfect scrolling
-  useEffect(() => {
-    if (!footerRef.current) return;
-    
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        setFooterHeight(entry.contentRect.height);
-      }
-    });
-    
-    resizeObserver.observe(footerRef.current);
-    return () => resizeObserver.disconnect();
-  }, []);
-
   return (
-    <div className="bg-background min-h-screen">
-      
-      {/* MAIN CONTENT CURTAIN 
-        Given z-10 and a solid background to cover the footer.
-        The margin-bottom allows you to scroll past the content just enough to reveal the footer.
-      */}
-      <main 
-        className="relative z-10 bg-background shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-b-[2.5rem] sm:rounded-b-[3rem] overflow-hidden"
-        style={{ marginBottom: footerHeight }}
-      >
-        <Navbar />
+    <div className="bg-background min-h-screen flex flex-col">
+      <Navbar />
+      <main className="flex-grow relative z-10 bg-background shadow-[0_20px_50px_rgba(0,0,0,0.5)] rounded-b-[2.5rem] sm:rounded-b-[3rem]">
         <Hero />
         <TechStackScroller />
         <About />
@@ -62,18 +37,7 @@ const Index = () => {
         <FAQ />
         <Contact />
       </main>
-{/* FIXED FOOTER */}
-      {/* 1. inset-0 and h-full make this wrapper cover the whole screen behind the curtain.
-        2. flex & justify-end push the actual footer to the very bottom.
-        3. IMPORTANT: Change 'bg-black' to whatever background color class your <Footer /> component uses!
-      */}
-      <div 
-        className="fixed inset-0 w-full h-full z-0 flex flex-col justify-end bg-transparent"
-      >
-        <div ref={footerRef} className="w-full">
-          <Footer />
-        </div>
-      </div>
+      <Footer />
     </div>
   );
 };
