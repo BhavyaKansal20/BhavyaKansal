@@ -1,141 +1,104 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-ffcc00?style=for-the-badge&logo=github&logoColor=black)](https://opensource.org/licenses/MIT)
-[![Portfolio](https://img.shields.io/badge/Website-bhavyakansal.dev-0a0a0a?style=for-the-badge&logo=google-chrome&logoColor=white)](https://bhavyakansal.dev)
+[![Portfolio](https://img.shields.io/badge/Website-bhavyakansal.dev-00f5ff?style=for-the-badge&logo=google-chrome&logoColor=black)](https://bhavyakansal.dev)
 
-# Bhavya Kansal
-### AI Engineer • ML Researcher • Builder
+# Bhavya Kansal | AI/ML Engineer & Researcher
+### Building production-ready intelligent systems across healthcare AI, accessibility, computer vision, and practical automation.
 
-Official Portfolio: https://bhavyakansal.dev
-
----
-
-## About
-
-I am Bhavya Kansal, an AI/ML Engineer focused on building intelligent systems, scalable products, and real-world impactful solutions.
-
-- Student at Thapar Institute of Engineering & Technology (TIET), Patiala
-- AI/ML Intern Trainee at IIT Ropar and NIELIT
-- Consistently building and shipping applied AI projects
-
-This repository contains the source code for my official personal portfolio, actively maintained and continuously improved.
+Official Portfolio: [bhavyakansal.dev](https://bhavyakansal.dev)
 
 ---
 
-## Highlights
+## 🚀 Key Features
 
-- Clean, modern interface with smooth interactions
-- AI-powered command palette for quick exploration
-- Recruiter-friendly structure with clear projects and verifiable links
-- GitHub activity integration and coding dashboard
-- Dark/light theme support and responsive experience
+- **AI-Powered Command Palette (Ctrl+K):** A smart NLP assistant integrated directly into the browser, indexing my full career portfolio, repository metadata, and technical achievements.
+- **Glassmorphism UI:** Premium visual cards equipped with GPU-accelerated conic-gradient rotating border-tracing hover animations.
+- **Zero-Crash Performance Architecture:** Engineered with normal document flow compositing to prevent Chromium GPU scrolling jank and memory leaks.
+- **Live Tech Telemetry:** Showcases live stats—including 12+ total projects, 10+ AI-first systems, and 1+ years of experience.
+- **GitHub Activity Integration:** Live contribution tracking and repository statistics.
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-### Core
-- React 18
-- TypeScript
-- Vite
+### Core Frontend
+- React 18 & TypeScript
+- Vite (Optimized build pipelines)
 - Tailwind CSS
 
-### UI and Experience
-- shadcn/ui
-- Radix UI
-- Lucide React
-- next-themes
+### UI & UX Components
+- shadcn/ui & Radix UI primitives
+- Lucide React icons
+- Framer Motion & CSS custom keyframe animations
 
-### Data and Integrations
-- TanStack Query
-- Recharts
-- OpenRouter API
-- GitHub contribution data
-
-### Tooling
-- ESLint
-- PostCSS
-- Vercel Analytics
-- Vercel Speed Insights
+### Integrations & Services
+- OpenRouter API (Gemini-powered natural language chatbot)
+- TanStack Query (State management & API caching)
+- Recharts (Interactive visualization dashboard)
 
 ---
 
-## Project Integrity
+## 🌟 Featured AI/ML Projects
 
-Every project featured in this portfolio is:
-- Backed by source code (GitHub)
-- Verifiable through commit history
-- Continuously refined and improved
+Here are some of the key systems integrated and detailed within the portfolio:
 
----
-
-## Why This Portfolio
-
-This portfolio is designed to be:
-- Recruiter-ready: clear value, fast navigation, proof-backed projects
-- Future-proof: modular components, scalable structure, maintainable codebase
-- Performance-focused: optimized build output, smooth UI, clean architecture
+1. **RetiNex AI:** Deep learning-based medical image enhancement system for low-light retinal scans. Achieved **77.2% validation accuracy**, **0.65 macro F1-score**, and an end-to-end inference latency of **1.2s**.
+2. **ChromaCrystal UHD:** End-to-end generative B&W colorization and UHD super-resolution scaling pipeline using deep neural networks.
+3. **DeepFake Detector:** Custom convolutional model for robust video and image manipulation detection.
+4. **SignLang AI:** Real-time American Sign Language recognition utilizing computer vision pipelines.
+5. **NeuroLock AI:** Biometric facial security utilizing real-time emotion analysis and eye-gaze tracking.
+6. **AAGNI Assistant:** Advanced automated conversational agent integrated with custom logic.
 
 ---
 
-## Run Locally
+## 💻 Local Setup & Development
 
 ### Prerequisites
-- Node.js 18+
+- Node.js (v18 or higher)
 - npm
 
-### Setup
+### Installation
 
 ```bash
-git clone https://github.com/BhavyaKansal20/Portfolio-website.git
-cd Portfolio-website
+# Clone the repository
+git clone https://github.com/BhavyaKansal20/BhavyaKansal.git
+cd BhavyaKansal
+
+# Install dependencies
 npm install
 ```
 
-Create `.env.local` in the project root:
+### Environment Configuration
+
+Create a `.env.local` file in the root directory:
 
 ```env
 VITE_OPENROUTER_API_KEY=your_openrouter_api_key
-VITE_OPENROUTER_MODEL=openrouter/auto
-VITE_SITE_URL=http://localhost:8080
+VITE_OPENROUTER_MODEL=google/gemini-2.5-flash
+VITE_SITE_URL=http://localhost:5173
 ```
 
-Start development:
+### Running Locally
 
 ```bash
+# Start development server
 npm run dev
-```
 
-Build for production:
-
-```bash
+# Build production bundle
 npm run build
+
+# Preview production build locally
 npm run preview
 ```
 
 ---
 
-## License
+## 🔗 Connect With Me
 
-This project is released under the MIT License.
-
-© 2026 Bhavya Kansal
-
----
-
-## Authenticity Notice
-
-This is the official portfolio repository of Bhavya Kansal.
-
-Any reused or redistributed versions should include proper attribution and must not misrepresent identity or ownership.
+- **Portfolio:** [bhavyakansal.dev](https://bhavyakansal.dev)
+- **GitHub:** [@BhavyaKansal20](https://github.com/BhavyaKansal20)
+- **LinkedIn:** [kansal0920](https://linkedin.com/in/kansal0920)
+- **Email:** [kansalbhavya27@gmail.com](mailto:kansalbhavya27@gmail.com)
 
 ---
 
-## Connect
-
-- Website: https://bhavyakansal.dev
-- GitHub: https://github.com/BhavyaKansal20
-- LinkedIn: https://linkedin.com/in/kansal0920
-- Email: kansalbhavya27@gmail.com
-
----
-
-If you find this project valuable, consider giving it a star.
+© 2026 Bhavya Kansal. Released under the MIT License.
