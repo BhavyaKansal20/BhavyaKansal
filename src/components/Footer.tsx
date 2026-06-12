@@ -12,13 +12,57 @@ const Footer = () => {
   };
 
   return (
-    <footer className="bg-[#0a0a0a] py-16 relative overflow-hidden">
+    <footer 
+      className="bg-[#0a0a0a] py-16 relative overflow-hidden isolate"
+      style={{
+        transform: "translate3d(0, 0, 0)",
+        WebkitTransform: "translate3d(0, 0, 0)"
+      }}
+    >
       {/* Decorative gradient blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-cyan-400/20 rounded-full blur-3xl" />
-        <div className="absolute top-0 left-1/3 w-80 h-80 bg-emerald-400/12 rounded-full blur-3xl" />
-        <div className="absolute -bottom-20 right-1/3 w-72 h-72 bg-blue-500/18 rounded-full blur-3xl" />
-        <div className="absolute -bottom-24 -right-24 w-96 h-96 bg-pink-500/16 rounded-full blur-3xl" />
+      <div 
+        className="absolute inset-0 overflow-hidden pointer-events-none"
+        style={{
+          transform: "translate3d(0, 0, 0)",
+          WebkitTransform: "translate3d(0, 0, 0)"
+        }}
+      >
+        <div 
+          className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full blur-3xl" 
+          style={{
+            backgroundColor: "rgba(34, 211, 238, 0.2)",
+            transform: "translate3d(0, 0, 0)",
+            WebkitTransform: "translate3d(0, 0, 0)",
+            willChange: "filter, transform"
+          }}
+        />
+        <div 
+          className="absolute top-0 left-1/3 w-80 h-80 rounded-full blur-3xl" 
+          style={{
+            backgroundColor: "rgba(52, 211, 153, 0.12)",
+            transform: "translate3d(0, 0, 0)",
+            WebkitTransform: "translate3d(0, 0, 0)",
+            willChange: "filter, transform"
+          }}
+        />
+        <div 
+          className="absolute -bottom-20 right-1/3 w-72 h-72 rounded-full blur-3xl" 
+          style={{
+            backgroundColor: "rgba(59, 130, 246, 0.18)",
+            transform: "translate3d(0, 0, 0)",
+            WebkitTransform: "translate3d(0, 0, 0)",
+            willChange: "filter, transform"
+          }}
+        />
+        <div 
+          className="absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-3xl" 
+          style={{
+            backgroundColor: "rgba(236, 72, 153, 0.16)",
+            transform: "translate3d(0, 0, 0)",
+            WebkitTransform: "translate3d(0, 0, 0)",
+            willChange: "filter, transform"
+          }}
+        />
       </div>
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
