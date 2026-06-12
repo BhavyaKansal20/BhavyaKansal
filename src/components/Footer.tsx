@@ -106,15 +106,15 @@ const Footer = () => {
             </p>
             <div className="flex gap-6 text-xs text-gray-400">
               <span className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <div className="w-2 h-2 min-w-[8px] min-h-[8px] rounded-full bg-green-500 animate-pulse flex-shrink-0" />
                 Experience: 1+ Year
               </span>
               <span className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <div className="w-2 h-2 min-w-[8px] min-h-[8px] rounded-full bg-green-500 animate-pulse flex-shrink-0" />
                 Projects: 12+
               </span>
               <span className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                <div className="w-2 h-2 min-w-[8px] min-h-[8px] rounded-full bg-green-500 animate-pulse flex-shrink-0" />
                 AI Projects: 10+
               </span>
             </div>

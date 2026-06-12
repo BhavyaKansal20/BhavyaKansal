@@ -207,17 +207,67 @@ All colors MUST be HSL.
     );
   }
 
-  /* Glass effect with hover tilt */
+  /* Glass effect with hover tilt and border tracing arc */
   .glass-card {
-    background: hsl(var(--glass-bg));
+    position: relative;
+    background: transparent;
     backdrop-filter: blur(12px);
     border: 1px solid hsl(var(--glass-border));
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    overflow: hidden;
+  }
+
+  /* Rotating gradient trace border */
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: -150%;
+    background: conic-gradient(
+      from 0deg,
+      transparent 0%,
+      transparent 40%,
+      hsl(var(--accent) / 0.5) 50%,
+      transparent 60%,
+      transparent 100%
+    );
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    pointer-events: none;
+    z-index: 0;
+    transform-origin: center center;
+  }
+
+  /* Inner card content background */
+  .glass-card::after {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    background: hsl(var(--glass-bg));
+    border-radius: inherit;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .glass-card > * {
+    position: relative;
+    z-index: 1;
   }
 
   .glass-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4.5px);
+    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.22);
+    border-color: transparent;
+  }
+
+  .glass-card:hover::before {
+    opacity: 1;
+    animation: border-rotate 4s linear infinite;
+  }
+
+  @keyframes border-rotate {
+    100% {
+      transform: rotate(360deg);
+    }
   }
 
   /* Scroll fade-in animation */
