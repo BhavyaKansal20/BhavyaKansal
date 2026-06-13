@@ -45,8 +45,8 @@ jobs:
       - name: Commit and Push Hourly Updates
         if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "BhavyaKansal20"
+          git config --global user.email "kansalbhavya27@gmail.com"
           git add public/github-contributions.json public/google-profile.json src/data/projects.json
           if ! git diff --cached --quiet; then
             git commit -m "chore: automated hourly portfolio stats and projects update"
