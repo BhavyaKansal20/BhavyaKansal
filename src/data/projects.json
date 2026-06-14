@@ -216,7 +216,7 @@
     "category": "Live Projects",
     "featured": true,
     "githubUrl": "https://github.com/BhavyaKansal20/DeepFake-Detector.git",
-    "liveUrl": "https://bhavyakansal20-deepfake-scanner.hf.space",
+    "liveUrl": "https://bhavyakansal20-deepfake-detector.streamlit.app",
     "features": [
       "95.8% Accurate Face-Swap Detection trained on FaceForensics++",
       "98.1% AUC-ROC GAN-based synthetic image detection on CIFAKE",
@@ -390,7 +390,7 @@
     "category": "Live Projects",
     "featured": true,
     "githubUrl": "https://github.com/BhavyaKansal20/ML_HousePricePrediction.git",
-    "liveUrl": "https://bhavyakansal20-house-price-prediction.hf.space",
+    "liveUrl": "https://bhavyakansal20-mlhousepriceprediction.streamlit.app",
     "features": [
       "Interactive house price prediction interface",
       "Model comparison across Random Forest and Decision Tree",
