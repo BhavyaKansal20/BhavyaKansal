@@ -264,45 +264,6 @@ async function run() {
               matchingProject.techStack.push(repo.language);
               projectsModified = true;
             }
-          } else {
-            // New repository found! Auto-add to "Other Projects"
-            // Skip the main portfolio website repo itself to avoid recursion
-            if (repo.name.toLowerCase() === 'bhavyakansal' || repo.name.toLowerCase() === 'portfolio-website') {
-              continue;
-            }
-
-            console.log(`+ Auto-adding new repository: ${repo.name}`);
-            const newProject = {
-              id: repo.name.toLowerCase(),
-              title: repo.name.split(/[-_]/).map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
-              description: repo.description || "Open source repository auto-indexed from GitHub.",
-              fullDescription: repo.description || "Open source repository auto-indexed from GitHub.",
-              image: "https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1400&q=80",
-              images: ["https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1400&q=80"],
-              tags: [repo.language].filter(Boolean),
-              techStack: [repo.language].filter(Boolean),
-              category: "Other Projects",
-              featured: false,
-              githubUrl: repo.html_url,
-              features: ["Auto-indexed from GitHub", `Last updated: ${new Date(repo.updated_at).toLocaleDateString()}`],
-              challenges: ["Automated synchronization from GitHub Profile"],
-              metrics: [
-                { value: String(repo.stargazers_count), label: "GitHub Stars" },
-                { value: String(repo.forks_count), label: "Forks" }
-              ],
-              implementation: {
-                approach: "Automatic portfolio syncing via custom GitHub Actions workflow.",
-                technologies: [
-                  { name: repo.language || "Unknown", reason: "Detected primary repository language." }
-                ]
-              },
-              documentation: {
-                overview: repo.description || "Public codebase open source contribution."
-              }
-            };
-
-            projects.push(newProject);
-            projectsModified = true;
           }
         }
 
