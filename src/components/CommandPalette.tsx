@@ -339,8 +339,7 @@ const CommandPalette = () => {
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI Avatar" 
-                className="w-full h-full object-cover scale-[1.65] mix-blend-screen"
-                style={{ filter: 'brightness(1.2) contrast(1.1)' }}
+                className="w-full h-full object-contain"
               />
               <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0c0e15] animate-pulse" />
             </div>
@@ -421,12 +420,11 @@ const CommandPalette = () => {
                 >
                   {/* Render 3D robot avatar next to AAGNI's bot messages (No borders!) */}
                   {!isUser && (
-                    <div className="w-7 h-7 rounded-full flex-shrink-0 mr-2 mt-0.5 flex items-center justify-center relative">
+                    <div className="w-7 h-7 rounded-full flex-shrink-0 mr-2 mt-0.5 flex items-center justify-center relative overflow-hidden bg-transparent">
                       <img 
                         src="/aagni-avatar.png" 
                         alt="AAGNI Avatar" 
-                        className="w-full h-full object-cover scale-[1.7] mix-blend-screen"
-                        style={{ filter: 'brightness(1.3) contrast(1.2)' }}
+                        className="w-full h-full object-contain"
                       />
                     </div>
                   )}
@@ -476,12 +474,11 @@ const CommandPalette = () => {
 
             {aiLoading && (
               <div className="flex justify-start items-start">
-                <div className="w-7 h-7 rounded-full flex-shrink-0 mr-2 mt-0.5 flex items-center justify-center relative">
+                <div className="w-7 h-7 rounded-full flex-shrink-0 mr-2 mt-0.5 flex items-center justify-center relative overflow-hidden bg-transparent">
                   <img 
                     src="/aagni-avatar.png" 
                     alt="AAGNI Avatar" 
-                    className="w-full h-full object-cover scale-[1.7] mix-blend-screen"
-                    style={{ filter: 'brightness(1.3) contrast(1.2)' }}
+                    className="w-full h-full object-contain"
                   />
                 </div>
                 <div className="bg-[#202c33] text-[#e9edef] rounded-lg rounded-tl-none px-4 py-3 min-w-[120px] shadow-sm relative">

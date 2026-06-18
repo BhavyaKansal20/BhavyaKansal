@@ -99,21 +99,12 @@ const MobileFAB: React.FC = () => {
           willChange: 'transform, box-shadow'
         }}
       >
-        <div className="w-full h-full flex items-center justify-center relative">
-          {/* Subtle premium glow instead of giant light */}
-          <div className="absolute inset-0 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] animate-pulse" />
-          
-          <div 
-            className="absolute inset-0 rounded-full flex items-center justify-center overflow-hidden z-10"
-            style={{ backgroundColor: 'rgba(10, 15, 25, 0.8)', backdropFilter: 'blur(8px)' }}
-          >
-            <img 
-              src="/aagni-avatar.png" 
-              alt="AAGNI AI" 
-              className="w-full h-full object-cover scale-[1.7] transition-transform duration-300 group-hover:scale-[1.8] relative z-10"
-              style={{ filter: 'brightness(1.2)' }}
-            />
-          </div>
+        <div className="w-full h-full flex items-center justify-center relative bg-transparent rounded-full overflow-hidden">
+          <img 
+            src="/aagni-avatar.png" 
+            alt="AAGNI AI" 
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 relative z-10"
+          />
         </div>
       </button>
 
