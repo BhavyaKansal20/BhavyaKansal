@@ -312,84 +312,77 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-2xl shadow-2xl transition-all duration-300 border border-[#2a3942]"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-2xl shadow-2xl transition-all duration-300 border border-white/10"
       style={{
         animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       }}
       ref={chatContainerRef}
     >
 
-      {/* Solid inner cover (Premium WhatsApp-style Dark Mode) */}
+      {/* Solid inner cover (Premium Dark Mode) */}
       <div 
         className="relative w-full h-full rounded-2xl flex flex-col overflow-hidden z-10"
-        style={{ backgroundColor: '#111b21' }}
+        style={{ backgroundColor: '#0d1117' }}
       >
         
-        {/* Header - WhatsApp style */}
-        <div className="px-4 py-3 flex items-center justify-between z-10 shadow-sm" style={{ backgroundColor: '#202c33' }}>
+        {/* Header - Premium Dark */}
+        <div className="px-4 py-3 flex items-center justify-between z-10 border-b border-white/5" style={{ background: 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)' }}>
           <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#111b21]">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#0d1117]">
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI Avatar" 
                 className="w-full h-full object-contain"
               />
-              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0c0e15] animate-pulse" />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0d1117] animate-pulse" />
             </div>
             <div>
-              <h4 className="text-[15px] font-semibold tracking-wide text-[#e9edef]">
+              <h4 className="text-[15px] font-semibold tracking-wide text-white">
                 AAGNI AI
               </h4>
-              <span className="text-[12px] text-[#8696a0] flex items-center font-medium">
+              <span className="text-[11px] text-cyan-400/80 flex items-center gap-1 font-medium">
+                <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></span>
                 online
               </span>
             </div>
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             <a 
               href="mailto:kansalbhavya27@gmail.com"
-              className="p-2 rounded-full hover:bg-white/5 text-[#aebac1] hover:text-white transition-colors"
+              className="p-2 rounded-full hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
               title="Contact me"
             >
-              <Mail className="w-5 h-5" />
+              <Mail className="w-4.5 h-4.5" />
             </a>
             <button 
               onClick={handleClearChat}
-              className="p-2 rounded-full hover:bg-white/5 text-[#aebac1] hover:text-white transition-colors"
+              className="p-2 rounded-full hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
               title="Clear conversation"
             >
-              <Trash2 className="w-5 h-5" />
+              <Trash2 className="w-4.5 h-4.5" />
             </button>
             <button 
               onClick={() => {
                 setOpen(false);
                 setShowAttachMenu(false);
               }}
-              className="p-2 rounded-full hover:bg-white/5 text-[#aebac1] hover:text-white transition-colors"
+              className="p-2 rounded-full hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
               title="Close chat"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4.5 h-4.5" />
             </button>
           </div>
         </div>
 
-        {/* Messages feed container (WhatsApp Chat Wallpaper style) */}
+        {/* Messages feed container (Clean dark surface) */}
         <div 
           className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col"
-          style={{ 
-            backgroundColor: '#0b141a',
-            backgroundImage: 'url("https://w0.peakpx.com/wallpaper/818/148/HD-wallpaper-whatsapp-background-cool-dark-green-new-theme-whatsapp.jpg")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundBlendMode: 'overlay'
-          }}
+          style={{ backgroundColor: '#0d1117' }}
         >
-          {/* Dark overlay to make wallpaper subtle */}
-          <div className="absolute inset-0 bg-[#0b141a]/85 pointer-events-none z-0" />
           
           <div className="relative z-10 flex-grow flex flex-col space-y-4">
             <div className="flex justify-center my-2">
-              <span className="bg-[#182229] text-[#8696a0] text-[11px] px-3 py-1 rounded-lg uppercase tracking-wide font-medium shadow-sm">
+              <span className="bg-white/5 text-slate-500 text-[11px] px-3 py-1 rounded-full uppercase tracking-wider font-medium">
                 Today
               </span>
             </div>
@@ -423,38 +416,17 @@ const CommandPalette = () => {
                   )}
 
                   <div 
-                    className={`max-w-[80%] rounded-lg px-3 py-2 text-[14.5px] relative shadow-sm ${
+                    className={`max-w-[80%] rounded-2xl px-3.5 py-2.5 text-[14px] relative ${
                       isUser
-                        ? "bg-[#005c4b] text-[#e9edef] rounded-tr-none"
-                        : "bg-[#202c33] text-[#e9edef] rounded-tl-none"
+                        ? "bg-gradient-to-br from-blue-600 to-purple-600 text-white"
+                        : "bg-[#161b22] text-slate-200 border border-white/5"
                     }`}
                   >
-                    {/* WhatsApp style corner tail */}
-                    <div className={`absolute top-0 w-3 h-3 ${isUser ? "-right-2.5" : "-left-2.5"}`}>
-                      <svg viewBox="0 0 8 13" width="8" height="13" className={`fill-current ${isUser ? "text-[#005c4b]" : "text-[#202c33]"}`}>
-                        {isUser ? (
-                          <path opacity="0.13" d="M5.188,1H0v11.193l6.467-8.625C7.526,2.156,6.958,1,5.188,1z"></path>
-                        ) : (
-                          <path opacity="0.13" d="M1.533,3.568L8,12.193V1H2.812C1.042,1,0.474,2.156,1.533,3.568z"></path>
-                        )}
-                        {isUser ? (
-                          <path opacity="0.13" d="M5.188,0H0v11.193l6.467-8.625C7.526,1.156,6.958,0,5.188,0z"></path>
-                        ) : (
-                          <path opacity="0.13" d="M1.533,2.568L8,11.193V0H2.812C1.042,0,0.474,1.156,1.533,2.568z"></path>
-                        )}
-                        {isUser ? (
-                          <path d="M5.188,0H0v11.193l6.467-8.625C7.526,1.156,6.958,0,5.188,0z"></path>
-                        ) : (
-                          <path d="M1.533,2.568L8,11.193V0H2.812C1.042,0,0.474,1.156,1.533,2.568z"></path>
-                        )}
-                      </svg>
-                    </div>
-
                     <div 
                       className="leading-relaxed whitespace-pre-wrap break-words format-chat-text"
                       dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }}
                     />
-                    <div className="flex items-center justify-end gap-1 mt-1 text-[10px] text-[#8696a0]">
+                    <div className={`flex items-center justify-end gap-1 mt-1 text-[10px] ${isUser ? 'text-white/60' : 'text-slate-500'}`}>
                       <span>
                         {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
@@ -474,18 +446,11 @@ const CommandPalette = () => {
                     className="w-full h-full object-contain"
                   />
                 </div>
-                <div className="bg-[#202c33] text-[#e9edef] rounded-lg rounded-tl-none px-4 py-3 min-w-[120px] shadow-sm relative">
-                  <div className="absolute top-0 -left-2.5 w-3 h-3 text-[#202c33]">
-                    <svg viewBox="0 0 8 13" width="8" height="13" className="fill-current">
-                      <path opacity="0.13" d="M1.533,3.568L8,12.193V1H2.812C1.042,1,0.474,2.156,1.533,3.568z"></path>
-                      <path opacity="0.13" d="M1.533,2.568L8,11.193V0H2.812C1.042,0,0.474,1.156,1.533,2.568z"></path>
-                      <path d="M1.533,2.568L8,11.193V0H2.812C1.042,0,0.474,1.156,1.533,2.568z"></path>
-                    </svg>
-                  </div>
+                <div className="bg-[#161b22] text-slate-200 rounded-2xl px-4 py-3 min-w-[80px] border border-white/5">
                   <div className="flex items-center gap-1.5 h-4">
-                    <div className="w-2 h-2 bg-[#8696a0] rounded-full animate-bounce"></div>
-                    <div className="w-2 h-2 bg-[#8696a0] rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
-                    <div className="w-2 h-2 bg-[#8696a0] rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    <div className="w-2 h-2 bg-cyan-400/60 rounded-full animate-bounce"></div>
+                    <div className="w-2 h-2 bg-cyan-400/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                    <div className="w-2 h-2 bg-cyan-400/60 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
                   </div>
                 </div>
               </div>
@@ -496,67 +461,66 @@ const CommandPalette = () => {
 
         {/* Suggestion Quick Replies */}
         <div 
-          className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-none select-none z-10"
-          style={{ backgroundColor: '#202c33' }}
+          className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-none select-none z-10 border-t border-white/5"
+          style={{ backgroundColor: '#0d1117' }}
         >
           {suggestionPills.map((pill) => (
             <button
               key={pill}
               onClick={() => handleSuggestionClick(pill)}
-              className="flex-shrink-0 bg-[#2a3942] hover:bg-[#324550] text-[#8696a0] hover:text-[#d1d7db] rounded-full px-4 py-1.5 text-xs transition-colors font-medium whitespace-nowrap"
+              className="flex-shrink-0 bg-white/5 hover:bg-white/10 text-slate-400 hover:text-white rounded-full px-4 py-1.5 text-xs transition-colors font-medium whitespace-nowrap border border-white/5"
             >
               {pill}
             </button>
           ))}
         </div>
 
-
-        <div className="relative p-3 flex gap-2 items-end z-10" style={{ backgroundColor: '#202c33' }}>
+        <div className="relative p-3 flex gap-2 items-end z-10 border-t border-white/5" style={{ backgroundColor: '#161b22' }}>
           
-          <div className="flex-1 flex gap-2 items-end bg-[#2a3942] rounded-3xl p-1.5 min-h-[46px]">
+          <div className="flex-1 flex gap-2 items-end bg-[#0d1117] rounded-2xl p-1.5 min-h-[46px] border border-white/10">
             <button 
               type="button"
-              className="w-8 h-8 rounded-full flex items-center justify-center text-[#8696a0] hover:text-white transition-colors flex-shrink-0"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white transition-colors flex-shrink-0"
               onClick={handleEmojiClick}
               title="Emoji"
             >
-              <Smile className="w-6 h-6" />
+              <Smile className="w-5 h-5" />
             </button>
             <button 
               type="button"
-              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0 ${showAttachMenu ? "bg-[#324550] text-white" : "text-[#8696a0] hover:text-white"}`}
+              className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors flex-shrink-0 ${showAttachMenu ? "bg-white/10 text-white" : "text-slate-500 hover:text-white"}`}
               onClick={() => setShowAttachMenu(!showAttachMenu)}
               title="Attach"
             >
-              <Paperclip className="w-5 h-5" />
+              <Paperclip className="w-4.5 h-4.5" />
             </button>
 
             {/* Attachments Popover */}
             {showAttachMenu && (
-              <div className="absolute bottom-[60px] left-4 bg-[#2a3942] rounded-2xl p-2 flex flex-col gap-1 shadow-xl min-w-[200px] border border-[#324550] animate-in slide-in-from-bottom-2">
+              <div className="absolute bottom-[60px] left-4 bg-[#161b22] rounded-2xl p-2 flex flex-col gap-1 shadow-xl min-w-[200px] border border-white/10 animate-in slide-in-from-bottom-2">
                 <button 
                   onClick={() => handleShareClick("email")}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#202c33] text-[#d1d7db] transition-colors text-sm text-left"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-slate-300 transition-colors text-sm text-left"
                 >
-                  <div className="w-8 h-8 rounded-full bg-[#00a884]/20 text-[#00a884] flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-cyan-500/15 text-cyan-400 flex items-center justify-center">
                     <Mail className="w-4 h-4" />
                   </div>
                   Share Contact
                 </button>
                 <button 
                   onClick={() => handleShareClick("github")}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#202c33] text-[#d1d7db] transition-colors text-sm text-left"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-slate-300 transition-colors text-sm text-left"
                 >
-                  <div className="w-8 h-8 rounded-full bg-blue-500/20 text-blue-400 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-blue-500/15 text-blue-400 flex items-center justify-center">
                     <Globe className="w-4 h-4" />
                   </div>
                   GitHub Profile
                 </button>
                 <button 
                   onClick={() => handleShareClick("resume")}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-[#202c33] text-[#d1d7db] transition-colors text-sm text-left"
+                  className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-slate-300 transition-colors text-sm text-left"
                 >
-                  <div className="w-8 h-8 rounded-full bg-purple-500/20 text-purple-400 flex items-center justify-center">
+                  <div className="w-8 h-8 rounded-full bg-purple-500/15 text-purple-400 flex items-center justify-center">
                     <Download className="w-4 h-4" />
                   </div>
                   Get Resume
@@ -576,7 +540,7 @@ const CommandPalette = () => {
                 value={inputValue}
                 onChange={(e) => setInputValue(e.target.value)}
                 placeholder="Message" 
-                className="flex-1 bg-transparent px-2 py-1.5 text-[15px] text-[#e9edef] focus:outline-none placeholder-[#8696a0]"
+                className="flex-1 bg-transparent px-2 py-1.5 text-[15px] text-white focus:outline-none placeholder-slate-500"
                 disabled={aiLoading}
               />
             </form>
@@ -590,10 +554,10 @@ const CommandPalette = () => {
               }
             }}
             disabled={aiLoading}
-            className={`w-[46px] h-[46px] rounded-full flex items-center justify-center transition-all flex-shrink-0 shadow-md ${
+            className={`w-[44px] h-[44px] rounded-full flex items-center justify-center transition-all flex-shrink-0 ${
               inputValue.trim() 
-                ? "bg-[#00a884] hover:bg-[#029878] text-white" 
-                : "bg-[#00a884]/50 text-white/70"
+                ? "bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-400 hover:to-blue-400 text-white shadow-lg shadow-cyan-500/20" 
+                : "bg-white/5 text-slate-500"
             }`}
             title="Send message"
           >

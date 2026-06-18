@@ -28,9 +28,9 @@ const ScrollToTop = () => {
         <button
           onClick={handleClick}
           aria-label="Open AI chatbot"
-          className="fixed bottom-8 right-8 z-40 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-transparent transform transition-all duration-300 overflow-hidden p-0 group hidden sm:flex items-center justify-center cursor-pointer shadow-xl hover:scale-105"
+          className="fixed bottom-8 right-8 z-40 w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-transparent p-0 group hidden sm:flex items-center justify-center cursor-pointer aagni-float"
         >
-          <div className="w-full h-full flex items-center justify-center relative bg-transparent rounded-full overflow-hidden">
+          <div className="w-full h-full rounded-full overflow-hidden relative aagni-glow-blink">
             <img 
               src="/aagni-avatar.png" 
               alt="AAGNI AI" 

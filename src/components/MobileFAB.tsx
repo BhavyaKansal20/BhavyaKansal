@@ -5,24 +5,19 @@ const MobileFAB: React.FC = () => {
   const [showTooltip, setShowTooltip] = useState(false);
   const fabRef = useRef<HTMLButtonElement>(null);
   const rafRef = useRef<number | null>(null);
-  const [showGlow, setShowGlow] = useState(false);
 
   useEffect(() => {
-    // Show FAB immediately
-    setShowGlow(true);
-    
-    // Check if tooltip message has been shown before
-    const tooltipShown = localStorage.getItem('fab-tooltip-shown');
-    if (!tooltipShown) {
-      // Show tooltip after page load
+    // Check if welcome popup has been shown before
+    const popupShown = localStorage.getItem('aagni-welcome-shown');
+    if (!popupShown) {
       const timer = setTimeout(() => {
         setShowTooltip(true);
-        
-        // Auto fade out tooltip after 8 seconds
+
+        // Auto dismiss after 8 seconds
         setTimeout(() => {
           setShowTooltip(false);
-          localStorage.setItem('fab-tooltip-shown', 'true');
-        }, 10000);  // ← 8000ms = 8 seconds
+          localStorage.setItem('aagni-welcome-shown', 'true');
+        }, 8000);
       }, 2000);
 
       return () => clearTimeout(timer);
@@ -39,21 +34,21 @@ const MobileFAB: React.FC = () => {
 
     const applyTransform = () => {
       if (!fabRef.current) return;
-      fabRef.current.style.transform = `translate(${targetX}px, ${targetY}px) scale(1)`;
+      fabRef.current.style.transform = `translate(${targetX}px, ${targetY}px)`;
       rafRef.current = null;
     };
 
     const handleMouseMove = (e: MouseEvent) => {
       if (!fabRef.current) return;
-      
+
       const fabRect = fabRef.current.getBoundingClientRect();
       const fabCenterX = fabRect.left + fabRect.width / 2;
       const fabCenterY = fabRect.top + fabRect.height / 2;
-      
+
       const distance = Math.sqrt(
         Math.pow(e.clientX - fabCenterX, 2) + Math.pow(e.clientY - fabCenterY, 2)
       );
-      
+
       // Magnet effect within 100px radius
       if (distance < 100) {
         const attraction = Math.max(0, (100 - distance) / 100);
@@ -76,7 +71,7 @@ const MobileFAB: React.FC = () => {
         window.cancelAnimationFrame(rafRef.current);
       }
       if (fabRef.current) {
-        fabRef.current.style.transform = 'translate(0px, 0px) scale(1)';
+        fabRef.current.style.transform = 'translate(0px, 0px)';
       }
     };
   }, []);
@@ -93,9 +88,9 @@ const MobileFAB: React.FC = () => {
         aria-label="Open AI chatbot"
         onClick={handleClick}
         id="mobile-fab"
-        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-16 h-16 md:w-20 md:h-20 rounded-full bg-transparent transform transition-all duration-300 overflow-hidden p-0 group flex items-center justify-center cursor-pointer shadow-xl hover:scale-105"
+        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-16 h-16 md:w-20 md:h-20 rounded-full bg-transparent p-0 group flex items-center justify-center cursor-pointer aagni-float"
       >
-        <div className="w-full h-full flex items-center justify-center relative bg-transparent rounded-full overflow-hidden">
+        <div className="w-full h-full rounded-full overflow-hidden relative aagni-glow-blink">
           <img 
             src="/aagni-avatar.png" 
             alt="AAGNI AI" 
@@ -104,32 +99,52 @@ const MobileFAB: React.FC = () => {
         </div>
       </button>
 
-      {/* Tooltip */}
+      {/* Welcome speech bubble */}
       {showTooltip && (
         <div 
-          className="fixed bottom-10 right-24 md:bottom-12 md:right-32 z-50 bg-black/95 text-white px-4 py-2 rounded-lg text-sm font-medium shadow-lg backdrop-blur-sm border border-white/10 max-w-[200px] text-center"
-          style={{
-            animation: 'tooltipAppear 0.5s ease-out, tooltipFadeOut 0.5s ease-in 7.5s forwards',
-            animationFillMode: 'both'
-          }}
+          className="fixed bottom-24 right-4 md:bottom-32 md:right-8 z-50 max-w-[220px] aagni-popup-appear"
         >
-          Try the AI assistant to explore my work
-          <div className="absolute top-1/2 left-full transform -translate-y-1/2 w-0 h-0 border-t-4 border-b-4 border-l-4 border-transparent border-l-black/95" />
+          <div className="bg-[#111b21] border border-[#2a3942] text-[#e9edef] px-4 py-3 rounded-2xl rounded-br-sm text-sm shadow-2xl">
+            <span className="text-base mr-1">👋</span> Hey! I'm <strong className="text-cyan-400">AAGNI AI</strong> — ask me anything about Bhavya!
+          </div>
         </div>
       )}
 
       <style>{`
-        @keyframes tooltipAppear {
-          0% { opacity: 0; transform: translateY(10px) scale(0.8); }
+        @keyframes aagniFloat {
+          0%, 100% { transform: translateY(0px); }
+          50% { transform: translateY(-6px); }
+        }
+
+        @keyframes aagniGlowBlink {
+          0%, 100% { box-shadow: 0 0 0px rgba(6, 182, 212, 0), 0 0 0px rgba(59, 130, 246, 0); }
+          50% { box-shadow: 0 0 14px rgba(6, 182, 212, 0.6), 0 0 28px rgba(59, 130, 246, 0.3); }
+        }
+
+        @keyframes aagniPopupAppear {
+          0% { opacity: 0; transform: translateY(12px) scale(0.9); }
           100% { opacity: 1; transform: translateY(0) scale(1); }
         }
-        
-        @keyframes tooltipFadeOut {
-          0% { opacity: 1; transform: translateY(0) scale(1); }
-          100% { opacity: 0; transform: translateY(-10px) scale(0.8); }
+
+        @keyframes aagniPopupFade {
+          0% { opacity: 1; }
+          100% { opacity: 0; transform: translateY(-8px) scale(0.95); }
+        }
+
+        .aagni-float {
+          animation: aagniFloat 3s ease-in-out infinite;
+        }
+
+        .aagni-glow-blink {
+          animation: aagniGlowBlink 2.5s ease-in-out infinite;
+          border-radius: 9999px;
+        }
+
+        .aagni-popup-appear {
+          animation: aagniPopupAppear 0.4s ease-out, aagniPopupFade 0.5s ease-in 7.5s forwards;
+          animation-fill-mode: both;
         }
       `}</style>
-
     </>
   );
 };

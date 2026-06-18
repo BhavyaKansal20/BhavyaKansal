@@ -1,3 +1,39 @@
+import { projectsData, type Project } from "../data/projects";
+
+// Dynamically rank projects by quality signals
+function rankProjects(projects: Project[]): Project[] {
+  return [...projects]
+    .map((p) => {
+      let score = 0;
+      if (p.liveUrl) score += 3;
+      if (p.featured) score += 2;
+      score += Math.min(p.metrics?.length || 0, 4);
+      score += Math.min(p.features?.length || 0, 5) * 0.5;
+      score += Math.min(p.techStack?.length || 0, 6) * 0.3;
+      // Boost for high accuracy metrics
+      for (const m of p.metrics || []) {
+        const num = parseFloat(m.value);
+        if (!isNaN(num) && num > 80) score += 1;
+      }
+      return { project: p, score };
+    })
+    .sort((a, b) => b.score - a.score)
+    .map((e) => e.project);
+}
+
+function buildDynamicProjectContext(): string {
+  const ranked = rankProjects(projectsData);
+  return ranked
+    .map((p, i) => {
+      const live = p.liveUrl ? ` | LIVE: ${p.liveUrl}` : "";
+      const metrics = (p.metrics || [])
+        .map((m) => `${m.label}: ${m.value}`)
+        .join(", ");
+      return `${i + 1}. ${p.title} — ${p.description} [${p.tags.join(", ")}]${live}${metrics ? ` | Metrics: ${metrics}` : ""}`;
+    })
+    .join("\n");
+}
+
 // Resume context for AI assistant
 const RESUME_CONTEXT = `PERSONAL INFORMATION & CONTACT:
 Name: Bhavya Kansal
@@ -123,9 +159,8 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     id: "projects-signature",
     title: "Signature Projects",
     period: "foundation",
-    tags: ["projects", "portfolio", "build", "systems"],
-    content:
-      "Signature projects include Healthy AI, ChromaCrystal UHD, SignLang AI, DeepFake Scanner, ML House Price Prediction, RetiNex AI, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI, with practical focus on healthcare AI, accessibility, authenticity detection, and automation.",
+    tags: ["projects", "portfolio", "build", "systems", "best", "top"],
+    content: `Bhavya's projects ranked by quality and impact:\n${buildDynamicProjectContext()}`,
   },
   {
     id: "leadership-impact",
@@ -369,6 +404,9 @@ ${ragContext}
 
 Live GitHub updates (auto-refreshed from profile API):
 ${liveGithubContext || "No fresh GitHub snapshot available. Use curated profile context above."}
+
+Dynamic Project Rankings (auto-generated from portfolio data, sorted best-first):
+${buildDynamicProjectContext()}
 
 Question: ${query}
 Instructions for providing responses:
