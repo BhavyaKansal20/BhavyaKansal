@@ -39,15 +39,15 @@ const ScrollToTop = () => {
             <div 
               className="absolute inset-[-50%] pointer-events-none z-0 opacity-90 animate-[spin_8s_linear_infinite]"
               style={{
-                background: 'conic-gradient(from 0deg, transparent 40%, #6366f1 50%, #06b6d4 65%, transparent 70%)',
+                background: 'conic-gradient(from 0deg, transparent 40%, #06b6d4 50%, #3b82f6 65%, transparent 70%)',
               }}
             />
             {/* Solid inner glass cover (Only robot image is seen inside the glow!) */}
-            <div className="absolute inset-[3px] rounded-full bg-[#0c0d12] flex items-center justify-center overflow-hidden z-10">
+            <div className="absolute inset-[2.5px] rounded-full bg-[#0c0d12] flex items-center justify-center overflow-hidden z-10">
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI AI" 
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 relative z-10"
+                className="w-full h-full object-cover scale-[1.3] transition-transform duration-300 group-hover:scale-[1.4] relative z-10"
               />
             </div>
           </div>
@@ -56,9 +56,9 @@ const ScrollToTop = () => {
 
       <style>{`
         @keyframes neonPulse {
-          0% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.4), 0 0 25px rgba(6, 182, 212, 0.2); }
-          50% { box-shadow: 0 0 32px rgba(99, 102, 241, 0.8), 0 0 55px rgba(6, 182, 212, 0.5); }
-          100% { box-shadow: 0 0 15px rgba(99, 102, 241, 0.4), 0 0 25px rgba(6, 182, 212, 0.2); }
+          0% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 30px rgba(59, 130, 246, 0.2); }
+          50% { box-shadow: 0 0 42px rgba(6, 182, 212, 0.95), 0 0 68px rgba(59, 130, 246, 0.65); }
+          100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 30px rgba(59, 130, 246, 0.2); }
         }
       `}</style>
     </>

@@ -312,7 +312,7 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] flex flex-col overflow-hidden rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85),0_0_50px_rgba(6,182,212,0.15)] transition-all duration-300"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] flex flex-col overflow-hidden rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(6,182,212,0.25)] transition-all duration-300"
       style={{
         animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
         background: 'transparent',
@@ -320,27 +320,27 @@ const CommandPalette = () => {
       }}
       ref={chatContainerRef}
     >
-      {/* Conically rotating border line wrapper (Cyan to Purple/Blue accent) */}
+      {/* Conically rotating border line wrapper (Cyan to Royal Blue accent) */}
       <div 
-        className="absolute inset-[-150%] pointer-events-none z-0 opacity-80 animate-[spin_8s_linear_infinite]"
+        className="absolute inset-[-150%] pointer-events-none z-0 opacity-75 animate-[spin_10s_linear_infinite]"
         style={{
-          background: 'conic-gradient(from 0deg, transparent 40%, #06b6d4 50%, #8b5cf6 60%, transparent 70%)',
+          background: 'conic-gradient(from 0deg, transparent 40%, #06b6d4 50%, #2563eb 65%, transparent 70%)',
         }}
       />
 
-      {/* Solid inner glass cover (Light Dark Slate Glassmorphism) */}
-      <div className="absolute inset-[1.5px] rounded-[26px] bg-[#101322]/85 backdrop-blur-3xl flex flex-col overflow-hidden z-10">
+      {/* Solid inner glass cover (Ultra-Premium Light Dark Slate Glassmorphism) */}
+      <div className="absolute inset-[1.5px] rounded-[26px] bg-[#0c0e15]/95 backdrop-blur-3xl flex flex-col overflow-hidden z-10">
         
         {/* Header */}
         <div className="bg-white/[0.02] border-b border-white/10 px-4 py-3.5 flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden shadow-md">
+            <div className="relative w-11 h-11 rounded-full overflow-hidden shadow-md flex items-center justify-center bg-[#0c0d12]">
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI Avatar" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover scale-[1.3]"
               />
-              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#101322] animate-pulse" />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0c0e15] animate-pulse" />
             </div>
             <div>
               <h4 className="text-sm font-bold tracking-wide text-white">
@@ -373,9 +373,9 @@ const CommandPalette = () => {
         </div>
 
         {/* Messages feed container with Ambient radial glows (Google-level) */}
-        <div className="flex-grow overflow-y-auto p-4 scroll-smooth bg-[#0a0b12] relative flex flex-col">
-          {/* Ambient Corner Glow Layers matching the cyan-purple blobs */}
-          <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[radial-gradient(circle_at_70%_20%,rgba(6,182,212,0.16),transparent_48%),radial-gradient(circle_at_20%_80%,rgba(139,92,246,0.16),transparent_48%)]" />
+        <div className="flex-grow overflow-y-auto p-4 scroll-smooth bg-[#07080c] relative flex flex-col">
+          {/* Ambient Corner Glow Layers matching the cyan-blue blobs */}
+          <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[radial-gradient(circle_at_70%_20%,rgba(6,182,212,0.15),transparent_48%),radial-gradient(circle_at_20%_80%,rgba(37,99,235,0.12),transparent_48%)]" />
           
           <div className="relative z-10 flex-grow flex flex-col space-y-4">
             <div className="flex justify-center my-2">
@@ -403,11 +403,11 @@ const CommandPalette = () => {
                 >
                   {/* Render 3D robot avatar next to AAGNI's bot messages (No borders!) */}
                   {!isUser && (
-                    <div className="w-8.5 h-8.5 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5">
+                    <div className="w-9 h-9 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-[#0c0d12]">
                       <img 
                         src="/aagni-avatar.png" 
                         alt="AAGNI Avatar" 
-                        className="w-full h-full object-cover"
+                        className="w-full h-full object-cover scale-[1.3]"
                       />
                     </div>
                   )}
@@ -415,7 +415,7 @@ const CommandPalette = () => {
                   <div 
                     className={`max-w-[78%] rounded-2xl px-4 py-2.5 text-sm relative shadow-md ${
                       isUser
-                        ? "bg-gradient-to-br from-[#06b6d4]/90 to-[#4f46e5]/90 border border-cyan-400/20 text-white rounded-tr-none shadow-[0_4px_18px_rgba(6,182,212,0.22)]"
+                        ? "bg-gradient-to-br from-[#06b6d4] to-[#2563eb] border border-cyan-400/20 text-white rounded-tr-none shadow-[0_4px_18px_rgba(6,182,212,0.22)]"
                         : "bg-white/5 border border-white/10 text-slate-100 rounded-tl-none"
                     }`}
                   >
@@ -436,11 +436,11 @@ const CommandPalette = () => {
 
             {aiLoading && (
               <div className="flex justify-start items-start">
-                <div className="w-8.5 h-8.5 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5">
+                <div className="w-9 h-9 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-[#0c0d12]">
                   <img 
                     src="/aagni-avatar.png" 
                     alt="AAGNI Avatar" 
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover scale-[1.3]"
                   />
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-300 flex items-center gap-1.5 shadow-sm">
@@ -455,12 +455,12 @@ const CommandPalette = () => {
         </div>
 
         {/* Suggestion Quick Replies */}
-        <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 bg-[#08090f] scrollbar-none select-none z-10">
+        <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 bg-[#06070a] scrollbar-none select-none z-10">
           {suggestionPills.map((pill) => (
             <button
               key={pill}
               onClick={() => handleSuggestionClick(pill)}
-              className="flex-shrink-0 bg-white/[0.03] hover:bg-white/[0.07] border border-white/10 hover:border-white/20 text-slate-300 hover:text-white rounded-full px-3.5 py-1.5 text-xs transition-all duration-200 font-medium"
+              className="flex-shrink-0 bg-white/[0.03] hover:bg-white/[0.06] border border-white/10 hover:border-cyan-500/30 text-slate-300 hover:text-cyan-300 rounded-full px-3.5 py-1.5 text-xs transition-all duration-300 font-medium"
             >
               {pill}
             </button>
@@ -468,7 +468,7 @@ const CommandPalette = () => {
         </div>
 
         {/* Input panel & Attachments popover */}
-        <div className="relative border-t border-white/10 bg-[#0e1017] p-3 flex gap-2 items-center z-10">
+        <div className="relative border-t border-white/10 bg-[#0b0c12] p-3 flex gap-2 items-center z-10">
           {/* Emoji alert */}
           {showEmojiAlert && (
             <div className="absolute bottom-16 left-4 bg-slate-900 border border-white/10 text-xs text-slate-300 px-3 py-1.5 rounded-lg shadow-lg animate-bounce z-20">
@@ -551,7 +551,7 @@ const CommandPalette = () => {
               <button 
                 type="submit" 
                 disabled={aiLoading}
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-indigo-600 hover:from-cyan-600 hover:to-indigo-700 text-white flex items-center justify-center transition-all shadow-md shadow-cyan-500/10 active:scale-95"
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white flex items-center justify-center transition-all shadow-md shadow-cyan-500/10 active:scale-95"
               >
                 <Send className="w-4.5 h-4.5 ml-0.5" />
               </button>
@@ -609,7 +609,7 @@ const CommandPalette = () => {
         .format-chat-text strong {
           font-weight: 700;
           color: #fff;
-          background: linear-gradient(to right, #67e8f9, #a5b4fc);
+          background: linear-gradient(to right, #67e8f9, #60a5fa);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
         }
