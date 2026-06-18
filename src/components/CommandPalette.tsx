@@ -41,29 +41,6 @@ const suggestionPills = [
   "Get Resume"
 ];
 
-// High-fidelity glowing AI Orb Avatar (SVG Vector)
-const renderAiOrb = (sizeClass = "w-6 h-6") => (
-  <div className={`relative ${sizeClass} flex items-center justify-center`}>
-    <svg className="w-full h-full animate-[pulse_2.2s_ease-in-out_infinite]" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="orbGrad" cx="50%" cy="50%" r="50%">
-          <stop offset="0%" stopColor="#c084fc" stopOpacity="1" />
-          <stop offset="60%" stopColor="#6366f1" stopOpacity="0.85" />
-          <stop offset="100%" stopColor="#06b6d4" stopOpacity="0" />
-        </radialGradient>
-      </defs>
-      <circle cx="12" cy="12" r="10" fill="url(#orbGrad)" />
-      {/* Outer spinning orbital ring */}
-      <circle cx="12" cy="12" r="8" stroke="rgba(255, 255, 255, 0.28)" strokeWidth="0.75" className="animate-[spin_7s_linear_infinite]" style={{ transformOrigin: 'center' }} />
-      {/* Inner reverse spinning ring */}
-      <circle cx="12" cy="12" r="5" stroke="rgba(99, 102, 241, 0.45)" strokeWidth="0.75" className="animate-[spin_4s_linear_infinite_reverse]" style={{ transformOrigin: 'center' }} />
-      {/* Core nucleus */}
-      <circle cx="12" cy="12" r="3" fill="#ffffff" className="animate-[ping_2s_ease-in-out_infinite]" style={{ transformOrigin: 'center', animationDuration: '1.6s' }} />
-      <circle cx="12" cy="12" r="1.8" fill="#ffffff" />
-    </svg>
-  </div>
-);
-
 const CommandPalette = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
@@ -335,220 +312,262 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[420px] h-[82vh] max-h-[660px] flex flex-col overflow-hidden bg-[#0c0d12]/92 backdrop-blur-2xl border border-white/10 rounded-3xl shadow-[0_25px_60px_-15px_rgba(0,0,0,0.75)] transition-all duration-300"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] flex flex-col overflow-hidden rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.85),0_0_50px_rgba(99,102,241,0.15)] transition-all duration-300"
       style={{
-        animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+        animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        background: 'transparent',
+        border: '1px solid rgba(255, 255, 255, 0.08)'
       }}
       ref={chatContainerRef}
     >
-      {/* Header */}
-      <div className="bg-white/[0.02] border-b border-white/10 px-4 py-3.5 flex items-center justify-between z-10">
-        <div className="flex items-center gap-3">
-          <div className="relative w-10 h-10 rounded-full bg-white/[0.05] flex items-center justify-center border border-white/10">
-            {renderAiOrb("w-7.5 h-7.5")}
-            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0c0d12] animate-pulse" />
-          </div>
-          <div>
-            <h4 className="text-sm font-bold tracking-wide text-white">
-              AAGNI AI
-            </h4>
-            <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
-              online
-            </span>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={handleClearChat}
-            className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
-            title="Clear conversation"
-          >
-            <Trash2 className="w-4.5 h-4.5" />
-          </button>
-          <button 
-            onClick={() => {
-              setOpen(false);
-              setShowAttachMenu(false);
-            }}
-            className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
-            title="Close chat"
-          >
-            <X className="w-4.5 h-4.5" />
-          </button>
-        </div>
-      </div>
+      {/* Conically rotating border line wrapper (Google-level premium element) */}
+      <div 
+        className="absolute inset-[-150%] pointer-events-none z-0 opacity-80 animate-[spin_8s_linear_infinite]"
+        style={{
+          background: 'conic-gradient(from 0deg, transparent 40%, #6366f1 50%, #a855f7 55%, #06b6d4 60%, transparent 70%)',
+        }}
+      />
 
-      {/* Messages feed container */}
-      <div className="flex-grow overflow-y-auto p-4 space-y-4 scroll-smooth bg-[#08090c] relative">
-        <div className="flex justify-center my-2">
-          <span className="bg-white/[0.04] border border-white/10 text-slate-400 text-[10px] px-3 py-1 rounded-full uppercase tracking-widest font-semibold backdrop-blur-sm shadow-sm">
-            Today
-          </span>
-        </div>
-
-        {messages.map((msg) => {
-          if (msg.sender === "system") {
-            return (
-              <div key={msg.id} className="flex justify-center">
-                <div className="bg-red-950/20 border border-red-500/20 text-red-300 text-xs rounded-xl px-4 py-2 text-center max-w-[85%] backdrop-blur-sm">
-                  {msg.text}
-                </div>
-              </div>
-            );
-          }
-
-          const isUser = msg.sender === "user";
-          return (
-            <div 
-              key={msg.id} 
-              className={`flex ${isUser ? "justify-end" : "justify-start"}`}
-            >
-              <div 
-                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm relative shadow-md ${
-                  isUser
-                    ? "bg-gradient-to-br from-indigo-600/90 to-violet-700/90 border border-indigo-500/20 text-white rounded-tr-none"
-                    : "bg-white/5 border border-white/10 text-slate-100 rounded-tl-none"
-                }`}
-              >
-                <div 
-                  className="leading-relaxed whitespace-pre-wrap break-words format-chat-text"
-                  dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }}
-                />
-                <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-slate-400/80">
-                  <span>
-                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </span>
-                  {isUser && renderTicks(msg.status)}
-                </div>
-              </div>
+      {/* Solid inner glass cover */}
+      <div className="absolute inset-[1.5px] rounded-[26px] bg-[#0b0c10]/95 backdrop-blur-3xl flex flex-col overflow-hidden z-10">
+        
+        {/* Header */}
+        <div className="bg-white/[0.02] border-b border-white/10 px-4 py-3.5 flex items-center justify-between z-10">
+          <div className="flex items-center gap-3">
+            <div className="relative w-10 h-10 rounded-full border border-white/15 overflow-hidden shadow-md">
+              <img 
+                src="/aagni-avatar.png" 
+                alt="AAGNI Avatar" 
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0b0c10] animate-pulse" />
             </div>
-          );
-        })}
-
-        {aiLoading && (
-          <div className="flex justify-start">
-            <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-300 flex items-center gap-1.5 shadow-sm">
-              <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+            <div>
+              <h4 className="text-sm font-bold tracking-wide text-white">
+                AAGNI AI
+              </h4>
+              <span className="text-[10px] text-slate-400 flex items-center gap-1 font-medium">
+                online
+              </span>
             </div>
           </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-
-      {/* Suggestion Quick Replies */}
-      <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 bg-[#07070a] scrollbar-none select-none">
-        {suggestionPills.map((pill) => (
-          <button
-            key={pill}
-            onClick={() => handleSuggestionClick(pill)}
-            className="flex-shrink-0 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-slate-300 hover:text-white rounded-full px-3 py-1.5 text-xs transition-all duration-200"
-          >
-            {pill}
-          </button>
-        ))}
-      </div>
-
-      {/* Input panel & Attachments popover */}
-      <div className="relative border-t border-white/10 bg-[#0a0b0f] p-3 flex gap-2 items-center">
-        {/* Emoji alert */}
-        {showEmojiAlert && (
-          <div className="absolute bottom-16 left-4 bg-slate-900 border border-white/10 text-xs text-slate-300 px-3 py-1.5 rounded-lg shadow-lg animate-bounce">
-            Emoji drawer coming soon! Try copy-pasting emojis.
-          </div>
-        )}
-
-        {/* Attachment menu popover */}
-        {showAttachMenu && (
-          <div 
-            ref={attachMenuRef}
-            className="absolute bottom-16 left-4 bg-[#0d0f14]/95 border border-white/10 rounded-2xl p-2 flex flex-col gap-1 shadow-2xl z-20 w-44 backdrop-blur-2xl animate-slide-up-custom"
-          >
+          <div className="flex items-center gap-2">
             <button 
-              onClick={() => handleShareClick("email")}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
+              onClick={handleClearChat}
+              className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
+              title="Clear conversation"
             >
-              <Mail className="w-4 h-4 text-purple-400" />
-              <span>Email Address</span>
+              <Trash2 className="w-4.5 h-4.5" />
             </button>
             <button 
-              onClick={() => handleShareClick("resume")}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
+              onClick={() => {
+                setOpen(false);
+                setShowAttachMenu(false);
+              }}
+              className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
+              title="Close chat"
             >
-              <FileText className="w-4 h-4 text-cyan-400" />
-              <span>Get Resume</span>
-            </button>
-            <button 
-              onClick={() => handleShareClick("github")}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
-            >
-              <Github className="w-4 h-4 text-slate-300" />
-              <span>GitHub Profile</span>
-            </button>
-            <button 
-              onClick={() => handleShareClick("linkedin")}
-              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
-            >
-              <Linkedin className="w-4 h-4 text-blue-400" />
-              <span>LinkedIn Connect</span>
+              <X className="w-4.5 h-4.5" />
             </button>
           </div>
-        )}
+        </div>
 
-        <button 
-          type="button"
-          onClick={handleEmojiClick}
-          className="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition-colors"
-          title="Emojis"
-        >
-          <Smile className="w-5 h-5" />
-        </button>
-
-        <button 
-          type="button"
-          onClick={() => setShowAttachMenu(!showAttachMenu)}
-          className={`p-2 rounded-full hover:bg-white/5 transition-colors ${showAttachMenu ? "text-indigo-400" : "text-slate-400 hover:text-white"}`}
-          title="Attach option"
-        >
-          <Paperclip className="w-5 h-5" />
-        </button>
-
-        <form 
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendMessage(inputValue);
-          }}
-          className="flex-1 flex gap-2 items-center"
-        >
-          <input 
-            type="text" 
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Type a message..." 
-            className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:bg-white/[0.08] placeholder-slate-500 transition-all"
-            disabled={aiLoading}
-          />
+        {/* Messages feed container with Ambient radial glows */}
+        <div className="flex-grow overflow-y-auto p-4 scroll-smooth bg-[#08080c] relative flex flex-col">
+          {/* Ambient Corner Glow Layers */}
+          <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[radial-gradient(circle_at_top_right,rgba(99,102,241,0.12),transparent_50%),radial-gradient(circle_at_bottom_left,rgba(168,85,247,0.12),transparent_50%)]" />
           
-          {inputValue.trim() ? (
-            <button 
-              type="submit" 
-              disabled={aiLoading}
-              className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white flex items-center justify-center transition-all shadow-md shadow-indigo-500/10 active:scale-95"
+          <div className="relative z-10 flex-grow flex flex-col space-y-4">
+            <div className="flex justify-center my-2">
+              <span className="bg-white/[0.04] border border-white/10 text-slate-400 text-[10px] px-3 py-1 rounded-full uppercase tracking-widest font-semibold backdrop-blur-sm shadow-sm">
+                Today
+              </span>
+            </div>
+
+            {messages.map((msg) => {
+              if (msg.sender === "system") {
+                return (
+                  <div key={msg.id} className="flex justify-center my-1">
+                    <div className="bg-red-950/20 border border-red-500/20 text-red-300 text-xs rounded-xl px-4 py-2 text-center max-w-[85%] backdrop-blur-sm">
+                      {msg.text}
+                    </div>
+                  </div>
+                );
+              }
+
+              const isUser = msg.sender === "user";
+              return (
+                <div 
+                  key={msg.id} 
+                  className={`flex items-start ${isUser ? "justify-end" : "justify-start"}`}
+                >
+                  {/* Render 3D robot avatar next to AAGNI's bot messages */}
+                  {!isUser && (
+                    <div className="w-8 h-8 rounded-full border border-white/10 overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5">
+                      <img 
+                        src="/aagni-avatar.png" 
+                        alt="AAGNI Avatar" 
+                        className="w-full h-full object-cover"
+                      />
+                    </div>
+                  )}
+
+                  <div 
+                    className={`max-w-[78%] rounded-2xl px-4 py-2.5 text-sm relative shadow-md ${
+                      isUser
+                        ? "bg-gradient-to-br from-indigo-600/90 to-violet-700/90 border border-indigo-500/20 text-white rounded-tr-none"
+                        : "bg-white/5 border border-white/10 text-slate-100 rounded-tl-none"
+                    }`}
+                  >
+                    <div 
+                      className="leading-relaxed whitespace-pre-wrap break-words format-chat-text"
+                      dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }}
+                    />
+                    <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-slate-400/80">
+                      <span>
+                        {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                      {isUser && renderTicks(msg.status)}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+
+            {aiLoading && (
+              <div className="flex justify-start items-start">
+                <div className="w-8 h-8 rounded-full border border-white/10 overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5">
+                  <img 
+                    src="/aagni-avatar.png" 
+                    alt="AAGNI Avatar" 
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+                <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-300 flex items-center gap-1.5 shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+                  <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+                  <span className="w-2 h-2 rounded-full bg-slate-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+                </div>
+              </div>
+            )}
+            <div ref={messagesEndRef} />
+          </div>
+        </div>
+
+        {/* Suggestion Quick Replies */}
+        <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 bg-[#07070a] scrollbar-none select-none z-10">
+          {suggestionPills.map((pill) => (
+            <button
+              key={pill}
+              onClick={() => handleSuggestionClick(pill)}
+              className="flex-shrink-0 bg-white/[0.04] hover:bg-white/[0.08] border border-white/10 hover:border-white/20 text-slate-300 hover:text-white rounded-full px-3 py-1.5 text-xs transition-all duration-200"
             >
-              <Send className="w-4.5 h-4.5 ml-0.5" />
+              {pill}
             </button>
-          ) : (
-            <button 
-              type="button" 
-              onClick={handleMicClick}
-              className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition-all hover:bg-white/10"
-              title="Voice Input"
-            >
-              <Mic className="w-4.5 h-4.5" />
-            </button>
+          ))}
+        </div>
+
+        {/* Input panel & Attachments popover */}
+        <div className="relative border-t border-white/10 bg-[#0a0b0f] p-3 flex gap-2 items-center z-10">
+          {/* Emoji alert */}
+          {showEmojiAlert && (
+            <div className="absolute bottom-16 left-4 bg-slate-900 border border-white/10 text-xs text-slate-300 px-3 py-1.5 rounded-lg shadow-lg animate-bounce z-20">
+              Emoji drawer coming soon! Try copy-pasting emojis.
+            </div>
           )}
-        </form>
+
+          {/* Attachment menu popover */}
+          {showAttachMenu && (
+            <div 
+              ref={attachMenuRef}
+              className="absolute bottom-16 left-4 bg-[#0d0f14]/95 border border-white/10 rounded-2xl p-2 flex flex-col gap-1 shadow-2xl z-20 w-44 backdrop-blur-2xl animate-slide-up-custom"
+            >
+              <button 
+                onClick={() => handleShareClick("email")}
+                className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
+              >
+                <Mail className="w-4 h-4 text-purple-400" />
+                <span>Email Address</span>
+              </button>
+              <button 
+                onClick={() => handleShareClick("resume")}
+                className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
+              >
+                <FileText className="w-4 h-4 text-cyan-400" />
+                <span>Get Resume</span>
+              </button>
+              <button 
+                onClick={() => handleShareClick("github")}
+                className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
+              >
+                <Github className="w-4 h-4 text-slate-300" />
+                <span>GitHub Profile</span>
+              </button>
+              <button 
+                onClick={() => handleShareClick("linkedin")}
+                className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-white/5 rounded-lg transition-all text-left"
+              >
+                <Linkedin className="w-4 h-4 text-blue-400" />
+                <span>LinkedIn Connect</span>
+              </button>
+            </div>
+          )}
+
+          <button 
+            type="button"
+            onClick={handleEmojiClick}
+            className="p-2 text-slate-400 hover:text-white rounded-full hover:bg-white/5 transition-colors"
+            title="Emojis"
+          >
+            <Smile className="w-5 h-5" />
+          </button>
+
+          <button 
+            type="button"
+            onClick={() => setShowAttachMenu(!showAttachMenu)}
+            className={`p-2 rounded-full hover:bg-white/5 transition-colors ${showAttachMenu ? "text-indigo-400" : "text-slate-400 hover:text-white"}`}
+            title="Attach option"
+          >
+            <Paperclip className="w-5 h-5" />
+          </button>
+
+          <form 
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSendMessage(inputValue);
+            }}
+            className="flex-1 flex gap-2 items-center"
+          >
+            <input 
+              type="text" 
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
+              placeholder="Type a message..." 
+              className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-indigo-500/50 focus:bg-white/[0.08] placeholder-slate-500 transition-all"
+              disabled={aiLoading}
+            />
+            
+            {inputValue.trim() ? (
+              <button 
+                type="submit" 
+                disabled={aiLoading}
+                className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-600 hover:from-indigo-600 hover:to-violet-700 text-white flex items-center justify-center transition-all shadow-md shadow-indigo-500/10 active:scale-95"
+              >
+                <Send className="w-4.5 h-4.5 ml-0.5" />
+              </button>
+            ) : (
+              <button 
+                type="button" 
+                onClick={handleMicClick}
+                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition-all hover:bg-white/10"
+                title="Voice Input"
+              >
+                <Mic className="w-4.5 h-4.5" />
+              </button>
+            )}
+          </form>
+        </div>
+
       </div>
 
       <style>{`
