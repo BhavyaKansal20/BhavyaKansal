@@ -312,11 +312,9 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] flex flex-col overflow-hidden rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(6,182,212,0.25)] transition-all duration-300"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(6,182,212,0.25)] transition-all duration-300 p-[1.5px]"
       style={{
         animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        background: 'transparent',
-        border: '1px solid rgba(255, 255, 255, 0.1)'
       }}
       ref={chatContainerRef}
     >
@@ -330,8 +328,8 @@ const CommandPalette = () => {
 
       {/* Solid inner glass cover (Ultra-Premium Light Dark Slate Glassmorphism) */}
       <div 
-        className="absolute inset-[1.5px] rounded-[26px] backdrop-blur-2xl flex flex-col overflow-hidden z-10"
-        style={{ backgroundColor: 'rgba(12, 14, 21, 0.95)' }}
+        className="relative w-full h-full rounded-[26px] flex flex-col overflow-hidden z-10"
+        style={{ backgroundColor: 'rgba(12, 14, 21, 0.98)' }}
       >
         
         {/* Header */}
@@ -418,12 +416,12 @@ const CommandPalette = () => {
                 >
                   {/* Render 3D robot avatar next to AAGNI's bot messages (No borders!) */}
                   {!isUser && (
-                    <div className="w-9 h-9 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                    <div className="w-9 h-9 rounded-full flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center relative">
                       <img 
                         src="/aagni-avatar.png" 
                         alt="AAGNI Avatar" 
-                        className="w-full h-full object-cover scale-[1.65] mix-blend-screen"
-                        style={{ filter: 'brightness(1.2) contrast(1.1)' }}
+                        className="w-full h-full object-cover scale-[1.7] mix-blend-screen"
+                        style={{ filter: 'brightness(1.3) contrast(1.2) drop-shadow(0 0 5px rgba(6,182,212,0.5))' }}
                       />
                     </div>
                   )}
@@ -452,12 +450,12 @@ const CommandPalette = () => {
 
             {aiLoading && (
               <div className="flex justify-start items-start">
-                <div className="w-9 h-9 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                <div className="w-9 h-9 rounded-full flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center relative">
                   <img 
                     src="/aagni-avatar.png" 
                     alt="AAGNI Avatar" 
-                    className="w-full h-full object-cover scale-[1.65] mix-blend-screen"
-                    style={{ filter: 'brightness(1.2) contrast(1.1)' }}
+                    className="w-full h-full object-cover scale-[1.7] mix-blend-screen"
+                    style={{ filter: 'brightness(1.3) contrast(1.2) drop-shadow(0 0 5px rgba(6,182,212,0.5))' }}
                   />
                 </div>
                 <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none px-4 py-3 min-w-[180px] shadow-sm">
