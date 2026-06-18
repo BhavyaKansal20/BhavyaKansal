@@ -1,16 +1,5 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import {
-  Command,
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
-import MobileCommandDialog from "@/components/MobileCommandDialog";
-import { Briefcase, User, Mail, FileText, Github, Linkedin, Download, Moon, Sun, Sparkles, Loader } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Sparkles, Send, Trash2, X, Download, Github, Linkedin, Briefcase, Mail, User, ArrowRight } from "lucide-react";
 import { useTheme } from "next-themes";
 import { isHardcodedQuery } from "@/lib/aiSearch";
 
@@ -23,184 +12,59 @@ const loadQueryAI = async () => {
   return _queryAILib.queryAI;
 };
 
-interface SearchResult {
+interface Message {
   id: string;
-  title: string;
-  description?: string;
-  category: "project" | "section" | "action" | "ai";
-  icon: React.ReactNode;
-  action?: () => void;
-  content?: string;
+  sender: "user" | "bot";
+  text: string;
+  timestamp: Date;
 }
 
-const aiSuggestions = [
-  "Give me your old to latest timeline",
-  "What are you doing currently in AI",
-  "What have you built and what comes next",
-  "Explain your tech stack like a system map",
-  "Which live projects are production deployed",
-  "What internships and training shaped you",
-  "Give me A to Z profile summary"
+const suggestionPills = [
+  "Explain your tech stack",
+  "Tell me about RetiNex AI",
+  "What projects did you deploy?",
+  "What training shaped you?",
+  "Get Resume"
 ];
 
 const CommandPalette = () => {
   const [open, setOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
-  const [aiResponse, setAiResponse] = useState<string | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [inputValue, setInputValue] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const { setTheme, theme } = useTheme();
-  const [isMobile, setIsMobile] = useState(false);
-  const [currentSuggestion, setCurrentSuggestion] = useState(0);
+  
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const projectsData = useMemo(() => [
-    {
-      id: "healthy-ai",
-      title: "Healthy AI",
-      description: "Live health intelligence platform with heart, diabetes, and brain MRI modules",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/healthy-ai.git", "_blank")
-    },
-    {
-      id: "signlang-ai",
-      title: "SignLang AI",
-      description: "Real-time sign language to text and speech translation",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/SignLang-AI.git", "_blank")
-    },
-    {
-      id: "deepfake-scanner",
-      title: "DeepFake Scanner",
-      description: "Real-time deepfake screening system with confidence-led classification",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/DeepFake-Detector.git", "_blank")
-    },
-    {
-      id: "ml-house-price-prediction",
-      title: "ML House Price Prediction",
-      description: "Streamlit regression app for house price prediction with tree models",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/ML_HousePricePrediction.git", "_blank")
-    },
-    {
-      id: "machine-learning",
-      title: "Machine Learning",
-      description: "Hands-on machine learning lab with curated notebooks and experiments",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/MachineLearning.git", "_blank")
-    },
-    {
-      id: "deep-learning",
-      title: "Deep Learning",
-      description: "Structured deep learning notebooks across ANN, CNN, RNN, and optimization",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/DeepLearning.git", "_blank")
-    },
-    {
-      id: "datasets",
-      title: "Datasets",
-      description: "Curated dataset repository for AI and ML training workflows",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/Datasets.git", "_blank")
-    },
-    {
-      id: "aagni",
-      title: "AAGNI Assistant",
-      description: "Telegram-based NLP assistant for conversational automation workflows",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/Telegram-Chatbot-", "_blank")
-    },
-    {
-      id: "certificate-verifier",
-      title: "Immutable Doc-Verify",
-      description: "OCR and cryptography-based certificate verification workflow",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/Certificate-Verifier", "_blank")
-    },
-    {
-      id: "neurolock",
-      title: "NeuroLock AI",
-      description: "Real-time facial analytics and session reporting platform",
-      category: "project" as const,
-      icon: <Briefcase className="mr-2 h-4 w-4" />,
-      action: () => window.open("https://github.com/BhavyaKansal20/neurolock-ai-", "_blank")
-    },
-  ], []);
-
-  const handleAISearch = async (query: string) => {
-    if (!query.trim() || isHardcodedQuery(query)) {
-      setAiResponse(null);
-      return;
-    }
-
-    setAiLoading(true);
-    try {
-      const queryAI = await loadQueryAI();
-      const response = await queryAI(query);
-      setAiResponse(response);
-    } catch (error) {
-      setAiResponse("Unable to process query.");
-    } finally {
-      setAiLoading(false);
-    }
-  };
-
-  const fuzzySearch = useCallback((query: string): SearchResult[] => {
-    if (!query.trim()) return [];
-
-    const lowerQuery = query.toLowerCase();
-    
-    // Secret command to check AI provider status
-    if (lowerQuery === "!status ai" || lowerQuery === "!ai" || lowerQuery === "!status gemini" || lowerQuery === "!gemini") {
-      const checkAPI = async () => {
-        try {
-          const queryAI = await loadQueryAI();
-          await queryAI("test");
-          setAiResponse("✅ AI provider is working correctly!");
-        } catch (error) {
-          setAiResponse("❌ AI provider is not responding. Please check your environment configuration.");
-        }
-      };
-      checkAPI();
-      return [];
-    }
-
-    const results = projectsData.filter(item => {
-      const titleMatch = item.title.toLowerCase().includes(lowerQuery);
-      const descMatch = item.description?.toLowerCase().includes(lowerQuery);
-      return titleMatch || descMatch;
-    }).sort((a, b) => {
-      const aTitle = a.title.toLowerCase().includes(lowerQuery);
-      const bTitle = b.title.toLowerCase().includes(lowerQuery);
-      return aTitle === bTitle ? 0 : aTitle ? -1 : 1;
-    });
-
-    return results;
-  }, [projectsData]);
-
+  // Initialize messages if empty
   useEffect(() => {
-    // Rotate AI suggestions every 3 seconds
-    const rotationInterval = setInterval(() => {
-      setCurrentSuggestion((prev) => (prev + 1) % aiSuggestions.length);
-    }, 3000);
+    if (messages.length === 0) {
+      setMessages([
+        {
+          id: "welcome",
+          sender: "bot",
+          text: "Hi! I am **AAGNI.AI**, Bhavya's virtual assistant. Ask me anything about his projects, experience, or tech stack! Let's get started.",
+          timestamp: new Date()
+        }
+      ]);
+    }
+  }, [messages]);
 
-    return () => clearInterval(rotationInterval);
-  }, []);
+  // Scroll to bottom on new messages
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages, aiLoading]);
 
+  // Keyboard shortcut Ctrl+K / Cmd+K to toggle chat
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key.toLowerCase() === "k" && (e.metaKey || e.ctrlKey)) {
         e.preventDefault();
-        setOpen((open) => !open);
+        setOpen((prev) => !prev);
+      }
+      if (e.key === "Escape") {
+        setOpen(false);
       }
     };
 
@@ -208,232 +72,259 @@ const CommandPalette = () => {
     return () => document.removeEventListener("keydown", down);
   }, []);
 
+  // Listen to mobile FAB click trigger
   useEffect(() => {
-    const openHandler = () => setOpen(true);
+    const openHandler = () => setOpen((prev) => !prev);
     window.addEventListener("open-command-palette", openHandler as EventListener);
     return () => window.removeEventListener("open-command-palette", openHandler as EventListener);
   }, []);
 
-  // return focus to FAB on mobile when dialog closes
-  useEffect(() => {
-    if (!open && isMobile) {
-      const fab = document.getElementById('mobile-fab') as HTMLButtonElement | null;
-      fab?.focus();
-    }
-  }, [open, isMobile]);
+  const handleSendMessage = async (text: string) => {
+    if (!text.trim()) return;
 
-  useEffect(() => {
-    // Immediate fuzzy search (no debounce - instant results)
-    if (searchQuery.trim()) {
-      const results = fuzzySearch(searchQuery);
-      setSearchResults(results);
-    } else {
-      setSearchResults([]);
-      setAiResponse(null);
-      return;
-    }
-
-    // Debounced AI search (300ms delay - reduces API calls)
-    const delay = isMobile ? 2000 : 1500;
-    const timer = setTimeout(() => {
-      handleAISearch(searchQuery);
-    }, delay);
-
-    // Cleanup: cancel previous timer if user types again
-    return () => {
-      clearTimeout(timer);
+    const userMsg: Message = {
+      id: Math.random().toString(36).substring(7),
+      sender: "user",
+      text,
+      timestamp: new Date()
     };
-  }, [searchQuery, isMobile, fuzzySearch]);
 
-  const handleNavigation = (href: string) => {
-    setOpen(false);
-    if (href.startsWith("#")) {
-      document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
-    } else {
-      window.location.href = href;
+    setMessages(prev => [...prev, userMsg]);
+    setInputValue("");
+    setAiLoading(true);
+
+    try {
+      // 1. Build conversational history context for RAG
+      const historyContext = messages
+        .slice(-6) // Keep last 6 messages to prevent context explosion
+        .map(m => `${m.sender === "user" ? "User" : "AAGNI"}: ${m.text}`)
+        .join("\n");
+      
+      const compoundQuery = `[Conversation History]\n${historyContext}\n\n[Current User Question]\n${text}`;
+
+      // 2. Fetch AI response
+      const queryAI = await loadQueryAI();
+      const response = await queryAI(compoundQuery);
+
+      const botMsg: Message = {
+        id: Math.random().toString(36).substring(7),
+        sender: "bot",
+        text: response,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, botMsg]);
+    } catch (error) {
+      const errorMsg: Message = {
+        id: Math.random().toString(36).substring(7),
+        sender: "bot",
+        text: "Sorry, I am having trouble connecting to my cognitive pipeline. Please try again.",
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, errorMsg]);
+    } finally {
+      setAiLoading(false);
     }
   };
 
-  useEffect(() => {
-    const mq = window.matchMedia("(max-width: 640px)");
-    const onChange = (e: MediaQueryListEvent) => setIsMobile(e.matches);
-    setIsMobile(mq.matches);
-    mq.addEventListener("change", onChange);
-    return () => {
-      mq.removeEventListener("change", onChange);
-    };
-  }, []);
+  const handleSuggestionClick = (suggestion: string) => {
+    if (suggestion === "Get Resume") {
+      // Special action for resume
+      window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "user",
+          text: "Can I view your resume?",
+          timestamp: new Date()
+        },
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "bot",
+          text: "Sure! I've opened Bhavya's resume in a new tab. You can also [download it directly](/Bhavya-Kansal-Resume.pdf) if needed.",
+          timestamp: new Date()
+        }
+      ]);
+    } else {
+      handleSendMessage(suggestion);
+    }
+  };
 
-  const commandContent = (
-    <>
-      <CommandInput 
-        placeholder={isMobile ? "Search portfolio or commands" : "Search portfolio, ask questions, or use commands... (AI-powered)"} 
-        value={searchQuery}
-        onValueChange={setSearchQuery}
-      />
-      <CommandList className={isMobile ? "max-h-none flex-1 overflow-y-auto" : undefined}>
-        {!aiResponse && !aiLoading && <CommandEmpty>
-          {searchQuery ? "Searching..." : "Start typing to search or ask anything..."}
-        </CommandEmpty>}
+  const handleClearChat = () => {
+    setMessages([
+      {
+        id: "welcome-" + Date.now(),
+        sender: "bot",
+        text: "Conversation reset. Hi! I am **AAGNI.AI**, Bhavya's virtual assistant. Ask me anything about his projects, experience, or tech stack!",
+        timestamp: new Date()
+      }
+    ]);
+  };
 
-        {/* AI Response Section - Shown Immediately */}
-        {searchQuery && !isHardcodedQuery(searchQuery) && (
-          <>
-            {aiLoading && (
-              <>
-                <div className="px-4 py-3">
-                  <div className="flex items-center gap-2">
-                    <Loader className="h-4 w-4 animate-spin" />
-                    <span className="text-sm text-muted-foreground">Thinking...</span>
-                  </div>
-                </div>
-                <CommandSeparator />
-              </>
-            )}
-            {aiResponse && aiResponse.trim() && (
-              <>
-                <div className="px-4 py-3">
-                  <div className="text-xs font-semibold text-muted-foreground mb-2">🤖 AI ASSISTANT</div>
-                  <div className="flex items-start gap-3">
-                    <Sparkles className="h-4 w-4 mt-0.5 flex-shrink-0 text-blue-500" />
-                        <p className="text-sm text-foreground leading-relaxed flex-1 whitespace-pre-wrap break-words">{aiResponse}</p>
-                        {/* aria-live region for screen readers on mobile */}
-                        {isMobile && (
-                          <div className="sr-only" aria-live="polite">AI response: {aiResponse}</div>
-                        )}
-                  </div>
-                </div>
-                <CommandSeparator />
-              </>
-            )}
-          </>
-        )}
+  // Basic custom markdown formatter to render bold, bullet points, and links as HTML elements
+  const formatMessageText = (text: string) => {
+    let formatted = text
+      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*(.*?)\*/g, '<em>$1</em>');
+    
+    // Convert bullet points
+    formatted = formatted.replace(/^\s*[-*]\s+(.*?)$/gm, '• $1');
 
-        {/* Fuzzy Search Results */}
-        {searchResults.length > 0 && (
-          <>
-            <CommandGroup heading="Projects">
-              {searchResults.map((result) => (
-                <CommandItem
-                  key={result.id}
-                  onSelect={() => {
-                    result.action?.();
-                    setOpen(false);
-                  }}
-                >
-                  {result.icon}
-                  <div className="flex-1">
-                    <div className="font-medium">{result.title}</div>
-                    <div className="text-xs text-muted-foreground">{result.description}</div>
-                  </div>
-                </CommandItem>
-              ))}
-            </CommandGroup>
-            <CommandSeparator />
-          </>
-        )}
+    // Parse Markdown Links: [text](url) -> <a href="url" target="_blank">text</a>
+    const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+    formatted = formatted.replace(markdownLinkRegex, '<a href="$2" target="_blank" class="text-blue-400 underline hover:text-blue-300">$1</a>');
 
-        <CommandGroup heading="Suggestions">
-          <CommandItem 
-            onSelect={() => setSearchQuery(aiSuggestions[currentSuggestion])}
-            className="group"
-          >
-            <Sparkles className="mr-2 h-4 w-4 text-foreground transition-colors" />
-            <div className="suggestion-flip-container overflow-hidden">
-              <span 
-                key={currentSuggestion}
-                className="text-foreground transition-colors inline-block animate-flip-text"
-              >
-                {aiSuggestions[currentSuggestion]}...
-              </span>
-            </div>
-          </CommandItem>
+    return formatted;
+  };
 
-          <style>{`
-            @keyframes flipIn {
-              0% {
-                transform: rotateX(90deg);
-                opacity: 0;
-              }
-              100% {
-                transform: rotateX(0deg);
-                opacity: 1;
-              }
-            }
-
-            .animate-flip-text {
-              animation: flipIn 0.6s ease-out;
-              transform-origin: top;
-            }
-
-            .suggestion-flip-container {
-              line-height: 1.2;
-              min-height: 1.2em;
-            }
-          `}</style>
-
-          <CommandItem onSelect={() => {
-            setTheme(theme === "dark" ? "light" : "dark");
-            setOpen(false);
-          }}>
-            {theme === "dark" ? (
-              <Sun className="mr-2 h-4 w-4" />
-            ) : (
-              <Moon className="mr-2 h-4 w-4" />
-            )}
-            <span>Toggle Theme</span>
-          </CommandItem>
-
-          <CommandItem onSelect={() => handleNavigation("#projects")}>
-            <Briefcase className="mr-2 h-4 w-4" />
-            <span>View Projects</span>
-          </CommandItem>
-          
-          <CommandItem onSelect={() => handleNavigation("#contact")}>
-            <Mail className="mr-2 h-4 w-4" />
-            <span>Contact Me</span>
-          </CommandItem>
-        </CommandGroup>
-        <CommandSeparator />
-        <CommandGroup heading="Actions">
-          <CommandItem onSelect={() => {
-            window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
-            setOpen(false);
-          }}>
-            <Download className="mr-2 h-4 w-4" />
-            <span>View Resume</span>
-          </CommandItem>
-          <CommandItem onSelect={() => {
-            window.open("https://github.com/BhavyaKansal20", "_blank");
-            setOpen(false);
-          }}>
-            <Github className="mr-2 h-4 w-4" />
-            <span>View GitHub</span>
-          </CommandItem>
-          <CommandItem onSelect={() => {
-            window.open("https://linkedin.com/in/kansal0920", "_blank");
-            setOpen(false);
-          }}>
-            <Linkedin className="mr-2 h-4 w-4" />
-            <span>View LinkedIn</span>
-          </CommandItem>
-        </CommandGroup>
-      </CommandList>
-    </>
-  );
+  if (!open) return null;
 
   return (
-    <>
-      {isMobile ? (
-        <MobileCommandDialog open={open} onOpenChange={setOpen} searchValue={searchQuery} onClear={() => setSearchQuery("")}>
-          {commandContent}
-        </MobileCommandDialog>
-      ) : (
-        <CommandDialog open={open} onOpenChange={setOpen} searchValue={searchQuery} onClear={() => setSearchQuery("")}>
-          {commandContent}
-        </CommandDialog>
-      )}
-    </>
+    <div 
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[400px] h-[82vh] max-h-[640px] flex flex-col overflow-hidden bg-[#0d0d11]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl transition-all duration-300"
+      style={{
+        animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(139, 92, 246, 0.15)'
+      }}
+      ref={chatContainerRef}
+    >
+      {/* Header */}
+      <div className="bg-white/5 border-b border-white/10 px-4 py-3 flex items-center justify-between">
+        <div className="flex items-center gap-3">
+          <div className="relative w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 to-blue-600 flex items-center justify-center border border-white/20">
+            <Sparkles className="w-4 h-4 text-white animate-pulse" />
+            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#0d0d11] animate-pulse" />
+          </div>
+          <div>
+            <h4 className="text-sm font-semibold text-white tracking-wide">AAGNI.AI</h4>
+            <span className="text-[10px] text-gray-400 flex items-center gap-1">
+              Online • AI Assistant
+            </span>
+          </div>
+        </div>
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={handleClearChat}
+            className="p-1.5 rounded-md hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            title="Clear conversation"
+          >
+            <Trash2 className="w-4 h-4" />
+          </button>
+          <button 
+            onClick={() => setOpen(false)}
+            className="p-1.5 rounded-md hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            title="Close chat"
+          >
+            <X className="w-4 h-4" />
+          </button>
+        </div>
+      </div>
+
+      {/* Messages List */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
+        {messages.map((msg) => (
+          <div 
+            key={msg.id} 
+            className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
+          >
+            <div 
+              className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
+                msg.sender === "user"
+                  ? "bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-br-none"
+                  : "bg-white/5 border border-white/10 text-gray-200 rounded-bl-none"
+              }`}
+            >
+              <div 
+                className="leading-relaxed whitespace-pre-wrap break-words format-chat-text"
+                dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }}
+              />
+              <span className="text-[9px] text-gray-400/75 block text-right mt-1">
+                {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+              </span>
+            </div>
+          </div>
+        ))}
+        {aiLoading && (
+          <div className="flex justify-start">
+            <div className="bg-white/5 border border-white/10 rounded-2xl rounded-bl-none px-4 py-3 text-sm text-gray-200 flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0ms' }} />
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '150ms' }} />
+              <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '300ms' }} />
+            </div>
+          </div>
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Suggestions Slider */}
+      <div className="flex gap-2 overflow-x-auto px-4 py-2 border-t border-white/5 bg-black/30 scrollbar-none select-none">
+        {suggestionPills.map((pill) => (
+          <button
+            key={pill}
+            onClick={() => handleSuggestionClick(pill)}
+            className="flex-shrink-0 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-full px-3 py-1.5 text-xs text-gray-300 hover:text-white transition-all"
+          >
+            {pill}
+          </button>
+        ))}
+      </div>
+
+      {/* Input Form */}
+      <form 
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSendMessage(inputValue);
+        }}
+        className="p-3 border-t border-white/10 bg-white/5 flex gap-2 items-center"
+      >
+        <input 
+          type="text" 
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Ask AAGNI about Bhavya..." 
+          className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-purple-500 placeholder-gray-500"
+          disabled={aiLoading}
+        />
+        <button 
+          type="submit" 
+          disabled={!inputValue.trim() || aiLoading}
+          className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white flex items-center justify-center transition-all disabled:opacity-40"
+        >
+          <Send className="w-4 h-4 ml-0.5" />
+        </button>
+      </form>
+
+      <style>{`
+        @keyframes chatPanelAppear {
+          0% {
+            opacity: 0;
+            transform: translateY(20px) scale(0.95);
+          }
+          100% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+        
+        .scrollbar-none::-webkit-scrollbar {
+          display: none;
+        }
+        
+        .scrollbar-none {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+
+        .format-chat-text strong {
+          font-weight: 600;
+          color: #fff;
+        }
+
+        .format-chat-text em {
+          font-style: italic;
+        }
+      `}</style>
+    </div>
   );
 };
 
