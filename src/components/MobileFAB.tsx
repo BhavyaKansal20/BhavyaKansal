@@ -93,11 +93,7 @@ const MobileFAB: React.FC = () => {
         aria-label="Open AI chatbot"
         onClick={handleClick}
         id="mobile-fab"
-        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-16 h-16 md:w-20 md:h-20 rounded-full bg-transparent transform transition-all duration-300 overflow-hidden p-0 group flex items-center justify-center cursor-pointer"
-        style={{
-          animation: 'neonPulse 3s ease-in-out infinite',
-          willChange: 'transform, box-shadow'
-        }}
+        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-16 h-16 md:w-20 md:h-20 rounded-full bg-transparent transform transition-all duration-300 overflow-hidden p-0 group flex items-center justify-center cursor-pointer shadow-xl hover:scale-105"
       >
         <div className="w-full h-full flex items-center justify-center relative bg-transparent rounded-full overflow-hidden">
           <img 
@@ -123,12 +119,6 @@ const MobileFAB: React.FC = () => {
       )}
 
       <style>{`
-        @keyframes neonPulse {
-          0% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 30px rgba(59, 130, 246, 0.2); }
-          50% { box-shadow: 0 0 42px rgba(6, 182, 212, 0.95), 0 0 68px rgba(59, 130, 246, 0.65); }
-          100% { box-shadow: 0 0 20px rgba(6, 182, 212, 0.4), 0 0 30px rgba(59, 130, 246, 0.2); }
-        }
-        
         @keyframes tooltipAppear {
           0% { opacity: 0; transform: translateY(10px) scale(0.8); }
           100% { opacity: 1; transform: translateY(0) scale(1); }
