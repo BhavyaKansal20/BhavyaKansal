@@ -35,23 +35,18 @@ const ScrollToTop = () => {
           }}
         >
           <div className="w-full h-full flex items-center justify-center relative">
-            {/* Conically rotating border line wrapper */}
+            {/* Subtle premium glow instead of giant light */}
+            <div className="absolute inset-0 rounded-full shadow-[0_0_20px_rgba(6,182,212,0.4)] animate-pulse" />
+            
             <div 
-              className="absolute inset-[-50%] pointer-events-none z-0 opacity-100 animate-[spin_8s_linear_infinite]"
-              style={{
-                background: 'conic-gradient(from 0deg, transparent 40%, #06b6d4 50%, #3b82f6 65%, transparent 70%)',
-              }}
-            />
-            {/* Solid inner glass cover (Only robot image is seen inside the glow!) */}
-            <div 
-              className="absolute inset-[2.5px] rounded-full flex items-center justify-center overflow-hidden z-10"
-              style={{ backgroundColor: 'transparent' }}
+              className="absolute inset-0 rounded-full flex items-center justify-center overflow-hidden z-10"
+              style={{ backgroundColor: 'rgba(10, 15, 25, 0.8)', backdropFilter: 'blur(8px)' }}
             >
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI AI" 
-                className="w-full h-full object-cover scale-[1.7] transition-transform duration-300 group-hover:scale-[1.8] relative z-10 mix-blend-screen"
-                style={{ filter: 'brightness(1.3) contrast(1.2)' }}
+                className="w-full h-full object-cover scale-[1.7] transition-transform duration-300 group-hover:scale-[1.8] relative z-10"
+                style={{ filter: 'brightness(1.2)' }}
               />
             </div>
           </div>
