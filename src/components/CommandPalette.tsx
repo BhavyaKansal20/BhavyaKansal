@@ -1,7 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Sparkles, Send, Trash2, X, Download, Github, Linkedin, Briefcase, Mail, User, ArrowRight } from "lucide-react";
+import { 
+  Send, 
+  Trash2, 
+  X, 
+  Bot, 
+  Mic, 
+  Paperclip, 
+  Smile, 
+  Check, 
+  CheckCheck, 
+  Mail, 
+  Github, 
+  Linkedin, 
+  ExternalLink,
+  FileText,
+  Sparkles
+} from "lucide-react";
 import { useTheme } from "next-themes";
-import { isHardcodedQuery } from "@/lib/aiSearch";
 
 // lazy wrapper for queryAI to avoid loading AI-related code on page load
 let _queryAILib: typeof import("@/lib/aiSearch") | null = null;
@@ -14,16 +29,16 @@ const loadQueryAI = async () => {
 
 interface Message {
   id: string;
-  sender: "user" | "bot";
+  sender: "user" | "bot" | "system";
   text: string;
   timestamp: Date;
+  status?: "sending" | "sent" | "read";
 }
 
 const suggestionPills = [
-  "Explain your tech stack",
+  "Explain tech stack",
   "Tell me about RetiNex AI",
-  "What projects did you deploy?",
-  "What training shaped you?",
+  "Connect with Bhavya",
   "Get Resume"
 ];
 
@@ -32,19 +47,21 @@ const CommandPalette = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
-  const { setTheme, theme } = useTheme();
+  const [showAttachMenu, setShowAttachMenu] = useState(false);
+  const [showEmojiAlert, setShowEmojiAlert] = useState(false);
   
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const attachMenuRef = useRef<HTMLDivElement>(null);
 
-  // Initialize messages if empty
+  // Initialize welcome message
   useEffect(() => {
     if (messages.length === 0) {
       setMessages([
         {
           id: "welcome",
           sender: "bot",
-          text: "Hi! I am **AAGNI.AI**, Bhavya's virtual assistant. Ask me anything about his projects, experience, or tech stack! Let's get started.",
+          text: "Hi! I am **AAGNI AI**, Bhavya's custom AI Co-pilot. Ask me anything about his projects, experience, or skills! You can also click the paperclip icon to grab his resume or contact details.",
           timestamp: new Date()
         }
       ]);
@@ -56,6 +73,17 @@ const CommandPalette = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, aiLoading]);
 
+  // Click outside to close attachment menu
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      if (showAttachMenu && attachMenuRef.current && !attachMenuRef.current.contains(e.target as Node)) {
+        setShowAttachMenu(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutsideClick);
+    return () => document.removeEventListener("mousedown", handleOutsideClick);
+  }, [showAttachMenu]);
+
   // Keyboard shortcut Ctrl+K / Cmd+K to toggle chat
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -65,6 +93,7 @@ const CommandPalette = () => {
       }
       if (e.key === "Escape") {
         setOpen(false);
+        setShowAttachMenu(false);
       }
     };
 
@@ -82,29 +111,45 @@ const CommandPalette = () => {
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
 
+    const messageId = Math.random().toString(36).substring(7);
     const userMsg: Message = {
-      id: Math.random().toString(36).substring(7),
+      id: messageId,
       sender: "user",
       text,
-      timestamp: new Date()
+      timestamp: new Date(),
+      status: "sending"
     };
 
     setMessages(prev => [...prev, userMsg]);
     setInputValue("");
     setAiLoading(true);
+    setShowAttachMenu(false);
+
+    // Simulate WhatsApp message transition stages
+    // 1. Single grey tick (sending) immediately
+    // 2. Double grey tick (sent) after 450ms
+    setTimeout(() => {
+      setMessages(prev => 
+        prev.map(m => m.id === messageId ? { ...m, status: "sent" } : m)
+      );
+    }, 450);
 
     try {
-      // 1. Build conversational history context for RAG
+      // Build conversation context
       const historyContext = messages
-        .slice(-6) // Keep last 6 messages to prevent context explosion
+        .slice(-6)
         .map(m => `${m.sender === "user" ? "User" : "AAGNI"}: ${m.text}`)
         .join("\n");
       
       const compoundQuery = `[Conversation History]\n${historyContext}\n\n[Current User Question]\n${text}`;
 
-      // 2. Fetch AI response
       const queryAI = await loadQueryAI();
       const response = await queryAI(compoundQuery);
+
+      // 3. Update all user messages to "read" state (double blue/cyan ticks) when bot replies
+      setMessages(prev => 
+        prev.map(m => m.sender === "user" ? { ...m, status: "read" } : m)
+      );
 
       const botMsg: Message = {
         id: Math.random().toString(36).substring(7),
@@ -114,10 +159,14 @@ const CommandPalette = () => {
       };
       setMessages(prev => [...prev, botMsg]);
     } catch (error) {
+      setMessages(prev => 
+        prev.map(m => m.sender === "user" ? { ...m, status: "sent" } : m)
+      );
+
       const errorMsg: Message = {
         id: Math.random().toString(36).substring(7),
         sender: "bot",
-        text: "Sorry, I am having trouble connecting to my cognitive pipeline. Please try again.",
+        text: "I am having trouble connecting to my cognitive pipeline. Please try again.",
         timestamp: new Date()
       };
       setMessages(prev => [...prev, errorMsg]);
@@ -127,8 +176,24 @@ const CommandPalette = () => {
   };
 
   const handleSuggestionClick = (suggestion: string) => {
-    if (suggestion === "Get Resume") {
-      // Special action for resume
+    if (suggestion === "Connect with Bhavya") {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "user",
+          text: "How can I connect with Bhavya?",
+          timestamp: new Date(),
+          status: "read"
+        },
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "bot",
+          text: "You can reach out to Bhavya directly via the following emails:\n\n📧 **Primary:** [kansalbhavya27@gmail.com](mailto:kansalbhavya27@gmail.com)\n📧 **Alternate:** [bhavyakansal20@icloud.com](mailto:bhavyakansal20@icloud.com)\n\nFeel free to write anytime!",
+          timestamp: new Date()
+        }
+      ]);
+    } else if (suggestion === "Get Resume") {
       window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
       setMessages(prev => [
         ...prev,
@@ -136,12 +201,13 @@ const CommandPalette = () => {
           id: Math.random().toString(36).substring(7),
           sender: "user",
           text: "Can I view your resume?",
-          timestamp: new Date()
+          timestamp: new Date(),
+          status: "read"
         },
         {
           id: Math.random().toString(36).substring(7),
           sender: "bot",
-          text: "Sure! I've opened Bhavya's resume in a new tab. You can also [download it directly](/Bhavya-Kansal-Resume.pdf) if needed.",
+          text: "Certainly! I've opened Bhavya's resume in a new tab. You can also [download it directly](/Bhavya-Kansal-Resume.pdf) for offline review.",
           timestamp: new Date()
         }
       ]);
@@ -150,103 +216,199 @@ const CommandPalette = () => {
     }
   };
 
+  const handleShareClick = (type: "email" | "github" | "linkedin" | "resume") => {
+    setShowAttachMenu(false);
+    if (type === "email") {
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "bot",
+          text: "Here are Bhavya's contact details:\n\n📬 **Primary Email:** [kansalbhavya27@gmail.com](mailto:kansalbhavya27@gmail.com)\n📬 **Alternate Email:** [bhavyakansal20@icloud.com](mailto:bhavyakansal20@icloud.com)\n\nClick either address to compose a message instantly!",
+          timestamp: new Date()
+        }
+      ]);
+    } else if (type === "github") {
+      window.open('https://github.com/BhavyaKansal20', '_blank');
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "bot",
+          text: "Opening Bhavya's [GitHub Profile](https://github.com/BhavyaKansal20) in a new tab. Check out his 12+ AI-first systems!",
+          timestamp: new Date()
+        }
+      ]);
+    } else if (type === "linkedin") {
+      window.open('https://linkedin.com/in/kansal0920', '_blank');
+      setMessages(prev => [
+        ...prev,
+        {
+          id: Math.random().toString(36).substring(7),
+          sender: "bot",
+          text: "Opening Bhavya's [LinkedIn Profile](https://linkedin.com/in/kansal0920) in a new tab. Let's connect!",
+          timestamp: new Date()
+        }
+      ]);
+    } else if (type === "resume") {
+      window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
+    }
+  };
+
+  const handleMicClick = () => {
+    const systemId = Math.random().toString(36).substring(7);
+    const systemMsg: Message = {
+      id: systemId,
+      sender: "system",
+      text: "System: Voice note parsing is in beta. Please type your query in the chatbox!",
+      timestamp: new Date()
+    };
+    setMessages(prev => [...prev, systemMsg]);
+    setTimeout(() => {
+      // Auto-clear system message after 5 seconds to prevent clutter
+      setMessages(prev => prev.filter(m => m.id !== systemId));
+    }, 5000);
+  };
+
+  const handleEmojiClick = () => {
+    setShowEmojiAlert(true);
+    setTimeout(() => setShowEmojiAlert(false), 3000);
+  };
+
   const handleClearChat = () => {
     setMessages([
       {
         id: "welcome-" + Date.now(),
         sender: "bot",
-        text: "Conversation reset. Hi! I am **AAGNI.AI**, Bhavya's virtual assistant. Ask me anything about his projects, experience, or tech stack!",
+        text: "Conversation reset. Hi! I am **AAGNI AI**, Bhavya's custom AI Co-pilot. Ask me anything!",
         timestamp: new Date()
       }
     ]);
   };
 
-  // Basic custom markdown formatter to render bold, bullet points, and links as HTML elements
   const formatMessageText = (text: string) => {
     let formatted = text
       .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
       .replace(/\*(.*?)\*/g, '<em>$1</em>');
     
-    // Convert bullet points
     formatted = formatted.replace(/^\s*[-*]\s+(.*?)$/gm, '• $1');
 
-    // Parse Markdown Links: [text](url) -> <a href="url" target="_blank">text</a>
     const markdownLinkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
-    formatted = formatted.replace(markdownLinkRegex, '<a href="$2" target="_blank" class="text-blue-400 underline hover:text-blue-300">$1</a>');
+    formatted = formatted.replace(markdownLinkRegex, '<a href="$2" target="_blank" class="text-cyan-400 font-semibold underline hover:text-cyan-300">$1</a>');
 
     return formatted;
+  };
+
+  const renderTicks = (status?: "sending" | "sent" | "read") => {
+    if (status === "sending") {
+      return <Check className="w-3.5 h-3.5 text-slate-500" />;
+    }
+    if (status === "sent") {
+      return <CheckCheck className="w-3.5 h-3.5 text-slate-500" />;
+    }
+    if (status === "read") {
+      return <CheckCheck className="w-3.5 h-3.5 text-cyan-400" />;
+    }
+    return null;
   };
 
   if (!open) return null;
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[400px] h-[82vh] max-h-[640px] flex flex-col overflow-hidden bg-[#0d0d11]/95 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl transition-all duration-300"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[420px] h-[82vh] max-h-[660px] flex flex-col overflow-hidden bg-[#07070a]/90 backdrop-blur-2xl border border-purple-500/20 rounded-3xl shadow-[0_0_50px_-10px_rgba(168,85,247,0.35)] transition-all duration-300"
       style={{
-        animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
-        boxShadow: '0 20px 50px rgba(0, 0, 0, 0.4), 0 0 40px rgba(139, 92, 246, 0.15)'
+        animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards'
       }}
       ref={chatContainerRef}
     >
       {/* Header */}
-      <div className="bg-white/5 border-b border-white/10 px-4 py-3 flex items-center justify-between">
+      <div className="bg-[#0b0b10]/95 border-b border-purple-500/20 px-4 py-3.5 flex items-center justify-between z-10">
         <div className="flex items-center gap-3">
-          <div className="relative w-9 h-9 rounded-full bg-gradient-to-tr from-purple-500 to-blue-600 flex items-center justify-center border border-white/20">
-            <Sparkles className="w-4 h-4 text-white animate-pulse" />
-            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#0d0d11] animate-pulse" />
+          <div className="relative w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600/80 to-cyan-600/80 flex items-center justify-center border border-purple-500/30">
+            <Bot className="w-5 h-5 text-white" />
+            <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#07070a] animate-pulse" />
           </div>
           <div>
-            <h4 className="text-sm font-semibold text-white tracking-wide">AAGNI.AI</h4>
-            <span className="text-[10px] text-gray-400 flex items-center gap-1">
-              Online • AI Assistant
+            <h4 className="text-sm font-bold tracking-wide bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">
+              AAGNI AI
+            </h4>
+            <span className="text-[10px] text-cyan-400/85 flex items-center gap-1 font-medium">
+              online
             </span>
           </div>
         </div>
         <div className="flex items-center gap-2">
           <button 
             onClick={handleClearChat}
-            className="p-1.5 rounded-md hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
             title="Clear conversation"
           >
-            <Trash2 className="w-4 h-4" />
+            <Trash2 className="w-4.5 h-4.5" />
           </button>
           <button 
-            onClick={() => setOpen(false)}
-            className="p-1.5 rounded-md hover:bg-white/10 text-gray-400 hover:text-white transition-colors"
+            onClick={() => {
+              setOpen(false);
+              setShowAttachMenu(false);
+            }}
+            className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
             title="Close chat"
           >
-            <X className="w-4 h-4" />
+            <X className="w-4.5 h-4.5" />
           </button>
         </div>
       </div>
 
-      {/* Messages List */}
-      <div className="flex-1 overflow-y-auto p-4 space-y-4 scroll-smooth">
-        {messages.map((msg) => (
-          <div 
-            key={msg.id} 
-            className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
-          >
+      {/* Messages feed container */}
+      <div className="flex-grow overflow-y-auto p-4 space-y-4 scroll-smooth cyber-grid-bg relative">
+        <div className="flex justify-center my-2">
+          <span className="bg-purple-950/40 border border-purple-500/20 text-purple-300 text-[10px] px-3 py-1 rounded-full uppercase tracking-widest font-semibold backdrop-blur-sm shadow-sm">
+            Today
+          </span>
+        </div>
+
+        {messages.map((msg) => {
+          if (msg.sender === "system") {
+            return (
+              <div key={msg.id} className="flex justify-center">
+                <div className="bg-red-950/40 border border-red-500/20 text-red-300 text-xs rounded-xl px-4 py-2 text-center max-w-[85%] backdrop-blur-sm">
+                  {msg.text}
+                </div>
+              </div>
+            );
+          }
+
+          const isUser = msg.sender === "user";
+          return (
             <div 
-              className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm ${
-                msg.sender === "user"
-                  ? "bg-gradient-to-br from-purple-600 to-blue-600 text-white rounded-br-none"
-                  : "bg-white/5 border border-white/10 text-gray-200 rounded-bl-none"
-              }`}
+              key={msg.id} 
+              className={`flex ${isUser ? "justify-end" : "justify-start"}`}
             >
               <div 
-                className="leading-relaxed whitespace-pre-wrap break-words format-chat-text"
-                dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }}
-              />
-              <span className="text-[9px] text-gray-400/75 block text-right mt-1">
-                {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-              </span>
+                className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-sm relative shadow-lg ${
+                  isUser
+                    ? "bg-gradient-to-br from-purple-600/80 to-indigo-700/80 border border-purple-500/30 text-white rounded-tr-none"
+                    : "bg-[#12121a]/95 border border-purple-500/10 text-slate-100 rounded-tl-none"
+                }`}
+              >
+                <div 
+                  className="leading-relaxed whitespace-pre-wrap break-words format-chat-text"
+                  dangerouslySetInnerHTML={{ __html: formatMessageText(msg.text) }}
+                />
+                <div className="flex items-center justify-end gap-1 mt-1 text-[9px] text-slate-400/80">
+                  <span>
+                    {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                  </span>
+                  {isUser && renderTicks(msg.status)}
+                </div>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
+
         {aiLoading && (
           <div className="flex justify-start">
-            <div className="bg-white/5 border border-white/10 rounded-2xl rounded-bl-none px-4 py-3 text-sm text-gray-200 flex items-center gap-2">
+            <div className="bg-[#12121a]/95 border border-purple-500/10 rounded-2xl rounded-tl-none px-4 py-3 text-sm text-slate-300 flex items-center gap-1.5 shadow-lg">
               <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '150ms' }} />
               <span className="w-2 h-2 rounded-full bg-purple-400 animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -256,43 +418,119 @@ const CommandPalette = () => {
         <div ref={messagesEndRef} />
       </div>
 
-      {/* Suggestions Slider */}
-      <div className="flex gap-2 overflow-x-auto px-4 py-2 border-t border-white/5 bg-black/30 scrollbar-none select-none">
+      {/* Suggestion Quick Replies */}
+      <div className="flex gap-2 overflow-x-auto px-4 py-2 border-t border-purple-500/10 bg-[#07070a]/80 scrollbar-none select-none">
         {suggestionPills.map((pill) => (
           <button
             key={pill}
             onClick={() => handleSuggestionClick(pill)}
-            className="flex-shrink-0 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 rounded-full px-3 py-1.5 text-xs text-gray-300 hover:text-white transition-all"
+            className="flex-shrink-0 bg-purple-950/20 hover:bg-purple-950/40 border border-purple-500/20 hover:border-purple-500/40 text-purple-300 hover:text-white rounded-full px-3 py-1.5 text-xs transition-all duration-200"
           >
             {pill}
           </button>
         ))}
       </div>
 
-      {/* Input Form */}
-      <form 
-        onSubmit={(e) => {
-          e.preventDefault();
-          handleSendMessage(inputValue);
-        }}
-        className="p-3 border-t border-white/10 bg-white/5 flex gap-2 items-center"
-      >
-        <input 
-          type="text" 
-          value={inputValue}
-          onChange={(e) => setInputValue(e.target.value)}
-          placeholder="Ask AAGNI about Bhavya..." 
-          className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2.5 text-sm text-white focus:outline-none focus:ring-1 focus:ring-purple-500 placeholder-gray-500"
-          disabled={aiLoading}
-        />
+      {/* Input panel & Attachments popover */}
+      <div className="relative border-t border-purple-500/10 bg-[#0b0b10]/95 p-3 flex gap-2 items-center">
+        {/* Emoji alert */}
+        {showEmojiAlert && (
+          <div className="absolute bottom-16 left-4 bg-slate-900 border border-purple-500/30 text-xs text-purple-300 px-3 py-1.5 rounded-lg shadow-lg animate-bounce">
+            Emoji drawer coming soon! Try copy-pasting emojis.
+          </div>
+        )}
+
+        {/* Attachment menu popover */}
+        {showAttachMenu && (
+          <div 
+            ref={attachMenuRef}
+            className="absolute bottom-16 left-4 bg-[#0d0d14]/95 border border-purple-500/25 rounded-2xl p-2 flex flex-col gap-1 shadow-2xl z-20 w-44 backdrop-blur-xl animate-slide-up-custom"
+          >
+            <button 
+              onClick={() => handleShareClick("email")}
+              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-purple-950/30 rounded-lg transition-all text-left"
+            >
+              <Mail className="w-4 h-4 text-purple-400" />
+              <span>Email Address</span>
+            </button>
+            <button 
+              onClick={() => handleShareClick("resume")}
+              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-purple-950/30 rounded-lg transition-all text-left"
+            >
+              <FileText className="w-4 h-4 text-cyan-400" />
+              <span>Get Resume</span>
+            </button>
+            <button 
+              onClick={() => handleShareClick("github")}
+              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-purple-950/30 rounded-lg transition-all text-left"
+            >
+              <Github className="w-4 h-4 text-slate-300" />
+              <span>GitHub Profile</span>
+            </button>
+            <button 
+              onClick={() => handleShareClick("linkedin")}
+              className="flex items-center gap-2.5 px-3 py-2 text-xs text-slate-200 hover:text-white hover:bg-purple-950/30 rounded-lg transition-all text-left"
+            >
+              <Linkedin className="w-4 h-4 text-blue-400" />
+              <span>LinkedIn Connect</span>
+            </button>
+          </div>
+        )}
+
         <button 
-          type="submit" 
-          disabled={!inputValue.trim() || aiLoading}
-          className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white flex items-center justify-center transition-all disabled:opacity-40"
+          type="button"
+          onClick={handleEmojiClick}
+          className="p-2 text-slate-400 hover:text-purple-400 rounded-full hover:bg-white/5 transition-colors"
+          title="Emojis"
         >
-          <Send className="w-4 h-4 ml-0.5" />
+          <Smile className="w-5 h-5" />
         </button>
-      </form>
+
+        <button 
+          type="button"
+          onClick={() => setShowAttachMenu(!showAttachMenu)}
+          className={`p-2 rounded-full hover:bg-white/5 transition-colors ${showAttachMenu ? "text-purple-400" : "text-slate-400 hover:text-purple-400"}`}
+          title="Attach option"
+        >
+          <Paperclip className="w-5 h-5" />
+        </button>
+
+        <form 
+          onSubmit={(e) => {
+            e.preventDefault();
+            handleSendMessage(inputValue);
+          }}
+          className="flex-1 flex gap-2 items-center"
+        >
+          <input 
+            type="text" 
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            placeholder="Type a message..." 
+            className="flex-1 bg-white/5 border border-purple-500/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-purple-500/40 focus:bg-white/10 placeholder-slate-500 transition-all"
+            disabled={aiLoading}
+          />
+          
+          {inputValue.trim() ? (
+            <button 
+              type="submit" 
+              disabled={aiLoading}
+              className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white flex items-center justify-center transition-all shadow-md shadow-purple-500/20 active:scale-95"
+            >
+              <Send className="w-4.5 h-4.5 ml-0.5" />
+            </button>
+          ) : (
+            <button 
+              type="button" 
+              onClick={handleMicClick}
+              className="w-10 h-10 rounded-full bg-white/5 border border-purple-500/15 text-slate-300 hover:text-purple-400 flex items-center justify-center transition-all hover:bg-white/10"
+              title="Voice Input"
+            >
+              <Mic className="w-4.5 h-4.5" />
+            </button>
+          )}
+        </form>
+      </div>
 
       <style>{`
         @keyframes chatPanelAppear {
@@ -305,6 +543,27 @@ const CommandPalette = () => {
             transform: translateY(0) scale(1);
           }
         }
+
+        @keyframes slideUpCustom {
+          from {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+        }
+
+        .animate-slide-up-custom {
+          animation: slideUpCustom 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        
+        .cyber-grid-bg {
+          background-color: #06060a;
+          background-image: radial-gradient(circle at center, rgba(168, 85, 247, 0.05) 1.5px, transparent 1.5px);
+          background-size: 20px 20px;
+        }
         
         .scrollbar-none::-webkit-scrollbar {
           display: none;
@@ -316,12 +575,16 @@ const CommandPalette = () => {
         }
 
         .format-chat-text strong {
-          font-weight: 600;
+          font-weight: 700;
           color: #fff;
+          background: linear-gradient(to right, #c084fc, #818cf8);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
         }
 
         .format-chat-text em {
           font-style: italic;
+          color: #e2e8f0;
         }
       `}</style>
     </div>

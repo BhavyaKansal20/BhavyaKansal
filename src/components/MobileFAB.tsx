@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Bot } from 'lucide-react';
+
 
 const MobileFAB: React.FC = () => {
   const [showTooltip, setShowTooltip] = useState(false);
@@ -89,27 +91,23 @@ const MobileFAB: React.FC = () => {
     <>
       <button
         ref={fabRef}
-        aria-label="Open command palette"
+        aria-label="Open AI chatbot"
         onClick={handleClick}
         id="mobile-fab"
-        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-14 h-14 rounded-full bg-gradient-to-br from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white shadow-lg hover:shadow-xl transform transition-all duration-300 overflow-hidden p-0 group"
+        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-14 h-14 rounded-full bg-[#0a0a0f]/80 backdrop-blur-md border border-purple-500/40 text-purple-400 shadow-[0_0_15px_rgba(168,85,247,0.3)] hover:shadow-[0_0_25px_rgba(168,85,247,0.55)] hover:border-purple-400/80 transform transition-all duration-300 overflow-hidden p-0 group flex items-center justify-center"
         style={{
           animation: showGlow ? 'fabGlow 2.6s ease-in-out infinite' : 'none',
           willChange: 'transform, box-shadow'
         }}
       >
         <div className="w-full h-full flex items-center justify-center relative">
-          <div className="absolute inset-0 rounded-full bg-white/10 blur-lg scale-125 opacity-70 animate-pulse" aria-hidden />
-          <img 
-            src="/sparkles.gif" 
-            alt="" 
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-            aria-hidden
-          />
+          <div className="absolute inset-0 rounded-full bg-purple-500/10 blur-md scale-110 opacity-70 group-hover:bg-purple-500/20 transition-all" aria-hidden />
+          <Bot className="w-6 h-6 text-purple-400 group-hover:text-purple-300 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 relative z-10" />
           {/* Hover gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
         </div>
       </button>
+
 
       {/* Tooltip */}
       {showTooltip && (
