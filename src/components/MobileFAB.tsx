@@ -102,18 +102,21 @@ const MobileFAB: React.FC = () => {
         <div className="w-full h-full flex items-center justify-center relative">
           {/* Conically rotating border line wrapper */}
           <div 
-            className="absolute inset-[-50%] pointer-events-none z-0 opacity-90 animate-[spin_8s_linear_infinite]"
+            className="absolute inset-[-50%] pointer-events-none z-0 opacity-100 animate-[spin_8s_linear_infinite]"
             style={{
               background: 'conic-gradient(from 0deg, transparent 40%, #06b6d4 50%, #3b82f6 65%, transparent 70%)',
             }}
           />
           {/* Solid inner glass cover (Only robot image is seen inside the glow!) */}
-          <div className="absolute inset-[2.5px] rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center overflow-hidden z-10">
+          <div 
+            className="absolute inset-[2.5px] rounded-full flex items-center justify-center overflow-hidden z-10"
+            style={{ backgroundColor: 'transparent' }}
+          >
             <img 
               src="/aagni-avatar.png" 
               alt="AAGNI AI" 
-              className="w-full h-full object-cover scale-[1.65] transition-transform duration-300 group-hover:scale-[1.75] relative z-10 mix-blend-screen"
-              style={{ filter: 'brightness(1.2) contrast(1.1)' }}
+              className="w-full h-full object-cover scale-[1.7] transition-transform duration-300 group-hover:scale-[1.8] relative z-10 mix-blend-screen"
+              style={{ filter: 'brightness(1.3) contrast(1.2)' }}
             />
           </div>
         </div>

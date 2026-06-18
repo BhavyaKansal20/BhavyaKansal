@@ -329,7 +329,10 @@ const CommandPalette = () => {
       />
 
       {/* Solid inner glass cover (Ultra-Premium Light Dark Slate Glassmorphism) */}
-      <div className="absolute inset-[1.5px] rounded-[26px] bg-[#0c0e15]/95 backdrop-blur-3xl flex flex-col overflow-hidden z-10">
+      <div 
+        className="absolute inset-[1.5px] rounded-[26px] backdrop-blur-2xl flex flex-col overflow-hidden z-10"
+        style={{ backgroundColor: 'rgba(12, 14, 21, 0.95)' }}
+      >
         
         {/* Header */}
         <div className="bg-white/[0.02] border-b border-white/10 px-4 py-3.5 flex items-center justify-between z-10">
@@ -382,7 +385,10 @@ const CommandPalette = () => {
         </div>
 
         {/* Messages feed container with Ambient radial glows (Google-level) */}
-        <div className="flex-grow overflow-y-auto p-4 scroll-smooth bg-[#07080c] relative flex flex-col">
+        <div 
+          className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col"
+          style={{ backgroundColor: 'rgba(7, 8, 12, 0.95)' }}
+        >
           {/* Ambient Corner Glow Layers matching the cyan-blue blobs */}
           <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[radial-gradient(circle_at_70%_20%,rgba(6,182,212,0.15),transparent_48%),radial-gradient(circle_at_20%_80%,rgba(37,99,235,0.12),transparent_48%)]" />
           
@@ -468,7 +474,10 @@ const CommandPalette = () => {
         </div>
 
         {/* Suggestion Quick Replies */}
-        <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 bg-[#06070a] scrollbar-none select-none z-10">
+        <div 
+          className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 scrollbar-none select-none z-10"
+          style={{ backgroundColor: 'rgba(6, 7, 10, 0.98)' }}
+        >
           {suggestionPills.map((pill) => (
             <button
               key={pill}
@@ -556,28 +565,23 @@ const CommandPalette = () => {
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               placeholder="Type a message..." 
-              className="flex-1 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500/50 focus:bg-white/[0.08] placeholder-slate-500 transition-all"
+              className="flex-1 border border-white/10 rounded-full px-4 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyan-500/50 placeholder-slate-500 transition-all"
+              style={{ backgroundColor: 'rgba(255, 255, 255, 0.05)' }}
               disabled={aiLoading}
             />
             
-            {inputValue.trim() ? (
-              <button 
-                type="submit" 
-                disabled={aiLoading}
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white flex items-center justify-center transition-all shadow-md shadow-cyan-500/10 active:scale-95"
-              >
-                <Send className="w-4.5 h-4.5 ml-0.5" />
-              </button>
-            ) : (
-              <button 
-                type="button" 
-                onClick={handleMicClick}
-                className="w-10 h-10 rounded-full bg-white/5 border border-white/10 text-slate-300 hover:text-white flex items-center justify-center transition-all hover:bg-white/10"
-                title="Voice Input"
-              >
-                <Mic className="w-4.5 h-4.5" />
-              </button>
-            )}
+            <button 
+              type="submit" 
+              disabled={aiLoading || !inputValue.trim()}
+              className={`w-10 h-10 rounded-full flex items-center justify-center transition-all shadow-md ${
+                inputValue.trim() 
+                  ? "bg-gradient-to-br from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 text-white shadow-cyan-500/20 active:scale-95" 
+                  : "bg-white/5 border border-white/10 text-slate-500"
+              }`}
+              title="Send message"
+            >
+              <Send className="w-4.5 h-4.5 ml-0.5" />
+            </button>
           </form>
         </div>
 
