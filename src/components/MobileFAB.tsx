@@ -108,11 +108,12 @@ const MobileFAB: React.FC = () => {
             }}
           />
           {/* Solid inner glass cover (Only robot image is seen inside the glow!) */}
-          <div className="absolute inset-[2.5px] rounded-full bg-[#0c0d12] flex items-center justify-center overflow-hidden z-10">
+          <div className="absolute inset-[2.5px] rounded-full bg-black/40 backdrop-blur-sm flex items-center justify-center overflow-hidden z-10">
             <img 
               src="/aagni-avatar.png" 
               alt="AAGNI AI" 
-              className="w-full h-full object-cover scale-[1.3] transition-transform duration-300 group-hover:scale-[1.4] relative z-10"
+              className="w-full h-full object-cover scale-[1.65] transition-transform duration-300 group-hover:scale-[1.75] relative z-10 mix-blend-screen"
+              style={{ filter: 'brightness(1.2) contrast(1.1)' }}
             />
           </div>
         </div>

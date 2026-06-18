@@ -329,27 +329,19 @@ const CommandPalette = () => {
       />
 
       {/* Solid inner glass cover (Ultra-Premium Light Dark Slate Glassmorphism) */}
-      <div 
-        className="absolute inset-[1.5px] rounded-[26px] backdrop-blur-3xl flex flex-col overflow-hidden z-10"
-        style={{
-          backgroundColor: 'rgba(12, 14, 21, 0.97)',
-          border: '1px solid rgba(255, 255, 255, 0.08)'
-        }}
-      >
+      <div className="absolute inset-[1.5px] rounded-[26px] bg-[#0c0e15]/95 backdrop-blur-3xl flex flex-col overflow-hidden z-10">
         
         {/* Header */}
-        <div 
-          className="border-b border-white/10 px-4 py-3.5 flex items-center justify-between z-10"
-          style={{ backgroundColor: 'rgba(14, 16, 24, 0.98)' }}
-        >
+        <div className="bg-white/[0.02] border-b border-white/10 px-4 py-3.5 flex items-center justify-between z-10">
           <div className="flex items-center gap-3">
-            <div className="relative w-12 h-12 rounded-full overflow-hidden shadow-[0_0_15px_rgba(6,182,212,0.3)] flex items-center justify-center bg-white/[0.03] border border-cyan-500/25">
+            <div className="relative w-11 h-11 rounded-full overflow-hidden shadow-md flex items-center justify-center bg-black/40 backdrop-blur-sm">
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI Avatar" 
-                className="w-full h-full object-cover scale-[1.15]"
+                className="w-full h-full object-cover scale-[1.65] mix-blend-screen"
+                style={{ filter: 'brightness(1.2) contrast(1.1)' }}
               />
-              <div className="absolute bottom-0 right-0 w-3 h-3 rounded-full bg-[#10b981] border-2 border-[#0c0e15] animate-pulse" />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0c0e15] animate-pulse" />
             </div>
             <div>
               <h4 className="text-sm font-bold tracking-wide text-white">
@@ -361,6 +353,14 @@ const CommandPalette = () => {
             </div>
           </div>
           <div className="flex items-center gap-2">
+            <a 
+              href="mailto:kansalbhavya27@gmail.com"
+              className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors flex items-center gap-1.5"
+              title="Contact me"
+            >
+              <Mail className="w-4.5 h-4.5" />
+              <span className="text-xs hidden sm:inline-block">Connect</span>
+            </a>
             <button 
               onClick={handleClearChat}
               className="p-1.5 rounded-lg hover:bg-white/5 text-slate-400 hover:text-white transition-colors"
@@ -382,10 +382,7 @@ const CommandPalette = () => {
         </div>
 
         {/* Messages feed container with Ambient radial glows (Google-level) */}
-        <div 
-          className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col"
-          style={{ backgroundColor: 'rgba(7, 8, 12, 0.98)' }}
-        >
+        <div className="flex-grow overflow-y-auto p-4 scroll-smooth bg-[#07080c] relative flex flex-col">
           {/* Ambient Corner Glow Layers matching the cyan-blue blobs */}
           <div className="absolute inset-0 pointer-events-none z-0 opacity-40 bg-[radial-gradient(circle_at_70%_20%,rgba(6,182,212,0.15),transparent_48%),radial-gradient(circle_at_20%_80%,rgba(37,99,235,0.12),transparent_48%)]" />
           
@@ -415,11 +412,12 @@ const CommandPalette = () => {
                 >
                   {/* Render 3D robot avatar next to AAGNI's bot messages (No borders!) */}
                   {!isUser && (
-                    <div className="w-10 h-10 rounded-full overflow-hidden shadow-sm flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-white/[0.03] border border-cyan-500/15">
+                    <div className="w-9 h-9 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                       <img 
                         src="/aagni-avatar.png" 
                         alt="AAGNI Avatar" 
-                        className="w-full h-full object-cover scale-[1.15]"
+                        className="w-full h-full object-cover scale-[1.65] mix-blend-screen"
+                        style={{ filter: 'brightness(1.2) contrast(1.1)' }}
                       />
                     </div>
                   )}
@@ -447,18 +445,21 @@ const CommandPalette = () => {
             })}
 
             {aiLoading && (
-              <div className="flex justify-start items-start w-full">
-                <div className="w-10 h-10 rounded-full overflow-hidden shadow-sm flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-white/[0.03] border border-cyan-500/15">
+              <div className="flex justify-start items-start">
+                <div className="w-9 h-9 rounded-full overflow-hidden shadow-md flex-shrink-0 mr-2.5 mt-0.5 flex items-center justify-center bg-black/40 backdrop-blur-sm">
                   <img 
                     src="/aagni-avatar.png" 
                     alt="AAGNI Avatar" 
-                    className="w-full h-full object-cover scale-[1.15]"
+                    className="w-full h-full object-cover scale-[1.65] mix-blend-screen"
+                    style={{ filter: 'brightness(1.2) contrast(1.1)' }}
                   />
                 </div>
-                <div className="flex-1 max-w-[78%] bg-white/5 border border-white/10 rounded-2xl rounded-tl-none p-4 space-y-2.5 shadow-sm">
-                  <div className="h-2.5 w-5/6 rounded bg-gradient-to-r from-white/5 via-white/15 to-white/5 bg-[length:200%_100%] animate-skeleton-shimmer" />
-                  <div className="h-2.5 w-11/12 rounded bg-gradient-to-r from-white/5 via-white/15 to-white/5 bg-[length:200%_100%] animate-skeleton-shimmer" style={{ animationDelay: '150ms' }} />
-                  <div className="h-2.5 w-2/3 rounded bg-gradient-to-r from-white/5 via-white/15 to-white/5 bg-[length:200%_100%] animate-skeleton-shimmer" style={{ animationDelay: '300ms' }} />
+                <div className="bg-white/5 border border-white/10 rounded-2xl rounded-tl-none px-4 py-3 min-w-[180px] shadow-sm">
+                  <div className="flex flex-col gap-2.5 w-full">
+                    <div className="h-2 bg-slate-700/50 rounded-full animate-pulse w-3/4"></div>
+                    <div className="h-2 bg-slate-700/50 rounded-full animate-pulse w-full"></div>
+                    <div className="h-2 bg-slate-700/50 rounded-full animate-pulse w-5/6"></div>
+                  </div>
                 </div>
               </div>
             )}
@@ -467,10 +468,7 @@ const CommandPalette = () => {
         </div>
 
         {/* Suggestion Quick Replies */}
-        <div 
-          className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 scrollbar-none select-none z-10"
-          style={{ backgroundColor: 'rgba(6, 7, 10, 0.98)' }}
-        >
+        <div className="flex gap-2 overflow-x-auto px-4 py-2.5 border-t border-white/10 bg-[#06070a] scrollbar-none select-none z-10">
           {suggestionPills.map((pill) => (
             <button
               key={pill}
@@ -483,10 +481,7 @@ const CommandPalette = () => {
         </div>
 
         {/* Input panel & Attachments popover */}
-        <div 
-          className="relative border-t border-white/10 p-3 flex gap-2 items-center z-10"
-          style={{ backgroundColor: 'rgba(11, 12, 18, 0.98)' }}
-        >
+        <div className="relative border-t border-white/10 bg-[#0b0c12] p-3 flex gap-2 items-center z-10">
           {/* Emoji alert */}
           {showEmojiAlert && (
             <div className="absolute bottom-16 left-4 bg-slate-900 border border-white/10 text-xs text-slate-300 px-3 py-1.5 rounded-lg shadow-lg animate-bounce z-20">
@@ -598,19 +593,6 @@ const CommandPalette = () => {
             opacity: 1;
             transform: translateY(0) scale(1);
           }
-        }
-
-        @keyframes skeletonShimmer {
-          0% {
-            background-position: 200% 0;
-          }
-          100% {
-            background-position: -200% 0;
-          }
-        }
-
-        .animate-skeleton-shimmer {
-          animation: skeletonShimmer 1.8s infinite linear;
         }
 
         @keyframes slideUpCustom {
