@@ -312,23 +312,16 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-[28px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.9),0_0_50px_rgba(6,182,212,0.25)] transition-all duration-300 p-[1.5px]"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-2xl shadow-2xl transition-all duration-300 border border-[#2a3942]"
       style={{
         animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
       }}
       ref={chatContainerRef}
     >
-      {/* Conically rotating border line wrapper (Cyan to Royal Blue accent) */}
-      <div 
-        className="absolute inset-[-150%] pointer-events-none z-0 opacity-75 animate-[spin_10s_linear_infinite]"
-        style={{
-          background: 'conic-gradient(from 0deg, transparent 40%, #06b6d4 50%, #2563eb 65%, transparent 70%)',
-        }}
-      />
 
-      {/* Solid inner glass cover (Premium WhatsApp-style Dark Mode) */}
+      {/* Solid inner cover (Premium WhatsApp-style Dark Mode) */}
       <div 
-        className="relative w-full h-full rounded-[26px] flex flex-col overflow-hidden z-10 shadow-2xl"
+        className="relative w-full h-full rounded-2xl flex flex-col overflow-hidden z-10"
         style={{ backgroundColor: '#111b21' }}
       >
         
