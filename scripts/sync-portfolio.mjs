@@ -2,9 +2,14 @@ import fs from 'fs';
 import path from 'path';
 
 const GITHUB_USER = 'BhavyaKansal20';
+const LEETCODE_USER = 'BhavyaKansal20';
+const GFG_USER = 'kansalbhavya20';
+
 const PROJECTS_JSON_PATH = 'src/data/projects.json';
 const GITHUB_CONTRIBUTIONS_PATH = 'public/github-contributions.json';
 const GOOGLE_PROFILE_PATH = 'public/google-profile.json';
+const LEETCODE_PROFILE_PATH = 'public/leetcode-profile.json';
+const GFG_PROFILE_PATH = 'public/gfg-profile.json';
 
 const GITHUB_QUERY = `
 query($userName:String!) {
@@ -281,6 +286,93 @@ async function run() {
     }
   } catch (e) {
     console.error("❌ Error syncing projects data:", e);
+  }
+
+  // 4. Fetch LeetCode Data
+  try {
+    console.log("Fetching LeetCode Profile via GraphQL...");
+    const leetCodeQuery = `
+      query getUserProfile($username: String!) {
+        allQuestionsCount { difficulty count }
+        matchedUser(username: $username) {
+          contributions { points }
+          profile { reputation ranking }
+          submitStats {
+            acSubmissionNum { difficulty count submissions }
+          }
+        }
+        userContestRanking(username: $username) {
+          attendedContestsCount
+          rating
+          globalRanking
+          totalParticipants
+          topPercentage
+          badge { name }
+        }
+        userContestRankingHistory(username: $username) {
+          attended
+          trendDirection
+          problemsSolved
+          totalProblems
+          finishTimeInSeconds
+          rating
+          ranking
+          contest { title startTime }
+        }
+      }
+    `;
+
+    const response = await fetch("https://leetcode.com/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: leetCodeQuery,
+        variables: { username: LEETCODE_USER },
+      }),
+    });
+
+    if (response.ok) {
+      const json = await response.json();
+      if (json.data && json.data.matchedUser) {
+        fs.writeFileSync(LEETCODE_PROFILE_PATH, JSON.stringify(json.data, null, 2), 'utf8');
+        console.log(`✓ Saved LeetCode Profile to ${LEETCODE_PROFILE_PATH}`);
+      } else {
+        console.warn("⚠️ LeetCode profile not found or hidden.");
+      }
+    } else {
+      console.error(`❌ LeetCode GraphQL request failed: ${response.status}`);
+    }
+  } catch (e) {
+    console.error("❌ Error fetching LeetCode data:", e);
+  }
+
+  // 5. Fetch GeeksforGeeks Data
+  try {
+    console.log("Fetching GeeksforGeeks Profile...");
+    const gfgResponse = await fetch(`https://www.geeksforgeeks.org/profile/${GFG_USER}`, {
+      headers: {
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+      }
+    });
+
+    if (gfgResponse.ok) {
+      const html = await gfgResponse.text();
+      // Look for the JSON data embedded in the page script
+      const match = html.match(/total_problems_solved\\?":(\d+)/);
+      if (match && match[1]) {
+        const totalSolved = parseInt(match[1], 10);
+        fs.writeFileSync(GFG_PROFILE_PATH, JSON.stringify({ total_problems_solved: totalSolved }, null, 2), 'utf8');
+        console.log(`✓ Saved GFG Profile to ${GFG_PROFILE_PATH}`);
+      } else {
+        console.warn("⚠️ GFG total problems solved not found in page source.");
+      }
+    } else {
+      console.error(`❌ GeeksforGeeks request failed: ${gfgResponse.status}`);
+    }
+  } catch (e) {
+    console.error("❌ Error fetching GeeksforGeeks data:", e);
   }
 
   console.log("=== Sync Process Completed ===");

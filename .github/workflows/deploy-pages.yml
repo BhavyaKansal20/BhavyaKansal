@@ -47,7 +47,7 @@ jobs:
         run: |
           git config --global user.name "BhavyaKansal20"
           git config --global user.email "kansalbhavya27@gmail.com"
-          git add public/github-contributions.json public/google-profile.json src/data/projects.json
+          git add public/github-contributions.json public/google-profile.json public/leetcode-profile.json public/gfg-profile.json src/data/projects.json
           if ! git diff --cached --quiet; then
             git commit -m "chore: automated hourly portfolio stats and projects update"
             git push origin main
