@@ -189,7 +189,7 @@
     "id": "aagni-assistant",
     "title": "AAgni Chatbot",
     "description": "A production-ready, premium multimodal AI assistant for India.",
-    "fullDescription": "A production-ready, premium multimodal AI assistant for India \u2014 powered by Sarvam AI for text & voice, and OpenRouter (Gemini) for vision. Built with Next.js 15, NextAuth, PostgreSQL, Framer Motion, and a deep saffron glassmorphism UI.",
+    "fullDescription": "A production-ready, premium multimodal AI assistant for India — powered by Sarvam AI for text & voice, and OpenRouter (Gemini) for vision. Built with Next.js 15, NextAuth, PostgreSQL, Framer Motion, and a deep saffron glassmorphism UI.",
     "image": "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=1400&q=80",
     "images": [
       "https://images.unsplash.com/photo-1611746872915-64382b5c76da?auto=format&fit=crop&w=1400&q=80"
@@ -205,7 +205,8 @@
       "PostgreSQL",
       "Framer Motion",
       "Sarvam AI",
-      "OpenRouter"
+      "OpenRouter",
+      "TypeScript"
     ],
     "category": "Codes",
     "featured": false,
