@@ -29,13 +29,13 @@
       "acSubmissionNum": [
         {
           "difficulty": "All",
-          "count": 3,
-          "submissions": 3
+          "count": 4,
+          "submissions": 5
         },
         {
           "difficulty": "Easy",
-          "count": 1,
-          "submissions": 1
+          "count": 2,
+          "submissions": 3
         },
         {
           "difficulty": "Medium",
