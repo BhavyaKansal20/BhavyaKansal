@@ -108,6 +108,7 @@ const featuredKeys = new Set(["Healthy AI", "ChromaCrystal UHD", "SignLang AI", 
 const preferredProjectOrder = [
   "healthy-ai",
   "chromacrystal-uhd",
+  "aagni-assistant",
   "deepfake-scanner",
   "signlang-ai",
   "ml-house-price-prediction",
@@ -115,7 +116,6 @@ const preferredProjectOrder = [
   "machine-learning",
   "deep-learning",
   "datasets",
-  "aagni-assistant",
   "immutable-doc-verify",
   "neurolock-ai",
 ];
