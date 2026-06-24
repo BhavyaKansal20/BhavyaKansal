@@ -1,0 +1,55 @@
+{
+  "allQuestionsCount": [
+    {
+      "difficulty": "All",
+      "count": 3972
+    },
+    {
+      "difficulty": "Easy",
+      "count": 951
+    },
+    {
+      "difficulty": "Medium",
+      "count": 2074
+    },
+    {
+      "difficulty": "Hard",
+      "count": 947
+    }
+  ],
+  "matchedUser": {
+    "contributions": {
+      "points": 4
+    },
+    "profile": {
+      "reputation": 0,
+      "ranking": 5000001
+    },
+    "submitStats": {
+      "acSubmissionNum": [
+        {
+          "difficulty": "All",
+          "count": 3,
+          "submissions": 3
+        },
+        {
+          "difficulty": "Easy",
+          "count": 1,
+          "submissions": 1
+        },
+        {
+          "difficulty": "Medium",
+          "count": 2,
+          "submissions": 2
+        },
+        {
+          "difficulty": "Hard",
+          "count": 0,
+          "submissions": 0
+        }
+      ]
+    }
+  },
+  "userContestRanking": null,
+  "userContestRankingHistory": []
+}
