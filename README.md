@@ -1,104 +1,86 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-ffcc00?style=for-the-badge&logo=github&logoColor=black)](https://opensource.org/licenses/MIT)
-[![Portfolio](https://img.shields.io/badge/Website-bhavyakansal.dev-00f5ff?style=for-the-badge&logo=google-chrome&logoColor=black)](https://bhavyakansal.dev)
+<div align="center">
+  <img src="image.png" alt="Bhavya Kansal Portfolio Banner" width="100%"/>
+  <h1>✨ Bhavya Kansal — Personal Portfolio & Dashboard</h1>
+  <p><strong>A modern, high-performance web portfolio built with React, Vite, Tailwind CSS, and Shadcn UI.</strong></p>
 
-# Bhavya Kansal | AI/ML Engineer & Researcher
-### Building production-ready intelligent systems across healthcare AI, accessibility, computer vision, and practical automation.
-
-Official Portfolio: [bhavyakansal.dev](https://bhavyakansal.dev)
-
----
-
-## 🚀 Key Features
-
-- **AI-Powered Command Palette (Ctrl+K):** A smart NLP assistant integrated directly into the browser, indexing my full career portfolio, repository metadata, and technical achievements.
-- **Glassmorphism UI:** Premium visual cards equipped with GPU-accelerated conic-gradient rotating border-tracing hover animations.
-- **Zero-Crash Performance Architecture:** Engineered with normal document flow compositing to prevent Chromium GPU scrolling jank and memory leaks.
-- **Live Tech Telemetry:** Showcases live stats—including 12+ total projects, 10+ AI-first systems, and 1+ years of experience.
-- **GitHub Activity Integration:** Live contribution tracking and repository statistics.
+  [![React](https://img.shields.io/badge/React-18-blue?style=for-the-badge&logo=react)](https://react.dev/)
+  [![Vite](https://img.shields.io/badge/Vite-5-purple?style=for-the-badge&logo=vite)](https://vitejs.dev/)
+  [![Tailwind CSS](https://img.shields.io/badge/Tailwind-3.4-06B6D4?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com/)
+  [![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)](LICENSE)
+</div>
 
 ---
 
-## 🛠️ Tech Stack
+## 📌 Overview
 
-### Core Frontend
-- React 18 & TypeScript
-- Vite (Optimized build pipelines)
-- Tailwind CSS
+Welcome to the source code of my personal portfolio and interactive web dashboard. This project serves as a central hub to showcase my skills as an AI Engineer and ML Researcher, highlight my open-source projects (like AAGNI AI and Certificate-Verifier), and dynamically display my GitHub contributions.
 
-### UI & UX Components
-- shadcn/ui & Radix UI primitives
-- Lucide React icons
-- Framer Motion & CSS custom keyframe animations
-
-### Integrations & Services
-- OpenRouter API (Gemini-powered natural language chatbot)
-- TanStack Query (State management & API caching)
-- Recharts (Interactive visualization dashboard)
+The application is engineered for maximum performance, beautiful aesthetics, and seamless user experience, utilizing modern frontend architectures and a custom design system.
 
 ---
 
-## 🌟 Featured AI/ML Projects
+## ⚡ Tech Stack
 
-Here are some of the key systems integrated and detailed within the portfolio:
-
-1. **RetiNex AI:** Deep learning-based medical image enhancement system for low-light retinal scans. Achieved **77.2% validation accuracy**, **0.65 macro F1-score**, and an end-to-end inference latency of **1.2s**.
-2. **ChromaCrystal UHD:** End-to-end generative B&W colorization and UHD super-resolution scaling pipeline using deep neural networks.
-3. **DeepFake Detector:** Custom convolutional model for robust video and image manipulation detection.
-4. **SignLang AI:** Real-time American Sign Language recognition utilizing computer vision pipelines.
-5. **NeuroLock AI:** Biometric facial security utilizing real-time emotion analysis and eye-gaze tracking.
-6. **AAGNI Assistant:** Advanced automated conversational agent integrated with custom logic.
+*   **Frontend Framework:** React 18
+*   **Build Tool:** Vite (Lightning fast HMR & optimized builds)
+*   **Styling:** Tailwind CSS (Utility-first styling)
+*   **UI Components:** Radix UI primitives & Shadcn UI architecture
+*   **Routing:** React Router v6
+*   **Animations:** Framer Motion (via `tailwindcss-animate`)
+*   **Data Visualization:** Recharts & React Calendar Heatmap (for GitHub stats)
+*   **Analytics:** Vercel Analytics & Speed Insights
 
 ---
 
-## 💻 Local Setup & Development
+## 🛠️ Local Setup & Development
 
-### Prerequisites
-- Node.js (v18 or higher)
-- npm
-
-### Installation
-
+### 1. Clone the Repository
 ```bash
-# Clone the repository
 git clone https://github.com/BhavyaKansal20/BhavyaKansal.git
 cd BhavyaKansal
+```
 
-# Install dependencies
+### 2. Install Dependencies
+Ensure you have Node.js (v24+) installed, then run:
+```bash
 npm install
 ```
 
-### Environment Configuration
-
-Create a `.env.local` file in the root directory:
-
-```env
-VITE_OPENROUTER_API_KEY=your_openrouter_api_key
-VITE_OPENROUTER_MODEL=google/gemini-2.5-flash
-VITE_SITE_URL=http://localhost:5173
-```
-
-### Running Locally
-
+### 3. Run the Development Server
 ```bash
-# Start development server
 npm run dev
+```
+Open [http://localhost:5173](http://localhost:5173) in your browser.
 
-# Build production bundle
-npm run build
-
-# Preview production build locally
-npm run preview
+### 4. Fetch Latest GitHub Stats
+To update the dynamic GitHub contribution graph:
+```bash
+npm run refresh:github
 ```
 
 ---
 
-## 🔗 Connect With Me
+## 🤝 Contributing
 
-- **Portfolio:** [bhavyakansal.dev](https://bhavyakansal.dev)
-- **GitHub:** [@BhavyaKansal20](https://github.com/BhavyaKansal20)
-- **LinkedIn:** [kansal0920](https://linkedin.com/in/kansal0920)
-- **Email:** [kansalbhavya27@gmail.com](mailto:kansalbhavya27@gmail.com)
+While this is a personal portfolio, constructive feedback, UI improvements, and optimizations are always welcome!
+Please review our [Contributing Guidelines](CONTRIBUTING.md) and [Code of Conduct](CODE_OF_CONDUCT.md) before submitting a pull request.
 
 ---
 
-© 2026 Bhavya Kansal. Released under the MIT License.
+## 🔐 Security
+
+If you discover any security vulnerabilities or API exposure issues, please refer to our [Security Policy](SECURITY.md) for reporting instructions.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. You are free to use this architecture as a template for your own portfolio!
+
+---
+
+<div align="center">
+  Designed and Developed by <strong>Bhavya Kansal</strong>
+  <br/>
+  🌐 <a href="https://bhavyakansal.dev">bhavyakansal.dev</a>
+</div>
