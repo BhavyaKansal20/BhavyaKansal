@@ -591,10 +591,10 @@ const CodingDashboard = () => {
                         return (
                           <div
                             key={day.date}
-                            className="aspect-square rounded-[2px] transition-all duration-150 hover:scale-110 cursor-pointer"
+                            className="aspect-square rounded-[3px] transition-all duration-150 hover:scale-110 cursor-pointer"
                             style={{
                               backgroundColor: color,
-                              boxShadow: level > 0 ? `0 0 6px 1px ${color}90` : "none",
+                              boxShadow: level > 0 ? `0 0 2.5px ${color}60` : "none",
                             }}
                             title={`${day.date}: ${day.count} contributions`}
                           />
