@@ -545,7 +545,7 @@ const CodingDashboard = () => {
               <Github className="w-5 h-5" /> GitHub Contributions
             </h3>
           </div>
-          <div className="custom-grid overflow-x-auto select-none py-2 pr-2">
+          <div className="overflow-x-auto select-none py-2 pr-2">
             {githubLoading ? (
               <div className="h-[120px] flex items-center justify-center text-muted-foreground">
                 Loading heatmap...
@@ -571,26 +571,31 @@ const CodingDashboard = () => {
               };
 
               return (
-                <div
-                  className="grid grid-flow-col gap-[3px]"
-                  style={{
-                    gridTemplateRows: "repeat(7, 10px)",
-                    gridAutoColumns: "10px",
-                  }}
-                >
-                  {sorted.map((day) => {
+                <svg viewBox="0 0 690 90" className="w-full h-auto select-none">
+                  {sorted.map((day, index) => {
+                    const col = Math.floor(index / 7);
+                    const row = index % 7;
+                    const x = col * 13;
+                    const y = row * 13;
                     const level = getContributionLevel(day.count);
-                    const bgColor = getContributionColor(level);
+                    const color = getContributionColor(level);
                     return (
-                      <div
+                      <rect
                         key={day.date}
-                        className="w-[10px] h-[10px] rounded-[3px] transition-all duration-150 hover:scale-125 cursor-pointer"
-                        style={{ backgroundColor: bgColor }}
-                        title={`${day.date}: ${day.count} contributions`}
-                      />
+                        x={x}
+                        y={y}
+                        width="10"
+                        height="10"
+                        rx="2"
+                        ry="2"
+                        fill={color}
+                        className="transition-all duration-150 hover:opacity-80 cursor-pointer"
+                      >
+                        <title>{`${day.date}: ${day.count} contributions`}</title>
+                      </rect>
                     );
                   })}
-                </div>
+                </svg>
               );
             })()}
           </div>

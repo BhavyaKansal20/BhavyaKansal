@@ -144,8 +144,8 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
 const Timeline = () => {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
   const sectionRef = useRef<HTMLElement>(null);
-  const [isTriggered, setIsTriggered] = useState(false);
-  const [revealedCount, setRevealedCount] = useState(0);
+  const [progress, setProgress] = useState(0);
+  const [maxProgress, setMaxProgress] = useState(0);
   const total = timelineData.length;
 
   useEffect(() => {
@@ -154,42 +154,43 @@ const Timeline = () => {
 
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
-      setIsTriggered(true);
-      setRevealedCount(total);
+      setProgress(1);
+      setMaxProgress(1);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsTriggered(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.20 } // Trigger at 20% visibility in viewport
-    );
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      if (rect.height === 0) return; // Ignore unrendered states
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [total]);
+      const vh = window.innerHeight;
+      const start = vh * 0.90;
+      const end = vh * 0.25;
+      
+      const distance = start - end;
+      const current = start - rect.top;
+      
+      let p = current / distance;
+      p = Math.max(0, Math.min(1, p));
+      
+      setProgress(p);
+      setMaxProgress((prev) => Math.max(prev, p));
+    };
 
-  // Sequential stagger from right to left
-  useEffect(() => {
-    if (!isTriggered) return;
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    
+    // Defer initial calculate slightly for page layout rendering
+    const t = setTimeout(onScroll, 80);
+    
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      clearTimeout(t);
+    };
+  }, []);
 
-    let current = 0;
-    const interval = setInterval(() => {
-      current++;
-      setRevealedCount(current);
-      if (current >= total) {
-        clearInterval(interval);
-      }
-    }, 350); // 350ms delay between staggers
-
-    return () => clearInterval(interval);
-  }, [isTriggered, total]);
-
-  const fillPct = (revealedCount / total) * 100;
+  const fillPct = progress * 100;
 
   return (
     <section ref={sectionRef} className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
@@ -228,7 +229,8 @@ const Timeline = () => {
               // total is 4. indices: 0 (left), 1, 2, 3 (right)
               // right-to-left reveal: index 3 (reversedIndex = 0) reveals first
               const reversedIndex = total - 1 - originalIndex;
-              const revealed = revealedCount > reversedIndex;
+              const threshold = 0.15 + (reversedIndex * 0.25);
+              const revealed = maxProgress >= threshold;
               
               return (
                 <div key={item.period || item.date} className="relative flex flex-col">
@@ -267,7 +269,8 @@ const Timeline = () => {
           <div className="space-y-12">
             {/* Newest first on mobile (reverse chronological) */}
             {[...timelineData].reverse().map((item, index) => {
-              const revealed = revealedCount > index;
+              const threshold = index / total;
+              const revealed = maxProgress >= threshold;
               
               return (
                 <div key={item.period || item.date} className="relative">
