@@ -53,7 +53,12 @@ const levelClass = (count: number) => {
 };
 
 /* ── Semi-circular Gauge Chart ── */
-const SemiCircleGauge = ({ easy, medium, hard }: { easy: number; medium: number; hard: number }) => {
+const SemiCircleGauge = ({
+  easy,
+  medium,
+  hard,
+  animate,
+}: { easy: number; medium: number; hard: number; animate: boolean }) => {
   const total = easy + medium + hard || 1;
   const easyAngle  = (easy / total) * 180;
   const mediumAngle = (medium / total) * 180;
@@ -107,8 +112,10 @@ const SemiCircleGauge = ({ easy, medium, hard }: { easy: number; medium: number;
             fill={seg.color}
             style={{
               filter: `drop-shadow(0 0 4px ${seg.color}60)`,
-              transition: "opacity 420ms ease, transform 420ms ease, filter 420ms ease",
-              transitionDelay: `${index * 140}ms`,
+              opacity: animate ? 1 : 0,
+              transform: animate ? "translate3d(0,0,0)" : "translate3d(10px,0,0)",
+              transition: "opacity 460ms ease, transform 460ms ease, filter 460ms ease",
+              transitionDelay: animate ? `${index * 160}ms` : "0ms",
             }}
           />
         );
@@ -374,7 +381,12 @@ const CodingDashboard = () => {
             </h3>
             <div className="flex items-center justify-between gap-4 h-[180px]">
               <div className="flex-1 flex justify-center h-full items-center">
-                <SemiCircleGauge easy={stats.lcEasy} medium={stats.lcMedium} hard={stats.lcHard} />
+                <SemiCircleGauge
+                  easy={stats.lcEasy}
+                  medium={stats.lcMedium}
+                  hard={stats.lcHard}
+                  animate={revealStage >= 4}
+                />
               </div>
               <div className="space-y-4 pr-4 flex-shrink-0">
                 {[
@@ -402,17 +414,26 @@ const CodingDashboard = () => {
             {stats.ratingHistory.length > 1 ? (
               <ResponsiveContainer width="100%" height={150}>
                 <LineChart data={stats.ratingHistory} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
-                  <CartesianGrid strokeDasharray="3 3" stroke="#2a2b30" />
-                  <XAxis dataKey="label" tick={{ fill: '#718096', fontSize: 10, fontFamily: 'Times New Roman' }} />
-                  <YAxis tick={{ fill: '#718096', fontSize: 10, fontFamily: 'Times New Roman' }} domain={['auto', 'auto']} />
+                  <XAxis
+                    dataKey="label"
+                    axisLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
+                    tickLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
+                    tick={{ fill: '#b3b7bf', fontSize: 14, fontFamily: 'Times New Roman' }}
+                  />
+                  <YAxis
+                    axisLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
+                    tickLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
+                    tick={{ fill: '#b3b7bf', fontSize: 14, fontFamily: 'Times New Roman' }}
+                    domain={['auto', 'auto']}
+                  />
                   <Tooltip content={<RatingTooltip />} />
                   <Line
                     type="monotone"
                     dataKey="rating"
                     stroke="#e2e8f0"
-                    strokeWidth={2}
-                    dot={{ r: 4, fill: '#e2e8f0', strokeWidth: 0 }}
-                    activeDot={{ r: 6, fill: '#fff' }}
+                    strokeWidth={4}
+                    dot={{ r: 7, fill: '#f8fafc', strokeWidth: 0 }}
+                    activeDot={{ r: 8, fill: '#fff' }}
                   />
                 </LineChart>
               </ResponsiveContainer>
