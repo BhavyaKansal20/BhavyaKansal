@@ -184,9 +184,6 @@ const Timeline = () => {
       (entries) => {
         const entry = entries[0];
         active = entry.isIntersecting;
-        if (active) {
-          onScroll();
-        }
       },
       { threshold: 0.05 }
     );

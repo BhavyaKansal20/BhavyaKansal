@@ -572,32 +572,37 @@ const CodingDashboard = () => {
               };
 
               return (
-                <svg viewBox="0 0 690 90" className="w-full h-auto select-none">
-                  {sorted.map((day, index) => {
-                    const col = Math.floor(index / 7);
-                    const row = index % 7;
-                    const x = col * 13;
-                    const y = row * 13;
-                    const level = getContributionLevel(day.count);
-                    const color = getContributionColor(level);
-                    return (
-                      <rect
-                        key={day.date}
-                        x={x}
-                        y={y}
-                        width="10"
-                        height="10"
-                        rx="2"
-                        ry="2"
-                        fill={color}
-                        style={level > 0 ? { filter: `drop-shadow(0 0 1.5px ${color})` } : undefined}
-                        className="transition-all duration-150 hover:opacity-80 cursor-pointer"
-                      >
-                        <title>{`${day.date}: ${day.count} contributions`}</title>
-                      </rect>
-                    );
-                  })}
-                </svg>
+                <div
+                  className="grid gap-[3px] w-full select-none"
+                  style={{
+                    gridTemplateColumns: "repeat(53, minmax(0, 1fr))",
+                  }}
+                >
+                  {Array.from({ length: 53 }).map((_, colIndex) => (
+                    <div key={colIndex} className="grid grid-rows-7 gap-[3px]">
+                      {Array.from({ length: 7 }).map((_, rowIndex) => {
+                        const index = colIndex * 7 + rowIndex;
+                        const day = sorted[index];
+                        if (!day) return <div key={rowIndex} className="aspect-square" />;
+
+                        const level = getContributionLevel(day.count);
+                        const color = getContributionColor(level);
+
+                        return (
+                          <div
+                            key={day.date}
+                            className="aspect-square rounded-[2px] transition-all duration-150 hover:scale-110 cursor-pointer"
+                            style={{
+                              backgroundColor: color,
+                              boxShadow: level > 0 ? `0 0 6px 1px ${color}90` : "none",
+                            }}
+                            title={`${day.date}: ${day.count} contributions`}
+                          />
+                        );
+                      })}
+                    </div>
+                  ))}
+                </div>
               );
             })()}
           </div>
