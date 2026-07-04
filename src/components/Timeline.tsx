@@ -167,13 +167,13 @@ const Timeline = () => {
           observer.disconnect();
         }
       },
-      { threshold: 0.15 }
+      { threshold: 0.1, rootMargin: "0px 0px -15% 0px" } // Wait until it's 15% into the viewport
     );
 
-    // Defer observing by 500ms to allow layout and style sheets to load
+    // Defer observing by 1000ms to allow layout and style sheets to settle
     const t = setTimeout(() => {
       observer.observe(el);
-    }, 500);
+    }, 1000);
 
     return () => {
       clearTimeout(t);
@@ -201,7 +201,7 @@ const Timeline = () => {
   const fillPct = isTriggered ? 100 : 0;
 
   return (
-    <section ref={sectionRef} className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
+    <section className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
       <div className="aurora-bg" aria-hidden />
       <div className="max-w-7xl mx-auto relative z-10">
         {/* Header */}
@@ -216,8 +216,9 @@ const Timeline = () => {
           </p>
         </div>
 
-        {/* ── Desktop — right-to-left horizontal flow ── */}
-        <div className="hidden lg:block relative mt-8">
+        <div ref={sectionRef}>
+          {/* ── Desktop — right-to-left horizontal flow ── */}
+          <div className="hidden lg:block relative mt-8">
           {/* Base track */}
           <div className="absolute top-8 left-0 right-0 h-px bg-border" />
           {/* Right-to-left glowing fill (hardware-accelerated scaleX) */}
@@ -294,6 +295,7 @@ const Timeline = () => {
               );
             })}
           </div>
+        </div>
         </div>
       </div>
     </section>
