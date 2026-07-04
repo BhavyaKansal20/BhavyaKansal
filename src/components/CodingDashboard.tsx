@@ -43,77 +43,72 @@ const GoogleIcon = () => (
   </svg>
 );
 
-/* ── Semi-circular Gauge Chart ── */
-const SemiCircleGauge = ({
-  easy,
-  medium,
-  hard,
-  animate,
-}: { easy: number; medium: number; hard: number; animate: boolean }) => {
-  const visEasy = Math.max(easy, 1);
-  const visMedium = Math.max(medium, 1);
-  const visHard = Math.max(hard, 1);
-  const total = visEasy + visMedium + visHard;
-  const easyAngle  = (visEasy / total) * 180;
-  const mediumAngle = (visMedium / total) * 180;
-  const hardAngle  = (visHard / total) * 180;
-
-  const r = 85;
-  const cx = 110;
-  const cy = 110;
-
-  const polarToXY = (angleFromLeft: number, radius: number) => {
-    const radians = (angleFromLeft * Math.PI) / 180;
-    return {
-      x: cx - radius * Math.cos(radians),
-      y: cy - radius * Math.sin(radians),
-    };
-  };
-
-  const arcPath = (startDeg: number, endDeg: number, r: number, innerR: number) => {
-    const startOuter = polarToXY(startDeg, r);
-    const endOuter   = polarToXY(endDeg, r);
-    const startInner = polarToXY(endDeg, innerR);
-    const endInner   = polarToXY(startDeg, innerR);
-    const largeArc   = endDeg - startDeg > 180 ? 1 : 0;
-    return [
-      `M ${startOuter.x} ${startOuter.y}`,
-      `A ${r} ${r} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
-      `L ${startInner.x} ${startInner.y}`,
-      `A ${innerR} ${innerR} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
-      "Z"
-    ].join(" ");
-  };
-
+const DonutChart = ({ easy, medium, hard, animate = false }: { easy: number; medium: number; hard: number; animate?: boolean }) => {
+  const total = easy + medium + hard;
   const segments = [
-    { color: COLORS.Easy, deg: easyAngle, label: "Easy", start: hardAngle + mediumAngle, end: 180 },
-    { color: COLORS.Medium, deg: mediumAngle, label: "Medium", start: hardAngle, end: hardAngle + mediumAngle },
-    { color: COLORS.Hard, deg: hardAngle, label: "Hard", start: 0, end: hardAngle },
+    { label: "Easy", value: easy, color: "#10b981" },
+    { label: "Medium", value: medium, color: "#f59e0b" },
+    { label: "Hard", value: hard, color: "#ef4444" },
   ];
 
+  let cumulativePercent = 0;
+  const getCoordinatesForPercent = (percent: number) => {
+    const x = Math.cos(2 * Math.PI * percent);
+    const y = Math.sin(2 * Math.PI * percent);
+    return [x, y];
+  };
+
+  const paths = segments.map((seg, i) => {
+    if (seg.value === 0) return null;
+    const percent = seg.value / total;
+    const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
+    cumulativePercent += percent;
+    const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
+    const largeArcFlag = percent > 0.5 ? 1 : 0;
+    const pathData = [
+      `M ${startX} ${startY}`,
+      `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
+    ].join(" ");
+
+    return (
+      <path
+        key={seg.label}
+        d={pathData}
+        fill="none"
+        stroke={seg.color}
+        strokeWidth="0.25"
+        strokeLinecap="round"
+        style={{
+          opacity: animate ? 1 : 0,
+          strokeDasharray: `${percent * Math.PI * 2} 10`,
+          strokeDashoffset: animate ? 0 : percent * Math.PI * 2,
+          transition: "opacity 600ms ease, stroke-dashoffset 800ms ease-out",
+          transitionDelay: animate ? `${i * 150}ms` : "0ms",
+          filter: `drop-shadow(0 0 4px ${seg.color}50)`,
+        }}
+      />
+    );
+  });
+
   return (
-    <svg viewBox="0 0 220 120" className="w-full max-w-[220px]">
-      {/* Background Track */}
-      <path d={arcPath(0, 180, r, 55)} fill="#222327" />
-      {/* Segments */}
-      {segments.map((seg, index) => {
-        if (seg.deg < 0.5) return null;
-        return (
-          <path
-            key={seg.label}
-            d={arcPath(seg.start, seg.end, r, 55)}
-            fill={seg.color}
-            style={{
-              filter: `drop-shadow(0 0 3px ${seg.color}40)`,
-              opacity: animate ? 1 : 0,
-              transform: animate ? "translate3d(0,0,0)" : "translate3d(10px,0,0)",
-              transition: "opacity 460ms ease, transform 460ms ease, filter 460ms ease",
-              transitionDelay: animate ? `${index * 160}ms` : "0ms",
-            }}
-          />
-        );
-      })}
-    </svg>
+    <div className="relative w-full h-full flex items-center justify-center min-h-[140px]">
+      <svg
+        viewBox="-1.2 -1.2 2.4 2.4"
+        className="w-full h-full max-w-[140px] max-h-[140px]"
+        style={{ transform: "rotate(-90deg)" }}
+      >
+        <circle cx="0" cy="0" r="1" fill="none" stroke="#ffffff10" strokeWidth="0.25" />
+        {paths}
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" style={{ marginTop: "2px" }}>
+        <span className="text-3xl font-bold text-white tracking-tighter leading-none mb-1">
+          {total}
+        </span>
+        <span className="text-[10px] text-gray-400 font-medium tracking-wider uppercase">
+          Solved
+        </span>
+      </div>
+    </div>
   );
 };
 
@@ -431,7 +426,7 @@ const CodingDashboard = () => {
             </h3>
             <div className="flex items-center justify-between gap-4 h-[180px]">
               <div className="flex-1 flex justify-center h-full items-center">
-                <SemiCircleGauge
+                <DonutChart
                   easy={stats.lcEasy}
                   medium={stats.lcMedium}
                   hard={stats.lcHard}
@@ -503,10 +498,10 @@ const CodingDashboard = () => {
                       <Line
                         type="monotone"
                         dataKey="rating"
-                        stroke="#ffffff"
+                        stroke="#ffa116"
                         strokeWidth={2}
-                        dot={{ r: 4, fill: '#ffffff', stroke: '#1e1f23', strokeWidth: 1.5 }}
-                        activeDot={{ r: 6, fill: '#ffffff' }}
+                        dot={{ r: 4, fill: '#ffa116', stroke: '#1e1f23', strokeWidth: 1.5 }}
+                        activeDot={{ r: 6, fill: '#ffa116' }}
                       />
                     </LineChart>
                   </ResponsiveContainer>

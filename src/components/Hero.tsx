@@ -34,7 +34,7 @@ const Hero = () => {
             Building production-ready AI systems across machine learning, computer vision & intelligent automation.
           </h1>
 
-          <p className="text-lg text-muted-foreground max-w-lg" style={{ textAlign: "justify" }}>
+          <p className="text-lg text-muted-foreground max-w-lg mt-5" style={{ textAlign: "justify" }}>
             Hi, I'm <span className="text-foreground font-semibold">Bhavya Kansal</span>. I architect and
             build scalable AI systems — machine-learning models, multimodal applications, and deep-tech
             solutions for real-world engineering challenges.

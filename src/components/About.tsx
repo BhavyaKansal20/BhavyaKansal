@@ -34,7 +34,7 @@ const About = () => {
         <div className={`mb-14 sm:mb-16 ${aboutVisible ? "scroll-animate" : "opacity-0"}`}>
           <span className="eyebrow">About Me</span>
           <div className="flex items-end gap-6 flex-wrap mt-5">
-            <h2 className="display-heading text-5xl md:text-7xl font-bold sm:whitespace-nowrap tracking-tight">
+            <h2 className="display-heading text-[2.6rem] sm:text-5xl md:text-7xl font-bold whitespace-nowrap tracking-tight">
               Bhavya Kansal
             </h2>
             <div className="pb-2">
