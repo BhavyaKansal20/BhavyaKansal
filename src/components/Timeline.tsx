@@ -93,8 +93,8 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
         setTimeout(() => ripple.remove(), 700);
       }}
       className={`glass-card group h-full p-5 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden
-        transition-[opacity,transform] duration-700 ease-out
-        ${revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-transform
+        ${revealed ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}`}
     >
       <div className="card-spotlight" ref={spotRef} />
 
@@ -144,8 +144,8 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
 const Timeline = () => {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
   const sectionRef = useRef<HTMLElement>(null);
-  const [progress, setProgress] = useState(0);
-  const [maxProgress, setMaxProgress] = useState(0);
+  const [isTriggered, setIsTriggered] = useState(false);
+  const [revealedCount, setRevealedCount] = useState(0);
   const total = timelineData.length;
 
   useEffect(() => {
@@ -154,42 +154,42 @@ const Timeline = () => {
 
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
-      setProgress(1);
-      setMaxProgress(1);
+      setIsTriggered(true);
+      setRevealedCount(total);
       return;
     }
 
-    const onScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight;
-      
-      // Calculate scroll progress when section is in viewport
-      // Starts entering from bottom (rect.top <= vh)
-      // Fully scrolled past (rect.top <= vh * 0.1)
-      const start = vh * 0.85;
-      const end = vh * 0.15;
-      
-      const distance = start - end;
-      const current = start - rect.top;
-      
-      let p = current / distance;
-      p = Math.max(0, Math.min(1, p));
-      
-      setProgress(p);
-      setMaxProgress((prev) => Math.max(prev, p));
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setIsTriggered(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.20 } // Trigger at 20% visibility in viewport
+    );
 
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    onScroll(); // initial compute
-    
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [total]);
 
-  const fillPct = progress * 100;
+  // Sequential stagger from right to left
+  useEffect(() => {
+    if (!isTriggered) return;
+
+    let current = 0;
+    const interval = setInterval(() => {
+      current++;
+      setRevealedCount(current);
+      if (current >= total) {
+        clearInterval(interval);
+      }
+    }, 350); // 350ms delay between staggers
+
+    return () => clearInterval(interval);
+  }, [isTriggered, total]);
+
+  const fillPct = (revealedCount / total) * 100;
 
   return (
     <section ref={sectionRef} className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
@@ -211,10 +211,16 @@ const Timeline = () => {
         <div className="hidden lg:block relative mt-8">
           {/* Base track */}
           <div className="absolute top-8 left-0 right-0 h-px bg-border" />
-          {/* Right-to-left glowing fill */}
+          {/* Right-to-left glowing fill (hardware-accelerated scaleX) */}
           <div
-            className="absolute top-8 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-[width] duration-300 ease-out"
-            style={{ width: `${fillPct}%`, boxShadow: "0 0 12px hsl(var(--accent) / 0.6)" }}
+            className="absolute top-8 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-transform duration-500 ease-out"
+            style={{
+              width: "100%",
+              transform: `scaleX(${fillPct / 100})`,
+              transformOrigin: "right",
+              willChange: "transform",
+              boxShadow: "0 0 12px hsl(var(--accent) / 0.6)"
+            }}
           />
 
           <div className="grid grid-cols-4 gap-8 relative items-stretch">
@@ -222,8 +228,7 @@ const Timeline = () => {
               // total is 4. indices: 0 (left), 1, 2, 3 (right)
               // right-to-left reveal: index 3 (reversedIndex = 0) reveals first
               const reversedIndex = total - 1 - originalIndex;
-              const threshold = reversedIndex / total;
-              const revealed = maxProgress >= threshold;
+              const revealed = revealedCount > reversedIndex;
               
               return (
                 <div key={item.period || item.date} className="relative flex flex-col">
@@ -233,7 +238,7 @@ const Timeline = () => {
                       className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
                         revealed
                           ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
-                          : "bg-background border-border"
+                          : "bg-background border-border scale-75 opacity-0"
                       }`}
                       style={revealed ? { boxShadow: "0 0 14px 2px currentColor" } : undefined}
                     />
@@ -249,15 +254,20 @@ const Timeline = () => {
         <div className="lg:hidden relative pl-8 mt-8">
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
           <div
-            className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-[height] duration-300 ease-out"
-            style={{ height: `${fillPct}%`, boxShadow: "0 0 12px hsl(var(--accent) / 0.6)" }}
+            className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-all duration-500 ease-out"
+            style={{
+              height: "100%",
+              transform: `scaleY(${fillPct / 100})`,
+              transformOrigin: "top",
+              willChange: "transform",
+              boxShadow: "0 0 12px hsl(var(--accent) / 0.6)"
+            }}
           />
 
           <div className="space-y-12">
             {/* Newest first on mobile (reverse chronological) */}
             {[...timelineData].reverse().map((item, index) => {
-              const threshold = index / total;
-              const revealed = maxProgress >= threshold;
+              const revealed = revealedCount > index;
               
               return (
                 <div key={item.period || item.date} className="relative">
@@ -266,7 +276,7 @@ const Timeline = () => {
                       className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
                         revealed
                           ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
-                          : "bg-background border-border"
+                          : "bg-background border-border scale-75 opacity-0"
                       }`}
                     />
                   </div>

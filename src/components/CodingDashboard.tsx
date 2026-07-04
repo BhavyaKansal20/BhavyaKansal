@@ -1,6 +1,4 @@
 import { useEffect, useMemo, useState, useRef, useCallback } from "react";
-import CalendarHeatmap from "react-calendar-heatmap";
-import "react-calendar-heatmap/dist/styles.css";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useTiltCard } from "@/hooks/useTiltCard";
 import {
@@ -44,8 +42,6 @@ const GoogleIcon = () => (
   </svg>
 );
 
-
-
 /* ── Semi-circular Gauge Chart ── */
 const SemiCircleGauge = ({
   easy,
@@ -53,70 +49,69 @@ const SemiCircleGauge = ({
   hard,
   animate,
 }: { easy: number; medium: number; hard: number; animate: boolean }) => {
-  const visEasy = Math.max(easy, 1);
-  const visMedium = Math.max(medium, 1);
-  const visHard = Math.max(hard, 1);
-  const total = visEasy + visMedium + visHard;
-  const easyAngle  = (visEasy / total) * 180;
-  const mediumAngle = (visMedium / total) * 180;
-  const hardAngle  = (visHard / total) * 180;
+  const solved = easy + medium + hard;
+  const totalQuestions = 3981; // standard LeetCode total
+  const pct = Math.min(solved / totalQuestions, 1);
 
-  const r = 85;
+  const r = 75;
   const cx = 110;
-  const cy = 110;
+  const cy = 105;
 
-  // Convert angles to arc path
-  const polarToXY = (angleFromLeft: number, radius: number) => {
-    const radians = (angleFromLeft * Math.PI) / 180;
-    return {
-      x: cx - radius * Math.cos(radians),
-      y: cy - radius * Math.sin(radians),
-    };
-  };
-
-  const arcPath = (startDeg: number, endDeg: number, r: number, innerR: number) => {
-    const startOuter = polarToXY(startDeg, r);
-    const endOuter   = polarToXY(endDeg, r);
-    const startInner = polarToXY(endDeg, innerR);
-    const endInner   = polarToXY(startDeg, innerR);
-    const largeArc   = endDeg - startDeg > 180 ? 1 : 0;
-    return [
-      `M ${startOuter.x} ${startOuter.y}`,
-      `A ${r} ${r} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
-      `L ${startInner.x} ${startInner.y}`,
-      `A ${innerR} ${innerR} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
-      "Z"
-    ].join(" ");
-  };
-
-  const segments = [
-    { color: COLORS.Easy, deg: easyAngle, label: "Easy", start: hardAngle + mediumAngle, end: 180 },
-    { color: COLORS.Medium, deg: mediumAngle, label: "Medium", start: hardAngle, end: hardAngle + mediumAngle },
-    { color: COLORS.Hard, deg: hardAngle, label: "Hard", start: 0, end: hardAngle },
-  ];
+  const arcLength = 235.6; // pi * 75
+  const strokeDashoffset = arcLength - (arcLength * pct);
 
   return (
     <svg viewBox="0 0 220 120" className="w-full max-w-[220px]">
-      {/* Track */}
-      <path d={arcPath(0, 180, r, 55)} fill="#222327" />
-      {/* Segments */}
-      {segments.map((seg, index) => {
-        if (seg.deg < 0.5) return null;
-        return (
-          <path
-            key={seg.label}
-            d={arcPath(seg.start, seg.end, r, 55)}
-            fill={seg.color}
-            style={{
-              filter: `drop-shadow(0 0 3px ${seg.color}40)`,
-              opacity: animate ? 1 : 0,
-              transform: animate ? "translate3d(0,0,0)" : "translate3d(10px,0,0)",
-              transition: "opacity 460ms ease, transform 460ms ease, filter 460ms ease",
-              transitionDelay: animate ? `${index * 160}ms` : "0ms",
-            }}
-          />
-        );
-      })}
+      <defs>
+        <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stopColor="#2db55d" />
+          <stop offset="100%" stopColor="#ffa116" />
+        </linearGradient>
+      </defs>
+      {/* Background Track */}
+      <path
+        d="M 35,105 A 75,75 0 0,1 185,105"
+        fill="none"
+        stroke="#222327"
+        strokeWidth="14"
+        strokeLinecap="round"
+      />
+      {/* Progress Overlay */}
+      <path
+        d="M 35,105 A 75,75 0 0,1 185,105"
+        fill="none"
+        stroke="url(#gaugeGradient)"
+        strokeWidth="14"
+        strokeLinecap="round"
+        strokeDasharray={arcLength}
+        strokeDashoffset={animate ? strokeDashoffset : arcLength}
+        style={{
+          transition: "stroke-dashoffset 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+          willChange: "stroke-dashoffset"
+        }}
+      />
+      {/* Text inside the curve */}
+      <text
+        x="110"
+        y="75"
+        fill="#ffffff"
+        fontSize="22"
+        fontWeight="bold"
+        textAnchor="middle"
+        fontFamily="Times New Roman"
+      >
+        {solved}
+      </text>
+      <text
+        x="110"
+        y="95"
+        fill="#8a8f98"
+        fontSize="11"
+        textAnchor="middle"
+        fontFamily="Times New Roman"
+      >
+        / {totalQuestions} Solved
+      </text>
     </svg>
   );
 };
@@ -226,6 +221,45 @@ const CodingDashboard = () => {
   }, []);
 
   useEffect(() => {
+    // Expose dynamic data overwrite API for live stream data
+    (window as any).updatePortfolioData = (data: {
+      leetcodeSolved?: number;
+      easy?: number;
+      medium?: number;
+      hard?: number;
+      githubContributions?: ContributionDay[];
+    }) => {
+      if (data.leetcodeSolved !== undefined) {
+        const easyCount = data.easy ?? Math.round(data.leetcodeSolved * 0.3);
+        const mediumCount = data.medium ?? Math.round(data.leetcodeSolved * 0.5);
+        const hardCount = data.hard ?? Math.round(data.leetcodeSolved * 0.2);
+        setLeetcodeData((prev: any) => ({
+          ...prev,
+          matchedUser: {
+            ...prev?.matchedUser,
+            submitStats: {
+              ...prev?.matchedUser?.submitStats,
+              acSubmissionNum: [
+                { difficulty: "All", count: data.leetcodeSolved },
+                { difficulty: "Easy", count: easyCount },
+                { difficulty: "Medium", count: mediumCount },
+                { difficulty: "Hard", count: hardCount },
+              ]
+            }
+          }
+        }));
+      }
+      if (data.githubContributions !== undefined) {
+        setContributions(data.githubContributions);
+      }
+    };
+
+    return () => {
+      delete (window as any).updatePortfolioData;
+    };
+  }, [setLeetcodeData, setContributions]);
+
+  useEffect(() => {
     if (!isVisible) {
       setRevealStage(0);
       return;
@@ -305,15 +339,20 @@ const CodingDashboard = () => {
   return (
     <section id="coding" ref={ref} className="py-24 bg-background relative overflow-hidden">
       <style>{`
-        .heatmap-wrap .react-calendar-heatmap { width: 100%; }
-        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: #161b22; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: #0e4429; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: #006d32; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: #26a641; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: #39d353; }
-        .heatmap-wrap .react-calendar-heatmap text { fill: rgb(113,128,150); font-size: 10px; font-family: 'Times New Roman', serif; }
-        .heatmap-wrap .react-calendar-heatmap rect { rx: 4; ry: 4; transition: transform 0.2s ease, filter 0.2s ease; }
-        .heatmap-wrap .react-calendar-heatmap rect:hover { transform: scale(1.12); filter: brightness(1.3); }
+        .custom-grid::-webkit-scrollbar {
+          height: 6px;
+        }
+        .custom-grid::-webkit-scrollbar-track {
+          background: rgba(255, 255, 255, 0.03);
+          border-radius: 3px;
+        }
+        .custom-grid::-webkit-scrollbar-thumb {
+          background: rgba(255, 255, 255, 0.1);
+          border-radius: 3px;
+        }
+        .custom-grid::-webkit-scrollbar-thumb:hover {
+          background: rgba(255, 255, 255, 0.2);
+        }
       `}</style>
 
       <div className="max-w-6xl mx-auto px-6 relative z-10">
@@ -506,27 +545,54 @@ const CodingDashboard = () => {
               <Github className="w-5 h-5" /> GitHub Contributions
             </h3>
           </div>
-          <div className="heatmap-wrap overflow-x-auto">
+          <div className="custom-grid overflow-x-auto select-none py-2 pr-2">
             {githubLoading ? (
               <div className="h-[120px] flex items-center justify-center text-muted-foreground">
                 Loading heatmap...
               </div>
-            ) : (
-              <CalendarHeatmap
-                startDate={startDate}
-                endDate={endDate}
-                values={contributionValues}
-                classForValue={(value) => levelClass(value?.count || 0)}
-                showWeekdayLabels
-                showMonthLabels
-                // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                tooltipDataAttrs={(value: any) => ({
-                  "data-tip": value?.date
-                    ? `${value.date}: ${value.count || 0} contributions`
-                    : "No contributions",
-                })}
-              />
-            )}
+            ) : (() => {
+              const sorted = [...contributionValues].sort((a, b) => a.date.localeCompare(b.date));
+              const getContributionLevel = (count: number) => {
+                if (count === 0) return 0;
+                if (count <= 2) return 1;
+                if (count <= 5) return 2;
+                if (count <= 8) return 3;
+                return 4;
+              };
+
+              const getContributionColor = (level: number) => {
+                switch (level) {
+                  case 1: return "#9be9a8";
+                  case 2: return "#40c463";
+                  case 3: return "#30a14e";
+                  case 4: return "#216e39";
+                  default: return "#ebedf0";
+                }
+              };
+
+              return (
+                <div
+                  className="grid grid-flow-col gap-[3px]"
+                  style={{
+                    gridTemplateRows: "repeat(7, 10px)",
+                    gridAutoColumns: "10px",
+                  }}
+                >
+                  {sorted.map((day) => {
+                    const level = getContributionLevel(day.count);
+                    const bgColor = getContributionColor(level);
+                    return (
+                      <div
+                        key={day.date}
+                        className="w-[10px] h-[10px] rounded-[2px] transition-all duration-150 hover:scale-125 cursor-pointer"
+                        style={{ backgroundColor: bgColor }}
+                        title={`${day.date}: ${day.count} contributions`}
+                      />
+                    );
+                  })}
+                </div>
+              );
+            })()}
           </div>
         </div>
       </div>
