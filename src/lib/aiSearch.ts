@@ -38,46 +38,50 @@ function buildDynamicProjectContext(): string {
 const RESUME_CONTEXT = `PERSONAL INFORMATION & CONTACT:
 Name: Bhavya Kansal
 Role: AI/ML Engineer and Applied Research Builder
-Education: Diploma in CSE at Thapar Polytechnic College (2023-2026), Summer Training in Python/AI-ML/Cybersecurity (Jun-Aug 2025), AI/ML Intern Trainee at IIT & NIELIT Ropar (Jan-Jul 2026), B.Tech DSAI at TIET (2026-2029)
-Email: kansalbhavya27@gmail.com
-LinkedIn: linkedin.com/in/kansal0920
+Education: Diploma in CSE at Thapar Polytechnic College (2023-2026), Summer Training in Python/AI-ML/Cybersecurity (Jun-Aug 2025), AI/ML Intern Trainee at IIT & NIELIT Ropar (Jan-Jul 2026), B.Tech in Data Science & Artificial Intelligence at TIET — Thapar Institute of Engineering & Technology, Patiala (2026-2029)
+Primary Email: kansalbhavya27@gmail.com
+Secondary Email: kansalbhavya20@icloud.com
+LinkedIn: linkedin.com/in/bhavyakansal20
 GitHub: github.com/BhavyaKansal20
+Google Developer: g.dev/kansalbhavya20
 Portfolio: bhavyakansal.dev
+Location: Patiala, Punjab, India
 PROFESSIONAL SUMMARY:
-AI engineer focused on production-grade machine learning, multimodal AI systems, and deep-tech automation for real-world challenges.
+AI/ML engineer focused on production-grade machine learning, multimodal AI systems, computer vision, and deep-tech automation. Bridging research and deployment to solve real-world engineering challenges. Currently pursuing B.Tech DS&AI at TIET — one of India's premier technical institutions.
 WORK EXPERIENCE:
-1. AI/ML Intern Trainee — NIELIT (Jan 2026 - Jul 2026)
-  - AI foundations, model building, and software engineering practice
-2. AI/ML Intern Trainee — IIT Ropar (Jan 2026 - Jul 2026)
-  - Industrial AI/ML training in collaboration with NIELIT
-  - Applied ML experimentation and deployment workflows
+1. AI/ML Intern Trainee — IIT & NIELIT Ropar (Jan 2026 - Jul 2026)
+   - Industrial AI/ML training focused on applied machine learning workflows, model experimentation, computer vision pipelines, and real-world deployment
+   - Collaborated with research teams on deep learning projects
+2. AI/ML & Cybersecurity Trainee — Thapar Polytechnic College (Jun 2025 - Aug 2025)
+   - Intensive summer training in Python, AI/ML, and cybersecurity through practical labs and mini-project implementation
 TECHNICAL SKILLS:
-Programming Languages:
-- Python, C++, JavaScript
+Programming Languages: Python, C++, JavaScript, TypeScript
 Frameworks & Technologies:
-- PyTorch, TensorFlow, scikit-learn, OpenCV
-- NumPy, Pandas, Matplotlib, Plotly, SciPy, mlflow, CUDA
-- FastAPI, Flask, React, Next.js, NodeJS, NestJS, TailwindCSS, Three.js, Vite, Streamlit, Flutter, React Native, HTML5, Jinja, Java
-- PostgreSQL, MongoDB, MySQL, SQLite, Supabase, Firebase, Google Cloud, Render, Vercel, OpenStack, NPM
-- HuggingFace, Transformers, YOLO, OCR, MediaPipe, Telegram API, IoT, Robotics, Edge AI, Sensor Fusion
+- AI/ML: PyTorch, TensorFlow, scikit-learn, OpenCV, Keras, NumPy, Pandas, Matplotlib, SciPy, CUDA, mlflow, LangChain
+- Web/Backend: FastAPI, Flask, React, Next.js, NodeJS, NestJS, TailwindCSS, Three.js, Vite, Streamlit, Flutter, HTML5, Jinja
+- Databases/Cloud: PostgreSQL, MongoDB, MySQL, SQLite, Firebase, Google Cloud, Render, Vercel, Supabase
+- Tools: HuggingFace Transformers, YOLO, MediaPipe, Gradio, OCR, IoT, Robotics, Raspberry Pi, Edge AI, Git
 PROJECT PORTFOLIO:
-1. Healthy AI (Live on Render)
-2. ChromaCrystal UHD (Live on Hugging Face Spaces)
-3. SignLang AI (Live on Hugging Face Spaces)
-4. DeepFake Scanner (Live on Hugging Face Spaces)
-5. ML House Price Prediction (Live on Hugging Face Spaces)
-6. RetiNex AI (Diabetic Retinopathy Detection with GradCAM)
-7. Machine Learning
-8. Deep Learning
-9. Datasets
-10. AAGNI Assistant (Telegram Powered)
-11. Immutable Doc-Verify
-12. NeuroLock AI
-ACHIEVEMENTS & LEADERSHIP:
-- Built 12+ projects, including 7+ AI-first systems
+1. Healthy AI — Medical AI platform (Live on Render)
+2. ChromaCrystal UHD — AI image enhancement (Live on Hugging Face Spaces)
+3. SignLang AI — Sign language recognition system (Live on Hugging Face Spaces)
+4. DeepFake Scanner — Deepfake detection system (Live on Hugging Face Spaces)
+5. ML House Price Prediction — Regression ML model (Live on Hugging Face Spaces)
+6. RetiNex AI — Diabetic Retinopathy Detection with GradCAM explainability
+7. Machine Learning — ML algorithms & experiments repository
+8. Deep Learning — DL architectures & research implementations
+9. AAGNI Assistant — Intelligent Telegram-powered AI assistant
+10. Immutable Doc-Verify — Blockchain document verification
+11. NeuroLock AI — AI-powered security system
+12. Datasets — Curated ML training datasets
+ACHIEVEMENTS:
+- Built 12+ production projects including 10+ AI-first systems
+- Google Developer Program Member with 10+ badges
 - Active in generative AI, multimodal reasoning, medical CV, and ethical AI development
-ADDITIONAL INFORMATION:
-Open to AI/ML internships, deep-tech projects, and research collaborations.
+- Trained at IIT Ropar & NIELIT — top-tier industrial AI exposure
+AVAILABILITY:
+Open to AI/ML internships, deep-tech research collaborations, and selective freelance projects.
+Contact: kansalbhavya27@gmail.com or kansalbhavya20@icloud.com
 `;
 
 interface GeminiResponse {

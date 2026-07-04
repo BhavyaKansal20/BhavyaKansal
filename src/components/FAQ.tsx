@@ -13,68 +13,77 @@ const FAQ = () => {
     {
       question: "What do you do and what are you currently working on?",
       answer:
-        "I'm an AI/ML engineer focused on building production-deployable systems. Currently pursuing B.Tech in Data Science & AI at TIET, Patiala, while building practical machine learning products in health AI, accessibility, and computer vision. I'm also exploring multimodal AI architectures and LLM-integrated applications.",
+        "I am an AI/ML engineer building deployable systems that close the gap between research and production. Currently, I am working on practical machine learning products in health AI, accessibility, computer vision, and intelligent automation — while pursuing my B.Tech in Data Science & AI at Thapar Institute of Engineering & Technology (TIET).",
     },
     {
       question: "What kind of projects excite you the most?",
       answer:
-        "Projects where AI directly solves high-impact user problems. My strongest interest areas are healthcare prediction, assistive AI for accessibility, authenticity/deepfake detection, and intelligent workflow automation. I especially enjoy end-to-end projects — from data to deployed product.",
+        "Projects where AI directly solves tangible user problems. My strongest areas are healthcare prediction systems, assistive AI for accessibility, deepfake detection, retinal image enhancement (RetiNex AI), and workflow automation. I enjoy the entire lifecycle — from research to deployment to performance monitoring.",
     },
     {
       question: "What tools and technologies do you feel most comfortable with?",
       answer:
-        "My core stack is Python, PyTorch, TensorFlow, scikit-learn, and OpenCV for AI/ML. For backends and APIs I use Flask/FastAPI, and React/Next.js for front-end. I've also worked extensively with MediaPipe, HuggingFace Transformers, LangChain, Firebase, and cloud deployments on Google Cloud and Render.",
+        "My core stack includes Python, PyTorch, TensorFlow, scikit-learn, OpenCV, and MediaPipe for AI/ML. On the web side: Flask, FastAPI, React, and Next.js. For data persistence: PostgreSQL, MongoDB, Firebase. I also use HuggingFace Transformers, LangChain, Gradio, and Google Cloud for end-to-end deployment.",
     },
     {
-      question: "How do you approach a new AI/ML problem or project?",
+      question: "How do you usually approach a new problem or project?",
       answer:
-        "I start with the business goal and deployment constraints first, not the model. Then I design a modular pipeline, select baselines, validate with metrics, and iteratively optimize. I write clean, documented code and ship incrementally. Reliability and reproducibility matter as much as accuracy.",
+        "I start with the business goal and deployment constraints, then design a modular pipeline, validate it with clear metrics, and iterate toward reliability before release. I prioritise measurable impact over complexity — simpler systems that work reliably in production beat complex systems that are fragile.",
     },
     {
-      question: "Are you open to internships, full-time roles, or research collaborations?",
+      question: "Are you open to internships, research collaborations, or freelance work?",
       answer:
-        "Yes — I'm actively open to AI/ML internships, research collaborations, and deep-tech product building opportunities. I'm particularly interested in roles involving computer vision, generative AI, healthcare AI, or applied ML engineering. Feel free to reach out at kansalbhavya27@gmail.com or kansalbhavya20@icloud.com.",
+        "Yes — I am actively open to AI/ML internships, deep-tech research collaborations, and selective freelance projects that align with my expertise. The best way to start a conversation is via email at kansalbhavya27@gmail.com or kansalbhavya20@icloud.com.",
     },
     {
-      question: "What makes your work stand out compared to other ML engineers?",
+      question: "Do you contribute to open-source or publish any research?",
       answer:
-        "I focus obsessively on productionization — not just model accuracy. I build systems that are robust, interpretable, and usable by non-technical stakeholders. I also have a strong computer vision focus and experience across healthcare, IoT/robotics, and real-time inference pipelines — a relatively rare combination for someone at my stage.",
+        "I actively contribute to open-source AI tooling and maintain several public repositories on GitHub (github.com/BhavyaKansal20). While I have not yet published formal research papers, I am engaged in project-level research at TIET and through industrial training at IIT & NIELIT Ropar, with ambitions to publish in applied ML domains.",
     },
     {
-      question: "Do you contribute to open source or share your work publicly?",
+      question: "What sets you apart from other developers?",
       answer:
-        "Yes — most of my projects are publicly available on GitHub at github.com/BhavyaKansal20. I maintain documentation, write clean README files, and aim for reproducible codebases. I also have a Google Developer profile at g.dev/kansalbhavya20 where I engage with the developer community.",
+        "I operate at the intersection of research depth and production discipline. I do not just build prototypes — I engineer systems with reliability, observability, and user impact in mind. My multi-disciplinary background across AI, IoT, robotics, and full-stack development lets me architect solutions that span hardware to cloud.",
     },
     {
-      question: "How can I get in touch with you?",
+      question: "How can I contact you or view your resume?",
       answer:
-        "You can email me at kansalbhavya27@gmail.com (primary) or kansalbhavya20@icloud.com (secondary). You can also connect on LinkedIn at linkedin.com/in/bhavyakansal20, or check out my work on GitHub. I usually respond within 24–48 hours.",
+        "You can reach me at kansalbhavya27@gmail.com (primary) or kansalbhavya20@icloud.com (secondary). My resume is downloadable directly from this portfolio — click 'View Resume' in the hero section. You can also connect on LinkedIn at linkedin.com/in/bhavyakansal20.",
     },
   ];
 
   return (
     <section id="faq" ref={faqRef} className="py-24 bg-background">
       <div className="max-w-4xl mx-auto px-6">
-        <div className={`text-center mb-16 ${faqVisible ? 'scroll-animate' : ''}`}>
-          <p className="text-xs uppercase tracking-[0.2em] text-muted-foreground mb-4 font-medium">
+        {/* Header */}
+        <div className={`mb-16 ${faqVisible ? 'scroll-animate' : ''}`}>
+          <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3 font-medium">
             Questions & Answers
           </p>
-          <h2 className="text-5xl font-bold tracking-tight">Frequently Asked Questions</h2>
+          <h2 className="text-5xl font-bold">Frequently Asked<br />Questions</h2>
+          <div className="mt-6 h-px bg-gradient-to-r from-foreground/30 via-foreground/10 to-transparent" />
         </div>
 
-        <Accordion type="single" collapsible className="space-y-3">
+        <Accordion type="single" collapsible className="space-y-0">
           {faqs.map((faq, index) => (
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className={`card-ripple bg-transparent rounded-2xl px-6 border-none transition-all group ${
-                faqVisible ? `scroll-animate scroll-animate-delay-${Math.min(index % 4 + 1, 4)}` : ''
+              className={`border-0 border-b border-gray-200/60 dark:border-gray-700/50 last:border-b-0 ${
+                faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : ''
               }`}
             >
-              <AccordionTrigger className="text-base font-semibold hover:no-underline py-5 relative border-b border-gray-200/50 dark:border-gray-700/50 transition-all duration-300 group-hover:border-black dark:group-hover:border-white text-left">
-                {faq.question}
+              <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 text-left leading-snug group transition-all duration-200">
+                <span className="flex items-start gap-3 w-full pr-4">
+                  <span className="text-muted-foreground font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
+                    {String(index + 1).padStart(2, '0')}
+                  </span>
+                  <span className="group-hover:text-foreground transition-colors duration-200">
+                    {faq.question}
+                  </span>
+                </span>
               </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-5 pt-1 leading-relaxed">
+              <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed">
                 {faq.answer}
               </AccordionContent>
             </AccordionItem>

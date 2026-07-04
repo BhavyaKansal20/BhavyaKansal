@@ -234,7 +234,7 @@ const Navbar = () => {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Button className="rounded-full gap-2 px-6 py-2.5 text-sm font-medium bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ml-2">
+                <Button className="rounded-full gap-2 px-6 py-2.5 text-sm font-medium bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ml-2" style={{ fontFamily: 'Times New Roman, serif' }}>
                   Let's talk
                   <ArrowRight className="w-4 h-4" />
                 </Button>

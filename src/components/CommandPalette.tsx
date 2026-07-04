@@ -312,9 +312,9 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-2xl shadow-2xl transition-all duration-300 border border-white/10"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-3xl shadow-2xl transition-all duration-300 border border-white/10 glass-card"
       style={{
-        animation: 'chatPanelAppear 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards',
+        animation: 'chatSpringIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
       }}
       ref={chatContainerRef}
     >
@@ -568,10 +568,17 @@ const CommandPalette = () => {
       </div>
 
       <style>{`
-        @keyframes chatPanelAppear {
+        @keyframes chatSpringIn {
           0% {
             opacity: 0;
-            transform: translateY(20px) scale(0.95);
+            transform: translateY(40px) scale(0.92);
+          }
+          60% {
+            opacity: 1;
+            transform: translateY(-8px) scale(1.02);
+          }
+          80% {
+            transform: translateY(4px) scale(0.99);
           }
           100% {
             opacity: 1;
@@ -579,21 +586,6 @@ const CommandPalette = () => {
           }
         }
 
-        @keyframes slideUpCustom {
-          from {
-            opacity: 0;
-            transform: translateY(10px) scale(0.95);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-          }
-        }
-
-        .animate-slide-up-custom {
-          animation: slideUpCustom 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        
         .scrollbar-none::-webkit-scrollbar {
           display: none;
         }

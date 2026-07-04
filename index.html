@@ -68,32 +68,10 @@
     <link rel="icon" href="/favicon.png?v=20260405-2" type="image/png" />
     <link rel="alternate icon" href="/favicon.png?v=20260405-2" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=20260405-2" />
-    <!-- Google Fonts: Inter -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
   </head>
 
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <!-- Global card ripple handler — fires on .card-ripple and .glass-card clicks -->
-    <script>
-      document.addEventListener('click', function(e) {
-        var el = e.target.closest('.card-ripple, .glass-card');
-        if (!el) return;
-        // Do not fire on project cards
-        if (el.closest('#projects')) return;
-        var rect = el.getBoundingClientRect();
-        var size = Math.max(rect.width, rect.height) * 1.4;
-        var x = e.clientX - rect.left - size / 2;
-        var y = e.clientY - rect.top - size / 2;
-        var ripple = document.createElement('span');
-        ripple.className = 'ripple-burst';
-        ripple.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:' + x + 'px;top:' + y + 'px;';
-        el.appendChild(ripple);
-        setTimeout(function() { ripple.remove(); }, 650);
-      }, true);
-    </script>
   </body>
 </html>

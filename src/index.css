@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* =========================================================
+   DESIGN SYSTEM — All colors in HSL. Times New Roman throughout.
+   ========================================================= */
 
 @layer base {
   :root {
@@ -38,17 +38,14 @@ All colors MUST be HSL.
 
     --radius: 1rem;
 
-    /* Gradient colors */
     --gradient-start: 210 100% 95%;
     --gradient-mid: 240 60% 95%;
     --gradient-end: 45 100% 92%;
-    
-    /* Decorative */
+
     --dot-primary: 210 100% 70%;
     --dot-secondary: 280 60% 70%;
     --dot-accent: 45 100% 70%;
-    
-    /* Glass effect */
+
     --glass-bg: 0 0% 100% / 0.6;
     --glass-border: 0 0% 100% / 0.2;
   }
@@ -81,13 +78,11 @@ All colors MUST be HSL.
     --border: 222 15% 25%;
     --input: 222 15% 25%;
     --ring: 0 0% 96%;
-    
-    /* Dark gradient colors */
+
     --gradient-start: 222 28% 14%;
     --gradient-mid: 230 25% 16%;
     --gradient-end: 222 28% 14%;
-    
-    /* Glass effect for dark mode */
+
     --glass-bg: 222 20% 16% / 0.7;
     --glass-border: 0 0% 100% / 0.15;
   }
@@ -101,13 +96,12 @@ All colors MUST be HSL.
   html {
     scroll-behavior: smooth;
     position: relative;
-    /* prevent accidental horizontal scrolling from background overlays */
     overflow-x: hidden;
   }
 
-  /* Grid overlay on elements that use the background color (shows above the bg but below content) */
+  /* ── Grid overlay on bg-background ── */
   .bg-background {
-    position: relative; /* ensure pseudo-element is positioned relative to this container */
+    position: relative;
     overflow: visible;
   }
 
@@ -116,8 +110,8 @@ All colors MUST be HSL.
     position: absolute;
     inset: 0;
     pointer-events: none;
-  z-index: 0; /* keep the pseudo BG behind content */
-    background-image: 
+    z-index: 0;
+    background-image:
       linear-gradient(rgba(100, 150, 200, 0.06) 1px, transparent 1px),
       linear-gradient(90deg, rgba(100, 150, 200, 0.06) 1px, transparent 1px);
     background-size: 40px 40px;
@@ -126,22 +120,34 @@ All colors MUST be HSL.
   }
 
   .dark .bg-background::before {
-    background-image: 
+    background-image:
       linear-gradient(rgba(150, 200, 255, 0.04) 1px, transparent 1px),
       linear-gradient(90deg, rgba(150, 200, 255, 0.04) 1px, transparent 1px);
   }
 
+  /* ── TYPOGRAPHY: Times New Roman everywhere ── */
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
     position: relative;
     margin: 0;
     padding: 0;
-    /* ensure body doesn't produce horizontal scrollbar */
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  /* Global ambient glow: kept subtle and GPU-friendly for Chrome performance */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    letter-spacing: -0.01em;
+  }
+
+  p, span, a, button, input, textarea, label, li {
+    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+  }
+
+  /* ── Ambient glow (dark mode only, GPU-composited) ── */
   body::before,
   body::after {
     content: '';
@@ -152,6 +158,7 @@ All colors MUST be HSL.
     opacity: 0;
     transform: translate3d(0, 0, 0);
     transition: opacity 240ms ease;
+    will-change: transform;
   }
 
   .dark body::before {
@@ -173,12 +180,12 @@ All colors MUST be HSL.
   }
 
   @keyframes ambientGlowDrift {
-    0% { transform: translate3d(-1%, -0.8%, 0) scale(1); }
+    0%   { transform: translate3d(-1%, -0.8%, 0) scale(1); }
     100% { transform: translate3d(1%, 1.1%, 0) scale(1.02); }
   }
 
   @keyframes ambientGlowDriftReverse {
-    0% { transform: translate3d(0.8%, 0.7%, 0) scale(1.01); }
+    0%   { transform: translate3d(0.8%, 0.7%, 0) scale(1.01); }
     100% { transform: translate3d(-0.8%, -1%, 0) scale(1); }
   }
 
@@ -189,15 +196,12 @@ All colors MUST be HSL.
     }
   }
 
-
-
-  /* Ensure root div sits above grid overlay but grid still shows through */
   #root {
     position: relative;
-    z-index: 100; /* Well above grid */
+    z-index: 100;
   }
 
-  /* Gradient background */
+  /* ── Gradient background ── */
   .gradient-bg {
     background: linear-gradient(
       180deg,
@@ -207,37 +211,29 @@ All colors MUST be HSL.
     );
   }
 
-  /* Glass effect with hover tilt, border tracing arc, and shimmer */
+  /* ────────────────────────────────────────────
+     GLASS-CARD: 3D Parallax Tilt + Mouse Spotlight
+     Replaces old conic-gradient spinning border
+     ──────────────────────────────────────────── */
   .glass-card {
     position: relative;
     background: transparent;
     backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
     border: 1px solid hsl(var(--glass-border));
-    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+    /* GPU-accelerated transforms only */
+    transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
+    transition:
+      transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+      box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1),
+      border-color 0.5s ease;
     overflow: hidden;
+    will-change: transform;
+    transform-style: preserve-3d;
+    z-index: 20;
   }
 
-  /* Rotating gradient trace border */
-  .glass-card::before {
-    content: "";
-    position: absolute;
-    inset: -150%;
-    background: conic-gradient(
-      from 0deg,
-      transparent 0%,
-      transparent 40%,
-      hsl(var(--accent) / 0.5) 50%,
-      transparent 60%,
-      transparent 100%
-    );
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    z-index: 0;
-    transform-origin: center center;
-  }
-
-  /* Inner card content background */
+  /* Inner content background */
   .glass-card::after {
     content: "";
     position: absolute;
@@ -248,179 +244,139 @@ All colors MUST be HSL.
     pointer-events: none;
   }
 
-  .glass-card > * {
-    position: relative;
+  /* Mouse-tracking spotlight overlay */
+  .glass-card .card-spotlight {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
     z-index: 1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    background: radial-gradient(
+      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.10) 0%,
+      rgba(255, 255, 255, 0.04) 30%,
+      transparent 70%
+    );
+  }
+
+  .glass-card:hover .card-spotlight {
+    opacity: 1;
+  }
+
+  .glass-card > *:not(.card-spotlight) {
+    position: relative;
+    z-index: 2;
   }
 
   .glass-card:hover {
-    transform: translateY(-4.5px);
-    box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.22);
-    border-color: transparent;
+    box-shadow:
+      0 25px 50px -10px rgba(0, 0, 0, 0.28),
+      0 0 0 1px rgba(255,255,255,0.12) inset;
+    border-color: rgba(255,255,255,0.18);
   }
 
-  .glass-card:hover::before {
-    opacity: 1;
-    animation: border-rotate 4s linear infinite;
+  /* ── Click ripple effect ── */
+  .glass-card {
+    cursor: default;
   }
 
-  @keyframes border-rotate {
+  @keyframes cardRipple {
+    0% {
+      transform: scale(0) translate(-50%, -50%);
+      opacity: 0.5;
+    }
     100% {
-      transform: rotate(360deg);
+      transform: scale(4) translate(-50%, -50%);
+      opacity: 0;
     }
   }
 
-  /* ============================================================
-     CARD RIPPLE / FLASH ANIMATION
-     Applies to all interactive cards (except .project-card)
-     ============================================================ */
-  .card-ripple {
-    position: relative;
-    overflow: hidden;
-  }
-
-  /* The ripple element is injected by JS on click */
-  .card-ripple .ripple-burst {
+  .card-ripple-effect {
     position: absolute;
     border-radius: 50%;
-    transform: scale(0);
+    width: 60px;
+    height: 60px;
+    background: radial-gradient(circle, rgba(255,255,255,0.35) 0%, transparent 70%);
     pointer-events: none;
-    z-index: 50;
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.45) 0%,
-      rgba(255, 255, 255, 0.12) 40%,
-      transparent 70%
-    );
-    animation: ripple-expand 600ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+    z-index: 999;
+    transform-origin: top left;
+    animation: cardRipple 0.65s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   }
 
-  @keyframes ripple-expand {
-    0%   { transform: scale(0); opacity: 1; }
-    60%  { opacity: 0.6; }
-    100% { transform: scale(4); opacity: 0; }
-  }
-
-  /* Glass card also gets ripple */
-  .glass-card.card-ripple .ripple-burst {
-    background: radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.55) 0%,
-      rgba(180, 200, 255, 0.18) 40%,
-      transparent 70%
-    );
-  }
-
-  /* Animated gradient text utility */
-  .text-gradient-animate {
-    background: linear-gradient(
-      135deg,
-      hsl(var(--foreground)) 0%,
-      hsl(var(--accent)) 40%,
-      hsl(var(--foreground)) 80%
-    );
-    background-size: 200% auto;
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: gradient-pan 4s linear infinite;
-  }
-
-  @keyframes gradient-pan {
-    0%   { background-position: 0% center; }
-    100% { background-position: 200% center; }
-  }
-
-  /* Shimmer sweep effect on dark cards */
-  .card-shimmer {
-    position: relative;
-    overflow: hidden;
-  }
-  .card-shimmer::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-      105deg,
-      transparent 40%,
-      rgba(255, 255, 255, 0.04) 50%,
-      transparent 60%
-    );
-    background-size: 200% 100%;
-    opacity: 0;
-    transition: opacity 0.3s;
-  }
-  .card-shimmer:hover::after {
-    opacity: 1;
-    animation: shimmer-sweep 1s ease forwards;
-  }
-  @keyframes shimmer-sweep {
-    0%   { background-position: -200% 0; }
-    100% { background-position: 200% 0; }
-  }
-
-  /* Scroll fade-in animation — premium easing */
+  /* ── Scroll fade-in animation ── */
   @keyframes fadeInUp {
     0% {
       opacity: 0;
-      transform: translateY(32px);
+      transform: translate3d(0, 40px, 0);
     }
     100% {
       opacity: 1;
-      transform: translateY(0);
+      transform: translate3d(0, 0, 0);
     }
   }
 
-  @keyframes fadeInScale {
+  @keyframes fadeInRight {
     0% {
       opacity: 0;
-      transform: translateY(20px) scale(0.97);
+      transform: translate3d(60px, 0, 0);
     }
     100% {
       opacity: 1;
-      transform: translateY(0) scale(1);
+      transform: translate3d(0, 0, 0);
+    }
+  }
+
+  @keyframes fadeInLeft {
+    0% {
+      opacity: 0;
+      transform: translate3d(-60px, 0, 0);
+    }
+    100% {
+      opacity: 1;
+      transform: translate3d(0, 0, 0);
     }
   }
 
   .scroll-animate {
     opacity: 0;
-    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    will-change: transform, opacity;
   }
 
-  .scroll-animate-scale {
+  .scroll-animate-from-right {
     opacity: 0;
-    animation: fadeInScale 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation: fadeInRight 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    will-change: transform, opacity;
   }
 
-  .scroll-animate-delay-1 {
-    animation-delay: 0.12s;
+  .scroll-animate-from-left {
+    opacity: 0;
+    animation: fadeInLeft 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    will-change: transform, opacity;
   }
 
-  .scroll-animate-delay-2 {
-    animation-delay: 0.24s;
-  }
+  .scroll-animate-delay-1 { animation-delay: 0.12s; }
+  .scroll-animate-delay-2 { animation-delay: 0.24s; }
+  .scroll-animate-delay-3 { animation-delay: 0.36s; }
+  .scroll-animate-delay-4 { animation-delay: 0.48s; }
+  .scroll-animate-delay-5 { animation-delay: 0.60s; }
 
-  .scroll-animate-delay-3 {
-    animation-delay: 0.36s;
-  }
-  
-  .scroll-animate-delay-4 {
-    animation-delay: 0.48s;
-  }
-
-  /* Slide-up animation used for mobile bottom-sheet */
+  /* ── Slide-up (mobile bottom-sheet) ── */
   @keyframes slideUp {
-    from { transform: translateY(18%); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    from { transform: translate3d(0, 18%, 0); opacity: 0; }
+    to   { transform: translate3d(0, 0, 0);  opacity: 1; }
   }
 
   .animate-slide-up {
     animation: slideUp 260ms cubic-bezier(.2,.8,.2,1) both;
   }
 
+  /* ── Tech Scroller ── */
   @keyframes scroll {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
   }
 
   .animate-scroll {
@@ -429,23 +385,22 @@ All colors MUST be HSL.
     will-change: transform;
   }
 
-  /* Mobile-specific faster float animation (fallback/direct override) */
+  /* ── Float blobs (mobile RAF-driven) ── */
   @keyframes floatMobile {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-20px); }
+    0%, 100% { transform: translate3d(0, 0px, 0); }
+    50%       { transform: translate3d(0, -20px, 0); }
   }
 
-  /* Force a snappier float on narrow viewports regardless of Tailwind rebuild state */
   @media (max-width: 767px) {
     .animate-float-sm {
       animation: floatMobile 0.9s ease-in-out infinite !important;
     }
   }
 
-  /* Utility class for subtle grid background */
+  /* ── Grid utilities ── */
   .grid-bg {
     background-color: hsl(var(--background));
-    background-image: 
+    background-image:
       linear-gradient(rgba(0, 0, 0, 0.15) 1px, transparent 1px),
       linear-gradient(90deg, rgba(0, 0, 0, 0.15) 1px, transparent 1px);
     background-size: 24px 24px;
@@ -453,49 +408,103 @@ All colors MUST be HSL.
 
   .dark .grid-bg {
     background-color: hsl(var(--background));
-    background-image: 
+    background-image:
       linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
     background-size: 24px 24px;
   }
 
-  /* Explicit overlay element used inside main background containers */
   .grid-overlay {
     position: absolute;
     inset: 0;
     pointer-events: none;
-    z-index: 0; /* keep the grid visually behind UI elements */
-    background-image: 
+    z-index: 0;
+    background-image:
       linear-gradient(rgba(100,150,200,0.06) 1px, transparent 1px),
       linear-gradient(90deg, rgba(100,150,200,0.06) 1px, transparent 1px);
     background-size: 40px 40px;
-    opacity: 1;
-    /* prevent overlay from contributing to overflow */
     background-clip: padding-box;
     transform: translateZ(0);
   }
 
   .dark .grid-overlay {
-    background-image: 
+    background-image:
       linear-gradient(rgba(150,200,255,0.03) 1px, transparent 1px),
       linear-gradient(90deg, rgba(150,200,255,0.03) 1px, transparent 1px);
-    opacity: 0.75; /* slightly reduced opacity in dark so overlays don't compete visually */
-    z-index: 0;
+    opacity: 0.75;
   }
 
-  /* Ensure glass-style cards render above the grid overlay */
-  .glass-card {
-    position: relative; /* create stacking context */
-    z-index: 20; /* above .grid-overlay (z-1) and below explicit overlays like tooltips (z-50) */
+  /* ── Marquee (narrow viewport badge) ── */
+  @keyframes marquee {
+    0%   { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-50%, 0, 0); }
   }
 
+  .marquee { overflow: hidden; }
+  .marquee__inner {
+    display: flex;
+    width: max-content;
+    animation: marquee 12s linear infinite;
+    will-change: transform;
+  }
 
+  /* ── Premium animated gradient text ── */
+  @keyframes gradientShift {
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #6366f1, #a855f7, #ec4899, #3b82f6);
+    background-size: 300% 300%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShift 4s ease infinite;
+  }
+
+  /* ── Premium shimmer for section headings ── */
+  @keyframes shimmerSweep {
+    0%   { transform: translate3d(-100%, 0, 0); }
+    100% { transform: translate3d(100%, 0, 0); }
+  }
+
+  .shimmer-heading {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shimmer-heading::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent);
+    transform: translate3d(-100%, 0, 0);
+    animation: shimmerSweep 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  /* ── Link micro-interaction ── */
+  a {
+    transition: opacity 0.2s ease, color 0.2s ease;
+  }
+
+  a:hover {
+    opacity: 0.85;
+  }
+
+  /* ── Button premium press effect ── */
+  button:active,
+  [role="button"]:active {
+    transform: scale(0.97);
+    transition: transform 0.1s ease;
+  }
 }
 
-/* Performance override for mobile bottom-sheet entrance
-   Use a GPU-accelerated translate3d animation, set transform-origin to center bottom
-   and hint the browser to only animate transform/opacity to avoid layout thrashing.
-*/
+/* ────────────────────────────────────────────
+   PERFORMANCE: Sheet bottom-sheet animations
+   ──────────────────────────────────────────── */
 @layer utilities {
   @keyframes sheet-slide-up-fast {
     from {
@@ -508,7 +517,6 @@ All colors MUST be HSL.
     }
   }
 
-  /* Target both the plugin class and common Radix/Shadcn data-state classes */
   .slide-in-from-bottom-full,
   [data-state="open"].slide-in-from-bottom {
     transform-origin: center bottom !important;
@@ -520,7 +528,6 @@ All colors MUST be HSL.
     animation-fill-mode: both !important;
   }
 
-  /* Make overlay fade less expensive during entrance by only animating opacity */
   .fixed.inset-0.z-\[100\].bg-black\/80,
   .fixed.inset-0.z-50.bg-black\/80 {
     will-change: opacity !important;
@@ -528,20 +535,13 @@ All colors MUST be HSL.
   }
 }
 
-/* While sheet is animating we reduce expensive visual effects to avoid jank */
-body.sheet-animating {
-  /* Avoid will-change on body as it crashes Chromium GPU */
-}
-
-/* reduce overlay effects while animating (remove backdrop-filter/blurs) */
 body.sheet-animating .fixed.inset-0.bg-black\/80,
 body.sheet-animating .fixed.inset-0.z-50.bg-black\/80 {
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
-  opacity: 0.85 !important; /* slightly lower to avoid repaint spikes */
+  opacity: 0.85 !important;
 }
 
-/* reduce box-shadow and force compositing for the sheet content while animating */
 body.sheet-animating [data-sheet-content] {
   box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important;
   transition: box-shadow 160ms linear !important;
@@ -550,42 +550,35 @@ body.sheet-animating [data-sheet-content] {
   contain: paint !important;
 }
 
-/* restore full shadow after animation (small safe default) */
 [data-sheet-content] {
   -webkit-transform: translateZ(0);
 }
 
-/* Mobile Command Palette Improvements */
+/* ── Mobile Command Palette ── */
 @media (max-width: 640px) {
-  /* Ensure proper scrolling behavior on mobile */
   .mobile-command-content {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    /* Prevent awkward resizing during keyboard transitions */
     transition: max-height 0.2s ease-out, bottom 0.2s ease-out;
   }
-  
-  /* Prevent zoom on input focus on iOS */
+
   input[type="text"], input[type="search"], textarea {
     font-size: 16px !important;
+    font-family: 'Times New Roman', Times, serif !important;
   }
-  
-  /* Improve touch scrolling for command list */
+
   [data-radix-command-list] {
     -webkit-overflow-scrolling: touch;
     overscroll-behavior: contain;
-    /* Allow the command list to take full available height */
     max-height: none !important;
     flex: 1;
   }
-  
-  /* Ensure the dialog stays above virtual keyboard */
+
   [data-radix-dialog-content] {
     transform: translateZ(0);
     -webkit-transform: translateZ(0);
   }
-  
-  /* Override Command component styles for mobile */
+
   [data-cmdk-root] {
     height: 100% !important;
     display: flex !important;
@@ -593,7 +586,6 @@ body.sheet-animating [data-sheet-content] {
   }
 }
 
-/* Better support for viewport units that respect virtual keyboard */
 @supports (height: 100dvh) {
   @media (max-width: 640px) {
     .mobile-dialog-height {
@@ -602,7 +594,7 @@ body.sheet-animating [data-sheet-content] {
   }
 }
 
-/* Preloader */
+/* ── Preloader ── */
 @layer utilities {
   @keyframes preloader-logo-pan-in {
     0% {
@@ -634,4 +626,64 @@ body.sheet-animating [data-sheet-content] {
       transform: none !important;
     }
   }
+}
+
+/* ── Mobile-first responsive utilities ── */
+@media (max-width: 767px) {
+  /* Scale down section padding for mobile */
+  section {
+    overflow-x: hidden;
+  }
+
+  /* Ensure glass-card 3D tilt is disabled on touch devices */
+  @media (hover: none) {
+    .glass-card {
+      transform: none !important;
+      transition: box-shadow 0.3s ease !important;
+    }
+  }
+}
+
+/* ── Premium noise overlay (subtle texture) ── */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.018;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px 180px;
+}
+
+/* ── Custom minimalist scrollbar ── */
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(128, 128, 128, 0.25);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(128, 128, 128, 0.45);
+}
+
+/* ── Selection highlight ── */
+::selection {
+  background: rgba(99, 102, 241, 0.25);
+  color: inherit;
+}
+
+/* ── Focus visible ring ── */
+:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 2px;
+  border-radius: 4px;
 }
