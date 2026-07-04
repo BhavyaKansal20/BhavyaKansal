@@ -65,16 +65,12 @@ const SheetContent = React.forwardRef<React.ElementRef<typeof SheetPrimitive.Con
     };
 
     const onAnimStart = (e: React.AnimationEvent) => {
-      try {
-        document.body.classList.add('sheet-animating');
-      } catch (err) {}
+      document.body.classList.add('sheet-animating');
     };
 
     const onAnimEnd = (e: React.AnimationEvent) => {
-      try {
-        // remove after a short timeout to allow any microtasks to finish
-        window.setTimeout(() => document.body.classList.remove('sheet-animating'), 60);
-      } catch (err) {}
+      // remove after a short timeout to allow any microtasks to finish
+      window.setTimeout(() => document.body.classList.remove('sheet-animating'), 60);
     };
 
     return (
