@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
+import { useTiltCard } from "@/hooks/useTiltCard";
 
 interface TimelineItem {
   date: string;
@@ -66,77 +67,48 @@ const typeColors: Record<string, string> = {
   training: "bg-amber-500",
 };
 
-/* ── 3D Tilt hook for individual cards ── */
-function useTiltCard() {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const spotRef = useRef<HTMLDivElement | null>(null);
+const typeLabel: Record<string, string> = {
+  education: "Education",
+  work: "Experience",
+  training: "Training",
+};
 
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = ref.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-    const rx = ((y - cy) / cy) * -6;
-    const ry = ((x - cx) / cx) * 6;
-    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(4px)`;
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
-    if (spotRef.current) spotRef.current.style.opacity = '1';
-  }, []);
-
-  const onMouseLeave = useCallback(() => {
-    const card = ref.current;
-    if (!card) return;
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
-    if (spotRef.current) spotRef.current.style.opacity = '0';
-  }, []);
-
-  return { ref, spotRef, onMouseMove, onMouseLeave };
-}
-
-/* Individual tilt card component */
-const TiltCard = ({ item, index, isVisible }: { item: TimelineItem; index: number; isVisible: boolean }) => {
-  const { ref, spotRef, onMouseMove, onMouseLeave } = useTiltCard();
+/* Individual tilt card */
+const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean }) => {
+  const { cardRef, spotRef, onMouseMove, onMouseLeave } = useTiltCard(6);
 
   return (
     <div
-      ref={ref}
+      ref={cardRef}
       onMouseMove={onMouseMove}
       onMouseLeave={onMouseLeave}
       onClick={(e) => {
-        const rect = ref.current?.getBoundingClientRect();
-        if (!rect || !ref.current) return;
-        const ripple = document.createElement('div');
-        ripple.className = 'card-ripple-effect';
+        const rect = cardRef.current?.getBoundingClientRect();
+        if (!rect || !cardRef.current) return;
+        const ripple = document.createElement("div");
+        ripple.className = "card-ripple-effect";
         ripple.style.left = `${e.clientX - rect.left}px`;
         ripple.style.top = `${e.clientY - rect.top}px`;
-        ref.current.appendChild(ripple);
+        cardRef.current.appendChild(ripple);
         setTimeout(() => ripple.remove(), 700);
       }}
-      className={`glass-card p-5 rounded-2xl border border-black/10 dark:border-gray-700/60 relative overflow-hidden
-        ${isVisible ? `scroll-animate scroll-animate-delay-${Math.min(index + 1, 5)}` : 'opacity-0'}`}
+      className={`glass-card group h-full p-5 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden
+        transition-[opacity,transform] duration-700 ease-out
+        ${revealed ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
     >
       <div className="card-spotlight" ref={spotRef} />
 
-      {/* Type badge */}
       <div className="flex items-center gap-2 mb-3">
-        <span className={`w-2 h-2 rounded-full ${typeColors[item.type || 'education']} flex-shrink-0`} />
-        <span className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-semibold">
-          {item.type === 'education' ? 'Education' : item.type === 'work' ? 'Experience' : 'Training'}
+        <span className={`w-2 h-2 rounded-full ${typeColors[item.type || "education"]} flex-shrink-0`} />
+        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+          {typeLabel[item.type || "education"]}
         </span>
       </div>
 
-      <p className="text-xs text-muted-foreground mb-1 font-medium">{item.period || item.date}</p>
+      <p className="text-xs text-muted-foreground mb-1 font-medium tabular-nums">{item.period || item.date}</p>
       <h3 className="text-lg font-bold mb-1 text-foreground leading-snug">{item.title}</h3>
 
-      {item.company && (
-        <p className="text-sm text-muted-foreground mb-3">
-          {item.company}
-        </p>
-      )}
+      {item.company && <p className="text-sm text-muted-foreground mb-3">{item.company}</p>}
 
       {item.logos && item.logos.length > 0 && (
         <div className="mb-3 flex flex-wrap items-center gap-2">
@@ -151,17 +123,15 @@ const TiltCard = ({ item, index, isVisible }: { item: TimelineItem; index: numbe
         </div>
       )}
 
-      <p
-        className="text-sm text-muted-foreground leading-relaxed mt-2"
-        style={{ textAlign: "justify" }}
-        dangerouslySetInnerHTML={{ __html: item.summary }}
-      />
+      <p className="text-sm text-muted-foreground leading-relaxed mt-2" style={{ textAlign: "justify" }}>
+        {item.summary}
+      </p>
 
       <div className="mt-3 flex flex-wrap gap-1.5">
         {item.tech.map((tag) => (
           <span
             key={tag}
-            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-muted/80 text-foreground font-medium"
+            className="tech-chip inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-muted/80 text-foreground font-medium border border-transparent hover:border-foreground/20"
           >
             {tag}
           </span>
@@ -172,120 +142,125 @@ const TiltCard = ({ item, index, isVisible }: { item: TimelineItem; index: numbe
 };
 
 const Timeline = () => {
-  const { ref, isVisible } = useScrollAnimation();
-  const timelineRef = useRef<HTMLDivElement>(null);
-  const [visibleItems, setVisibleItems] = useState(0);
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const sectionRef = useRef<HTMLElement>(null);
+  const [progress, setProgress] = useState(0);
+  const [revealedCount, setRevealedCount] = useState(0);
+  const total = timelineData.length;
 
-  // Reveal cards one-by-one from RIGHT to LEFT
+  // Scroll-driven reveal: cards appear one-by-one as the section scrolls in.
   useEffect(() => {
-    if (!isVisible) return;
-    if (visibleItems >= timelineData.length) return;
+    const el = sectionRef.current;
+    if (typeof window === "undefined" || !el) return;
 
-    // Reveal from the rightmost (last) item first, then cascade left
-    const timer = window.setTimeout(() => {
-      setVisibleItems((prev) => Math.min(prev + 1, timelineData.length));
-    }, 280);
+    const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
+    if (prefersReduced) {
+      setProgress(1);
+      setRevealedCount(total);
+      return;
+    }
 
-    return () => window.clearTimeout(timer);
-  }, [isVisible, visibleItems]);
+    let raf: number | null = null;
+    const compute = () => {
+      raf = null;
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight || 1;
+      const start = vh * 0.82; // begin revealing
+      const end = vh * 0.28; // fully revealed
+      const p = (start - rect.top) / (start - end);
+      const clamped = Math.max(0, Math.min(1, p));
+      setProgress(clamped);
+      setRevealedCount((prev) => Math.max(prev, Math.ceil(clamped * total)));
+    };
+    const onScroll = () => {
+      if (raf == null) raf = requestAnimationFrame(compute);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    compute();
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+      if (raf != null) cancelAnimationFrame(raf);
+    };
+  }, [total]);
 
-  // Progress is measured right-to-left
-  const scrollProgress = (visibleItems / timelineData.length) * 100;
+  const fillPct = progress * 100;
 
   return (
-    <section
-      ref={timelineRef}
-      className="py-16 px-6 lg:px-8 relative overflow-hidden"
-      id="timeline"
-    >
-      <div className="max-w-7xl mx-auto">
-        {/* Section Title */}
+    <section ref={sectionRef} className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
+      <div className="aurora-bg" aria-hidden />
+      <div className="max-w-7xl mx-auto relative z-10">
+        {/* Header */}
         <div
-          ref={ref}
-          className={`${isVisible ? "scroll-animate" : "opacity-0"} flex items-center justify-center gap-8 mb-20 flex-wrap`}
+          ref={titleRef}
+          className={`${titleVisible ? "scroll-animate" : "opacity-0"} text-center mb-16 lg:mb-24`}
         >
-          <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-center">
-            Tracing the Arc...
-          </h2>
+          <span className="eyebrow justify-center">The Journey</span>
+          <h2 className="display-heading text-5xl md:text-6xl lg:text-7xl font-bold mt-4">Tracing the Arc</h2>
+          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
+            From foundations to frontier — revealed right to left, the way the story was built.
+          </p>
         </div>
 
-        {/* ── Desktop Timeline — RIGHT to LEFT horizontal flow ── */}
+        {/* ── Desktop — right-to-left horizontal flow ── */}
         <div className="hidden lg:block relative">
-          {/* Background track */}
-          <div className="absolute top-8 left-0 right-0 h-0.5 bg-border" />
-
-          {/* Animated progress line: fills from RIGHT to LEFT */}
+          {/* Base track */}
+          <div className="absolute top-8 left-0 right-0 h-px bg-border" />
+          {/* Right-to-left glowing fill */}
           <div
-            className="absolute top-8 right-0 h-0.5 bg-gradient-to-l from-accent via-primary to-accent transition-all duration-500 ease-out"
-            style={{ width: `${scrollProgress}%` }}
+            className="absolute top-8 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-[width] duration-300 ease-out"
+            style={{ width: `${fillPct}%`, boxShadow: "0 0 12px hsl(var(--accent) / 0.6)" }}
           />
 
-          {/* Cards in REVERSED display order (newest on right, oldest on left) */}
           <div className="grid grid-cols-4 gap-8 relative items-stretch">
             {[...timelineData].reverse().map((item, index) => {
-              // Index 0 = rightmost (newest), reveals first
-              const revealIndex = index;
-              const isItemVisible = revealIndex < visibleItems;
-
+              const revealed = index < revealedCount; // index 0 = rightmost, reveals first
               return (
-                <div key={item.period || item.date} className="relative">
-                  {/* Dot */}
+                <div key={item.period || item.date} className="relative flex flex-col">
+                  {/* Node */}
                   <div className="relative flex justify-center mb-8">
                     <div
                       className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
-                        isItemVisible
-                          ? `${typeColors[item.type || 'education']} border-current shadow-lg scale-125`
+                        revealed
+                          ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
                           : "bg-background border-border"
                       }`}
+                      style={revealed ? { boxShadow: "0 0 14px 2px currentColor" } : undefined}
                     />
                   </div>
-
-                  {/* Card */}
-                  <div
-                    className={`transition-all duration-700 ${
-                      isItemVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-                    }`}
-                  >
-                    <TiltCard item={item} index={revealIndex} isVisible={isItemVisible} />
-                  </div>
+                  <TiltCard item={item} revealed={revealed} />
                 </div>
               );
             })}
           </div>
         </div>
 
-        {/* ── Mobile Timeline — vertical, reveals top to bottom ── */}
+        {/* ── Mobile — vertical, reveals as you scroll ── */}
         <div className="lg:hidden relative pl-8">
-          <div className="absolute left-4 top-0 bottom-0 w-0.5 bg-border" />
-
+          <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
           <div
-            className="absolute left-4 top-0 w-0.5 bg-gradient-to-b from-accent via-primary to-accent transition-all duration-500 ease-out"
-            style={{ height: `${scrollProgress}%` }}
+            className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-[height] duration-300 ease-out"
+            style={{ height: `${fillPct}%`, boxShadow: "0 0 12px hsl(var(--accent) / 0.6)" }}
           />
 
-          <div className="space-y-10">
-            {/* On mobile keep chronological order (oldest first) */}
-            {timelineData.map((item, index) => {
-              const isItemVisible = (timelineData.length - 1 - index) < visibleItems;
+          <div className="space-y-8">
+            {/* newest first on mobile too, matching the right-to-left story */}
+            {[...timelineData].reverse().map((item, index) => {
+              const revealed = index < revealedCount;
               return (
                 <div key={item.period || item.date} className="relative">
-                  {/* Dot */}
                   <div className="absolute -left-[26px] top-4">
                     <div
                       className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
-                        isItemVisible
-                          ? `${typeColors[item.type || 'education']} border-current shadow-lg scale-125`
+                        revealed
+                          ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
                           : "bg-background border-border"
                       }`}
                     />
                   </div>
-
-                  <div
-                    className={`transition-all duration-700 ml-4 ${
-                      isVisible ? `scroll-animate scroll-animate-delay-${Math.min(index + 1, 5)}` : "opacity-0"
-                    }`}
-                  >
-                    <TiltCard item={item} index={index} isVisible={isVisible} />
+                  <div className="ml-4">
+                    <TiltCard item={item} revealed={revealed} />
                   </div>
                 </div>
               );

@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
@@ -12,97 +12,96 @@ import {
 } from "@/components/ui/sheet";
 
 const Navbar = () => {
-  const location = useLocation();
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [isMounted, setIsMounted] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
+
   const leftEyeRef = useRef<HTMLDivElement>(null);
   const rightEyeRef = useRef<HTMLDivElement>(null);
-  const [isDesktop, setIsDesktop] = useState<boolean>(
-    typeof window !== "undefined" ? window.innerWidth >= 915 : true
-  );
-  const [isChromeDesktopSafe, setIsChromeDesktopSafe] = useState(false);
+  const leftPupilRef = useRef<HTMLDivElement>(null);
+  const rightPupilRef = useRef<HTMLDivElement>(null);
+
+  const mouse = useRef({ x: 0, y: 0 });
+  const eyeRaf = useRef<number | null>(null);
+  const scrollRaf = useRef<number | null>(null);
+  const activeSectionRef = useRef("home");
 
   useEffect(() => {
     setIsMounted(true);
 
-    const ua = navigator.userAgent || "";
-    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
-    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
-    setIsChromeDesktopSafe(isChromeLike && !isMobileUA);
+    const canHover =
+      typeof window !== "undefined" &&
+      window.matchMedia?.("(hover: hover) and (pointer: fine)").matches;
 
-    const handleResize = () => setIsDesktop(window.innerWidth >= 915);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-
-    const handleMouseMove = (e: MouseEvent) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
+    /* ── Eyes: single rAF write, zero re-renders ── */
+    const positionPupil = (eye: HTMLDivElement | null, pupil: HTMLDivElement | null) => {
+      if (!eye || !pupil) return;
+      const rect = eye.getBoundingClientRect();
+      const cx = rect.left + rect.width / 2;
+      const cy = rect.top + rect.height / 2;
+      const angle = Math.atan2(mouse.current.y - cy, mouse.current.x - cx);
+      const dist = Math.min(4, Math.hypot(mouse.current.x - cx, mouse.current.y - cy) / 100);
+      pupil.style.transform = `translate(${Math.cos(angle) * dist}px, ${Math.sin(angle) * dist}px)`;
     };
 
-    const handleScroll = () => {
+    const updateEyes = () => {
+      eyeRaf.current = null;
+      positionPupil(leftEyeRef.current, leftPupilRef.current);
+      positionPupil(rightEyeRef.current, rightPupilRef.current);
+    };
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouse.current = { x: e.clientX, y: e.clientY };
+      if (eyeRaf.current == null) eyeRaf.current = requestAnimationFrame(updateEyes);
+    };
+
+    /* ── Scroll: rAF-throttled ── */
+    const sections = ["hero", "about", "timeline", "projects", "coding", "faq"];
+    const readScroll = () => {
+      scrollRaf.current = null;
       const scrollTop = window.scrollY;
       const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.min(scrollTop / docHeight, 1);
-      setScrollProgress(progress);
+      setScrollProgress(docHeight > 0 ? Math.min(scrollTop / docHeight, 1) : 0);
       setIsScrolled(scrollTop > 20);
 
-      const sections = ["hero", "about", "timeline", "projects", "coding", "faq"];
-      const scrollPosition = scrollTop + 100;
-      for (const sectionId of sections) {
-        const element =
-          document.getElementById(sectionId) ||
-          document.querySelector(`[data-section="${sectionId}"]`);
-        if (element) {
-          const { offsetTop, offsetHeight } = element;
-          if (
-            scrollPosition >= offsetTop &&
-            scrollPosition < offsetTop + offsetHeight
-          ) {
-            setActiveSection(sectionId === "hero" ? "home" : sectionId);
+      const probe = scrollTop + 120;
+      let current = scrollTop < 100 ? "home" : activeSectionRef.current;
+      for (const id of sections) {
+        const el = document.getElementById(id);
+        if (el) {
+          const { offsetTop, offsetHeight } = el;
+          if (probe >= offsetTop && probe < offsetTop + offsetHeight) {
+            current = id === "hero" ? "home" : id;
             break;
           }
         }
       }
-
-      if (scrollTop < 100) setActiveSection("home");
+      setActiveSection(current);
     };
 
-    if (!(isChromeLike && !isMobileUA)) {
-      window.addEventListener("mousemove", handleMouseMove);
-    }
-    window.addEventListener("scroll", handleScroll);
-    handleScroll();
+    const handleScroll = () => {
+      if (scrollRaf.current == null) scrollRaf.current = requestAnimationFrame(readScroll);
+    };
+
+    if (canHover) window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    readScroll();
 
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
+      if (eyeRaf.current != null) cancelAnimationFrame(eyeRaf.current);
+      if (scrollRaf.current != null) cancelAnimationFrame(scrollRaf.current);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const calculateEyePosition = (eyeElement: HTMLDivElement | null) => {
-    if (!eyeElement) return { x: 0, y: 0 };
-    if (typeof window !== "undefined" && window.innerWidth < 915)
-      return { x: 0, y: 0 };
-
-    const rect = eyeElement.getBoundingClientRect();
-    const eyeCenterX = rect.left + rect.width / 2;
-    const eyeCenterY = rect.top + rect.height / 2;
-
-    const angle = Math.atan2(mousePos.y - eyeCenterY, mousePos.x - eyeCenterX);
-    const distance = Math.min(
-      4,
-      Math.hypot(mousePos.x - eyeCenterX, mousePos.y - eyeCenterY) / 100
-    );
-
-    return {
-      x: Math.cos(angle) * distance,
-      y: Math.sin(angle) * distance,
-    };
-  };
+  // keep a ref of active section so the scroll callback can read it without re-subscribing
+  useEffect(() => {
+    activeSectionRef.current = activeSection;
+  }, [activeSection]);
 
   const navLinks = [
     { name: "Home", path: "/", section: "home" },
@@ -127,7 +126,6 @@ const Navbar = () => {
     } else {
       document.body.style.overflow = "unset";
     }
-
     return () => {
       document.body.style.overflow = "unset";
     };
@@ -138,61 +136,49 @@ const Navbar = () => {
   return (
     <>
       <style>{`
-        @keyframes nav-slide-in {
-          from { transform: translateX(100%); }
-          to { transform: translateX(0); }
-        }
-        @keyframes nav-slide-out {
-          from { transform: translateX(0); }
-          to { transform: translateX(100%); }
-        }
+        @keyframes nav-slide-in { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        @keyframes nav-slide-out { from { transform: translateX(0); } to { transform: translateX(100%); } }
       `}</style>
 
       <header
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
-          isScrolled ? "px-4 sm:px-6 pt-6" : "px-0 pt-0"
+          isScrolled ? "px-3 sm:px-6 pt-4 sm:pt-6" : "px-0 pt-0"
         }`}
       >
         <nav
-          className={`mx-auto px-4 sm:px-8 py-4 flex items-center relative transition-all duration-300 overflow-hidden ${
+          className={`mx-auto px-4 sm:px-8 py-3.5 flex items-center relative transition-all duration-300 overflow-hidden ${
             isScrolled
-              ? "max-w-[85em] rounded-full backdrop-blur-xl bg-white/70 dark:bg-black/70 border border-gray-200/50 dark:border-gray-700/50 shadow-lg"
-              : "max-w-full rounded-none backdrop-blur-xl bg-white/70 dark:bg-black/70 border-b border-gray-200/30 dark:border-gray-700/30 shadow-none"
+              ? "max-w-[85em] rounded-full backdrop-blur-xl bg-white/70 dark:bg-black/60 border border-gray-200/50 dark:border-white/10 shadow-lg"
+              : "max-w-full rounded-none backdrop-blur-xl bg-white/70 dark:bg-black/55 border-b border-gray-200/30 dark:border-white/10 shadow-none"
           }`}
         >
-          {/* ✅ Scroll Underline */}
+          {/* Scroll progress underline */}
           <div
-            className="absolute bottom-0 left-0 h-[3px] rounded-b-full z-[5] transition-all duration-300 ease-out dark:bg-white bg-black"
+            className="absolute bottom-0 left-0 h-[3px] rounded-b-full z-[5] dark:bg-white bg-black"
             style={{
               width: `${scrollProgress * 100}%`,
               opacity: isScrolled ? 1 : 0,
-              boxShadow:
-                "0 0 6px rgba(0,0,0,0.3), 0 0 6px rgba(255,255,255,0.2)",
+              boxShadow: "0 0 6px rgba(0,0,0,0.3), 0 0 6px rgba(255,255,255,0.2)",
               transition: "width 0.25s ease-out, opacity 0.3s ease",
             }}
           />
 
-          {/* Left - Logo */}
-          <Link to="/" className="text-xl font-bold z-10 flex-shrink-0">
+          {/* Left — Logo */}
+          <Link to="/" className="text-xl font-bold z-10 flex-shrink-0 tracking-tight">
             <span className="text-foreground whitespace-nowrap">bhavya</span>
             <span className="text-muted-foreground whitespace-nowrap">kansal.dev</span>
           </Link>
 
-          {/* Center - Eyes */}
+          {/* Center — Eyes */}
           <div className="hidden min-[915px]:flex items-center gap-1.5 z-10 flex-1 justify-center mx-4">
             <div
               ref={leftEyeRef}
               className="w-6 h-6 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 flex items-center justify-center relative overflow-hidden"
             >
               <div
-                className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute transition-transform duration-100 ease-out"
-                style={{
-                  transform: `translate(${
-                    isDesktop ? calculateEyePosition(leftEyeRef.current).x : 0
-                  }px, ${
-                    isDesktop ? calculateEyePosition(leftEyeRef.current).y : 0
-                  }px)`,
-                }}
+                ref={leftPupilRef}
+                className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute"
+                style={{ transition: "transform 0.08s ease-out" }}
               />
             </div>
             <div
@@ -200,26 +186,21 @@ const Navbar = () => {
               className="w-6 h-6 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 flex items-center justify-center relative overflow-hidden"
             >
               <div
-                className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute transition-transform duration-100 ease-out"
-                style={{
-                  transform: `translate(${
-                    isDesktop ? calculateEyePosition(rightEyeRef.current).x : 0
-                  }px, ${
-                    isDesktop ? calculateEyePosition(rightEyeRef.current).y : 0
-                  }px)`,
-                }}
+                ref={rightPupilRef}
+                className="w-1.5 h-1.5 bg-black dark:bg-white rounded-full absolute"
+                style={{ transition: "transform 0.08s ease-out" }}
               />
             </div>
           </div>
 
-          {/* Right - Navigation */}
+          {/* Right — Navigation */}
           <div className="z-10 flex items-center gap-2 flex-shrink-0 ml-auto">
-            <div className="hidden min-[915px]:flex items-center gap-2">
+            <div className="hidden min-[915px]:flex items-center gap-1.5">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
                   href={link.path}
-                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all ${
+                  className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
                     activeSection === link.section
                       ? "bg-black text-white dark:bg-white dark:text-black"
                       : "text-foreground hover:bg-black/5 dark:hover:bg-white/10"
@@ -229,12 +210,8 @@ const Navbar = () => {
                 </a>
               ))}
               <ThemeToggle />
-              <a
-                href="mailto:kansalbhavya27@gmail.com"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Button className="rounded-full gap-2 px-6 py-2.5 text-sm font-medium bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ml-2" style={{ fontFamily: 'Times New Roman, serif' }}>
+              <a href="mailto:kansalbhavya27@gmail.com" target="_blank" rel="noopener noreferrer">
+                <Button className="rounded-full gap-2 px-6 py-2.5 text-sm font-medium bg-black text-white hover:bg-gray-800 dark:bg-white dark:text-black dark:hover:bg-gray-200 ml-2">
                   Let's talk
                   <ArrowRight className="w-4 h-4" />
                 </Button>
@@ -259,15 +236,13 @@ const Navbar = () => {
                 <SheetPortal>
                   <div
                     className={`fixed inset-0 z-[9998] bg-black/80 transition-opacity duration-300 ease-in-out ${
-                      mobileMenuOpen
-                        ? "opacity-100 pointer-events-auto"
-                        : "opacity-0 pointer-events-none"
+                      mobileMenuOpen ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
                     }`}
                     onClick={closeMenu}
                   />
 
                   <div
-                    className="fixed inset-y-0 right-0 z-[9999] h-full border-l bg-background shadow-2xl transform overflow-y-auto"
+                    className="fixed inset-y-0 right-0 z-[9999] h-full border-l border-white/10 bg-background shadow-2xl transform overflow-y-auto"
                     aria-hidden={!mobileMenuOpen}
                     style={{
                       animation: mobileMenuOpen
@@ -289,9 +264,7 @@ const Navbar = () => {
                       </Button>
 
                       <div className="pt-12 w-full">
-                        <SheetTitle className="text-xl font-bold mb-2">
-                          Menu
-                        </SheetTitle>
+                        <SheetTitle className="text-xl font-bold mb-2">Menu</SheetTitle>
                         <SheetDescription className="text-sm text-muted-foreground mb-6">
                           Navigate to different sections
                         </SheetDescription>

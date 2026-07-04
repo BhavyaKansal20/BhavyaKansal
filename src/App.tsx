@@ -80,7 +80,7 @@ const App = () => {
         () => startPreload(),
         { timeout: 2000 }
       );
-    } else {
+    } else if (typeof window !== "undefined") {
       timeoutId = window.setTimeout(startPreload, 1200);
     }
 

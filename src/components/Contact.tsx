@@ -1,37 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Mail, MapPin, ArrowRight, Github, Linkedin } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useRef, useCallback } from "react";
-
-function useTiltCard() {
-  const ref = useRef<HTMLDivElement | null>(null);
-  const spotRef = useRef<HTMLDivElement | null>(null);
-
-  const onMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    const card = ref.current;
-    if (!card) return;
-    const rect = card.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const cx = rect.width / 2;
-    const cy = rect.height / 2;
-    const rx = ((y - cy) / cy) * -7;
-    const ry = ((x - cx) / cx) * 7;
-    card.style.transform = `perspective(1000px) rotateX(${rx}deg) rotateY(${ry}deg) translateZ(4px)`;
-    card.style.setProperty('--mouse-x', `${x}px`);
-    card.style.setProperty('--mouse-y', `${y}px`);
-    if (spotRef.current) spotRef.current.style.opacity = '1';
-  }, []);
-
-  const onMouseLeave = useCallback(() => {
-    const card = ref.current;
-    if (!card) return;
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0)';
-    if (spotRef.current) spotRef.current.style.opacity = '0';
-  }, []);
-
-  return { ref, spotRef, onMouseMove, onMouseLeave };
-}
+import { useTiltCard } from "@/hooks/useTiltCard";
 
 const Contact = () => {
   const { ref: contactRef, isVisible: contactVisible } = useScrollAnimation();
@@ -59,65 +29,61 @@ const Contact = () => {
   ];
 
   const socials = [
-    {
-      icon: <Github className="w-5 h-5" />,
-      label: "GitHub",
-      href: "https://github.com/BhavyaKansal20",
-    },
-    {
-      icon: <Linkedin className="w-5 h-5" />,
-      label: "LinkedIn",
-      href: "https://linkedin.com/in/bhavyakansal20",
-    },
+    { icon: <Github className="w-5 h-5" />, label: "GitHub", href: "https://github.com/BhavyaKansal20" },
+    { icon: <Linkedin className="w-5 h-5" />, label: "LinkedIn", href: "https://linkedin.com/in/bhavyakansal20" },
   ];
 
   return (
-    <section id="contact" ref={contactRef} className="py-24 bg-background">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="contact" ref={contactRef} className="py-24 bg-background relative overflow-hidden">
+      <div className="aurora-bg" aria-hidden />
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Editorial header */}
-        <div className={`mb-16 ${contactVisible ? 'scroll-animate' : ''}`}>
-          <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3 font-medium">
-            Get in Touch
-          </p>
-          <h2 className="text-5xl md:text-7xl font-bold leading-none">
-            Let's work<br />together.
+        <div className={`mb-14 sm:mb-16 ${contactVisible ? "scroll-animate" : "opacity-0"}`}>
+          <span className="eyebrow">Get in Touch</span>
+          <h2 className="display-heading text-5xl md:text-7xl font-bold leading-[0.95] mt-5">
+            Let's work
+            <br />
+            together.
           </h2>
-          <div className="mt-8 h-px bg-gradient-to-r from-foreground/30 via-foreground/10 to-transparent" />
+          <div className="section-rule mt-8" />
         </div>
 
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
-          {/* Left — Contact Info */}
-          <div className={`space-y-10 ${contactVisible ? 'scroll-animate scroll-animate-delay-1' : ''}`}>
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+          {/* Left — contact info */}
+          <div className={`space-y-10 ${contactVisible ? "scroll-animate scroll-animate-delay-1" : "opacity-0"}`}>
             <p className="text-lg text-muted-foreground max-w-md" style={{ textAlign: "justify" }}>
-              Whether you want to discuss AI/ML roles, research collaboration, deep-tech product engineering, or just say hello — I would love to connect and explore what we can build together.
+              Whether you want to discuss AI/ML roles, research collaboration, deep-tech product engineering, or
+              just say hello — I would love to connect and explore what we can build together.
             </p>
 
-            <div className="space-y-6">
-              {contactItems.map((item) => (
-                <div key={item.label} className="flex items-start gap-4">
-                  <div className="w-11 h-11 rounded-xl bg-white dark:bg-gray-800 flex items-center justify-center shadow-sm border border-gray-200 dark:border-gray-700 flex-shrink-0">
-                    {item.icon}
+            <div className="space-y-4">
+              {contactItems.map((item) => {
+                const Inner = (
+                  <div className="stat-tile flex items-start gap-4 p-4 rounded-2xl">
+                    <div className="w-11 h-11 rounded-xl bg-white dark:bg-white/5 flex items-center justify-center shadow-sm border border-border flex-shrink-0">
+                      {item.icon}
+                    </div>
+                    <div className="min-w-0">
+                      <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-0.5 font-medium">
+                        {item.label}
+                      </p>
+                      <p className="font-medium text-foreground break-words">{item.value}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs text-muted-foreground uppercase tracking-wider mb-0.5 font-medium">{item.label}</p>
-                    {item.href ? (
-                      <a
-                        href={item.href}
-                        className="font-medium hover:underline transition-colors text-foreground"
-                      >
-                        {item.value}
-                      </a>
-                    ) : (
-                      <p className="font-medium text-foreground">{item.value}</p>
-                    )}
-                  </div>
-                </div>
-              ))}
+                );
+                return item.href ? (
+                  <a key={item.label} href={item.href} className="block">
+                    {Inner}
+                  </a>
+                ) : (
+                  <div key={item.label}>{Inner}</div>
+                );
+              })}
             </div>
 
-            {/* Social links */}
+            {/* Socials */}
             <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider mb-4 font-medium">Find me online</p>
+              <p className="text-[11px] text-muted-foreground uppercase tracking-wider mb-4 font-medium">Find me online</p>
               <div className="flex gap-3">
                 {socials.map((s) => (
                   <a
@@ -135,16 +101,16 @@ const Contact = () => {
             </div>
           </div>
 
-          {/* Right — CTA Card (3D Tilt) */}
+          {/* Right — CTA card (3D tilt) */}
           <div
-            ref={tilt.ref}
+            ref={tilt.cardRef}
             onMouseMove={tilt.onMouseMove}
             onMouseLeave={tilt.onMouseLeave}
-            className={`glass-card rounded-3xl p-8 md:p-12 shadow-2xl text-center space-y-6 relative overflow-hidden ${contactVisible ? 'scroll-animate scroll-animate-delay-2' : ''}`}
+            className={`glass-card rounded-3xl p-8 md:p-12 shadow-2xl text-center relative overflow-hidden ${
+              contactVisible ? "scroll-animate scroll-animate-delay-2" : "opacity-0"
+            }`}
           >
             <div className="card-spotlight" ref={tilt.spotRef} />
-
-            {/* Decorative gradient background */}
             <div className="absolute inset-0 bg-gradient-to-br from-blue-500/6 via-transparent to-purple-500/6 rounded-3xl pointer-events-none" />
 
             <div className="relative z-10">
@@ -152,7 +118,10 @@ const Contact = () => {
                 <img src="/gmail-icon.png" alt="Gmail" className="w-12 h-12 object-contain" />
               </div>
 
-              <h3 className="text-3xl font-bold mb-3">Ready to start<br />a project?</h3>
+              <h3 className="text-3xl font-bold mb-3">
+                Ready to start
+                <br />a project?
+              </h3>
               <p className="text-muted-foreground text-base max-w-xs mx-auto">
                 Drop me an email and I will get back to you to discuss your requirements and collaboration goals.
               </p>

@@ -14,6 +14,12 @@ export default {
       },
     },
     extend: {
+      fontFamily: {
+        // Times New Roman everywhere — even utility classes like font-sans/font-mono
+        sans: ["'Times New Roman'", "Times", "Baskerville", "Georgia", "serif"],
+        serif: ["'Times New Roman'", "Times", "Baskerville", "Georgia", "serif"],
+        mono: ["'Times New Roman'", "Times", "Georgia", "serif"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
@@ -99,6 +105,14 @@ export default {
             transform: "translateY(0)",
           },
         },
+        "shimmer": {
+          "0%": { backgroundPosition: "-200% 0" },
+          "100%": { backgroundPosition: "200% 0" },
+        },
+        "aurora": {
+          "0%, 100%": { transform: "translate3d(0,0,0) scale(1)", opacity: "0.6" },
+          "50%": { transform: "translate3d(2%,-2%,0) scale(1.06)", opacity: "0.85" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
@@ -108,6 +122,8 @@ export default {
         "float-sm": "float 1.2s ease-in-out infinite",
         "scroll": "scroll 30s linear infinite",
         "fade-in-up": "fade-in-up 0.6s ease-out",
+        "shimmer": "shimmer 2.5s linear infinite",
+        "aurora": "aurora 14s ease-in-out infinite",
       },
     },
   },

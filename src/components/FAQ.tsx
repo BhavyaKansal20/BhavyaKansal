@@ -4,6 +4,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { Button } from "@/components/ui/button";
+import { ArrowUpRight } from "lucide-react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const FAQ = () => {
@@ -53,42 +55,59 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" ref={faqRef} className="py-24 bg-background">
-      <div className="max-w-4xl mx-auto px-6">
-        {/* Header */}
-        <div className={`mb-16 ${faqVisible ? 'scroll-animate' : ''}`}>
-          <p className="text-sm uppercase tracking-[0.25em] text-muted-foreground mb-3 font-medium">
-            Questions & Answers
-          </p>
-          <h2 className="text-5xl font-bold">Frequently Asked<br />Questions</h2>
-          <div className="mt-6 h-px bg-gradient-to-r from-foreground/30 via-foreground/10 to-transparent" />
-        </div>
+    <section id="faq" ref={faqRef} className="py-24 bg-background relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-start">
+          {/* Left — sticky intro + CTA */}
+          <div className={`lg:sticky lg:top-28 ${faqVisible ? "scroll-animate" : "opacity-0"}`}>
+            <span className="eyebrow">Questions & Answers</span>
+            <h2 className="display-heading text-4xl md:text-5xl font-bold mt-5">
+              Frequently
+              <br />
+              Asked
+              <br />
+              Questions
+            </h2>
+            <div className="section-rule mt-8 mb-8 max-w-xs" />
+            <p className="text-muted-foreground text-base leading-relaxed max-w-sm">
+              Everything you might want to know — and if something isn't covered here, a quick email is the
+              fastest way to reach me.
+            </p>
+            <a href="mailto:kansalbhavya27@gmail.com" target="_blank" rel="noopener noreferrer">
+              <Button className="mt-6 rounded-full gap-2 px-6 py-5 text-sm font-medium">
+                Ask me directly
+                <ArrowUpRight className="w-4 h-4" />
+              </Button>
+            </a>
+          </div>
 
-        <Accordion type="single" collapsible className="space-y-0">
-          {faqs.map((faq, index) => (
-            <AccordionItem
-              key={index}
-              value={`item-${index}`}
-              className={`border-0 border-b border-gray-200/60 dark:border-gray-700/50 last:border-b-0 ${
-                faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : ''
-              }`}
-            >
-              <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 text-left leading-snug group transition-all duration-200">
-                <span className="flex items-start gap-3 w-full pr-4">
-                  <span className="text-muted-foreground font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
-                    {String(index + 1).padStart(2, '0')}
+          {/* Right — accordion */}
+          <Accordion type="single" collapsible className="space-y-0">
+            {faqs.map((faq, index) => (
+              <AccordionItem
+                key={index}
+                value={`item-${index}`}
+                className={`group border-0 border-b border-gray-200/60 dark:border-white/10 last:border-b-0 ${
+                  faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : "opacity-0"
+                }`}
+              >
+                <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 text-left leading-snug transition-all duration-200">
+                  <span className="flex items-start gap-4 w-full pr-4">
+                    <span className="text-muted-foreground/70 font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="group-hover:text-foreground transition-colors duration-200">
+                      {faq.question}
+                    </span>
                   </span>
-                  <span className="group-hover:text-foreground transition-colors duration-200">
-                    {faq.question}
-                  </span>
-                </span>
-              </AccordionTrigger>
-              <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed">
-                {faq.answer}
-              </AccordionContent>
-            </AccordionItem>
-          ))}
-        </Accordion>
+                </AccordionTrigger>
+                <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed">
+                  {faq.answer}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
+        </div>
       </div>
     </section>
   );

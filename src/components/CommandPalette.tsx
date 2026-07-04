@@ -1,21 +1,18 @@
-import { useCallback, useEffect, useRef, useState } from "react";
-import { 
-  Send, 
-  Trash2, 
-  X, 
-  Mic, 
-  Paperclip, 
-  Smile, 
-  Check, 
-  CheckCheck, 
-  Mail, 
-  Github, 
-  Linkedin, 
-  ExternalLink,
-  FileText,
-  Sparkles
+import { useEffect, useRef, useState } from "react";
+import {
+  Send,
+  Trash2,
+  X,
+  Paperclip,
+  Smile,
+  Check,
+  CheckCheck,
+  Mail,
+  Globe,
+  Download,
 } from "lucide-react";
 import { useTheme } from "next-themes";
+import { extractActions, runActions } from "@/lib/aiActions";
 
 // lazy wrapper for queryAI to avoid loading AI-related code on page load
 let _queryAILib: typeof import("@/lib/aiSearch") | null = null;
@@ -35,13 +32,15 @@ interface Message {
 }
 
 const suggestionPills = [
-  "Explain tech stack",
+  "Show me his best projects",
+  "Explain his tech stack",
   "Tell me about RetiNex AI",
-  "Connect with Bhavya",
-  "Get Resume"
+  "Open his resume",
+  "How can I contact Bhavya?",
 ];
 
 const CommandPalette = () => {
+  const { setTheme } = useTheme();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
@@ -141,20 +140,26 @@ const CommandPalette = () => {
       const compoundQuery = `[Conversation History]\n${historyContext}\n\n[Current User Question]\n${text}`;
 
       const queryAI = await loadQueryAI();
-      const response = await queryAI(compoundQuery);
+      const rawResponse = await queryAI(compoundQuery);
+      const { text: cleanText, actions } = extractActions(rawResponse);
 
       // Update user messages to "read" (cyan ticks)
-      setMessages(prev => 
+      setMessages(prev =>
         prev.map(m => m.sender === "user" ? { ...m, status: "read" } : m)
       );
 
       const botMsg: Message = {
         id: Math.random().toString(36).substring(7),
         sender: "bot",
-        text: response,
+        text: cleanText || rawResponse,
         timestamp: new Date()
       };
       setMessages(prev => [...prev, botMsg]);
+
+      // Execute any agentic actions the AI requested (navigate, open resume, etc.)
+      if (actions.length) {
+        window.setTimeout(() => runActions(actions, { setTheme }), 450);
+      }
     } catch (error) {
       setMessages(prev => 
         prev.map(m => m.sender === "user" ? { ...m, status: "sent" } : m)
@@ -237,33 +242,19 @@ const CommandPalette = () => {
         }
       ]);
     } else if (type === "linkedin") {
-      window.open('https://linkedin.com/in/kansal0920', '_blank');
+      window.open('https://linkedin.com/in/bhavyakansal20', '_blank');
       setMessages(prev => [
         ...prev,
         {
           id: Math.random().toString(36).substring(7),
           sender: "bot",
-          text: "Opening Bhavya's [LinkedIn Profile](https://linkedin.com/in/kansal0920) in a new tab. Let's connect!",
+          text: "Opening Bhavya's [LinkedIn Profile](https://linkedin.com/in/bhavyakansal20) in a new tab. Let's connect!",
           timestamp: new Date()
         }
       ]);
     } else if (type === "resume") {
       window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
     }
-  };
-
-  const handleMicClick = () => {
-    const systemId = Math.random().toString(36).substring(7);
-    const systemMsg: Message = {
-      id: systemId,
-      sender: "system",
-      text: "System: Voice note parsing is in beta. Please type your query in the chatbox!",
-      timestamp: new Date()
-    };
-    setMessages(prev => [...prev, systemMsg]);
-    setTimeout(() => {
-      setMessages(prev => prev.filter(m => m.id !== systemId));
-    }, 5000);
   };
 
   const handleEmojiClick = () => {

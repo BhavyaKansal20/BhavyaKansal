@@ -1,5 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 
+/**
+ * useScrollAnimation — reveals an element when it scrolls into view.
+ *
+ * Runs on ALL browsers (including desktop Chrome) using a single
+ * IntersectionObserver. A safety timeout guarantees content is never left
+ * hidden if the observer misfires, and reduced-motion users get instant reveal.
+ */
 export const useScrollAnimation = () => {
   const ref = useRef<HTMLDivElement>(null);
   const [isVisible, setIsVisible] = useState(false);
@@ -7,39 +14,53 @@ export const useScrollAnimation = () => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
-    const ua = navigator.userAgent || "";
-    const isChromeLike = /(Chrome|CriOS)/.test(ua) && !/(Edg|OPR|Opera)/.test(ua);
-    const isMobileUA = /Mobi|Android|iPhone|iPad|iPod/i.test(ua);
+    const prefersReduced =
+      window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
 
-    // Desktop Chrome stability path: avoid intersection timing edge-cases and reveal instantly.
-    if (isChromeLike && !isMobileUA) {
+    if (prefersReduced || !("IntersectionObserver" in window)) {
       setIsVisible(true);
       return;
     }
 
-    if (!("IntersectionObserver" in window)) {
+    const el = ref.current;
+    if (!el) {
       setIsVisible(true);
       return;
     }
+
+    // Already in view on mount → reveal right away.
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.9 && rect.bottom > 0) {
+      setIsVisible(true);
+      return;
+    }
+
+    let done = false;
+    const reveal = () => {
+      if (done) return;
+      done = true;
+      setIsVisible(true);
+    };
 
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
-          setIsVisible(true);
+          reveal();
           observer.disconnect();
         }
       },
-      {
-        threshold: 0.2,
-        rootMargin: "0px 0px -50px 0px",
-      }
+      { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
-    }
+    observer.observe(el);
 
-    return () => observer.disconnect();
+    // Safety net: never leave content invisible.
+    const failSafe = window.setTimeout(reveal, 1600);
+
+    return () => {
+      observer.disconnect();
+      window.clearTimeout(failSafe);
+    };
   }, []);
 
   return { ref, isVisible };

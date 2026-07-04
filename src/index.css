@@ -125,7 +125,11 @@
       linear-gradient(90deg, rgba(150, 200, 255, 0.04) 1px, transparent 1px);
   }
 
-  /* ── TYPOGRAPHY: Times New Roman everywhere ── */
+  /* ── TYPOGRAPHY: Times New Roman EVERYWHERE (universal, no escapes) ── */
+  * {
+    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+  }
+
   body {
     @apply bg-background text-foreground;
     font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
@@ -140,11 +144,45 @@
 
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.015em;
   }
 
-  p, span, a, button, input, textarea, label, li {
+  p, span, a, button, input, textarea, label, li, kbd, code, pre, div, text {
     font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+  }
+
+  /* ── Premium editorial primitives ── */
+  .eyebrow {
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: hsl(var(--muted-foreground));
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .eyebrow::before {
+    content: '';
+    width: 2rem;
+    height: 1px;
+    background: linear-gradient(90deg, hsl(var(--foreground) / 0.5), transparent);
+    display: inline-block;
+  }
+
+  .section-rule {
+    height: 1px;
+    background: linear-gradient(90deg, hsl(var(--foreground) / 0.28), hsl(var(--foreground) / 0.08) 40%, transparent);
+  }
+
+  /* Refined display heading with subtle ink-gradient depth */
+  .display-heading {
+    letter-spacing: -0.03em;
+    line-height: 0.95;
+    background: linear-gradient(180deg, hsl(var(--foreground)) 0%, hsl(var(--foreground) / 0.72) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   /* ── Ambient glow (dark mode only, GPU-composited) ── */
@@ -244,7 +282,7 @@
     pointer-events: none;
   }
 
-  /* Mouse-tracking spotlight overlay */
+  /* Mouse-tracking spotlight overlay (light + dark tuned) */
   .glass-card .card-spotlight {
     position: absolute;
     inset: 0;
@@ -254,12 +292,40 @@
     opacity: 0;
     transition: opacity 0.4s ease;
     background: radial-gradient(
-      600px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
-      rgba(255, 255, 255, 0.10) 0%,
-      rgba(255, 255, 255, 0.04) 30%,
+      520px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(80, 120, 220, 0.12) 0%,
+      rgba(120, 90, 220, 0.06) 32%,
+      transparent 68%
+    );
+  }
+
+  .dark .glass-card .card-spotlight {
+    background: radial-gradient(
+      560px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+      rgba(255, 255, 255, 0.12) 0%,
+      rgba(150, 190, 255, 0.06) 30%,
       transparent 70%
     );
   }
+
+  /* Hairline glare that rides the top edge on hover */
+  .glass-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1px;
+    background: linear-gradient(180deg, hsl(var(--foreground) / 0.14), transparent 40%);
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+  }
+
+  .glass-card:hover::before { opacity: 1; }
 
   .glass-card:hover .card-spotlight {
     opacity: 1;
@@ -500,6 +566,97 @@
     transform: scale(0.97);
     transition: transform 0.1s ease;
   }
+
+  /* ─────────────────────────────────────────────
+     PREMIUM SECTION PRIMITIVES (elite redesign)
+     ───────────────────────────────────────────── */
+
+  /* Soft aurora field behind a section (GPU-composited, cheap) */
+  .aurora-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+  }
+  .aurora-bg::before,
+  .aurora-bg::after {
+    content: "";
+    position: absolute;
+    width: 46vw;
+    height: 46vw;
+    max-width: 640px;
+    max-height: 640px;
+    border-radius: 50%;
+    filter: blur(90px);
+    opacity: 0.5;
+    will-change: transform, opacity;
+    animation: aurora 16s ease-in-out infinite;
+  }
+  .aurora-bg::before {
+    top: -12%;
+    left: -8%;
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.28), transparent 62%);
+  }
+  .aurora-bg::after {
+    bottom: -14%;
+    right: -6%;
+    background: radial-gradient(circle, rgba(236, 72, 153, 0.20), transparent 62%);
+    animation-delay: -8s;
+  }
+  .dark .aurora-bg::before { background: radial-gradient(circle, rgba(99, 102, 241, 0.22), transparent 62%); }
+  .dark .aurora-bg::after  { background: radial-gradient(circle, rgba(56, 189, 248, 0.16), transparent 62%); }
+
+  @media (max-width: 767px), (prefers-reduced-motion: reduce) {
+    .aurora-bg::before,
+    .aurora-bg::after { animation: none; opacity: 0.35; filter: blur(64px); }
+  }
+
+  /* Refined panel surface for premium cards (non-project) */
+  .premium-panel {
+    position: relative;
+    background:
+      linear-gradient(180deg, hsl(var(--card) / 0.9), hsl(var(--card) / 0.7));
+    border: 1px solid hsl(var(--foreground) / 0.08);
+    box-shadow:
+      0 1px 0 hsl(var(--foreground) / 0.04) inset,
+      0 24px 48px -24px hsl(var(--foreground) / 0.28);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* Elite stat tile */
+  .stat-tile {
+    position: relative;
+    overflow: hidden;
+    border: 1px solid hsl(var(--foreground) / 0.08);
+    background: hsl(var(--foreground) / 0.03);
+    transition: transform 0.4s cubic-bezier(0.25,1,0.5,1), border-color 0.4s ease, background 0.4s ease;
+  }
+  .stat-tile:hover {
+    transform: translateY(-4px);
+    border-color: hsl(var(--foreground) / 0.2);
+    background: hsl(var(--foreground) / 0.05);
+  }
+
+  /* Skill / tech chip */
+  .tech-chip {
+    transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease, color 0.25s ease;
+  }
+  .tech-chip:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Animated underline for links / FAQ questions */
+  .link-underline {
+    background-image: linear-gradient(currentColor, currentColor);
+    background-size: 0% 1.5px;
+    background-position: 0 100%;
+    background-repeat: no-repeat;
+    transition: background-size 0.35s cubic-bezier(0.25,1,0.5,1);
+  }
+  .group:hover .link-underline,
+  .link-underline:hover { background-size: 100% 1.5px; }
 }
 
 /* ────────────────────────────────────────────

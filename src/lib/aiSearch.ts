@@ -336,8 +336,8 @@ const fallbackResponses: Record<string, string> = {
   "achievements": "I have built 12+ projects including 7+ AI-first systems with practical deployment experience across healthcare AI, accessibility, computer vision, and automation.",
   "leadership": "I focus on leading projects end-to-end, from model prototyping to production-ready implementation and deployment.",
   "availability": "I am open to AI/ML internships, research collaborations, deep-tech projects, and startup partnerships.",
-  "text": "You can reach me through bhavyakansal.dev, LinkedIn (linkedin.com/in/kansal0920), or email (kansalbhavya27@gmail.com).",
-  "contact information": "Feel free to reach out via kansalbhavya27@gmail.com or connect with me on LinkedIn at linkedin.com/in/kansal0920.",
+  "text": "You can reach Bhavya through bhavyakansal.dev, LinkedIn (linkedin.com/in/bhavyakansal20), or email (kansalbhavya27@gmail.com).",
+  "contact information": "Feel free to reach out via kansalbhavya27@gmail.com or connect on LinkedIn at linkedin.com/in/bhavyakansal20.",
 };
 
 const fallbackPatterns: Array<{ test: RegExp; value: string }> = [
@@ -359,7 +359,7 @@ const fallbackPatterns: Array<{ test: RegExp; value: string }> = [
   {
     test: /\b(contact|reach|email|linkedin|github)\b/i,
     value:
-      "You can reach me at kansalbhavya27@gmail.com, connect on LinkedIn at linkedin.com/in/kansal0920, or visit github.com/BhavyaKansal20.",
+      "You can reach Bhavya at [kansalbhavya27@gmail.com](mailto:kansalbhavya27@gmail.com), connect on [LinkedIn](https://linkedin.com/in/bhavyakansal20), or visit [GitHub](https://github.com/BhavyaKansal20).",
   },
   {
     test: /\b(experience|intern|work|role|background)\b/i,
@@ -413,23 +413,30 @@ Dynamic Project Rankings (auto-generated from portfolio data, sorted best-first)
 ${buildDynamicProjectContext()}
 
 Question: ${query}
-Instructions for providing responses:
-1. Voice and Tone:
-   - Always speak in the third person when referring to Bhavya (e.g., "Bhavya built...", "Bhavya specializes in...", "my creator, Bhavya...").
-   - Be helpful, professional, and highlight Bhavya's achievements.
-2. Content Guidelines:
-   - Provide specific, data-backed information when available.
-   - Highlight achievements and metrics that support your answer.
-   - If asked about old/new/current/future projects of Bhavya, answer in timeline order.
-   - Prefer retrieved RAG context over generic statements.
-3. Response Structure:
-   - Prefer concise answers, but always finish sentences and include proper punctuation. Do not truncate important details. Do not exceed 3 lines in response.
-   - Keep the response as condensed as possible while ensuring clarity and completeness.
-   - Start with the most relevant information.
-5. Always:
-   - Stay within the scope of the provided information.
-   - Maintain consistency with the portfolio website.
-Remember: You are representing a professional developer's portfolio as his virtual assistant. Your responses should reflect technical expertise while remaining accessible to all visitors.`;
+
+You are a highly capable, intelligent assistant. Answer well:
+
+1. Intelligence & scope:
+   - You can reason about complex, technical, and open-ended questions. If a visitor asks a general or technical question (e.g. "explain transformers", "compare PyTorch vs TensorFlow", "review this idea"), answer it genuinely and accurately, then connect it back to Bhavya's relevant experience or projects when natural.
+   - When asked about Bhavya, prefer the retrieved RAG context and concrete metrics over generic claims.
+   - If asked about old/current/future work, answer in timeline order.
+
+2. Voice & tone:
+   - Refer to Bhavya in the third person ("Bhavya built...", "Bhavya specializes in...").
+   - Professional, warm, confident. Highlight real achievements and metrics.
+
+3. Formatting (rendered as rich text):
+   - Use **bold** for key terms, short bullet lists for multiple items, and clickable markdown links like [GitHub](https://github.com/BhavyaKansal20) whenever you mention a profile, project, resume, or email.
+   - Be thorough but not padded: usually 2–6 sentences, or a tight bullet list. Never truncate mid-thought. It is fine to give a longer, well-structured answer for complex questions.
+
+4. Agentic actions (optional, powerful):
+   - You can trigger real actions on the site. If (and only if) it clearly helps the visitor, append ONE action block at the very end, exactly like:
+     <<ACTIONS>> verb, verb <<ACTIONS>>
+   - Available verbs: goto:projects | goto:about | goto:timeline | goto:coding | goto:faq | goto:contact | open_resume | github | linkedin | leetcode | google | email | email:secondary | theme:dark | theme:light | open:<full-https-url>
+   - Examples: visitor asks to see projects → end with "<<ACTIONS>> goto:projects <<ACTIONS>>". Visitor asks for the resume → "<<ACTIONS>> open_resume <<ACTIONS>>". Only use actions when the visitor's intent maps to one; otherwise omit the block entirely.
+   - Keep the visible answer natural — do not mention the action block itself.
+
+Answer the question now.`;
 
     // Primary provider: OpenRouter
     if (openRouterApiKey) {
@@ -454,7 +461,8 @@ Remember: You are representing a professional developer's portfolio as his virtu
                 content: prompt,
               },
             ],
-            temperature: 0.3,
+            temperature: 0.4,
+            max_tokens: 900,
           }),
         });
 
@@ -565,9 +573,10 @@ Remember: You are representing a professional developer's portfolio as his virtu
                 },
               ],
               generationConfig: {
-                temperature: 0.3,
-                topP: 0.6,
-                topK: 30,
+                temperature: 0.4,
+                topP: 0.7,
+                topK: 40,
+                maxOutputTokens: 1024,
               },
             }),
           }
