@@ -144,8 +144,8 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
 const Timeline = () => {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
   const sectionRef = useRef<HTMLElement>(null);
-  const [progress, setProgress] = useState(0);
-  const [maxProgress, setMaxProgress] = useState(0);
+  const [isTriggered, setIsTriggered] = useState(false);
+  const [revealedStates, setRevealedStates] = useState<boolean[]>([false, false, false, false]);
   const total = timelineData.length;
 
   useEffect(() => {
@@ -154,52 +154,51 @@ const Timeline = () => {
 
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
-      setProgress(1);
-      setMaxProgress(1);
+      setIsTriggered(true);
+      setRevealedStates([true, true, true, true]);
       return;
     }
-
-    let active = false;
-
-    const onScroll = () => {
-      if (!active) return;
-      const rect = el.getBoundingClientRect();
-      if (rect.height === 0) return; // Ignore unrendered states
-
-      const vh = window.innerHeight;
-      const start = vh * 0.90;
-      const end = vh * 0.25;
-      
-      const distance = start - end;
-      const current = start - rect.top;
-      
-      let p = current / distance;
-      p = Math.max(0, Math.min(1, p));
-      
-      setProgress(p);
-      setMaxProgress((prev) => Math.max(prev, p));
-    };
 
     const observer = new IntersectionObserver(
       (entries) => {
         const entry = entries[0];
-        active = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          setIsTriggered(true);
+          observer.disconnect();
+        }
       },
-      { threshold: 0.05 }
+      { threshold: 0.15 }
     );
 
-    observer.observe(el);
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    
+    // Defer observing by 500ms to allow layout and style sheets to load
+    const t = setTimeout(() => {
+      observer.observe(el);
+    }, 500);
+
     return () => {
+      clearTimeout(t);
       observer.disconnect();
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
     };
   }, []);
 
-  const fillPct = progress * 100;
+  // Stagger card reveals right-to-left on intersection
+  useEffect(() => {
+    if (!isTriggered) return;
+
+    // Index order: 3 (rightmost), 2, 1, 0 (leftmost)
+    const order = [3, 2, 1, 0];
+    order.forEach((idx, i) => {
+      setTimeout(() => {
+        setRevealedStates((prev) => {
+          const next = [...prev];
+          next[idx] = true;
+          return next;
+        });
+      }, i * 350); // 350ms stagger
+    });
+  }, [isTriggered]);
+
+  const fillPct = isTriggered ? 100 : 0;
 
   return (
     <section ref={sectionRef} className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
@@ -223,7 +222,7 @@ const Timeline = () => {
           <div className="absolute top-8 left-0 right-0 h-px bg-border" />
           {/* Right-to-left glowing fill (hardware-accelerated scaleX) */}
           <div
-            className="absolute top-8 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-transform duration-500 ease-out"
+            className="absolute top-8 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-transform duration-1000 ease-out"
             style={{
               width: "100%",
               transform: `scaleX(${fillPct / 100})`,
@@ -235,11 +234,7 @@ const Timeline = () => {
 
           <div className="grid grid-cols-4 gap-8 relative items-stretch">
             {timelineData.map((item, originalIndex) => {
-              // total is 4. indices: 0 (left), 1, 2, 3 (right)
-              // right-to-left reveal: index 3 (reversedIndex = 0) reveals first
-              const reversedIndex = total - 1 - originalIndex;
-              const threshold = 0.15 + (reversedIndex * 0.25);
-              const revealed = maxProgress >= threshold;
+              const revealed = revealedStates[originalIndex];
               
               return (
                 <div key={item.period || item.date} className="relative flex flex-col">
@@ -278,8 +273,8 @@ const Timeline = () => {
           <div className="space-y-12">
             {/* Newest first on mobile (reverse chronological) */}
             {[...timelineData].reverse().map((item, index) => {
-              const threshold = index / total;
-              const revealed = maxProgress >= threshold;
+              const originalIndex = total - 1 - index;
+              const revealed = revealedStates[originalIndex];
               
               return (
                 <div key={item.period || item.date} className="relative">
