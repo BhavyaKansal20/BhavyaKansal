@@ -332,7 +332,7 @@ const fallbackResponses: Record<string, string> = {
   "skills": "I primarily work with Python, PyTorch, TensorFlow, scikit-learn, OpenCV, NumPy, Pandas, FastAPI, Flask, React, Next.js, and cloud platforms like Supabase, Firebase, and Vercel, along with applied automation and multimodal AI pipelines.",
   "education": "I completed my Diploma in Computer Science Engineering at Thapar Polytechnic College (2023-2026), completed summer training in Python, AI/ML, and cybersecurity, completed AI/ML intern training at IIT & NIELIT Ropar, and am pursuing B.Tech in DSAI at Thapar Institute (2026-2029).",
   "projects": "My key projects include Healthy AI, ChromaCrystal UHD, SignLang AI, DeepFake Scanner, ML House Price Prediction, RetiNex AI, Machine Learning, Deep Learning, Datasets, AAGNI Assistant, Immutable Doc-Verify, and NeuroLock AI.",
-  "contact": "You can reach me at kansalbhavya27@gmail.com or thebhavyakansal20@gmail.com, connect on LinkedIn (linkedin.com/in/kansal0920), or visit github.com/BhavyaKansal20.",
+  "contact": "You can reach me at kansalbhavya27@gmail.com or kansalbhavya20@icloud.com, connect on LinkedIn (linkedin.com/in/bhavyakansal20), or visit github.com/BhavyaKansal20.",
   "achievements": "I have built 12+ projects including 7+ AI-first systems with practical deployment experience across healthcare AI, accessibility, computer vision, and automation.",
   "leadership": "I focus on leading projects end-to-end, from model prototyping to production-ready implementation and deployment.",
   "availability": "I am open to AI/ML internships, research collaborations, deep-tech projects, and startup partnerships.",
@@ -420,6 +420,7 @@ You are a highly capable, intelligent assistant. Answer well:
    - You can reason about complex, technical, and open-ended questions. If a visitor asks a general or technical question (e.g. "explain transformers", "compare PyTorch vs TensorFlow", "review this idea"), answer it genuinely and accurately, then connect it back to Bhavya's relevant experience or projects when natural.
    - When asked about Bhavya, prefer the retrieved RAG context and concrete metrics over generic claims.
    - If asked about old/current/future work, answer in timeline order.
+  - If the question is ambiguous, infer the most useful portfolio intent and answer with a short clarifying note plus the best direct action.
 
 2. Voice & tone:
    - Refer to Bhavya in the third person ("Bhavya built...", "Bhavya specializes in...").
@@ -428,6 +429,7 @@ You are a highly capable, intelligent assistant. Answer well:
 3. Formatting (rendered as rich text):
    - Use **bold** for key terms, short bullet lists for multiple items, and clickable markdown links like [GitHub](https://github.com/BhavyaKansal20) whenever you mention a profile, project, resume, or email.
    - Be thorough but not padded: usually 2–6 sentences, or a tight bullet list. Never truncate mid-thought. It is fine to give a longer, well-structured answer for complex questions.
+  - When useful, include direct links to Bhavya's live site sections or profiles so the user can act immediately.
 
 4. Agentic actions (optional, powerful):
    - You can trigger real actions on the site. If (and only if) it clearly helps the visitor, append ONE action block at the very end, exactly like:

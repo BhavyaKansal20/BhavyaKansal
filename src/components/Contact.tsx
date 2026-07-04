@@ -40,10 +40,8 @@ const Contact = () => {
         {/* Editorial header */}
         <div className={`mb-14 sm:mb-16 ${contactVisible ? "scroll-animate" : "opacity-0"}`}>
           <span className="eyebrow">Get in Touch</span>
-          <h2 className="display-heading text-5xl md:text-7xl font-bold leading-[0.95] mt-5">
-            Let's work
-            <br />
-            together.
+          <h2 className="display-heading text-5xl md:text-7xl font-bold leading-[0.95] mt-5 sm:whitespace-nowrap tracking-tight">
+            Let's work together.
           </h2>
           <div className="section-rule mt-8" />
         </div>
@@ -106,7 +104,7 @@ const Contact = () => {
             ref={tilt.cardRef}
             onMouseMove={tilt.onMouseMove}
             onMouseLeave={tilt.onMouseLeave}
-            className={`glass-card rounded-3xl p-8 md:p-12 shadow-2xl text-center relative overflow-hidden ${
+            className={`glass-card premium-panel rounded-3xl p-8 md:p-12 shadow-2xl text-center relative overflow-hidden ${
               contactVisible ? "scroll-animate scroll-animate-delay-2" : "opacity-0"
             }`}
           >

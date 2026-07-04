@@ -57,16 +57,12 @@ const FAQ = () => {
   return (
     <section id="faq" ref={faqRef} className="py-24 bg-background relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-[0.85fr_1.15fr] gap-12 lg:gap-20 items-start">
+        <div className="grid lg:grid-cols-[0.88fr_1.12fr] gap-12 lg:gap-20 items-start">
           {/* Left — sticky intro + CTA */}
           <div className={`lg:sticky lg:top-28 ${faqVisible ? "scroll-animate" : "opacity-0"}`}>
             <span className="eyebrow">Questions & Answers</span>
-            <h2 className="display-heading text-4xl md:text-5xl font-bold mt-5">
-              Frequently
-              <br />
-              Asked
-              <br />
-              Questions
+            <h2 className="display-heading text-4xl md:text-5xl font-bold mt-5 sm:whitespace-nowrap tracking-tight">
+              Frequently Asked Questions
             </h2>
             <div className="section-rule mt-8 mb-8 max-w-xs" />
             <p className="text-muted-foreground text-base leading-relaxed max-w-sm">
@@ -82,31 +78,33 @@ const FAQ = () => {
           </div>
 
           {/* Right — accordion */}
-          <Accordion type="single" collapsible className="space-y-0">
-            {faqs.map((faq, index) => (
-              <AccordionItem
-                key={index}
-                value={`item-${index}`}
-                className={`group border-0 border-b border-gray-200/60 dark:border-white/10 last:border-b-0 ${
-                  faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : "opacity-0"
-                }`}
-              >
-                <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 text-left leading-snug transition-all duration-200">
-                  <span className="flex items-start gap-4 w-full pr-4">
-                    <span className="text-muted-foreground/70 font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
-                      {String(index + 1).padStart(2, "0")}
+          <div className="premium-panel rounded-[2rem] p-2 md:p-3 shadow-[0_28px_80px_-36px_rgba(0,0,0,0.35)]">
+            <Accordion type="single" collapsible className="space-y-0">
+              {faqs.map((faq, index) => (
+                <AccordionItem
+                  key={index}
+                  value={`item-${index}`}
+                  className={`group border-0 border-b border-gray-200/60 dark:border-white/10 last:border-b-0 ${
+                    faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : "opacity-0"
+                  }`}
+                >
+                  <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 text-left leading-snug transition-all duration-200">
+                    <span className="flex items-start gap-4 w-full pr-4">
+                      <span className="text-muted-foreground/70 font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
+                        {String(index + 1).padStart(2, "0")}
+                      </span>
+                      <span className="group-hover:text-foreground transition-colors duration-200">
+                        {faq.question}
+                      </span>
                     </span>
-                    <span className="group-hover:text-foreground transition-colors duration-200">
-                      {faq.question}
-                    </span>
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
         </div>
       </div>
     </section>

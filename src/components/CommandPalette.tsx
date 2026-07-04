@@ -33,9 +33,10 @@ interface Message {
 
 const suggestionPills = [
   "Show me his best projects",
-  "Explain his tech stack",
-  "Tell me about RetiNex AI",
   "Open his resume",
+  "Open his GitHub",
+  "Explain his tech stack",
+  "Draft a collaboration plan",
   "How can I contact Bhavya?",
 ];
 
@@ -303,7 +304,7 @@ const CommandPalette = () => {
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-3xl shadow-2xl transition-all duration-300 border border-white/10 glass-card"
+      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-[2rem] shadow-[0_35px_90px_rgba(0,0,0,0.45)] transition-all duration-300 border border-white/10 glass-card backdrop-blur-2xl"
       style={{
         animation: 'chatSpringIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
       }}
@@ -317,7 +318,7 @@ const CommandPalette = () => {
       >
         
         {/* Header - Premium Dark */}
-        <div className="px-4 py-3 flex items-center justify-between z-10 border-b border-white/5" style={{ background: 'linear-gradient(135deg, #0d1117 0%, #161b22 100%)' }}>
+        <div className="px-4 py-3 flex items-center justify-between z-10 border-b border-white/5" style={{ background: 'linear-gradient(135deg, #0b1016 0%, #151b24 100%)' }}>
           <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#0d1117]">
               <img 
@@ -333,7 +334,7 @@ const CommandPalette = () => {
               </h4>
               <span className="text-[11px] text-cyan-400/80 flex items-center gap-1 font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 inline-block"></span>
-                online
+                context-aware assistant
               </span>
             </div>
           </div>
