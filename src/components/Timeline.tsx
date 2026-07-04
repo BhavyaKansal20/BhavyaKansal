@@ -159,7 +159,10 @@ const Timeline = () => {
       return;
     }
 
+    let active = false;
+
     const onScroll = () => {
+      if (!active) return;
       const rect = el.getBoundingClientRect();
       if (rect.height === 0) return; // Ignore unrendered states
 
@@ -177,16 +180,25 @@ const Timeline = () => {
       setMaxProgress((prev) => Math.max(prev, p));
     };
 
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        active = entry.isIntersecting;
+        if (active) {
+          onScroll();
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(el);
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll, { passive: true });
     
-    // Defer initial calculate slightly for page layout rendering
-    const t = setTimeout(onScroll, 80);
-    
     return () => {
+      observer.disconnect();
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
-      clearTimeout(t);
     };
   }, []);
 

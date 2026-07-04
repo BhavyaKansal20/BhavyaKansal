@@ -49,69 +49,69 @@ const SemiCircleGauge = ({
   hard,
   animate,
 }: { easy: number; medium: number; hard: number; animate: boolean }) => {
-  const solved = easy + medium + hard;
-  const totalQuestions = 3981; // standard LeetCode total
-  const pct = Math.min(solved / totalQuestions, 1);
+  const visEasy = Math.max(easy, 1);
+  const visMedium = Math.max(medium, 1);
+  const visHard = Math.max(hard, 1);
+  const total = visEasy + visMedium + visHard;
+  const easyAngle  = (visEasy / total) * 180;
+  const mediumAngle = (visMedium / total) * 180;
+  const hardAngle  = (visHard / total) * 180;
 
-  const r = 75;
+  const r = 85;
   const cx = 110;
-  const cy = 105;
+  const cy = 110;
 
-  const arcLength = 235.6; // pi * 75
-  const strokeDashoffset = arcLength - (arcLength * pct);
+  const polarToXY = (angleFromLeft: number, radius: number) => {
+    const radians = (angleFromLeft * Math.PI) / 180;
+    return {
+      x: cx - radius * Math.cos(radians),
+      y: cy - radius * Math.sin(radians),
+    };
+  };
+
+  const arcPath = (startDeg: number, endDeg: number, r: number, innerR: number) => {
+    const startOuter = polarToXY(startDeg, r);
+    const endOuter   = polarToXY(endDeg, r);
+    const startInner = polarToXY(endDeg, innerR);
+    const endInner   = polarToXY(startDeg, innerR);
+    const largeArc   = endDeg - startDeg > 180 ? 1 : 0;
+    return [
+      `M ${startOuter.x} ${startOuter.y}`,
+      `A ${r} ${r} 0 ${largeArc} 1 ${endOuter.x} ${endOuter.y}`,
+      `L ${startInner.x} ${startInner.y}`,
+      `A ${innerR} ${innerR} 0 ${largeArc} 0 ${endInner.x} ${endInner.y}`,
+      "Z"
+    ].join(" ");
+  };
+
+  const segments = [
+    { color: COLORS.Easy, deg: easyAngle, label: "Easy", start: hardAngle + mediumAngle, end: 180 },
+    { color: COLORS.Medium, deg: mediumAngle, label: "Medium", start: hardAngle, end: hardAngle + mediumAngle },
+    { color: COLORS.Hard, deg: hardAngle, label: "Hard", start: 0, end: hardAngle },
+  ];
 
   return (
     <svg viewBox="0 0 220 120" className="w-full max-w-[220px]">
-      <defs>
-        <linearGradient id="gaugeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-          <stop offset="0%" stopColor="#2db55d" />
-          <stop offset="100%" stopColor="#ffa116" />
-        </linearGradient>
-      </defs>
       {/* Background Track */}
-      <path
-        d="M 35,105 A 75,75 0 0,1 185,105"
-        fill="none"
-        stroke="#222327"
-        strokeWidth="14"
-        strokeLinecap="round"
-      />
-      {/* Progress Overlay */}
-      <path
-        d="M 35,105 A 75,75 0 0,1 185,105"
-        fill="none"
-        stroke="url(#gaugeGradient)"
-        strokeWidth="14"
-        strokeLinecap="round"
-        strokeDasharray={arcLength}
-        strokeDashoffset={animate ? strokeDashoffset : arcLength}
-        style={{
-          transition: "stroke-dashoffset 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)",
-          willChange: "stroke-dashoffset"
-        }}
-      />
-      {/* Text inside the curve */}
-      <text
-        x="110"
-        y="75"
-        fill="#ffffff"
-        fontSize="22"
-        fontWeight="bold"
-        textAnchor="middle"
-        fontFamily="Times New Roman"
-      >
-        {solved}
-      </text>
-      <text
-        x="110"
-        y="95"
-        fill="#8a8f98"
-        fontSize="11"
-        textAnchor="middle"
-        fontFamily="Times New Roman"
-      >
-        / {totalQuestions} Solved
-      </text>
+      <path d={arcPath(0, 180, r, 55)} fill="#222327" />
+      {/* Segments */}
+      {segments.map((seg, index) => {
+        if (seg.deg < 0.5) return null;
+        return (
+          <path
+            key={seg.label}
+            d={arcPath(seg.start, seg.end, r, 55)}
+            fill={seg.color}
+            style={{
+              filter: `drop-shadow(0 0 3px ${seg.color}40)`,
+              opacity: animate ? 1 : 0,
+              transform: animate ? "translate3d(0,0,0)" : "translate3d(10px,0,0)",
+              transition: "opacity 460ms ease, transform 460ms ease, filter 460ms ease",
+              transitionDelay: animate ? `${index * 160}ms` : "0ms",
+            }}
+          />
+        );
+      })}
     </svg>
   );
 };
@@ -562,11 +562,11 @@ const CodingDashboard = () => {
 
               const getContributionColor = (level: number) => {
                 switch (level) {
-                  case 1: return "#9be9a8";
-                  case 2: return "#40c463";
-                  case 3: return "#30a14e";
-                  case 4: return "#216e39";
-                  default: return "#ebedf0";
+                  case 1: return "#0e4429";
+                  case 2: return "#006d32";
+                  case 3: return "#26a641";
+                  case 4: return "#39d353";
+                  default: return "#161b22";
                 }
               };
 
@@ -589,6 +589,7 @@ const CodingDashboard = () => {
                         rx="2"
                         ry="2"
                         fill={color}
+                        style={level > 0 ? { filter: `drop-shadow(0 0 1.5px ${color})` } : undefined}
                         className="transition-all duration-150 hover:opacity-80 cursor-pointer"
                       >
                         <title>{`${day.date}: ${day.count} contributions`}</title>
