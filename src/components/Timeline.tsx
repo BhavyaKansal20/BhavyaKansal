@@ -141,70 +141,81 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
   );
 };
 
+const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index: number, total: number }) => {
+  const { ref, isVisible } = useScrollAnimation();
+  const reverseIdx = total - 1 - index;
+  const delayMs = reverseIdx * 350;
+
+  return (
+    <div className="flex-1 flex flex-col items-center group relative min-w-[280px]">
+      <div 
+        ref={ref}
+        className="w-full flex-1 pt-8 px-4 transition-all duration-700 ease-out"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "translateY(0)" : "translateY(40px)",
+          transitionDelay: `${delayMs}ms`
+        }}
+      >
+        <TiltCard item={item} revealed={isVisible} />
+      </div>
+      
+      <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
+        <div
+          className={`w-5 h-5 rounded-full border-2 transition-all duration-500 bg-background ${
+            isVisible 
+              ? `${typeColors[item.type || "education"]} border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110` 
+              : "border-border scale-75 opacity-50"
+          }`}
+          style={{ transitionDelay: `${delayMs}ms` }}
+        />
+        <div 
+          className={`h-8 w-px transition-all duration-500 bg-gradient-to-b ${
+            isVisible ? "from-white/20 to-transparent" : "from-border to-transparent opacity-0"
+          }`}
+          style={{ transitionDelay: `${delayMs}ms` }}
+        />
+      </div>
+    </div>
+  );
+};
+
+const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
+  const { ref, isVisible } = useScrollAnimation();
+  
+  return (
+    <div ref={ref} className="relative">
+      <div className="absolute -left-[26px] top-4">
+        <div
+          className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
+            isVisible
+              ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
+              : "bg-background border-border scale-75 opacity-0"
+          }`}
+        />
+      </div>
+      <div 
+        className="ml-4 transition-all duration-700 ease-out"
+        style={{
+          opacity: isVisible ? 1 : 0,
+          transform: isVisible ? "translateY(0)" : "translateY(20px)"
+        }}
+      >
+        <TiltCard item={item} revealed={isVisible} />
+      </div>
+    </div>
+  );
+};
+
 const Timeline = () => {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
-  const sectionRef = useRef<HTMLElement>(null);
-  const [isTriggered, setIsTriggered] = useState(false);
-  const [revealedStates, setRevealedStates] = useState<boolean[]>([false, false, false, false]);
+  const { ref: trackRef, isVisible: trackVisible } = useScrollAnimation();
   const total = timelineData.length;
-
-  useEffect(() => {
-    const el = sectionRef.current;
-    if (typeof window === "undefined" || !el) return;
-
-    const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
-    if (prefersReduced) {
-      setIsTriggered(true);
-      setRevealedStates([true, true, true, true]);
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-          setIsTriggered(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.1, rootMargin: "0px 0px -15% 0px" } // Wait until it's 15% into the viewport
-    );
-
-    // Defer observing by 1000ms to allow layout and style sheets to settle
-    const t = setTimeout(() => {
-      observer.observe(el);
-    }, 1000);
-
-    return () => {
-      clearTimeout(t);
-      observer.disconnect();
-    };
-  }, []);
-
-  // Stagger card reveals right-to-left on intersection
-  useEffect(() => {
-    if (!isTriggered) return;
-
-    // Index order: 3 (rightmost), 2, 1, 0 (leftmost)
-    const order = [3, 2, 1, 0];
-    order.forEach((idx, i) => {
-      setTimeout(() => {
-        setRevealedStates((prev) => {
-          const next = [...prev];
-          next[idx] = true;
-          return next;
-        });
-      }, i * 350); // 350ms stagger
-    });
-  }, [isTriggered]);
-
-  const fillPct = isTriggered ? 100 : 0;
 
   return (
     <section className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
       <div className="aurora-bg" aria-hidden />
       <div className="max-w-7xl mx-auto relative z-10">
-        {/* Header */}
         <div
           ref={titleRef}
           className={`${titleVisible ? "scroll-animate" : "opacity-0"} text-center mb-16 lg:mb-24`}
@@ -216,86 +227,43 @@ const Timeline = () => {
           </p>
         </div>
 
-        <div ref={sectionRef}>
-          {/* ── Desktop — right-to-left horizontal flow ── */}
-          <div className="hidden lg:block relative mt-8">
-          {/* Base track */}
+        <div className="hidden lg:block relative mt-8">
           <div className="absolute top-8 left-0 right-0 h-px bg-border" />
-          {/* Right-to-left glowing fill (hardware-accelerated scaleX) */}
+          
           <div
-            className="absolute top-8 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-transform duration-1000 ease-out"
-            style={{
-              width: "100%",
-              transform: `scaleX(${fillPct / 100})`,
-              transformOrigin: "right",
+            ref={trackRef}
+            className="absolute top-8 left-0 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-transform duration-1000 ease-out origin-right"
+            style={{ 
+              transform: `scaleX(${trackVisible ? 1 : 0})`,
               willChange: "transform",
               boxShadow: "0 0 12px hsl(var(--accent) / 0.6)"
             }}
           />
 
-          <div className="grid grid-cols-4 gap-8 relative items-stretch">
-            {timelineData.map((item, originalIndex) => {
-              const revealed = revealedStates[originalIndex];
-              
-              return (
-                <div key={item.period || item.date} className="relative flex flex-col">
-                  {/* Node */}
-                  <div className="relative flex justify-center mb-8">
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
-                        revealed
-                          ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
-                          : "bg-background border-border scale-75 opacity-0"
-                      }`}
-                      style={revealed ? { boxShadow: "0 0 14px 2px currentColor" } : undefined}
-                    />
-                  </div>
-                  <TiltCard item={item} revealed={revealed} />
-                </div>
-              );
-            })}
+          <div className="flex justify-between items-start pt-6 gap-6 relative z-10">
+            {timelineData.map((item, index) => (
+              <TimelineItemDesktop key={item.period || item.date} item={item} index={index} total={total} />
+            ))}
           </div>
         </div>
 
-        {/* ── Mobile — vertical, reveals as you scroll ── */}
         <div className="lg:hidden relative pl-8 mt-8">
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
           <div
-            className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-all duration-500 ease-out"
+            className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-all duration-1000 ease-out origin-top"
             style={{
               height: "100%",
-              transform: `scaleY(${fillPct / 100})`,
-              transformOrigin: "top",
+              transform: `scaleY(${trackVisible ? 1 : 0})`,
               willChange: "transform",
               boxShadow: "0 0 12px hsl(var(--accent) / 0.6)"
             }}
           />
 
           <div className="space-y-12">
-            {/* Newest first on mobile (reverse chronological) */}
-            {[...timelineData].reverse().map((item, index) => {
-              const originalIndex = total - 1 - index;
-              const revealed = revealedStates[originalIndex];
-              
-              return (
-                <div key={item.period || item.date} className="relative">
-                  <div className="absolute -left-[26px] top-4">
-                    <div
-                      className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
-                        revealed
-                          ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
-                          : "bg-background border-border scale-75 opacity-0"
-                      }`}
-                    />
-                  </div>
-                  <div className="ml-4">
-                    <TiltCard item={item} revealed={revealed} />
-                  </div>
-                </div>
-              );
-            })}
+            {[...timelineData].reverse().map((item) => (
+              <TimelineItemMobile key={item.period || item.date} item={item} />
+            ))}
           </div>
-        </div>
         </div>
       </div>
     </section>
