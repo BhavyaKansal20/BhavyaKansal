@@ -4,8 +4,8 @@
     {
       "name": "portfolio-dev",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev"],
-      "port": 8080
+      "runtimeArgs": ["run", "dev", "--", "--port", "8199", "--strictPort"],
+      "port": 8199
     }
   ]
 }

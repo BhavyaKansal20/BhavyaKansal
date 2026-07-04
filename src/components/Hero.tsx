@@ -75,7 +75,7 @@ const Hero = () => {
                 alt="Bhavya Kansal — AI Systems Architect & Developer"
                 loading="eager"
                 decoding="async"
-                fetchPriority="high"
+                {...({ fetchpriority: "high" } as Record<string, string>)}
                 className="w-full h-[440px] sm:h-[500px] md:h-[560px] object-cover object-top rounded-2xl transition-transform duration-500 group-hover:scale-[1.04]"
               />
               {/* Dark-mode vignette */}
