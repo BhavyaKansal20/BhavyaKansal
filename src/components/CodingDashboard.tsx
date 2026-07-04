@@ -7,7 +7,7 @@ import {
   PieChart, Pie, Cell, ResponsiveContainer,
   LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid
 } from "recharts";
-import { Github, Code2, Calendar, Award, Star, TrendingUp } from "lucide-react";
+import { Github, Code2, Calendar, Award, Star, TrendingUp, Target } from "lucide-react";
 
 type ContributionDay = { date: string; count: number };
 
@@ -17,9 +17,9 @@ const GITHUB_URL = "https://github.com/BhavyaKansal20";
 const GOOGLE_DEV_URL = "https://g.dev/kansalbhavya20";
 
 const COLORS = {
-  Easy: "#22c55e",
-  Medium: "#ffb800",
-  Hard: "#ef4444"
+  Easy: "#2db55d",
+  Medium: "#ffa116",
+  Hard: "#ef4743"
 };
 
 /* ── SVG Icons ── */
@@ -64,7 +64,7 @@ const SemiCircleGauge = ({
   const mediumAngle = (medium / total) * 180;
   const hardAngle  = (hard / total) * 180;
 
-  const r = 80;
+  const r = 85;
   const cx = 110;
   const cy = 110;
 
@@ -101,17 +101,17 @@ const SemiCircleGauge = ({
   return (
     <svg viewBox="0 0 220 120" className="w-full max-w-[220px]">
       {/* Track */}
-      <path d={arcPath(0, 180, r, 58)} fill="#2a2b30" />
+      <path d={arcPath(0, 180, r, 55)} fill="#222327" />
       {/* Segments */}
       {segments.map((seg, index) => {
         if (seg.deg < 0.5) return null;
         return (
           <path
             key={seg.label}
-            d={arcPath(seg.start, seg.end - 2, r, 60)}
+            d={arcPath(seg.start, seg.end, r, 55)}
             fill={seg.color}
             style={{
-              filter: `drop-shadow(0 0 4px ${seg.color}60)`,
+              filter: `drop-shadow(0 0 3px ${seg.color}40)`,
               opacity: animate ? 1 : 0,
               transform: animate ? "translate3d(0,0,0)" : "translate3d(10px,0,0)",
               transition: "opacity 460ms ease, transform 460ms ease, filter 460ms ease",
@@ -120,7 +120,6 @@ const SemiCircleGauge = ({
           />
         );
       })}
-      {/* No text in center to match the image */}
     </svg>
   );
 };
@@ -376,8 +375,8 @@ const CodingDashboard = () => {
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           {/* Problem Breakdown — semi-circular gauge */}
           <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 ${revealStage >= 4 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 4 ? { animationDelay: "60ms" } : undefined}>
-            <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-white">
-              <Code2 className="w-5 h-5 text-gray-400" /> Problem Breakdown
+            <h3 className="text-lg font-bold flex items-center gap-2 mb-6 text-white">
+              <Target className="w-5 h-5 text-gray-400" /> Problem Breakdown
             </h3>
             <div className="flex items-center justify-between gap-4 h-[180px]">
               <div className="flex-1 flex justify-center h-full items-center">
@@ -388,18 +387,17 @@ const CodingDashboard = () => {
                   animate={revealStage >= 4}
                 />
               </div>
-              <div className="space-y-4 pr-4 flex-shrink-0">
+              <div className="space-y-4 pr-6 flex-shrink-0">
                 {[
                   { label: "Easy", val: stats.lcEasy, color: COLORS.Easy },
                   { label: "Medium", val: stats.lcMedium, color: COLORS.Medium },
                   { label: "Hard", val: stats.lcHard, color: COLORS.Hard },
                 ].map((d, index) => (
-                  <div key={d.label} className="flex items-center justify-between gap-6" style={{ opacity: revealStage >= 4 ? 1 : 0, transition: "opacity 360ms ease", transitionDelay: `${index * 120}ms` }}>
-                    <div className="flex items-center gap-2">
-                      <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: d.color }} />
-                      <span className="text-sm font-medium text-gray-300">{d.label}:</span>
-                    </div>
-                    <span className="text-white font-bold tabular-nums">{d.val}</span>
+                  <div key={d.label} className="flex items-center gap-2" style={{ opacity: revealStage >= 4 ? 1 : 0, transition: "opacity 360ms ease", transitionDelay: `${index * 120}ms` }}>
+                    <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: d.color }} />
+                    <span className="text-sm font-medium text-gray-300">
+                      {d.label}: <strong className="text-white font-bold">{d.val}</strong>
+                    </span>
                   </div>
                 ))}
               </div>
@@ -408,44 +406,64 @@ const CodingDashboard = () => {
 
           {/* Rating Progress — line chart */}
           <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 ${revealStage >= 3 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 3 ? { animationDelay: "80ms" } : undefined}>
-            <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-white">
+            <h3 className="text-lg font-bold flex items-center gap-2 mb-6 text-white">
               <TrendingUp className="w-5 h-5 text-gray-400" /> Rating Progress
             </h3>
-            {stats.ratingHistory.length > 1 ? (
-              <ResponsiveContainer width="100%" height={150}>
-                <LineChart data={stats.ratingHistory} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
-                  <XAxis
-                    dataKey="label"
-                    axisLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
-                    tickLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
-                    tick={{ fill: '#b3b7bf', fontSize: 14, fontFamily: 'Times New Roman' }}
-                  />
-                  <YAxis
-                    axisLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
-                    tickLine={{ stroke: "#8a8f98", strokeWidth: 1 }}
-                    tick={{ fill: '#b3b7bf', fontSize: 14, fontFamily: 'Times New Roman' }}
-                    domain={['auto', 'auto']}
-                  />
-                  <Tooltip content={<RatingTooltip />} />
-                  <Line
-                    type="monotone"
-                    dataKey="rating"
-                    stroke="#e2e8f0"
-                    strokeWidth={4}
-                    dot={{ r: 7, fill: '#f8fafc', strokeWidth: 0 }}
-                    activeDot={{ r: 8, fill: '#fff' }}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            ) : (
-              <div className="h-[150px] flex flex-col items-center justify-center text-muted-foreground gap-2">
-                <TrendingUp className="w-8 h-8 opacity-30" />
-                <p className="text-sm">Contest data loading or not yet available</p>
-                <a href={LEETCODE_URL} target="_blank" rel="noreferrer" className="text-xs text-blue-400 hover:underline">
-                  View on LeetCode →
-                </a>
-              </div>
-            )}
+            {(() => {
+              const hasData = stats.ratingHistory.length > 0;
+              const chartData = hasData
+                ? stats.ratingHistory
+                : [
+                    { label: "Jan", rating: null },
+                    { label: "Mar", rating: null },
+                    { label: "May", rating: null },
+                    { label: "Jul", rating: null },
+                    { label: "Sep", rating: null }
+                  ];
+
+              const maxVal = hasData
+                ? Math.max(...stats.ratingHistory.map((h: any) => h.rating || 0))
+                : 2000;
+              const yMax = Math.max(2000, Math.ceil(maxVal / 500) * 500);
+              const yDomain = [0, yMax];
+              const yTicks = Array.from({ length: (yMax / 500) + 1 }, (_, i) => i * 500);
+
+              return (
+                <div className="relative">
+                  <ResponsiveContainer width="100%" height={150}>
+                    <LineChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+                      <XAxis
+                        dataKey="label"
+                        axisLine={{ stroke: "#3f444e", strokeWidth: 1 }}
+                        tickLine={{ stroke: "#3f444e", strokeWidth: 1 }}
+                        tick={{ fill: '#8a8f98', fontSize: 11, fontFamily: 'Times New Roman' }}
+                      />
+                      <YAxis
+                        domain={yDomain}
+                        ticks={yTicks}
+                        axisLine={{ stroke: "#3f444e", strokeWidth: 1 }}
+                        tickLine={{ stroke: "#3f444e", strokeWidth: 1 }}
+                        tick={{ fill: '#8a8f98', fontSize: 11, fontFamily: 'Times New Roman' }}
+                      />
+                      {hasData && <Tooltip content={<RatingTooltip />} />}
+                      <Line
+                        type="monotone"
+                        dataKey="rating"
+                        stroke="#ffffff"
+                        strokeWidth={2}
+                        dot={{ r: 4, fill: '#ffffff', stroke: '#1e1f23', strokeWidth: 1.5 }}
+                        activeDot={{ r: 6, fill: '#ffffff' }}
+                      />
+                    </LineChart>
+                  </ResponsiveContainer>
+                  {!hasData && (
+                    <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#1e1f23]/60 backdrop-blur-[1px] pointer-events-none">
+                      <p className="text-xs text-gray-500 font-medium">Contest history not yet available</p>
+                    </div>
+                  )}
+                </div>
+              );
+            })()}
           </div>
         </div>
 

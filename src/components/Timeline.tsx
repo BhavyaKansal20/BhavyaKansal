@@ -145,10 +145,9 @@ const Timeline = () => {
   const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
   const sectionRef = useRef<HTMLElement>(null);
   const [progress, setProgress] = useState(0);
-  const [revealedCount, setRevealedCount] = useState(0);
+  const [maxProgress, setMaxProgress] = useState(0);
   const total = timelineData.length;
 
-  // Staggered reveal: once the section comes into view, reveal items one-by-one
   useEffect(() => {
     const el = sectionRef.current;
     if (typeof window === "undefined" || !el) return;
@@ -156,32 +155,39 @@ const Timeline = () => {
     const prefersReduced = window.matchMedia?.("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) {
       setProgress(1);
-      setRevealedCount(total);
+      setMaxProgress(1);
       return;
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          // Trigger the sequence
-          let currentCount = 0;
-          const interval = setInterval(() => {
-            currentCount++;
-            setRevealedCount(currentCount);
-            setProgress(currentCount / total);
-            if (currentCount >= total) {
-              clearInterval(interval);
-            }
-          }, 600); // 600ms delay between each reveal
-          observer.disconnect();
-        }
-      },
-      { threshold: 0.15 } // trigger when 15% of the timeline is visible
-    );
+    const onScroll = () => {
+      const rect = el.getBoundingClientRect();
+      const vh = window.innerHeight;
+      
+      // Calculate scroll progress when section is in viewport
+      // Starts entering from bottom (rect.top <= vh)
+      // Fully scrolled past (rect.top <= vh * 0.1)
+      const start = vh * 0.85;
+      const end = vh * 0.15;
+      
+      const distance = start - end;
+      const current = start - rect.top;
+      
+      let p = current / distance;
+      p = Math.max(0, Math.min(1, p));
+      
+      setProgress(p);
+      setMaxProgress((prev) => Math.max(prev, p));
+    };
 
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [total]);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+    onScroll(); // initial compute
+    
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   const fillPct = progress * 100;
 
@@ -213,13 +219,12 @@ const Timeline = () => {
 
           <div className="grid grid-cols-4 gap-8 relative items-stretch">
             {timelineData.map((item, originalIndex) => {
-              // total is 4. indices: 0 (left/oldest), 1, 2, 3 (right/newest)
-              // right-to-left reveal means index 3 reveals first.
-              // revealedCount goes 0 -> 4.
-              // if revealedCount = 1, we want index 3 revealed.
-              // So revealed if (total - 1 - originalIndex) < revealedCount
+              // total is 4. indices: 0 (left), 1, 2, 3 (right)
+              // right-to-left reveal: index 3 (reversedIndex = 0) reveals first
               const reversedIndex = total - 1 - originalIndex;
-              const revealed = reversedIndex < revealedCount;
+              const threshold = reversedIndex / total;
+              const revealed = maxProgress >= threshold;
+              
               return (
                 <div key={item.period || item.date} className="relative flex flex-col">
                   {/* Node */}
@@ -251,7 +256,9 @@ const Timeline = () => {
           <div className="space-y-12">
             {/* Newest first on mobile (reverse chronological) */}
             {[...timelineData].reverse().map((item, index) => {
-              const revealed = index < revealedCount;
+              const threshold = index / total;
+              const revealed = maxProgress >= threshold;
+              
               return (
                 <div key={item.period || item.date} className="relative">
                   <div className="absolute -left-[26px] top-4">
