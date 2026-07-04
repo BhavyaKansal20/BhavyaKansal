@@ -57,8 +57,8 @@ const Contact = () => {
             <div className="space-y-4">
               {contactItems.map((item) => {
                 const Inner = (
-                  <div className="stat-tile flex items-start gap-4 p-4 rounded-2xl bg-black/5 dark:bg-white/5 backdrop-blur-md border border-black/5 dark:border-white/10 hover:bg-black/10 dark:hover:bg-white/10 transition-colors">
-                    <div className="w-11 h-11 rounded-xl bg-white dark:bg-white/10 flex items-center justify-center shadow-sm border border-border flex-shrink-0">
+                  <div className="stat-tile flex items-start gap-4 p-4 rounded-2xl bg-black/10 dark:bg-white/10 backdrop-blur-xl border border-black/10 dark:border-white/20 hover:bg-black/20 dark:hover:bg-white/20 transition-all">
+                    <div className="w-11 h-11 rounded-xl bg-white/80 dark:bg-black/20 backdrop-blur-md flex items-center justify-center shadow-sm border border-border flex-shrink-0">
                       {item.icon}
                     </div>
                     <div className="min-w-0">

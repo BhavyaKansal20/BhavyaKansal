@@ -148,7 +148,7 @@ const Timeline = () => {
   const [revealedCount, setRevealedCount] = useState(0);
   const total = timelineData.length;
 
-  // Scroll-driven reveal: cards appear one-by-one as the section scrolls in.
+  // Staggered reveal: once the section comes into view, reveal items one-by-one
   useEffect(() => {
     const el = sectionRef.current;
     if (typeof window === "undefined" || !el) return;
@@ -160,29 +160,27 @@ const Timeline = () => {
       return;
     }
 
-    let raf: number | null = null;
-    const compute = () => {
-      raf = null;
-      const rect = el.getBoundingClientRect();
-      const vh = window.innerHeight || 1;
-      const start = vh * 0.82; // begin revealing
-      const end = vh * 0.28; // fully revealed
-      const p = (start - rect.top) / (start - end);
-      const clamped = Math.max(0, Math.min(1, p));
-      setProgress(clamped);
-      setRevealedCount((prev) => Math.max(prev, Math.ceil(clamped * total)));
-    };
-    const onScroll = () => {
-      if (raf == null) raf = requestAnimationFrame(compute);
-    };
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll, { passive: true });
-    compute();
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (raf != null) cancelAnimationFrame(raf);
-    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          // Trigger the sequence
+          let currentCount = 0;
+          const interval = setInterval(() => {
+            currentCount++;
+            setRevealedCount(currentCount);
+            setProgress(currentCount / total);
+            if (currentCount >= total) {
+              clearInterval(interval);
+            }
+          }, 600); // 600ms delay between each reveal
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15 } // trigger when 15% of the timeline is visible
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
   }, [total]);
 
   const fillPct = progress * 100;
