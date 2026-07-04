@@ -126,7 +126,7 @@ const Timeline = () => {
                 </div>
 
                 {/* Content Card */}
-                <div className="glass-card p-4 rounded-xl group cursor-default border border-black/60 dark:border-gray-400 transition-transform duration-200 ease-out transform hover:-translate-y-1 hover:shadow-lg bg-white/5 dark:bg-white/3 backdrop-blur-sm">
+                <div className="card-ripple glass-card p-4 rounded-xl group cursor-default border border-black/60 dark:border-gray-400 transition-transform duration-200 ease-out transform hover:-translate-y-1 hover:shadow-lg bg-white/5 dark:bg-white/3 backdrop-blur-sm">
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-sm text-muted-foreground">{item.period || item.date}</p>
@@ -210,7 +210,7 @@ const Timeline = () => {
                 </div>
 
                 {/* Content Card */}
-                <div className="glass-card p-6 rounded-xl group cursor-default border border-black/60 dark:border-gray-400 ml-4">
+                <div className="card-ripple glass-card p-6 rounded-xl group cursor-default border border-black/60 dark:border-gray-400 ml-4">
                   <p className="text-sm text-muted-foreground">{item.period || item.date}</p>
                   <h3 className="text-xl font-bold mb-1 text-foreground">{item.title}</h3>
                   {item.company && (

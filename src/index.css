@@ -133,7 +133,7 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Times New Roman', Times, Georgia, serif;
+    font-family: 'Inter', 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     position: relative;
     margin: 0;
     padding: 0;
@@ -207,7 +207,7 @@ All colors MUST be HSL.
     );
   }
 
-  /* Glass effect with hover tilt and border tracing arc */
+  /* Glass effect with hover tilt, border tracing arc, and shimmer */
   .glass-card {
     position: relative;
     background: transparent;
@@ -270,11 +270,100 @@ All colors MUST be HSL.
     }
   }
 
-  /* Scroll fade-in animation */
+  /* ============================================================
+     CARD RIPPLE / FLASH ANIMATION
+     Applies to all interactive cards (except .project-card)
+     ============================================================ */
+  .card-ripple {
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* The ripple element is injected by JS on click */
+  .card-ripple .ripple-burst {
+    position: absolute;
+    border-radius: 50%;
+    transform: scale(0);
+    pointer-events: none;
+    z-index: 50;
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.45) 0%,
+      rgba(255, 255, 255, 0.12) 40%,
+      transparent 70%
+    );
+    animation: ripple-expand 600ms cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  }
+
+  @keyframes ripple-expand {
+    0%   { transform: scale(0); opacity: 1; }
+    60%  { opacity: 0.6; }
+    100% { transform: scale(4); opacity: 0; }
+  }
+
+  /* Glass card also gets ripple */
+  .glass-card.card-ripple .ripple-burst {
+    background: radial-gradient(
+      circle,
+      rgba(255, 255, 255, 0.55) 0%,
+      rgba(180, 200, 255, 0.18) 40%,
+      transparent 70%
+    );
+  }
+
+  /* Animated gradient text utility */
+  .text-gradient-animate {
+    background: linear-gradient(
+      135deg,
+      hsl(var(--foreground)) 0%,
+      hsl(var(--accent)) 40%,
+      hsl(var(--foreground)) 80%
+    );
+    background-size: 200% auto;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient-pan 4s linear infinite;
+  }
+
+  @keyframes gradient-pan {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+  }
+
+  /* Shimmer sweep effect on dark cards */
+  .card-shimmer {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-shimmer::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.04) 50%,
+      transparent 60%
+    );
+    background-size: 200% 100%;
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+  .card-shimmer:hover::after {
+    opacity: 1;
+    animation: shimmer-sweep 1s ease forwards;
+  }
+  @keyframes shimmer-sweep {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+
+  /* Scroll fade-in animation — premium easing */
   @keyframes fadeInUp {
     0% {
       opacity: 0;
-      transform: translateY(40px);
+      transform: translateY(32px);
     }
     100% {
       opacity: 1;
@@ -282,25 +371,41 @@ All colors MUST be HSL.
     }
   }
 
+  @keyframes fadeInScale {
+    0% {
+      opacity: 0;
+      transform: translateY(20px) scale(0.97);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
   .scroll-animate {
     opacity: 0;
-    animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: fadeInUp 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .scroll-animate-scale {
+    opacity: 0;
+    animation: fadeInScale 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
   }
 
   .scroll-animate-delay-1 {
-    animation-delay: 0.15s;
+    animation-delay: 0.12s;
   }
 
   .scroll-animate-delay-2 {
-    animation-delay: 0.3s;
+    animation-delay: 0.24s;
   }
 
   .scroll-animate-delay-3 {
-    animation-delay: 0.45s;
+    animation-delay: 0.36s;
   }
   
   .scroll-animate-delay-4 {
-    animation-delay: 0.6s;
+    animation-delay: 0.48s;
   }
 
   /* Slide-up animation used for mobile bottom-sheet */

@@ -75,7 +75,7 @@ function parseGoogleProfile(raw) {
       favStart,
       badgesStart > -1 ? badgesStart : lines.length
     );
-    const allBadgesRaw = badgesStart > -1 
+    const allBadgesRaw = badgesStart > -1
       ? parseBadgesBetween(badgesStart, lines.length)
       : [];
 
@@ -196,14 +196,13 @@ async function run() {
   // 3. Fetch Repositories & Sync projects.json
   try {
     console.log("Fetching public repositories from GitHub REST API...");
-    // Let's use Token if available to bypass rate limits
     const headers = {};
     if (githubToken) {
       headers["Authorization"] = `token ${githubToken}`;
     }
 
     const reposResponse = await fetch(`https://api.github.com/users/${GITHUB_USER}/repos?per_page=100&sort=updated`, { headers });
-    
+
     if (reposResponse.ok) {
       const repos = await reposResponse.json();
       console.log(`✓ Fetched ${repos.length} public repositories.`);
@@ -213,7 +212,6 @@ async function run() {
         let projectsModified = false;
 
         for (const repo of repos) {
-          // Find matching project
           const matchingProject = projects.find(p => {
             if (!p.githubUrl) return false;
             const cleanUrl = p.githubUrl.toLowerCase().replace(/\.git$/, '');
@@ -222,7 +220,6 @@ async function run() {
           });
 
           if (matchingProject) {
-            // Update stars and forks metrics if they exist
             let starsUpdated = false;
             let forksUpdated = false;
 
@@ -245,7 +242,6 @@ async function run() {
                 return metric;
               });
 
-              // Add stars/forks if not present in the metrics array
               if (!starsUpdated && repo.stargazers_count > 0) {
                 matchingProject.metrics.push({
                   value: String(repo.stargazers_count),
@@ -264,7 +260,6 @@ async function run() {
               }
             }
 
-            // Sync languages to techStack if needed
             if (repo.language && !matchingProject.techStack.includes(repo.language)) {
               matchingProject.techStack.push(repo.language);
               projectsModified = true;
@@ -288,7 +283,7 @@ async function run() {
     console.error("❌ Error syncing projects data:", e);
   }
 
-  // 4. Fetch LeetCode Data
+  // 4. Fetch LeetCode Data — full profile including contest ranking history
   try {
     console.log("Fetching LeetCode Profile via GraphQL...");
     const leetCodeQuery = `
@@ -299,7 +294,10 @@ async function run() {
           profile { reputation ranking }
           submitStats {
             acSubmissionNum { difficulty count submissions }
+            totalSubmissionNum { difficulty count submissions }
           }
+          badges { id displayName icon creationDate }
+          upcomingBadges { name icon }
         }
         userContestRanking(username: $username) {
           attendedContestsCount
@@ -326,6 +324,9 @@ async function run() {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "Referer": "https://leetcode.com",
+        "Origin": "https://leetcode.com",
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
       },
       body: JSON.stringify({
         query: leetCodeQuery,
@@ -336,40 +337,102 @@ async function run() {
     if (response.ok) {
       const json = await response.json();
       if (json.data && json.data.matchedUser) {
-        fs.writeFileSync(LEETCODE_PROFILE_PATH, JSON.stringify(json.data, null, 2), 'utf8');
-        console.log(`✓ Saved LeetCode Profile to ${LEETCODE_PROFILE_PATH}`);
+        const dataToSave = {
+          ...json.data,
+          fetchedAt: new Date().toISOString(),
+        };
+        fs.writeFileSync(LEETCODE_PROFILE_PATH, JSON.stringify(dataToSave, null, 2), 'utf8');
+        const solved = json.data.matchedUser.submitStats?.acSubmissionNum?.find(s => s.difficulty === 'All')?.count || 0;
+        const contestRating = json.data.userContestRanking?.rating ? Math.round(json.data.userContestRanking.rating) : 0;
+        const historyCount = json.data.userContestRankingHistory?.filter(h => h.attended)?.length || 0;
+        console.log(`✓ Saved LeetCode Profile — Solved: ${solved}, Contest Rating: ${contestRating}, Contest History: ${historyCount} entries`);
       } else {
-        console.warn("⚠️ LeetCode profile not found or hidden.");
+        if (json.errors) {
+          console.warn("⚠️ LeetCode GraphQL errors:", JSON.stringify(json.errors));
+        } else {
+          console.warn("⚠️ LeetCode profile not found or hidden.");
+        }
       }
     } else {
-      console.error(`❌ LeetCode GraphQL request failed: ${response.status}`);
+      const errorText = await response.text().catch(() => '');
+      console.error(`❌ LeetCode GraphQL request failed: ${response.status} — ${errorText.slice(0, 200)}`);
     }
   } catch (e) {
     console.error("❌ Error fetching LeetCode data:", e);
   }
 
-  // 5. Fetch GeeksforGeeks Data
+  // 5. Fetch GeeksforGeeks Data — try GFG API first, then scrape as fallback
   try {
     console.log("Fetching GeeksforGeeks Profile...");
-    const gfgResponse = await fetch(`https://www.geeksforgeeks.org/profile/${GFG_USER}`, {
-      headers: {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-      }
-    });
+    let gfgSolved = null;
 
-    if (gfgResponse.ok) {
-      const html = await gfgResponse.text();
-      // Look for the JSON data embedded in the page script
-      const match = html.match(/total_problems_solved\\?":(\d+)/);
-      if (match && match[1]) {
-        const totalSolved = parseInt(match[1], 10);
-        fs.writeFileSync(GFG_PROFILE_PATH, JSON.stringify({ total_problems_solved: totalSolved }, null, 2), 'utf8');
-        console.log(`✓ Saved GFG Profile to ${GFG_PROFILE_PATH}`);
-      } else {
-        console.warn("⚠️ GFG total problems solved not found in page source.");
+    // Try the official GFG user API endpoint first
+    try {
+      const gfgApiResponse = await fetch(`https://geeksforgeeks.org/api/v1/user/info/?handle=${GFG_USER}`, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "Accept": "application/json",
+        },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (gfgApiResponse.ok) {
+        const gfgJson = await gfgApiResponse.json();
+        // API returns { info: { totalProblemsSolved: N, ... } }
+        const total = gfgJson?.info?.totalProblemsSolved ?? gfgJson?.total_problems_solved ?? null;
+        if (total !== null && !isNaN(Number(total))) {
+          gfgSolved = Number(total);
+          console.log(`✓ GFG API returned totalProblemsSolved: ${gfgSolved}`);
+        }
       }
+    } catch (apiErr) {
+      console.warn("⚠️ GFG API fetch failed, trying page scrape:", apiErr.message);
+    }
+
+    // Fallback: scrape the profile page HTML
+    if (gfgSolved === null) {
+      const gfgResponse = await fetch(`https://www.geeksforgeeks.org/user/${GFG_USER}/`, {
+        headers: {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+          "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+        },
+        signal: AbortSignal.timeout(15000),
+      });
+
+      if (gfgResponse.ok) {
+        const html = await gfgResponse.text();
+        // Multiple regex patterns to find solved count
+        const patterns = [
+          /total_problems_solved\\?":\s*(\d+)/,
+          /"totalProblemsSolved":\s*(\d+)/,
+          /"total_solved":\s*(\d+)/,
+          /Problems Solved[^<]*<[^>]*>(\d+)/,
+          /(\d+)\s*(?:Questions|Problems)\s*Solved/i,
+        ];
+        for (const pattern of patterns) {
+          const match = html.match(pattern);
+          if (match && match[1]) {
+            gfgSolved = parseInt(match[1], 10);
+            console.log(`✓ GFG page scrape found: ${gfgSolved}`);
+            break;
+          }
+        }
+      } else {
+        console.error(`❌ GeeksforGeeks page request failed: ${gfgResponse.status}`);
+      }
+    }
+
+    if (gfgSolved !== null) {
+      const gfgData = {
+        total_problems_solved: gfgSolved,
+        username: GFG_USER,
+        fetchedAt: new Date().toISOString(),
+      };
+      fs.writeFileSync(GFG_PROFILE_PATH, JSON.stringify(gfgData, null, 2), 'utf8');
+      console.log(`✓ Saved GFG Profile to ${GFG_PROFILE_PATH} — Solved: ${gfgSolved}`);
     } else {
-      console.error(`❌ GeeksforGeeks request failed: ${gfgResponse.status}`);
+      // Read existing and keep it (don't overwrite with 0)
+      console.warn("⚠️ GFG total problems solved not found — keeping existing data.");
     }
   } catch (e) {
     console.error("❌ Error fetching GeeksforGeeks data:", e);
