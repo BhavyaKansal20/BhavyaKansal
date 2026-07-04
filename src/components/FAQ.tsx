@@ -84,7 +84,7 @@ const FAQ = () => {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className={`group border-0 border-b border-gray-200/60 dark:border-white/10 last:border-b-0 ${
+                  className={`group border-0 ${
                     faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : "opacity-0"
                   }`}
                 >
