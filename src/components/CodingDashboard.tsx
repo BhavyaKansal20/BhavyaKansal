@@ -584,7 +584,7 @@ const CodingDashboard = () => {
                     return (
                       <div
                         key={day.date}
-                        className="w-[10px] h-[10px] rounded-[2px] transition-all duration-150 hover:scale-125 cursor-pointer"
+                        className="w-[10px] h-[10px] rounded-[3px] transition-all duration-150 hover:scale-125 cursor-pointer"
                         style={{ backgroundColor: bgColor }}
                         title={`${day.date}: ${day.count} contributions`}
                       />
