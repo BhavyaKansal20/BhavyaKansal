@@ -212,25 +212,31 @@ const CodingDashboard = () => {
     let lcSolved = 0, lcEasy = 0, lcMedium = 0, lcHard = 0;
     let ratingHistory: { label: string; rating: number }[] = [];
 
-    // We force the specific data from the reference image as requested
-    lcEasy = 315;
-    lcMedium = 665;
-    lcHard = 171;
-    lcSolved = lcEasy + lcMedium + lcHard;
-    
-    // Fake rating history to match the reference graph exactly
-    ratingHistory = [
-      { label: "Jan", rating: 1400 },
-      { label: "Feb", rating: 1450 },
-      { label: "Mar", rating: 1350 },
-      { label: "Apr", rating: 1600 },
-      { label: "May", rating: 1680 },
-      { label: "Jun", rating: 1580 },
-      { label: "Jul", rating: 1720 },
-      { label: "Aug", rating: 1900 },
-      { label: "Sep", rating: 1980 },
-      { label: "Oct", rating: 1970 },
-    ];
+    if (leetcodeData?.matchedUser?.submitStats?.acSubmissionNum) {
+      const s = leetcodeData.matchedUser.submitStats.acSubmissionNum;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lcSolved = s.find((x: any) => x.difficulty === "All")?.count || 0;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lcEasy   = s.find((x: any) => x.difficulty === "Easy")?.count || 0;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lcMedium = s.find((x: any) => x.difficulty === "Medium")?.count || 0;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      lcHard   = s.find((x: any) => x.difficulty === "Hard")?.count || 0;
+    }
+
+    // Build rating history from contest data
+    if (leetcodeData?.userContestRankingHistory?.length) {
+      const hist = leetcodeData.userContestRankingHistory
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        .filter((c: any) => c.attended && c.rating > 0)
+        .slice(-12);
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ratingHistory = hist.map((c: any) => {
+        const d = new Date(c.contest.startTime * 1000);
+        const label = d.toLocaleDateString('en-US', { month: 'short', year: '2-digit' });
+        return { label, rating: Math.round(c.rating) };
+      });
+    }
 
     const gfgSolved = gfgData?.total_problems_solved || 0;
     const totalQuestions = lcSolved + gfgSolved;
