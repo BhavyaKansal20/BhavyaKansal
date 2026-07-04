@@ -17,7 +17,7 @@ const GOOGLE_DEV_URL = "https://g.dev/kansalbhavya20";
 
 const COLORS = {
   Easy: "#22c55e",
-  Medium: "#f59e0b",
+  Medium: "#ffb800",
   Hard: "#ef4444"
 };
 
@@ -88,9 +88,9 @@ const SemiCircleGauge = ({ easy, medium, hard }: { easy: number; medium: number;
 
   let current = 0;
   const segments = [
-    { color: COLORS.Easy,   deg: easyAngle,   label: "Easy" },
-    { color: COLORS.Medium, deg: mediumAngle,  label: "Medium" },
     { color: COLORS.Hard,   deg: hardAngle,   label: "Hard" },
+    { color: COLORS.Medium, deg: mediumAngle,  label: "Medium" },
+    { color: COLORS.Easy,   deg: easyAngle,   label: "Easy" },
   ];
 
   return (
@@ -111,13 +111,7 @@ const SemiCircleGauge = ({ easy, medium, hard }: { easy: number; medium: number;
           />
         );
       })}
-      {/* Centre label */}
-      <text x={cx} y={cy + 8} textAnchor="middle" className="fill-white text-lg font-bold" fontSize="15" fontFamily="Times New Roman, serif">
-        {easy + medium + hard}
-      </text>
-      <text x={cx} y={cy + 22} textAnchor="middle" className="fill-gray-400" fontSize="9" fontFamily="Times New Roman, serif">
-        Total Solved
-      </text>
+      {/* No text in center to match the image */}
     </svg>
   );
 };
@@ -264,11 +258,11 @@ const CodingDashboard = () => {
     <section id="coding" ref={ref} className="py-24 bg-background relative overflow-hidden">
       <style>{`
         .heatmap-wrap .react-calendar-heatmap { width: 100%; }
-        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: #1a1b1f; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: #2d3748; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: #4a5568; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: #718096; }
-        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: #e2e8f0; }
+        .heatmap-wrap .react-calendar-heatmap .color-empty { fill: #161b22; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-1 { fill: #0e4429; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-2 { fill: #006d32; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-3 { fill: #26a641; }
+        .heatmap-wrap .react-calendar-heatmap .color-scale-4 { fill: #39d353; }
         .heatmap-wrap .react-calendar-heatmap text { fill: rgb(113,128,150); font-size: 10px; font-family: 'Times New Roman', serif; }
         .heatmap-wrap .react-calendar-heatmap rect { rx: 3; ry: 3; transition: transform 0.2s ease, filter 0.2s ease; }
         .heatmap-wrap .react-calendar-heatmap rect:hover { transform: scale(1.12); filter: brightness(1.3); }
@@ -338,20 +332,20 @@ const CodingDashboard = () => {
             <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-white">
               <Code2 className="w-5 h-5 text-gray-400" /> Problem Breakdown
             </h3>
-            <div className="flex items-center justify-between gap-4">
-              <div className="flex-1 flex justify-center">
+            <div className="flex items-center justify-between gap-4 h-[180px]">
+              <div className="flex-1 flex justify-center h-full items-center">
                 <SemiCircleGauge easy={stats.lcEasy} medium={stats.lcMedium} hard={stats.lcHard} />
               </div>
-              <div className="space-y-3 pr-2 flex-shrink-0">
+              <div className="space-y-4 pr-4 flex-shrink-0">
                 {[
                   { label: "Easy", val: stats.lcEasy, color: COLORS.Easy },
                   { label: "Medium", val: stats.lcMedium, color: COLORS.Medium },
                   { label: "Hard", val: stats.lcHard, color: COLORS.Hard },
                 ].map((d) => (
-                  <div key={d.label} className="flex items-center justify-between gap-5">
+                  <div key={d.label} className="flex items-center justify-between gap-6">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: d.color }} />
-                      <span className="text-sm text-gray-300">{d.label}</span>
+                      <span className="text-sm font-medium text-gray-300">{d.label}:</span>
                     </div>
                     <span className="text-white font-bold tabular-nums">{d.val}</span>
                   </div>

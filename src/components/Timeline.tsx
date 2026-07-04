@@ -204,7 +204,7 @@ const Timeline = () => {
         </div>
 
         {/* ── Desktop — right-to-left horizontal flow ── */}
-        <div className="hidden lg:block relative">
+        <div className="hidden lg:block relative mt-8">
           {/* Base track */}
           <div className="absolute top-8 left-0 right-0 h-px bg-border" />
           {/* Right-to-left glowing fill */}
@@ -214,8 +214,14 @@ const Timeline = () => {
           />
 
           <div className="grid grid-cols-4 gap-8 relative items-stretch">
-            {[...timelineData].reverse().map((item, index) => {
-              const revealed = index < revealedCount; // index 0 = rightmost, reveals first
+            {timelineData.map((item, originalIndex) => {
+              // total is 4. indices: 0 (left/oldest), 1, 2, 3 (right/newest)
+              // right-to-left reveal means index 3 reveals first.
+              // revealedCount goes 0 -> 4.
+              // if revealedCount = 1, we want index 3 revealed.
+              // So revealed if (total - 1 - originalIndex) < revealedCount
+              const reversedIndex = total - 1 - originalIndex;
+              const revealed = reversedIndex < revealedCount;
               return (
                 <div key={item.period || item.date} className="relative flex flex-col">
                   {/* Node */}
@@ -237,15 +243,15 @@ const Timeline = () => {
         </div>
 
         {/* ── Mobile — vertical, reveals as you scroll ── */}
-        <div className="lg:hidden relative pl-8">
+        <div className="lg:hidden relative pl-8 mt-8">
           <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
           <div
             className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-[height] duration-300 ease-out"
             style={{ height: `${fillPct}%`, boxShadow: "0 0 12px hsl(var(--accent) / 0.6)" }}
           />
 
-          <div className="space-y-8">
-            {/* newest first on mobile too, matching the right-to-left story */}
+          <div className="space-y-12">
+            {/* Newest first on mobile (reverse chronological) */}
             {[...timelineData].reverse().map((item, index) => {
               const revealed = index < revealedCount;
               return (

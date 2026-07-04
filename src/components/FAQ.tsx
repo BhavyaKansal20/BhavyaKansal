@@ -78,7 +78,7 @@ const FAQ = () => {
           </div>
 
           {/* Right — accordion */}
-          <div className="premium-panel rounded-[2rem] p-2 md:p-3 shadow-[0_28px_80px_-36px_rgba(0,0,0,0.35)]">
+          <div className="w-full mt-4 lg:mt-0">
             <Accordion type="single" collapsible className="space-y-0">
               {faqs.map((faq, index) => (
                 <AccordionItem

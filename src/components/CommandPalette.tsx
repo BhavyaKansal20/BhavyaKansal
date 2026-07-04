@@ -313,20 +313,19 @@ const CommandPalette = () => {
 
       {/* Solid inner cover (Premium Dark Mode) */}
       <div 
-        className="relative w-full h-full rounded-2xl flex flex-col overflow-hidden z-10"
-        style={{ backgroundColor: '#0d1117' }}
+        className="relative w-full h-full rounded-[2rem] flex flex-col overflow-hidden z-10 bg-black/60 shadow-inner"
       >
         
         {/* Header - Premium Dark */}
-        <div className="px-4 py-3 flex items-center justify-between z-10 border-b border-white/5" style={{ background: 'linear-gradient(135deg, #0b1016 0%, #151b24 100%)' }}>
+        <div className="px-5 py-4 flex items-center justify-between z-10 border-b border-white/10 bg-black/40 backdrop-blur-md">
           <div className="flex items-center gap-3">
-            <div className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-[#0d1117]">
+            <div className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-black/50 border border-white/10">
               <img 
                 src="/aagni-avatar.png" 
                 alt="AAGNI Avatar" 
                 className="w-full h-full object-contain"
               />
-              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-[#0d1117] animate-pulse" />
+              <div className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-[#10b981] border-2 border-black animate-pulse" />
             </div>
             <div>
               <h4 className="text-[15px] font-semibold tracking-wide text-white">
@@ -368,8 +367,7 @@ const CommandPalette = () => {
 
         {/* Messages feed container (Clean dark surface) */}
         <div 
-          className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col"
-          style={{ backgroundColor: '#0d1117' }}
+          className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col bg-transparent"
         >
           
           <div className="relative z-10 flex-grow flex flex-col space-y-4">
@@ -453,8 +451,7 @@ const CommandPalette = () => {
 
         {/* Suggestion Quick Replies */}
         <div 
-          className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-none select-none z-10 border-t border-white/5"
-          style={{ backgroundColor: '#0d1117' }}
+          className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-none select-none z-10 border-t border-white/10 bg-black/40 backdrop-blur-md"
         >
           {suggestionPills.map((pill) => (
             <button
@@ -467,9 +464,9 @@ const CommandPalette = () => {
           ))}
         </div>
 
-        <div className="relative p-3 flex gap-2 items-end z-10 border-t border-white/5" style={{ backgroundColor: '#161b22' }}>
+        <div className="relative p-3 flex gap-2 items-end z-10 border-t border-white/10 bg-black/60 backdrop-blur-xl">
           
-          <div className="flex-1 flex gap-2 items-end bg-[#0d1117] rounded-2xl p-1.5 min-h-[46px] border border-white/10">
+          <div className="flex-1 flex gap-2 items-end bg-black/40 rounded-2xl p-1.5 min-h-[46px] border border-white/10">
             <button 
               type="button"
               className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white transition-colors flex-shrink-0"
