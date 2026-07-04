@@ -262,9 +262,11 @@
     /* GPU-accelerated transforms only */
     transform: perspective(1000px) rotateX(0deg) rotateY(0deg) translateZ(0);
     transition:
-      transform 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-      box-shadow 0.5s cubic-bezier(0.25, 1, 0.5, 1),
-      border-color 0.5s ease;
+      transform 0.5s ease-out,
+      box-shadow 0.5s ease-out,
+      border-color 0.5s ease-out,
+      opacity 0.5s ease-out,
+      background-color 0.5s ease-out;
     overflow: hidden;
     will-change: transform;
     transform-style: preserve-3d;
@@ -291,6 +293,7 @@
     z-index: 1;
     opacity: 0;
     transition: opacity 0.4s ease;
+    mix-blend-mode: screen;
     background: radial-gradient(
       520px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
       rgba(80, 120, 220, 0.12) 0%,
@@ -460,6 +463,30 @@
   @media (max-width: 767px) {
     .animate-float-sm {
       animation: floatMobile 0.9s ease-in-out infinite !important;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .glass-card,
+    .premium-panel,
+    .stat-tile {
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 16px 30px -18px hsl(var(--foreground) / 0.32);
+    }
+
+    .glass-card::after,
+    .premium-panel::after {
+      background: hsl(var(--glass-bg) / 0.92);
+    }
+
+    .sm\:whitespace-nowrap {
+      white-space: normal !important;
+    }
+
+    h1, h2, h3, h4 {
+      text-wrap: balance;
+      overflow-wrap: anywhere;
     }
   }
 

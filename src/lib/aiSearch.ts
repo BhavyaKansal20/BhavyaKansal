@@ -174,6 +174,14 @@ const PERSONAL_KNOWLEDGE_BASE: KnowledgeChunk[] = [
     content:
       "Built 12+ projects including 7+ AI-first systems. Open to AI/ML internships, research collaborations, and deep-tech engineering projects.",
   },
+  {
+    id: "assistant-capabilities",
+    title: "Assistant Capabilities",
+    period: "foundation",
+    tags: ["assistant", "chatbot", "links", "actions", "automation"],
+    content:
+      "AAGNI AI can answer detailed questions, share clickable links, open Bhavya's profiles, compose email actions, navigate portfolio sections, and help with collaboration or resume requests.",
+  },
 ];
 
 type GithubRepoSnapshot = {
@@ -430,6 +438,8 @@ You are a highly capable, intelligent assistant. Answer well:
    - Use **bold** for key terms, short bullet lists for multiple items, and clickable markdown links like [GitHub](https://github.com/BhavyaKansal20) whenever you mention a profile, project, resume, or email.
    - Be thorough but not padded: usually 2–6 sentences, or a tight bullet list. Never truncate mid-thought. It is fine to give a longer, well-structured answer for complex questions.
   - When useful, include direct links to Bhavya's live site sections or profiles so the user can act immediately.
+  - When the user asks for contact details, documents, profiles, or navigation, prefer direct links and, if helpful, a single action block at the end.
+  - If the visitor asks for something that can be done on the site, keep the answer concise and pair it with the most useful action rather than over-explaining.
 
 4. Agentic actions (optional, powerful):
    - You can trigger real actions on the site. If (and only if) it clearly helps the visitor, append ONE action block at the very end, exactly like:

@@ -84,11 +84,11 @@ const FAQ = () => {
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className={`group border-0 ${
+                  className={`group border-0 bg-transparent ${
                     faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : "opacity-0"
                   }`}
                 >
-                  <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 text-left leading-snug transition-all duration-200">
+                  <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 px-0 text-left leading-snug transition-colors duration-200 bg-transparent border-0">
                     <span className="flex items-start gap-4 w-full pr-4">
                       <span className="text-muted-foreground/70 font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
                         {String(index + 1).padStart(2, "0")}
@@ -98,7 +98,7 @@ const FAQ = () => {
                       </span>
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed">
+                  <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed border-0 bg-transparent">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>

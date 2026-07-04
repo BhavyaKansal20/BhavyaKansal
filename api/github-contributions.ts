@@ -28,7 +28,7 @@ query($userName:String!) {
 `;
 
 // Cache with TTL
-let cache: {
+const cache: {
   github?: { data: ContributionDay[]; timestamp: number };
   google?: { data: any; timestamp: number };
 } = {};

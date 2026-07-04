@@ -43,11 +43,14 @@ const suggestionPills = [
 const CommandPalette = () => {
   const { setTheme } = useTheme();
   const [open, setOpen] = useState(false);
+  const [isRendered, setIsRendered] = useState(false);
+  const [isClosing, setIsClosing] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState("");
   const [aiLoading, setAiLoading] = useState(false);
   const [showAttachMenu, setShowAttachMenu] = useState(false);
   const [showEmojiAlert, setShowEmojiAlert] = useState(false);
+  const closeTimerRef = useRef<number | null>(null);
   
   const chatContainerRef = useRef<HTMLDivElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -60,7 +63,7 @@ const CommandPalette = () => {
         {
           id: "welcome",
           sender: "bot",
-          text: "Hi! I am **AAGNI AI**, Bhavya's custom AI Co-pilot. Ask me anything about his projects, experience, or skills! You can also click the paperclip icon to grab his resume or contact details.",
+          text: "Hi! I am **AAGNI AI** — Bhavya's custom AI co-pilot. Ask me anything about his projects, experience, skills, links, or collaboration ideas. I can also open profiles, share contact details, and trigger quick actions.",
           timestamp: new Date()
         }
       ]);
@@ -106,6 +109,34 @@ const CommandPalette = () => {
     window.addEventListener("open-command-palette", openHandler as EventListener);
     return () => window.removeEventListener("open-command-palette", openHandler as EventListener);
   }, []);
+
+  useEffect(() => {
+    if (open) {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+      setIsRendered(true);
+      setIsClosing(false);
+      return;
+    }
+
+    if (!isRendered) return;
+
+    setIsClosing(true);
+    closeTimerRef.current = window.setTimeout(() => {
+      setIsRendered(false);
+      setIsClosing(false);
+      closeTimerRef.current = null;
+    }, 260);
+
+    return () => {
+      if (closeTimerRef.current) {
+        window.clearTimeout(closeTimerRef.current);
+        closeTimerRef.current = null;
+      }
+    };
+  }, [open]);
 
   const handleSendMessage = async (text: string) => {
     if (!text.trim()) return;
@@ -268,7 +299,7 @@ const CommandPalette = () => {
       {
         id: "welcome-" + Date.now(),
         sender: "bot",
-        text: "Conversation reset. Hi! I am **AAGNI AI**, Bhavya's custom AI Co-pilot. Ask me anything!",
+        text: "Conversation reset. Hi! I am **AAGNI AI**, Bhavya's intelligent portfolio co-pilot. Ask me anything, including links, actions, or detailed technical questions.",
         timestamp: new Date()
       }
     ]);
@@ -300,24 +331,26 @@ const CommandPalette = () => {
     return null;
   };
 
-  if (!open) return null;
+  if (!isRendered) return null;
 
   return (
     <div 
-      className="fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-[2rem] shadow-[0_35px_90px_rgba(0,0,0,0.45)] transition-all duration-300 border border-white/10 glass-card backdrop-blur-2xl"
+      className={`fixed bottom-4 right-4 md:bottom-24 md:right-8 z-50 w-[92vw] sm:w-[430px] h-[82vh] max-h-[660px] rounded-[2rem] shadow-[0_35px_120px_rgba(0,0,0,0.55)] border border-white/10 glass-card premium-panel backdrop-blur-3xl ${isClosing ? "pointer-events-none" : ""}`}
       style={{
-        animation: 'chatSpringIn 0.7s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
+        animation: isClosing
+          ? 'chatSpringOut 0.26s cubic-bezier(0.4, 0, 0.2, 1) forwards'
+          : 'chatSpringIn 0.65s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards',
       }}
       ref={chatContainerRef}
     >
 
       {/* Solid inner cover (Premium Dark Mode) */}
       <div 
-        className="relative w-full h-full rounded-[2rem] flex flex-col overflow-hidden z-10 bg-black/60 shadow-inner"
+        className="relative w-full h-full rounded-[2rem] flex flex-col overflow-hidden z-10 bg-black/50 shadow-inner"
       >
         
         {/* Header - Premium Dark */}
-        <div className="px-5 py-4 flex items-center justify-between z-10 border-b border-white/10 bg-black/40 backdrop-blur-md">
+        <div className="px-5 py-4 flex items-center justify-between z-10 border-b border-white/10 bg-black/35 backdrop-blur-2xl">
           <div className="flex items-center gap-3">
             <div className="relative w-10 h-10 rounded-full overflow-hidden flex items-center justify-center bg-black/50 border border-white/10">
               <img 
@@ -366,9 +399,7 @@ const CommandPalette = () => {
         </div>
 
         {/* Messages feed container (Clean dark surface) */}
-        <div 
-          className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col bg-transparent"
-        >
+        <div className="flex-grow overflow-y-auto p-4 scroll-smooth relative flex flex-col bg-transparent">
           
           <div className="relative z-10 flex-grow flex flex-col space-y-4">
             <div className="flex justify-center my-2">
@@ -450,9 +481,7 @@ const CommandPalette = () => {
         </div>
 
         {/* Suggestion Quick Replies */}
-        <div 
-          className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-none select-none z-10 border-t border-white/10 bg-black/40 backdrop-blur-md"
-        >
+        <div className="flex gap-2 overflow-x-auto px-4 py-3 scrollbar-none select-none z-10 border-t border-white/10 bg-black/35 backdrop-blur-2xl">
           {suggestionPills.map((pill) => (
             <button
               key={pill}
@@ -464,9 +493,9 @@ const CommandPalette = () => {
           ))}
         </div>
 
-        <div className="relative p-3 flex gap-2 items-end z-10 border-t border-white/10 bg-black/60 backdrop-blur-xl">
+        <div className="relative p-3 flex gap-2 items-end z-10 border-t border-white/10 bg-black/45 backdrop-blur-2xl">
           
-          <div className="flex-1 flex gap-2 items-end bg-black/40 rounded-2xl p-1.5 min-h-[46px] border border-white/10">
+          <div className="flex-1 flex gap-2 items-end bg-white/6 rounded-2xl p-1.5 min-h-[46px] border border-white/10 backdrop-blur-xl">
             <button 
               type="button"
               className="w-8 h-8 rounded-full flex items-center justify-center text-slate-500 hover:text-white transition-colors flex-shrink-0"
@@ -486,7 +515,7 @@ const CommandPalette = () => {
 
             {/* Attachments Popover */}
             {showAttachMenu && (
-              <div className="absolute bottom-[60px] left-4 bg-[#161b22] rounded-2xl p-2 flex flex-col gap-1 shadow-xl min-w-[200px] border border-white/10 animate-in slide-in-from-bottom-2">
+              <div className="absolute bottom-[60px] left-4 bg-[#111820]/95 rounded-2xl p-2 flex flex-col gap-1 shadow-2xl min-w-[200px] border border-white/10 animate-in slide-in-from-bottom-2 backdrop-blur-2xl">
                 <button 
                   onClick={() => handleShareClick("email")}
                   className="flex items-center gap-3 px-3 py-2.5 rounded-xl hover:bg-white/5 text-slate-300 transition-colors text-sm text-left"
@@ -575,6 +604,17 @@ const CommandPalette = () => {
           }
         }
 
+        @keyframes chatSpringOut {
+          0% {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+          }
+          100% {
+            opacity: 0;
+            transform: translateY(28px) scale(0.96);
+          }
+        }
+
         .scrollbar-none::-webkit-scrollbar {
           display: none;
         }
@@ -595,6 +635,13 @@ const CommandPalette = () => {
         .format-chat-text em {
           font-style: italic;
           color: #f1f5f9;
+        }
+
+        @media (max-width: 640px) {
+          .glass-card,
+          .premium-panel {
+            backdrop-filter: blur(10px);
+          }
         }
       `}</style>
     </div>

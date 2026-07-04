@@ -95,7 +95,7 @@ const Navbar = () => {
       if (eyeRaf.current != null) cancelAnimationFrame(eyeRaf.current);
       if (scrollRaf.current != null) cancelAnimationFrame(scrollRaf.current);
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   // keep a ref of active section so the scroll callback can read it without re-subscribing

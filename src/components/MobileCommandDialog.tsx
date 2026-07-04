@@ -16,7 +16,7 @@ const MobileCommandDialog: React.FC<MobileCommandDialogProps> = ({ open, onOpenC
   const startY = React.useRef<number | null>(null);
   const currentY = React.useRef<number>(0);
   const [dragging, setDragging] = React.useState(false);
-  const [viewportHeight, setViewportHeight] = React.useState(window.innerHeight);
+  const [viewportHeight, setViewportHeight] = React.useState(typeof window !== "undefined" ? window.innerHeight : 0);
 
   // Handle viewport height changes (especially for virtual keyboard)
   React.useEffect(() => {
@@ -121,11 +121,11 @@ const MobileCommandDialog: React.FC<MobileCommandDialogProps> = ({ open, onOpenC
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[9998] bg-black/50 backdrop-blur-sm" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[9998] bg-black/55 backdrop-blur-md" />
 
         <DialogPrimitive.Content 
           ref={contentRef as any} 
-          className="fixed left-0 right-0 bottom-0 z-[9999] mx-auto w-full max-w-3xl rounded-t-xl bg-popover p-4 shadow-2xl overflow-auto overflow-x-hidden animate-slide-up mobile-command-content"
+          className="fixed left-0 right-0 bottom-0 z-[9999] mx-auto w-full max-w-3xl rounded-t-[28px] border border-white/10 bg-black/70 p-4 shadow-[0_-20px_80px_rgba(0,0,0,0.5)] overflow-auto overflow-x-hidden animate-slide-up mobile-command-content backdrop-blur-3xl"
           style={{
             maxHeight: `${Math.min(viewportHeight * 0.92, viewportHeight - 20)}px`,
             height: 'auto',
@@ -156,7 +156,7 @@ const MobileCommandDialog: React.FC<MobileCommandDialogProps> = ({ open, onOpenC
                 }
               }}
               aria-label="Close"
-              className="absolute right-2 top-2 rounded-md p-1 opacity-80 hover:opacity-100 z-10"
+              className="absolute right-2 top-2 rounded-md p-1 opacity-80 hover:opacity-100 z-10 text-white"
             >
               <X className="h-4 w-4" />
               <span className="sr-only">Close</span>

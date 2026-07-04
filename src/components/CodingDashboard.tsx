@@ -87,11 +87,10 @@ const SemiCircleGauge = ({ easy, medium, hard }: { easy: number; medium: number;
     ].join(" ");
   };
 
-  let current = 0;
   const segments = [
-    { color: COLORS.Hard,   deg: hardAngle,   label: "Hard" },
-    { color: COLORS.Medium, deg: mediumAngle,  label: "Medium" },
-    { color: COLORS.Easy,   deg: easyAngle,   label: "Easy" },
+    { color: COLORS.Easy, deg: easyAngle, label: "Easy", start: hardAngle + mediumAngle, end: 180 },
+    { color: COLORS.Medium, deg: mediumAngle, label: "Medium", start: hardAngle, end: hardAngle + mediumAngle },
+    { color: COLORS.Hard, deg: hardAngle, label: "Hard", start: 0, end: hardAngle },
   ];
 
   return (
@@ -99,16 +98,18 @@ const SemiCircleGauge = ({ easy, medium, hard }: { easy: number; medium: number;
       {/* Track */}
       <path d={arcPath(0, 180, r, 58)} fill="#2a2b30" />
       {/* Segments */}
-      {segments.map((seg) => {
-        const start = current;
-        current += seg.deg;
+      {segments.map((seg, index) => {
         if (seg.deg < 0.5) return null;
         return (
           <path
             key={seg.label}
-            d={arcPath(start, current - 2, r, 60)}
+            d={arcPath(seg.start, seg.end - 2, r, 60)}
             fill={seg.color}
-            style={{ filter: `drop-shadow(0 0 4px ${seg.color}60)` }}
+            style={{
+              filter: `drop-shadow(0 0 4px ${seg.color}60)`,
+              transition: "opacity 420ms ease, transform 420ms ease, filter 420ms ease",
+              transitionDelay: `${index * 140}ms`,
+            }}
           />
         );
       })}
@@ -156,6 +157,7 @@ const CodingDashboard = () => {
   const { ref, isVisible } = useScrollAnimation();
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [githubLoading, setGithubLoading] = useState(true);
+  const [revealStage, setRevealStage] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [leetcodeData, setLeetcodeData] = useState<any>(null);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -205,6 +207,24 @@ const CodingDashboard = () => {
     fetchGFG();
     fetchGoogle();
   }, []);
+
+  useEffect(() => {
+    if (!isVisible) {
+      setRevealStage(0);
+      return;
+    }
+
+    const timers = [
+      window.setTimeout(() => setRevealStage(1), 80),
+      window.setTimeout(() => setRevealStage(2), 260),
+      window.setTimeout(() => setRevealStage(3), 520),
+      window.setTimeout(() => setRevealStage(4), 760),
+      window.setTimeout(() => setRevealStage(5), 1040),
+      window.setTimeout(() => setRevealStage(6), 1320),
+    ];
+
+    return () => timers.forEach((timer) => window.clearTimeout(timer));
+  }, [isVisible]);
 
   const stats = useMemo(() => {
     const activeDays = contributions.filter((d) => d.count > 0).length;
@@ -290,7 +310,7 @@ const CodingDashboard = () => {
         </div>
 
         {/* Profile Links */}
-        <div className={`flex flex-wrap justify-center gap-3 mb-10 ${isVisible ? "scroll-animate" : ""}`}>
+        <div className={`flex flex-wrap justify-center gap-3 mb-10 ${revealStage >= 1 ? "scroll-animate" : "opacity-0"}`}>
           {[
             { href: LEETCODE_URL, icon: <LeetCodeIcon />, name: "LeetCode", handle: "BhavyaKansal20" },
             { href: GFG_URL, icon: <GfgIcon />, name: "GeeksforGeeks", handle: "kansalbhavya20" },
@@ -302,7 +322,7 @@ const CodingDashboard = () => {
               href={p.href}
               target="_blank"
               rel="noreferrer"
-              className="flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#1e1f23] border border-white/8 hover:bg-[#2a2b30] hover:border-white/20 transition-all"
+              className="glass-card flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#1e1f23] border border-white/8 hover:bg-[#2a2b30] hover:border-white/20 transition-all"
             >
               {p.icon}
               <div className="text-left leading-tight">
@@ -314,7 +334,7 @@ const CodingDashboard = () => {
         </div>
 
         {/* Stat Cards */}
-        <div className={`grid grid-cols-2 md:grid-cols-4 gap-4 mb-6 ${isVisible ? "scroll-animate scroll-animate-delay-1" : ""}`}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
           {statCards.map((s) => {
             // eslint-disable-next-line react-hooks/rules-of-hooks
             const tilt = useTiltCard(8);
@@ -324,7 +344,8 @@ const CodingDashboard = () => {
                 ref={tilt.cardRef}
                 onMouseMove={tilt.onMouseMove}
                 onMouseLeave={tilt.onMouseLeave}
-                className="glass-card bg-[#1e1f23] rounded-2xl p-5 border border-white/5 flex flex-col justify-between transition-colors relative overflow-hidden"
+                className={`glass-card bg-[#1e1f23] rounded-2xl p-5 border border-white/5 flex flex-col justify-between transition-colors relative overflow-hidden ${revealStage >= 2 ? "scroll-animate" : "opacity-0"}`}
+                style={revealStage >= 2 ? { animationDelay: `${statCards.indexOf(s) * 110}ms` } : undefined}
               >
                 <div className="card-spotlight" ref={tilt.spotRef} />
                 <div className="flex items-center justify-between mb-2 relative z-10">
@@ -345,9 +366,9 @@ const CodingDashboard = () => {
         </div>
 
         {/* Charts Row */}
-        <div className={`grid md:grid-cols-2 gap-6 mb-6 ${isVisible ? "scroll-animate scroll-animate-delay-2" : ""}`}>
+        <div className="grid md:grid-cols-2 gap-6 mb-6">
           {/* Problem Breakdown — semi-circular gauge */}
-          <div className="bg-[#1e1f23] rounded-3xl p-6 border border-white/5">
+          <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 ${revealStage >= 4 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 4 ? { animationDelay: "60ms" } : undefined}>
             <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-white">
               <Code2 className="w-5 h-5 text-gray-400" /> Problem Breakdown
             </h3>
@@ -360,8 +381,8 @@ const CodingDashboard = () => {
                   { label: "Easy", val: stats.lcEasy, color: COLORS.Easy },
                   { label: "Medium", val: stats.lcMedium, color: COLORS.Medium },
                   { label: "Hard", val: stats.lcHard, color: COLORS.Hard },
-                ].map((d) => (
-                  <div key={d.label} className="flex items-center justify-between gap-6">
+                ].map((d, index) => (
+                  <div key={d.label} className="flex items-center justify-between gap-6" style={{ opacity: revealStage >= 4 ? 1 : 0, transition: "opacity 360ms ease", transitionDelay: `${index * 120}ms` }}>
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full flex-shrink-0" style={{ backgroundColor: d.color }} />
                       <span className="text-sm font-medium text-gray-300">{d.label}:</span>
@@ -374,7 +395,7 @@ const CodingDashboard = () => {
           </div>
 
           {/* Rating Progress — line chart */}
-          <div className="bg-[#1e1f23] rounded-3xl p-6 border border-white/5">
+          <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 ${revealStage >= 3 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 3 ? { animationDelay: "80ms" } : undefined}>
             <h3 className="text-lg font-bold flex items-center gap-2 mb-4 text-white">
               <TrendingUp className="w-5 h-5 text-gray-400" /> Rating Progress
             </h3>
@@ -408,7 +429,7 @@ const CodingDashboard = () => {
         </div>
 
         {/* Developer Badges */}
-        <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 mb-6 ${isVisible ? "scroll-animate scroll-animate-delay-3" : ""}`}>
+        <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 mb-6 ${revealStage >= 5 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 5 ? { animationDelay: "120ms" } : undefined}>
           <h3 className="text-lg font-bold flex items-center gap-2 mb-5 text-white">
             <Award className="w-5 h-5 text-gray-400" /> Developer Badges Showcase
           </h3>
@@ -431,7 +452,7 @@ const CodingDashboard = () => {
         </div>
 
         {/* GitHub Heatmap */}
-        <div className={`bg-[#1e1f23] rounded-3xl p-6 md:p-8 border border-white/5 ${isVisible ? "scroll-animate scroll-animate-delay-3" : ""}`}>
+        <div className={`bg-[#1e1f23] rounded-3xl p-6 md:p-8 border border-white/5 ${revealStage >= 6 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 6 ? { animationDelay: "140ms" } : undefined}>
           <div className="flex items-center justify-between gap-3 mb-6">
             <h3 className="text-xl font-bold flex items-center gap-3 text-white">
               <Github className="w-5 h-5" /> GitHub Contributions
