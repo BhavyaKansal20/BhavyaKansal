@@ -54,12 +54,8 @@ export const useScrollAnimation = () => {
 
     observer.observe(el);
 
-    // Safety net: never leave content invisible.
-    const failSafe = window.setTimeout(reveal, 1600);
-
     return () => {
       observer.disconnect();
-      window.clearTimeout(failSafe);
     };
   }, []);
 
