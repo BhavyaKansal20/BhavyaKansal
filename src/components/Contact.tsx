@@ -57,7 +57,7 @@ const Contact = () => {
             <div className="space-y-4">
               {contactItems.map((item) => {
                 const Inner = (
-                  <div className="stat-tile flex items-start gap-4 p-4 rounded-2xl bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/20 hover:bg-white/50 dark:hover:bg-black/50 transition-all">
+                  <div className="stat-tile flex items-start gap-4 p-4 rounded-2xl glass-card transition-all hover:brightness-110">
                     <div className="w-11 h-11 rounded-xl bg-white/80 dark:bg-white/10 backdrop-blur-md flex items-center justify-center shadow-sm border border-white/20 flex-shrink-0">
                       {item.icon}
                     </div>
@@ -89,7 +89,7 @@ const Contact = () => {
                     href={s.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 px-4 py-2.5 rounded-full bg-white/40 dark:bg-black/40 backdrop-blur-xl border border-white/20 hover:border-white/40 hover:bg-white/50 dark:hover:bg-black/50 transition-all text-sm font-medium"
+                    className="flex items-center gap-2 px-4 py-2.5 rounded-full glass-card hover:brightness-110 transition-all text-sm font-medium"
                   >
                     {s.icon}
                     {s.label}
