@@ -14,9 +14,9 @@ type PreloaderProps = {
 };
 
 export default function Preloader({
-  enterDurationMs = 400,
+  enterDurationMs = 1500,
   exitAfterMs,
-  exitDurationMs = 250,
+  exitDurationMs = 800,
   onDone,
   className,
 }: PreloaderProps) {
