@@ -241,7 +241,7 @@ const Timeline = () => {
           />
 
           <div className="flex justify-between items-start pt-6 gap-6 relative z-10">
-            {timelineData.map((item, index) => (
+            {[...timelineData].reverse().map((item, index) => (
               <TimelineItemDesktop key={item.period || item.date} item={item} index={index} total={total} />
             ))}
           </div>
