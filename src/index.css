@@ -83,8 +83,8 @@
     --gradient-mid: 230 25% 16%;
     --gradient-end: 222 28% 14%;
 
-    /* Deep blackish color for glass cards only - lightened slightly */
-    --glass-bg: 0 0% 9% / 0.75;
+    /* Slightly deeper and darker shade of the original blue-grey */
+    --glass-bg: 222 18% 13% / 0.72;
     --glass-border: 0 0% 100% / 0.15;
   }
 }
