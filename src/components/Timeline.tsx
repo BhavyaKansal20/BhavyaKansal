@@ -39,7 +39,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     date: "JAN 2026 - JUL 2026",
-    title: "AI/ML Intern Trainee",
+    title: "AI/ML Intern",
     company: "IIT & NIELIT Ropar",
     period: "Jan 2026 – Jul 2026",
     type: "work",
@@ -50,7 +50,7 @@ const timelineData: TimelineItem[] = [
   },
   {
     date: "JUL 2026 - JUN 2029",
-    title: "B.Tech — Data Science & Artificial Intelligence",
+    title: "B.E — Data Science & Artificial Intelligence",
     company: "Thapar Institute of Engineering & Technology",
     period: "Jul 2026 – Jun 2029",
     type: "education",
