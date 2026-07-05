@@ -19,7 +19,7 @@
   ],
   "matchedUser": {
     "contributions": {
-      "points": 6
+      "points": 7
     },
     "profile": {
       "reputation": 0,
@@ -29,8 +29,8 @@
       "acSubmissionNum": [
         {
           "difficulty": "All",
-          "count": 6,
-          "submissions": 7
+          "count": 8,
+          "submissions": 10
         },
         {
           "difficulty": "Easy",
@@ -39,8 +39,8 @@
         },
         {
           "difficulty": "Medium",
-          "count": 3,
-          "submissions": 3
+          "count": 5,
+          "submissions": 6
         },
         {
           "difficulty": "Hard",
