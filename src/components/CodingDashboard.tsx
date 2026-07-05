@@ -3,8 +3,8 @@ import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useTiltCard } from "@/hooks/useTiltCard";
 import {
-  PieChart, Pie, Cell, ResponsiveContainer,
-  LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid
+  PieChart, Pie, Cell, ResponsiveContainer, Sector,
+  LineChart, Line, XAxis, YAxis, Tooltip
 } from "recharts";
 import { Github, Code2, Calendar, Award, Star, TrendingUp, Target } from "lucide-react";
 
@@ -43,73 +43,52 @@ const GoogleIcon = () => (
   </svg>
 );
 
-const DonutChart = ({ easy, medium, hard, animate = false }: { easy: number; medium: number; hard: number; animate?: boolean }) => {
-  const total = easy + medium + hard;
-  const segments = [
-    { label: "Easy", value: easy, color: "#10b981" },
-    { label: "Medium", value: medium, color: "#f59e0b" },
-    { label: "Hard", value: hard, color: "#ef4444" },
-  ];
-
-  let cumulativePercent = 0;
-  const getCoordinatesForPercent = (percent: number) => {
-    const x = Math.cos(2 * Math.PI * percent);
-    const y = Math.sin(2 * Math.PI * percent);
-    return [x, y];
-  };
-
-  const paths = segments.map((seg, i) => {
-    if (seg.value === 0) return null;
-    const percent = seg.value / total;
-    const [startX, startY] = getCoordinatesForPercent(cumulativePercent);
-    cumulativePercent += percent;
-    const [endX, endY] = getCoordinatesForPercent(cumulativePercent);
-    const largeArcFlag = percent > 0.5 ? 1 : 0;
-    const pathData = [
-      `M ${startX} ${startY}`,
-      `A 1 1 0 ${largeArcFlag} 1 ${endX} ${endY}`,
-    ].join(" ");
-
-    return (
-      <path
-        key={seg.label}
-        d={pathData}
-        fill="none"
-        stroke={seg.color}
-        strokeWidth="0.25"
-        strokeLinecap="round"
-        style={{
-          opacity: animate ? 1 : 0,
-          strokeDasharray: `${percent * Math.PI * 2} 10`,
-          strokeDashoffset: animate ? 0 : percent * Math.PI * 2,
-          transition: "opacity 600ms ease, stroke-dashoffset 800ms ease-out",
-          transitionDelay: animate ? `${i * 150}ms` : "0ms",
-          filter: `drop-shadow(0 0 4px ${seg.color}50)`,
-        }}
-      />
-    );
-  });
-
-  return (
-    <div className="relative w-full h-full flex items-center justify-center min-h-[140px]">
-      <svg
-        viewBox="-1.2 -1.2 2.4 2.4"
-        className="w-full h-full max-w-[140px] max-h-[140px]"
-        style={{ transform: "rotate(-90deg)" }}
-      >
-        <circle cx="0" cy="0" r="1" fill="none" stroke="#ffffff10" strokeWidth="0.25" />
-        {paths}
-      </svg>
-      <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none" style={{ marginTop: "2px" }}>
-        <span className="text-3xl font-bold text-white tracking-tighter leading-none mb-1">
-          {total}
-        </span>
-        <span className="text-[10px] text-gray-400 font-medium tracking-wider uppercase">
-          Solved
-        </span>
-      </div>
+const PlatformLink = ({ name, url, user, icon }: { name: string; url: string; user: string; icon: React.ReactNode }) => (
+  <a
+    href={url}
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center gap-3 bg-[#1e1f23] border border-white/5 hover:border-white/20 transition transform hover:-translate-y-1 px-3 py-2 rounded-lg shadow-md"
+  >
+    <div className="flex items-center justify-center w-9 h-9 rounded-md bg-gradient-to-br from-white/5 to-white/0 ring-1 ring-transparent group-hover:ring-white/10">
+      {icon}
     </div>
+    <div className="flex flex-col leading-tight text-left">
+      <span className="text-sm font-medium text-white">{name}</span>
+      <span className="text-xs text-gray-400">{user}</span>
+    </div>
+  </a>
+);
+
+const renderActiveShape = (props: any) => {
+  const { cx, cy, innerRadius, outerRadius, startAngle, endAngle, fill } = props;
+  return (
+    <g>
+      <Sector
+        cx={cx}
+        cy={cy}
+        innerRadius={Math.max(8, innerRadius - 4)}
+        outerRadius={outerRadius + 8}
+        startAngle={startAngle}
+        endAngle={endAngle}
+        fill={fill}
+        stroke="rgba(0,0,0,0.2)"
+      />
+    </g>
   );
+};
+
+const CustomPieTooltip = ({ active, payload }: any) => {
+  if (active && payload && payload.length) {
+    const p = payload[0];
+    return (
+      <div className="bg-[#1e1f23] border border-white/10 text-sm rounded-xl px-3 py-2 shadow-xl text-white">
+        <div className="font-bold text-base">{p.name}</div>
+        <div className="text-gray-400">{p.value} questions</div>
+      </div>
+    );
+  }
+  return null;
 };
 
 /* ── Animated stat counter ── */
@@ -151,6 +130,7 @@ const CodingDashboard = () => {
   const { ref, isVisible } = useScrollAnimation();
   const [contributions, setContributions] = useState<ContributionDay[]>([]);
   const [githubLoading, setGithubLoading] = useState(true);
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [revealStage, setRevealStage] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [leetcodeData, setLeetcodeData] = useState<any>(null);
@@ -362,27 +342,10 @@ const CodingDashboard = () => {
         </div>
 
         {/* Profile Links */}
-        <div className={`flex flex-wrap justify-center gap-3 mb-10 ${revealStage >= 1 ? "scroll-animate" : "opacity-0"}`}>
-          {[
-            { href: LEETCODE_URL, icon: <LeetCodeIcon />, name: "LeetCode", handle: "BhavyaKansal20" },
-            { href: GFG_URL, icon: <GfgIcon />, name: "GeeksforGeeks", handle: "kansalbhavya20" },
-            { href: GITHUB_URL, icon: <Github className="w-5 h-5 text-white" />, name: "GitHub", handle: "BhavyaKansal20" },
-            { href: GOOGLE_DEV_URL, icon: <GoogleIcon />, name: "Google Developer", handle: "kansalbhavya20" },
-          ].map((p) => (
-            <a
-              key={p.name}
-              href={p.href}
-              target="_blank"
-              rel="noreferrer"
-              className="glass-card flex items-center gap-3 px-5 py-2.5 rounded-full bg-[#1e1f23] border border-white/8 hover:bg-[#2a2b30] hover:border-white/20 transition-all"
-            >
-              {p.icon}
-              <div className="text-left leading-tight">
-                <div className="text-sm font-semibold text-white">{p.name}</div>
-                <div className="text-xs text-gray-400">{p.handle}</div>
-              </div>
-            </a>
-          ))}
+        <div className={`flex flex-wrap justify-center gap-4 mb-10 ${revealStage >= 1 ? "scroll-animate" : "opacity-0"}`}>
+          <PlatformLink name="LeetCode" url={LEETCODE_URL} user="BhavyaKansal20" icon={<LeetCodeIcon />} />
+          <PlatformLink name="GeeksforGeeks" url={GFG_URL} user="kansalbhavya20" icon={<GfgIcon />} />
+          <PlatformLink name="GitHub" url={GITHUB_URL} user="BhavyaKansal20" icon={<Github className="w-5 h-5 text-white" />} />
         </div>
 
         {/* Stat Cards */}
@@ -424,16 +387,49 @@ const CodingDashboard = () => {
             <h3 className="text-lg font-bold flex items-center gap-2 mb-6 text-white">
               <Target className="w-5 h-5 text-gray-400" /> Problem Breakdown
             </h3>
-            <div className="flex items-center justify-between gap-4 h-[180px]">
-              <div className="flex-1 flex justify-center h-full items-center">
-                <DonutChart
-                  easy={stats.lcEasy}
-                  medium={stats.lcMedium}
-                  hard={stats.lcHard}
-                  animate={revealStage >= 4}
-                />
+            <div className="flex flex-col items-center justify-between gap-4 h-[220px]">
+              <div className="w-full flex-1 flex justify-center items-center">
+                <ResponsiveContainer width="100%" height={200}>
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: "Easy", value: stats.lcEasy, color: COLORS.Easy },
+                        { name: "Medium", value: stats.lcMedium, color: COLORS.Medium },
+                        { name: "Hard", value: stats.lcHard, color: COLORS.Hard },
+                      ]}
+                      dataKey="value"
+                      nameKey="name"
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={50}
+                      outerRadius={80}
+                      paddingAngle={6}
+                      cornerRadius={6}
+                      startAngle={-45}
+                      endAngle={225}
+                      activeIndex={activeIndex ?? undefined}
+                      activeShape={renderActiveShape}
+                      onMouseEnter={(_, index) => setActiveIndex(index)}
+                      onMouseLeave={() => setActiveIndex(null)}
+                    >
+                      {[
+                        { name: "Easy", value: stats.lcEasy, color: COLORS.Easy },
+                        { name: "Medium", value: stats.lcMedium, color: COLORS.Medium },
+                        { name: "Hard", value: stats.lcHard, color: COLORS.Hard },
+                      ].map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={entry.color}
+                          stroke="rgba(255,255,255,0.05)"
+                          strokeWidth={activeIndex === index ? 4 : 1}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip content={<CustomPieTooltip />} />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
-              <div className="space-y-4 pr-6 flex-shrink-0">
+              <div className="w-full flex justify-center gap-4 flex-shrink-0">
                 {[
                   { label: "Easy", val: stats.lcEasy, color: COLORS.Easy },
                   { label: "Medium", val: stats.lcMedium, color: COLORS.Medium },
@@ -472,65 +468,41 @@ const CodingDashboard = () => {
                     { label: "Oct", rating: 1970 }
                   ];
 
-              const maxVal = Math.max(...chartData.map((h: any) => h.rating || 0));
-              const yMax = Math.max(2000, Math.ceil(maxVal / 500) * 500);
-              const yDomain = [0, yMax];
-              const yTicks = Array.from({ length: (yMax / 500) + 1 }, (_, i) => i * 500);
-
               return (
                 <div className="relative">
-                  <ResponsiveContainer width="100%" height={150}>
-                    <LineChart data={chartData} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
+                  <ResponsiveContainer width="100%" height={220}>
+                    <LineChart data={chartData} margin={{ left: -15, right: 15, top: 8, bottom: 24 }}>
                       <XAxis
                         dataKey="label"
-                        axisLine={{ stroke: "#3f444e", strokeWidth: 1 }}
-                        tickLine={{ stroke: "#3f444e", strokeWidth: 1 }}
-                        tick={{ fill: '#8a8f98', fontSize: 11, fontFamily: 'Times New Roman' }}
+                        stroke="#6b7280"
+                        tick={{ fontSize: 10, fill: '#8a8f98' }}
+                        tickLine={false}
+                        axisLine={false}
+                        dy={10}
                       />
                       <YAxis
-                        domain={yDomain}
-                        ticks={yTicks}
-                        axisLine={{ stroke: "#3f444e", strokeWidth: 1 }}
-                        tickLine={{ stroke: "#3f444e", strokeWidth: 1 }}
-                        tick={{ fill: '#8a8f98', fontSize: 11, fontFamily: 'Times New Roman' }}
+                        stroke="#6b7280"
+                        fontSize={11}
+                        tickLine={false}
+                        axisLine={false}
+                        dx={-5}
                       />
                       <Tooltip content={<RatingTooltip />} />
                       <Line
                         type="monotone"
                         dataKey="rating"
                         stroke="#ffa116"
-                        strokeWidth={2}
-                        dot={{ r: 4, fill: '#ffa116', stroke: '#1e1f23', strokeWidth: 1.5 }}
-                        activeDot={{ r: 6, fill: '#ffa116' }}
+                        strokeWidth={3}
+                        dot={{ fill: '#1e1f23', r: 4, stroke: '#ffa116', strokeWidth: 2 }}
+                        activeDot={{ fill: '#ffa116', r: 6 }}
+                        animationDuration={1000}
+                        animationEasing="ease-out"
                       />
                     </LineChart>
                   </ResponsiveContainer>
                 </div>
               );
             })()}
-          </div>
-        </div>
-
-        {/* Developer Badges */}
-        <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 mb-6 ${revealStage >= 5 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 5 ? { animationDelay: "120ms" } : undefined}>
-          <h3 className="text-lg font-bold flex items-center gap-2 mb-5 text-white">
-            <Award className="w-5 h-5 text-gray-400" /> Developer Badges Showcase
-          </h3>
-          <div className="grid grid-cols-4 gap-4 items-center justify-items-center">
-            {[
-              { src: "/badges/io-2026-registered.png", alt: "Google I/O 2026" },
-              { src: "/badges/nvidia-community.png", alt: "NVIDIA Community" },
-              { src: "/badges/io-2026-registered-circle.png", alt: "Google I/O Circle" },
-              { src: "/badges/nvidia-community-circle.png", alt: "NVIDIA Community Circle" },
-            ].map((b) => (
-              <div key={b.alt} className="group relative">
-                <img
-                  src={b.src}
-                  alt={b.alt}
-                  className="w-16 h-16 object-contain drop-shadow-md group-hover:scale-110 transition-transform duration-200 cursor-pointer"
-                />
-              </div>
-            ))}
           </div>
         </div>
 
