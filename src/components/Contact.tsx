@@ -104,7 +104,7 @@ const Contact = () => {
             ref={tilt.cardRef}
             onMouseMove={tilt.onMouseMove}
             onMouseLeave={tilt.onMouseLeave}
-            className={`glass-card premium-panel rounded-3xl p-8 md:p-12 shadow-2xl text-center relative overflow-hidden ${
+            className={`glass-card rounded-3xl p-8 md:p-12 shadow-2xl text-center relative overflow-hidden ${
               contactVisible ? "scroll-animate scroll-animate-delay-2" : "opacity-0"
             }`}
           >

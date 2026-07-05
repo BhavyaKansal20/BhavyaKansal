@@ -48,7 +48,7 @@ const PlatformLink = ({ name, url, user, icon }: { name: string; url: string; us
     href={url}
     target="_blank"
     rel="noopener noreferrer"
-    className="group inline-flex items-center gap-3 bg-[#1e1f23] border border-white/5 hover:border-white/20 transition transform hover:-translate-y-1 px-3 py-2 rounded-lg shadow-md"
+    className="group inline-flex items-center gap-3 glass-card hover:border-white/20 transition transform hover:-translate-y-1 px-3 py-2 rounded-lg shadow-md"
   >
     <div className="flex items-center justify-center w-9 h-9 rounded-md bg-gradient-to-br from-white/5 to-white/0 ring-1 ring-transparent group-hover:ring-white/10">
       {icon}
@@ -82,7 +82,7 @@ const CustomPieTooltip = ({ active, payload }: any) => {
   if (active && payload && payload.length) {
     const p = payload[0];
     return (
-      <div className="bg-[#1e1f23] border border-white/10 text-sm rounded-xl px-3 py-2 shadow-xl text-white">
+      <div className="glass-card text-sm rounded-xl px-3 py-2 shadow-xl text-foreground">
         <div className="font-bold text-base">{p.name}</div>
         <div className="text-gray-400">{p.value} questions</div>
       </div>
@@ -359,7 +359,7 @@ const CodingDashboard = () => {
                 ref={tilt.cardRef}
                 onMouseMove={tilt.onMouseMove}
                 onMouseLeave={tilt.onMouseLeave}
-                className={`glass-card bg-[#1e1f23] rounded-2xl p-5 border border-white/5 flex flex-col justify-between transition-colors relative overflow-hidden ${revealStage >= 2 ? "scroll-animate" : "opacity-0"}`}
+                className={`glass-card rounded-2xl p-5 flex flex-col justify-between transition-colors relative overflow-hidden ${revealStage >= 2 ? "scroll-animate" : "opacity-0"}`}
                 style={revealStage >= 2 ? { animationDelay: `${statCards.indexOf(s) * 110}ms` } : undefined}
               >
                 <div className="card-spotlight" ref={tilt.spotRef} />
@@ -383,7 +383,7 @@ const CodingDashboard = () => {
         {/* Charts Row */}
         <div className="grid md:grid-cols-2 gap-6 mb-6">
           {/* Problem Breakdown — semi-circular gauge */}
-          <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 ${revealStage >= 4 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 4 ? { animationDelay: "60ms" } : undefined}>
+          <div className={`glass-card rounded-3xl p-6 ${revealStage >= 4 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 4 ? { animationDelay: "60ms" } : undefined}>
             <h3 className="text-lg font-bold flex items-center gap-2 mb-6 text-white">
               <Target className="w-5 h-5 text-gray-400" /> Problem Breakdown
             </h3>
@@ -447,7 +447,7 @@ const CodingDashboard = () => {
           </div>
 
           {/* Rating Progress — line chart */}
-          <div className={`bg-[#1e1f23] rounded-3xl p-6 border border-white/5 ${revealStage >= 3 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 3 ? { animationDelay: "80ms" } : undefined}>
+          <div className={`glass-card rounded-3xl p-6 ${revealStage >= 3 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 3 ? { animationDelay: "80ms" } : undefined}>
             <h3 className="text-lg font-bold flex items-center gap-2 mb-6 text-white">
               <TrendingUp className="w-5 h-5 text-gray-400" /> Rating Progress
             </h3>
@@ -507,7 +507,7 @@ const CodingDashboard = () => {
         </div>
 
         {/* GitHub Heatmap */}
-        <div className={`bg-[#1e1f23] rounded-3xl p-6 md:p-8 border border-white/5 ${revealStage >= 6 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 6 ? { animationDelay: "140ms" } : undefined}>
+        <div className={`glass-card rounded-3xl p-6 md:p-8 ${revealStage >= 6 ? "scroll-animate" : "opacity-0"}`} style={revealStage >= 6 ? { animationDelay: "140ms" } : undefined}>
           <div className="flex items-center justify-between gap-3 mb-6">
             <h3 className="text-xl font-bold flex items-center gap-3 text-white">
               <Github className="w-5 h-5" /> GitHub Contributions
