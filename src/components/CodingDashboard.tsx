@@ -156,6 +156,26 @@ const CodingDashboard = () => {
   useEffect(() => {
     const fetchGithub = async () => {
       setGithubLoading(true);
+      // Try live data first so every visitor sees up-to-date contributions on load.
+      try {
+        const live = await fetch(
+          `https://github-contributions-api.jogruber.de/v4/BhavyaKansal20?y=last`,
+          { cache: "no-store" }
+        );
+        if (live.ok) {
+          const json = await live.json();
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          const days = (json?.contributions || []).map((d: any) => ({ date: d.date, count: d.count }));
+          if (days.length) {
+            setContributions(days);
+            setGithubLoading(false);
+            return;
+          }
+        }
+      } catch (err) {
+        console.error("GitHub live fetch error:", err);
+      }
+      // Fall back to the committed snapshot so data never downgrades if live fails.
       try {
         const res = await fetch(`/github-contributions.json?ts=${Date.now()}`);
         if (res.ok) {
@@ -170,10 +190,44 @@ const CodingDashboard = () => {
     };
 
     const fetchLeetCode = async () => {
+      // Load the committed snapshot first: it keeps the contest rating history and
+      // acts as a fallback if the live API is unavailable.
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      let base: any = null;
       try {
         const res = await fetch(`/leetcode-profile.json?ts=${Date.now()}`);
-        if (res.ok) setLeetcodeData(await res.json());
-      } catch (err) { console.error("LeetCode fetch error:", err); }
+        if (res.ok) base = await res.json();
+      } catch (err) { console.error("LeetCode snapshot error:", err); }
+
+      // Overlay live solved counts so visitors see current numbers on load.
+      try {
+        const live = await fetch(
+          `https://leetcode-api-faisalshohag.vercel.app/BhavyaKansal20`,
+          { cache: "no-store" }
+        );
+        if (live.ok) {
+          const l = await live.json();
+          if (typeof l?.totalSolved === "number") {
+            base = {
+              ...(base || {}),
+              matchedUser: {
+                ...(base?.matchedUser || {}),
+                submitStats: {
+                  ...(base?.matchedUser?.submitStats || {}),
+                  acSubmissionNum: [
+                    { difficulty: "All", count: l.totalSolved },
+                    { difficulty: "Easy", count: l.easySolved ?? 0 },
+                    { difficulty: "Medium", count: l.mediumSolved ?? 0 },
+                    { difficulty: "Hard", count: l.hardSolved ?? 0 },
+                  ],
+                },
+              },
+            };
+          }
+        }
+      } catch (err) { console.error("LeetCode live fetch error:", err); }
+
+      if (base) setLeetcodeData(base);
     };
 
     const fetchGFG = async () => {
