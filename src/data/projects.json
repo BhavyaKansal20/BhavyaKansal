@@ -206,7 +206,8 @@
       "Framer Motion",
       "Sarvam AI",
       "OpenRouter",
-      "TypeScript"
+      "TypeScript",
+      "Jupyter Notebook"
     ],
     "category": "Codes",
     "featured": false,
@@ -535,7 +536,8 @@
       "TailwindCSS",
       "Google Sheets API",
       "ReportLab",
-      "Python"
+      "Python",
+      "Jupyter Notebook"
     ],
     "category": "Live Projects",
     "featured": true,

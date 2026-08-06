@@ -2,24 +2,24 @@
   "allQuestionsCount": [
     {
       "difficulty": "All",
-      "count": 3985
+      "count": 4013
     },
     {
       "difficulty": "Easy",
-      "count": 953
+      "count": 958
     },
     {
       "difficulty": "Medium",
-      "count": 2081
+      "count": 2095
     },
     {
       "difficulty": "Hard",
-      "count": 951
+      "count": 960
     }
   ],
   "matchedUser": {
     "contributions": {
-      "points": 8
+      "points": 12
     },
     "profile": {
       "reputation": 0,
@@ -29,18 +29,18 @@
       "acSubmissionNum": [
         {
           "difficulty": "All",
-          "count": 8,
-          "submissions": 10
+          "count": 10,
+          "submissions": 12
         },
         {
           "difficulty": "Easy",
-          "count": 3,
-          "submissions": 4
+          "count": 4,
+          "submissions": 5
         },
         {
           "difficulty": "Medium",
-          "count": 5,
-          "submissions": 6
+          "count": 6,
+          "submissions": 7
         },
         {
           "difficulty": "Hard",
