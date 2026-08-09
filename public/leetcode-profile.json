@@ -2,7 +2,7 @@
   "allQuestionsCount": [
     {
       "difficulty": "All",
-      "count": 4013
+      "count": 4017
     },
     {
       "difficulty": "Easy",
@@ -10,11 +10,11 @@
     },
     {
       "difficulty": "Medium",
-      "count": 2095
+      "count": 2098
     },
     {
       "difficulty": "Hard",
-      "count": 960
+      "count": 961
     }
   ],
   "matchedUser": {
