@@ -321,7 +321,7 @@
         "description": "High-speed API delivery"
       },
       {
-        "value": "1",
+        "value": "2",
         "label": "GitHub Stars",
         "description": "Community feedback signal"
       }
