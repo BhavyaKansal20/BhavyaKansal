@@ -29,7 +29,7 @@
     --ring: 240 5.9% 10%;
     --radius: 1rem;
     --glass-bg: 0 0% 100% / 0.6;
-    --glass-border: 0 0% 100% / 0.4;
+    --glass-border: 0 0% 0% / 0.05;
   }
 
   .dark {
@@ -72,7 +72,7 @@
   /* ── Ultra Premium Animated Mesh Background ── */
   body {
     @apply bg-background text-foreground;
-    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
     margin: 0;
     padding: 0;
@@ -82,23 +82,26 @@
     text-rendering: optimizeLegibility;
   }
 
-  body::before {
+    body::before {
     content: '';
     position: fixed;
     inset: -50%;
     z-index: -1;
-    background: radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.03), transparent 60%),
-                radial-gradient(circle at 100% 0%, hsl(var(--accent) / 0.05), transparent 50%),
-                radial-gradient(circle at 0% 100%, hsl(var(--secondary) / 0.05), transparent 50%);
+    background: 
+      radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08), transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08), transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.08), transparent 50%);
     animation: premiumMesh 20s ease-in-out infinite alternate;
     pointer-events: none;
+    background-color: hsl(var(--background));
   }
 
   .dark body::before {
     background: 
-      radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.06), transparent 50%),
-      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.06), transparent 50%),
-      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.05), transparent 50%);
+      radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12), transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.12), transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.12), transparent 50%);
+    background-color: hsl(var(--background));
   }
 
   @keyframes premiumMesh {
@@ -108,12 +111,12 @@
 
   /* ── TYPOGRAPHY: Times New Roman EVERYWHERE (universal, no escapes) ── */
   * {
-    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
     margin: 0;
     padding: 0;
@@ -124,12 +127,12 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     letter-spacing: -0.015em;
   }
 
   p, span, a, button, input, textarea, label, li, kbd, code, pre, div, text {
-    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
+    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   /* ── Premium editorial primitives ── */
@@ -167,19 +170,26 @@
   }
 
   /* ── Ambient glow (Clean, Ultra-Premium, Non-distracting) ── */
-  body::before {
+    body::before {
     content: '';
     position: fixed;
-    inset: 0;
+    inset: -50%;
+    z-index: -1;
+    background: 
+      radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.08), transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.08), transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.08), transparent 50%);
+    animation: premiumMesh 20s ease-in-out infinite alternate;
     pointer-events: none;
-    z-index: 0;
-    opacity: 0.4;
-    background: radial-gradient(circle at 50% 0%, hsl(var(--foreground) / 0.03), transparent 60%);
+    background-color: hsl(var(--background));
   }
 
   .dark body::before {
-    opacity: 0.3;
-    background: radial-gradient(circle at 50% -10%, hsl(var(--primary) / 0.15), transparent 70%);
+    background: 
+      radial-gradient(circle at 15% 50%, rgba(99, 102, 241, 0.12), transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(168, 85, 247, 0.12), transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.12), transparent 50%);
+    background-color: hsl(var(--background));
   }
 
   #root {
