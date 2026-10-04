@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useTiltCard } from "@/hooks/useTiltCard";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Maximize2 } from "lucide-react";
+
 
 interface TimelineItem {
   date: string;
@@ -65,7 +68,7 @@ const timelineData: TimelineItem[] = [
   {
     date: "PRESENT",
     title: "General Secretary",
-    company: "CODE METRICS Research Society",
+    company: "CODE METRICS Research Society (TIET, CSED & DORSP)",
     period: "Present",
     type: "leadership",
     summary:
@@ -174,7 +177,7 @@ const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index
     <div className="flex-1 flex flex-col items-center group relative min-w-[280px]">
       <div 
         ref={ref}
-        className={`w-full flex-1 pt-8 px-4 transition-all duration-500 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
+        className={`w-full flex-1 pt-8 px-4 transition-all duration-300 ease-out opacity-100 translate-y-0`}
       >
         <TiltCard item={item} revealed={isVisible} />
       </div>
@@ -195,7 +198,7 @@ const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
       <div className="absolute -left-[26px] top-4">
         <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${isVisible ? typeColors[item.type || "education"] + ' border-white/40 shadow-lg scale-125' : 'bg-background border-border scale-75 opacity-0'}`} />
       </div>
-      <div className={`ml-4 transition-all duration-500 ease-out ${isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}>
+      <div className={`ml-4 transition-all duration-300 ease-out opacity-100 translate-y-0`}>
         <TiltCard item={item} revealed={isVisible} />
       </div>
     </div>

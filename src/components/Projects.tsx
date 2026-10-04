@@ -44,24 +44,9 @@ const techMeta: Record<string, { color: string; abbr: string }> = {
 };
 
 const TechIcon = ({ name }: { name: string }) => {
-  const meta = techMeta[name] || { color: "#94a3b8", abbr: name.slice(0, 2) };
   return (
-    <div
-      className="inline-flex items-center gap-1.5 px-2 py-1 rounded-md text-[10px] font-bold tracking-wide uppercase transition-all duration-200 hover:scale-105"
-      style={{
-        background: `${meta.color}18`,
-        color: meta.color,
-        border: `1px solid ${meta.color}30`,
-      }}
-      title={name}
-    >
-      <span
-        className="w-4 h-4 rounded-sm flex items-center justify-center text-[8px] font-black text-white"
-        style={{ background: meta.color }}
-      >
-        {meta.abbr.slice(0, 2)}
-      </span>
-      <span className="hidden sm:inline">{name.length > 12 ? name.slice(0, 10) + "…" : name}</span>
+    <div className="inline-flex items-center px-2.5 py-1 rounded-md text-[11px] font-medium transition-all duration-200 bg-secondary/70 text-secondary-foreground border border-border/60 hover:bg-secondary">
+      {name}
     </div>
   );
 };
@@ -311,9 +296,7 @@ const Projects = () => {
                 key={project.id}
                 ref={setCardRef(index)}
                 onClick={() => setSelectedProject(project)}
-                className={`group relative flex flex-col rounded-[24px] overflow-hidden cursor-pointer bg-card/40 border border-border/40 hover:border-border/80 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 ${
-                  isCardVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
-                }`}
+                className={`group relative flex flex-col rounded-2xl overflow-hidden cursor-pointer bg-card border border-border/50 hover:border-foreground/20 transition-all duration-300 hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:hover:shadow-[0_8px_30px_rgba(255,255,255,0.05)] ${isCardVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"}`}
                 style={{
                   transitionDelay: `${index * 50}ms`
                 }}
@@ -353,28 +336,11 @@ const Projects = () => {
                     )}
                   </div>
 
-                  {/* Bottom metrics chips */}
-                  {project.metrics && project.metrics.length > 0 && (
-                    <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap gap-1.5">
-                      {project.metrics.slice(0, 3).map((metric, idx) => {
-                        const accentColor = projectAccents[project.id] || "#3b82f6";
-                        return (
-                          <div
-                            key={idx}
-                            className="inline-flex items-center gap-1 bg-background/70 backdrop-blur-md text-foreground px-2 py-0.5 rounded-md text-[10px] font-semibold border border-border/50 shadow-sm"
-                          >
-                            <span style={{ color: accentColor }}>{metric.value}</span>
-                            <span className="text-muted-foreground/50">·</span>
-                            <span className="text-muted-foreground">{metric.label}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
+                  
                 </div>
 
                 {/* ── Content Area ── */}
-                <div className="flex flex-col flex-grow p-5 lg:p-6 bg-gradient-to-b from-background/90 to-background/50 backdrop-blur-xl">
+                <div className="flex flex-col flex-grow p-5 lg:p-6 bg-card">
                   <div className="mb-3 flex items-center justify-between">
                     <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                       {project.category}
