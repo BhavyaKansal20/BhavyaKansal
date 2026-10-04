@@ -55,7 +55,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section id="faq" ref={faqRef} className="py-24 bg-background relative overflow-hidden">
+    <section id="faq" ref={faqRef} className="py-24 bg-transparent relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-[0.88fr_1.12fr] gap-12 lg:gap-20 items-start">
           {/* Left — sticky intro + CTA */}
@@ -72,7 +72,7 @@ const FAQ = () => {
             <a href="mailto:kansalbhavya27@gmail.com" target="_blank" rel="noopener noreferrer">
               <Button className="mt-8 rounded-2xl gap-3 px-8 py-6 text-base font-semibold shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300">
                 Ask me directly
-                <div className="w-8 h-8 rounded-full bg-background/20 flex items-center justify-center">
+                <div className="w-8 h-8 rounded-full bg-transparent/20 flex items-center justify-center">
                   <ArrowUpRight className="w-4 h-4" />
                 </div>
               </Button>

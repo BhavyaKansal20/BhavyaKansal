@@ -28,11 +28,11 @@ const TechStackScroller = () => {
   const looped = [...techStack, ...techStack];
 
   return (
-    <section ref={scrollerRef} className={`py-16 bg-foreground dark:bg-background ${scrollerVisible ? 'scroll-animate' : ''}`}>
+    <section ref={scrollerRef} className={`py-16 bg-transparent ${scrollerVisible ? 'scroll-animate' : ''}`}>
       <div className="max-w-full overflow-hidden relative">
         {/* Gradient overlays for fade effect */}
-        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-foreground dark:from-background via-foreground/90 dark:via-background/90 to-transparent z-10" style={{ left: '-1px' }} />
-        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-foreground dark:from-background via-foreground/90 dark:via-background/90 to-transparent z-10" style={{ right: '-1px' }} />
+        <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-background via-background/80 to-transparent z-10" style={{ left: '-1px' }} />
+        <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-background via-background/80 to-transparent z-10" style={{ right: '-1px' }} />
         
         <div className="flex space-x-8 animate-scroll overflow-visible">
           {looped.map((tech, index) => (

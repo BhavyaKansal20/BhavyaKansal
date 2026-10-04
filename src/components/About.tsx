@@ -27,8 +27,8 @@ const About = () => {
   ];
 
   return (
-    <section id="about" ref={aboutRef} className="py-24 bg-background relative overflow-hidden">
-      <div className="aurora-bg" aria-hidden />
+    <section id="about" ref={aboutRef} className="py-24 bg-transparent relative overflow-hidden">
+      
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* Editorial header */}
         <div className={`mb-14 sm:mb-16 ${aboutVisible ? "scroll-animate" : "opacity-0"}`}>

@@ -8,16 +8,8 @@ const Hero = () => {
   return (
     <section
       ref={heroRef}
-      className="min-h-[88vh] bg-background relative overflow-hidden pt-28 sm:pt-24 pb-16"
+      className="min-h-[88vh] bg-transparent relative overflow-hidden pt-28 sm:pt-24 pb-16"
     >
-      {/* Decorative floating blobs — GPU-composited CSS transforms */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-20 left-6 sm:left-10 w-20 h-20 rounded-full bg-blue-300/25 blur-2xl animate-float" />
-        <div className="absolute top-40 right-10 sm:right-20 w-32 h-32 rounded-full bg-purple-300/20 blur-3xl animate-float" style={{ animationDelay: "1s" }} />
-        <div className="absolute bottom-32 left-1/4 w-24 h-24 rounded-full bg-pink-300/20 blur-2xl animate-float" style={{ animationDelay: "2s" }} />
-        <div className="absolute top-1/3 right-1/3 w-16 h-16 rounded-full bg-cyan-300/25 blur-xl animate-float" style={{ animationDelay: "0.5s" }} />
-      </div>
-
       <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 lg:gap-8 items-center relative z-10">
         {/* Command palette hint */}
         <div className="absolute top-0.5 right-0 z-20 hidden sm:block">

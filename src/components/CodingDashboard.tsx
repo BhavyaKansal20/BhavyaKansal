@@ -367,7 +367,7 @@ const CodingDashboard = () => {
   ];
 
   return (
-    <section id="coding" ref={ref} className="py-24 bg-background relative overflow-hidden">
+    <section id="coding" ref={ref} className="py-24 bg-transparent relative overflow-hidden">
       <style>{`
         .custom-grid::-webkit-scrollbar {
           height: 6px;

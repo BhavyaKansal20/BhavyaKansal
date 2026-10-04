@@ -8,80 +8,54 @@
 
 @layer base {
   :root {
-    --background: 0 0% 99.5%;
-    --foreground: 0 0% 9%;
-
+    --background: 0 0% 98%;
+    --foreground: 240 10% 3.9%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 9%;
-
+    --card-foreground: 240 10% 3.9%;
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 9%;
-
-    --primary: 0 0% 9%;
+    --popover-foreground: 240 10% 3.9%;
+    --primary: 240 5.9% 10%;
     --primary-foreground: 0 0% 98%;
-
-    --secondary: 220 15% 94%;
-    --secondary-foreground: 0 0% 9%;
-
-    --muted: 220 10% 94%;
-    --muted-foreground: 0 0% 45%;
-
-    --accent: 220 10% 94%;
-    --accent-foreground: 0 0% 9%;
-
-    --destructive: 0 84% 60%;
+    --secondary: 240 4.8% 95.9%;
+    --secondary-foreground: 240 5.9% 10%;
+    --muted: 240 4.8% 95.9%;
+    --muted-foreground: 240 3.8% 46.1%;
+    --accent: 240 4.8% 95.9%;
+    --accent-foreground: 240 5.9% 10%;
+    --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
-
-    --border: 220 10% 88%;
-    --input: 220 10% 88%;
-    --ring: 0 0% 9%;
-
-    --radius: 0.75rem;
-
-    --gradient-start: 0 0% 96%;
-    --gradient-mid: 0 0% 98%;
-    --gradient-end: 0 0% 99%;
-
-    --glass-bg: 0 0% 100% / 0.8;
-    --glass-border: 0 0% 0% / 0.08;
+    --border: 240 5.9% 90%;
+    --input: 240 5.9% 90%;
+    --ring: 240 5.9% 10%;
+    --radius: 1rem;
+    --glass-bg: 0 0% 100% / 0.6;
+    --glass-border: 0 0% 100% / 0.4;
   }
 
   .dark {
-    --background: 220 15% 5%;
-    --foreground: 0 0% 96%;
-
-    --card: 220 15% 7%;
-    --card-foreground: 0 0% 96%;
-
-    --popover: 220 15% 7%;
-    --popover-foreground: 0 0% 96%;
-
-    --primary: 0 0% 96%;
-    --primary-foreground: 220 15% 5%;
-
-    --secondary: 220 15% 12%;
-    --secondary-foreground: 0 0% 96%;
-
-    --muted: 220 15% 12%;
-    --muted-foreground: 0 0% 65%;
-
-    --accent: 220 15% 15%;
-    --accent-foreground: 0 0% 96%;
-
-    --destructive: 0 62% 50%;
-    --destructive-foreground: 0 0% 96%;
-
-    --border: 220 15% 14%;
-    --input: 220 15% 14%;
-    --ring: 0 0% 96%;
-
-    --gradient-start: 220 15% 6%;
-    --gradient-mid: 220 15% 8%;
-    --gradient-end: 220 15% 5%;
-
-    /* Premium frosted dark glass */
-    --glass-bg: 220 15% 8% / 0.7;
-    --glass-border: 0 0% 100% / 0.1;
+    --background: 240 10% 3.9%;
+    --foreground: 0 0% 98%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 0 0% 98%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 0 0% 98%;
+    --primary: 0 0% 98%;
+    --primary-foreground: 240 5.9% 10%;
+    --secondary: 240 3.7% 15.9%;
+    --secondary-foreground: 0 0% 98%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
+    --accent: 240 3.7% 15.9%;
+    --accent-foreground: 0 0% 98%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 0% 98%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 240 4.9% 83.9%;
+    
+    /* Premium Frost Glass */
+    --glass-bg: 240 10% 10% / 0.4;
+    --glass-border: 255 255% 255% / 0.1;
   }
 }
 
@@ -89,34 +63,47 @@
   * {
     @apply border-border;
   }
-
+  
   html {
     scroll-behavior: smooth;
-    position: relative;
     overflow-x: hidden;
   }
 
-  /* ── Ultra Premium Dot Background ── */
-  .bg-background {
+  /* ── Ultra Premium Animated Mesh Background ── */
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Times New Roman', Times, Baskerville, Georgia, serif;
     position: relative;
-    overflow: visible;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
   }
 
-  .bg-background::before {
+  body::before {
     content: '';
-    position: absolute;
-    inset: 0;
+    position: fixed;
+    inset: -50%;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 50%, hsl(var(--primary) / 0.03), transparent 60%),
+                radial-gradient(circle at 100% 0%, hsl(var(--accent) / 0.05), transparent 50%),
+                radial-gradient(circle at 0% 100%, hsl(var(--secondary) / 0.05), transparent 50%);
+    animation: premiumMesh 20s ease-in-out infinite alternate;
     pointer-events: none;
-    z-index: 0;
-    background-image: radial-gradient(hsl(var(--foreground) / 0.1) 1px, transparent 1px);
-    background-size: 24px 24px;
-    opacity: 1;
-    mask-image: radial-gradient(circle at center, black, transparent 80%);
-    -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
   }
 
-  .dark .bg-background::before {
-    background-image: radial-gradient(hsl(var(--foreground) / 0.08) 1px, transparent 1px);
+  .dark body::before {
+    background: 
+      radial-gradient(circle at 15% 50%, rgba(56, 189, 248, 0.06), transparent 50%),
+      radial-gradient(circle at 85% 30%, rgba(139, 92, 246, 0.06), transparent 50%),
+      radial-gradient(circle at 50% 80%, rgba(59, 130, 246, 0.05), transparent 50%);
+  }
+
+  @keyframes premiumMesh {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-2%, 2%) scale(1.05); }
   }
 
   /* ── TYPOGRAPHY: Times New Roman EVERYWHERE (universal, no escapes) ── */
@@ -371,27 +358,27 @@
 
   .scroll-animate {
     opacity: 0;
-    animation: fadeInUp 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: fadeInUp 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     will-change: transform, opacity;
   }
 
   .scroll-animate-from-right {
     opacity: 0;
-    animation: fadeInRight 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: fadeInRight 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     will-change: transform, opacity;
   }
 
   .scroll-animate-from-left {
     opacity: 0;
-    animation: fadeInLeft 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+    animation: fadeInLeft 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
     will-change: transform, opacity;
   }
 
-  .scroll-animate-delay-1 { animation-delay: 0.12s; }
-  .scroll-animate-delay-2 { animation-delay: 0.24s; }
-  .scroll-animate-delay-3 { animation-delay: 0.36s; }
-  .scroll-animate-delay-4 { animation-delay: 0.48s; }
-  .scroll-animate-delay-5 { animation-delay: 0.60s; }
+  .scroll-animate-delay-1 { animation-delay: 0.05s; }
+  .scroll-animate-delay-2 { animation-delay: 0.10s; }
+  .scroll-animate-delay-3 { animation-delay: 0.15s; }
+  .scroll-animate-delay-4 { animation-delay: 0.20s; }
+  .scroll-animate-delay-5 { animation-delay: 0.25s; }
 
   /* ── Slide-up (mobile bottom-sheet) ── */
   @keyframes slideUp {

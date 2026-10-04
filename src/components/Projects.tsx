@@ -327,76 +327,90 @@ const Projects = () => {
                 }}
               >
                 {/* ── Top Image Area ── */}
-                <div className="relative h-60 overflow-hidden bg-muted/30">
+                <div className="relative h-56 overflow-hidden">
                   <div
                     className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
                     style={{ backgroundImage: `url('${project.image}')` }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-80" />
                   
-                  {isFeatured && (
-                    <div className="absolute top-4 left-4 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-md text-xs font-medium text-foreground border border-border/50">
-                        <Star className="w-3.5 h-3.5 fill-foreground" />
+                  {/* Top Badges */}
+                  <div className="absolute top-4 left-4 z-10 flex gap-2">
+                    {isFeatured && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-background/80 backdrop-blur-md text-[10px] font-bold tracking-wider uppercase text-foreground border border-border/50 shadow-sm">
+                        <Star className="w-3 h-3 text-yellow-500 fill-yellow-500" />
                         Featured
                       </span>
-                    </div>
-                  )}
-
-                  {isLive && (
-                    <div className="absolute top-4 right-4 z-10">
-                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 backdrop-blur-md text-emerald-600 dark:text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                    )}
+                    {isLive && (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/15 backdrop-blur-md text-emerald-600 dark:text-emerald-400 text-[10px] font-bold tracking-wider uppercase border border-emerald-500/20 shadow-sm">
                         <span className="relative flex h-2 w-2">
                           <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
                         </span>
                         Live
                       </span>
+                    )}
+                  </div>
+
+                  {/* Bottom metrics chips */}
+                  {project.metrics && project.metrics.length > 0 && (
+                    <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap gap-1.5">
+                      {project.metrics.slice(0, 3).map((metric, idx) => {
+                        const accentColor = projectAccents[project.id] || "#3b82f6";
+                        return (
+                          <div
+                            key={idx}
+                            className="inline-flex items-center gap-1 bg-background/70 backdrop-blur-md text-foreground px-2 py-0.5 rounded-md text-[10px] font-semibold border border-border/50 shadow-sm"
+                          >
+                            <span style={{ color: accentColor }}>{metric.value}</span>
+                            <span className="text-muted-foreground/50">·</span>
+                            <span className="text-muted-foreground">{metric.label}</span>
+                          </div>
+                        );
+                      })}
                     </div>
                   )}
                 </div>
 
                 {/* ── Content Area ── */}
-                <div className="flex flex-col flex-grow p-6 lg:p-8 bg-gradient-to-b from-background/90 to-background/50 backdrop-blur-xl">
-                  <div className="mb-4">
-                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
+                <div className="flex flex-col flex-grow p-5 lg:p-6 bg-gradient-to-b from-background/90 to-background/50 backdrop-blur-xl">
+                  <div className="mb-3 flex items-center justify-between">
+                    <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground">
                       {project.category}
                     </p>
-                    <h3 className="text-2xl font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
                   </div>
+                  <h3 className="text-xl lg:text-2xl font-bold tracking-tight text-foreground group-hover:text-primary transition-colors mb-2 leading-snug">
+                    {project.title}
+                  </h3>
 
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-5 flex-grow line-clamp-3" style={{ textAlign: "justify" }}>
                     {project.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {project.techStack.slice(0, 4).map((tech) => (
-                      <span
-                        key={tech}
-                        className="px-3 py-1 text-xs font-medium bg-secondary/50 text-secondary-foreground rounded-lg"
-                      >
-                        {tech}
-                      </span>
+                  <div className="flex flex-wrap gap-1.5 mb-6">
+                    {project.techStack.slice(0, 5).map((tech) => (
+                      <TechIcon key={tech} name={tech} />
                     ))}
-                    {project.techStack.length > 4 && (
-                      <span className="px-3 py-1 text-xs font-medium bg-secondary/30 text-muted-foreground rounded-lg">
-                        +{project.techStack.length - 4}
-                      </span>
+                    {project.techStack.length > 5 && (
+                      <div className="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold text-muted-foreground bg-muted/50 border border-border">
+                        +{project.techStack.length - 5}
+                      </div>
                     )}
                   </div>
 
-                  <div className="flex items-center gap-3 mt-auto pt-4 border-t border-border/40">
+                  <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent mb-4" />
+
+                  <div className="flex items-center gap-2 mt-auto">
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-xl hover:bg-primary/90 transition-colors"
+                        className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-primary-foreground bg-primary rounded-lg hover:bg-primary/90 transition-colors shadow-sm hover:scale-105 active:scale-95"
                       >
-                        <ExternalLink className="w-4 h-4" />
+                        <ExternalLink className="w-3.5 h-3.5" />
                         Live Demo
                       </a>
                     )}
@@ -406,14 +420,14 @@ const Projects = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-foreground bg-secondary hover:bg-secondary/80 rounded-xl transition-colors"
+                        className="inline-flex items-center justify-center gap-1.5 px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-foreground bg-secondary hover:bg-secondary/80 border border-border/50 rounded-lg transition-colors hover:scale-105 active:scale-95"
                       >
-                        <Github className="w-4 h-4" />
-                        {project.liveUrl ? "Code" : "Repository"}
+                        <Github className="w-3.5 h-3.5" />
+                        {project.liveUrl ? "Code" : "Repo"}
                       </a>
                     )}
                     <div className="flex-1" />
-                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
+                    <div className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center text-foreground transition-all duration-300 transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 shadow-sm border border-border/40 hover:bg-primary hover:text-primary-foreground">
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>
