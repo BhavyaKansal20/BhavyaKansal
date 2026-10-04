@@ -1,27 +1,24 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="js">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Bhavya Kansal | AI Engineer, ML Researcher & Founder</title>
-    <meta name="description" content="Official portfolio of Bhavya Kansal. AI Engineer & ML Researcher specializing in Deep Learning, Computer Vision, and production-ready scalable AI systems." />
-    <meta name="keywords" content="Bhavya Kansal, AI Engineer, Machine Learning Engineer, Deep Learning, Generative AI, Computer Vision, Thapar Institute, Code Metrics" />
+    <title>Bhavya Kansal | AI/ML Engineer - Computer Vision & GenAI</title>
+    <meta name="description" content="AI/ML Engineer building production computer vision and generative AI systems. B.E. AI & Data Science at Thapar Institute. Explore projects and research." />
     <meta name="author" content="Bhavya Kansal" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="googlebot" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-    <meta name="geo.region" content="IN-PB" />
-    <meta name="geo.placename" content="Patiala, Punjab" />
-
-    <!-- Performance Hints -->
+    <meta name="robots" content="index, follow, max-image-preview:large" />
+    <meta name="googlebot" content="index, follow" />
+    
+    <!-- Preload critical assets -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     
     <link rel="canonical" href="https://bhavyakansal.dev/" />
 
     <!-- OpenGraph / Premium Banner -->
-    <meta property="og:title" content="Bhavya Kansal | AI Engineer & ML Researcher" />
-    <meta property="og:description" content="AI engineer building multimodal systems, deep learning pipelines, and production-ready applied AI products." />
+    <meta property="og:title" content="Bhavya Kansal | AI/ML Engineer - Computer Vision & GenAI" />
+    <meta property="og:description" content="AI/ML Engineer building production computer vision and generative AI systems. B.E. AI & Data Science at Thapar Institute." />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bhavyakansal.dev/" />
     <meta property="og:site_name" content="Bhavya Kansal" />
@@ -30,10 +27,13 @@
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Bhavya Kansal | AI Engineer & ML Researcher" />
-    <meta name="twitter:description" content="Portfolio of Bhavya Kansal focused on Deep Learning, Computer Vision, and scalable AI systems." />
+    <meta name="twitter:title" content="Bhavya Kansal | AI/ML Engineer" />
+    <meta name="twitter:description" content="AI/ML Engineer building production computer vision and generative AI systems." />
     <meta name="twitter:image" content="https://bhavyakansal.dev/og-banner.jpg" />
     <meta name="twitter:site" content="@BhavyaKansal20" />
+
+    <!-- Security Headers (meta fallback) -->
+    <meta http-equiv="X-Content-Type-Options" content="nosniff" />
 
     <!-- Structured Data -->
     <script type="application/ld+json">
@@ -43,7 +43,7 @@
         "name": "Bhavya Kansal",
         "url": "https://bhavyakansal.dev",
         "image": "https://bhavyakansal.dev/Bhavya-Kansal-PFP.jpg",
-        "jobTitle": "AI Engineer & Machine Learning Researcher",
+        "jobTitle": "AI/ML Engineer",
         "alumniOf": {
           "@type": "CollegeOrUniversity",
           "name": "Thapar Institute of Engineering and Technology (TIET)"
@@ -51,7 +51,8 @@
         "knowsAbout": ["Artificial Intelligence", "Machine Learning", "Deep Learning", "Computer Vision", "Generative AI"],
         "sameAs": [
           "https://github.com/BhavyaKansal20",
-          "https://www.linkedin.com/in/bhavyakansal20"
+          "https://www.linkedin.com/in/bhavyakansal20",
+          "https://www.instagram.com/kansal.ai"
         ]
       }
     </script>
@@ -59,7 +60,8 @@
       {
         "@context": "https://schema.org",
         "@type": "WebSite",
-        "name": "Bhavya Kansal | AI Portfolio",
+        "name": "Bhavya Kansal",
+        "alternateName": "Bhavya Kansal | AI Portfolio",
         "url": "https://bhavyakansal.dev/",
         "description": "Premium portfolio showcasing AI/ML projects and research by Bhavya Kansal.",
         "inLanguage": "en"
@@ -67,11 +69,19 @@
     </script>
     
     <!-- Favicons -->
-    <link rel="icon" href="/favicon.ico?v=20260405-2" sizes="any" />
-    <link rel="shortcut icon" href="/favicon.ico?v=20260405-2" />
-    <link rel="icon" href="/favicon.png?v=20260405-2" type="image/png" />
-    <link rel="alternate icon" href="/favicon.png?v=20260405-2" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=20260405-2" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    
+    <script>
+      // Prevent FOUC for theme
+      let isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      try {
+        const theme = localStorage.getItem('theme');
+        if (theme) isDark = theme === 'dark';
+      } catch (e) {}
+      if (isDark) document.documentElement.classList.add('dark');
+    </script>
   </head>
 
   <body>

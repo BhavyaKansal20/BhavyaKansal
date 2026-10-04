@@ -1,271 +1,95 @@
-import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
-import { useTiltCard } from "@/hooks/useTiltCard";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Maximize2 } from "lucide-react";
 
-
-interface TimelineItem {
-  date: string;
-  title: string;
-  company?: string;
-  companyUrl?: string;
-  period?: string;
-  summary: string;
-  tech: string[];
-  logos?: string[];
-  certificate?: string;
-  type?: "education" | "work" | "training" | "leadership";
-}
-
-const timelineData: TimelineItem[] = [
+const timelineData = [
   {
-    date: "2023 - 2026",
-    title: "Diploma in Computer Science Engineering",
+    role: "General Secretary",
+    company: "Code Metrics Research Society (TIET)",
+    date: "Present",
+    bullets: [
+      "Oversees society operations and coordinates across 4 departments (Research, Tech, Marketing & PR, Media & Design).",
+      "Drives initiatives bridging academic research with real-world innovation; spearheads strategy, team coordination, and event execution.",
+      "Works with faculty leadership including Dr. Prashant Singh Rana and VP Himanshu Gautam to build a research-driven ecosystem.",
+      "Contributes to TICSR (Thapar International Conference for Student Research) as the main student lead collaborator."
+    ],
+    skills: ["Research Skills", "R&D", "Team Leadership", "Team Building", "Leadership"],
+  },
+  {
+    role: "AI/ML Industrial Training",
+    company: "IIT Ropar x NIELIT Ropar",
+    date: "Jan 2026 - Jul 2026",
+    bullets: [
+      "TODO(bhavya): Add metric/outcome for IIT Ropar training.",
+      "Focused on applied machine learning workflows, model experimentation, and computer vision pipelines."
+    ],
+    skills: ["Deep Learning", "Applied ML", "Computer Vision", "PyTorch"],
+    certificate: "/iit certificate.pdf"
+  },
+  {
+    role: "Summer Trainee",
     company: "Thapar Polytechnic College",
-    period: "2023 – 2026",
-    type: "education",
-    summary:
-      "Built strong foundations in Python programming, data structures, algorithms, and practical software development — setting the stage for advanced AI systems engineering.",
-    tech: ["Python", "DSA", "Core CS", "Software Development", "C++"],
-    logos: ["/tpc_logo.png"],
-  },
-  {
-    date: "JUN 2025 - AUG 2025",
-    title: "AI/ML & Cybersecurity Trainee",
-    company: "Thapar Polytechnic College",
-    period: "Jun 2025 – Aug 2025",
-    type: "training",
-    summary:
-      "Completed intensive summer training in Python, AI/ML, and cybersecurity through practical labs, model implementation workshops, and security assessment mini-projects.",
-    tech: ["Python", "Machine Learning", "Cybersecurity", "Hands-on Labs"],
-    logos: ["/tpc_logo.png"],
-    certificate: "/tpc summer training.jpg",
-  },
-  {
-    date: "JAN 2026 - JUL 2026",
-    title: "AI/ML Intern",
-    company: "IIT & NIELIT Ropar",
-    period: "Jan 2026 – Jul 2026",
-    type: "work",
-    summary:
-      "Industrial AI/ML training at IIT Ropar & NIELIT — focused on applied machine learning workflows, model experimentation, computer vision pipelines, and real-world deployment.",
-    tech: ["Deep Learning", "Applied ML", "Computer Vision", "Model Deployment", "PyTorch"],
-    logos: ["/iit_logo.png", "/nielit_logo.png"],
-    certificate: "/iit certificate.pdf",
-  },
-  {
-    date: "JUL 2026 - JUN 2029",
-    title: "B.E — Data Science & Artificial Intelligence",
-    company: "Thapar Institute of Engineering & Technology",
-    period: "Jul 2026 – Jun 2029",
-    type: "education",
-    summary:
-      "Pursuing advanced coursework in deep learning, statistical modeling, and scalable AI engineering — with a focus on production-grade intelligent systems at one of India's premier engineering institutions.",
-    tech: ["Deep Learning", "Data Science", "AI Systems", "Software Engineering", "Research"],
-    logos: ["/tiet_logo.png"],
-  },
-  {
-    date: "PRESENT",
-    title: "General Secretary",
-    company: "CODE METRICS Research Society (TIET, CSED & DORSP)",
-    period: "Present",
-    type: "leadership",
-    summary:
-      "As General Secretary, I oversee society operations, coordinate across 4 departments (Research, Tech, Marketing & PR, Media & Design), and drive initiatives that bridge academic research with real-world innovation. Spearheading society strategy, team coordination, and event execution. Collaborating with faculty leadership including Dr. Prashant Singh Rana (President, Associate Professor & Associate Head, CSED) and Ishan Jindal Sir. Working closely with VP Himanshu Gautam and department heads to build a research-driven student ecosystem. Contributing to TICSR (Thapar International Conference for Student Research) — an international hybrid conference where Code Metrics serves as the main student lead collaborator.",
-    tech: ["Leadership", "Research Skills", "Research and Development (R&D)", "Team Leadership", "Team Building"],
-    logos: ["/code metrics logo.webp"],
-  },
+    date: "Jun 2025 - Aug 2025",
+    bullets: [
+      "Completed intensive summer training in Python, AI/ML, and cybersecurity.",
+      "TODO(bhavya): Add concrete outcome/metric for summer training."
+    ],
+    skills: ["Python", "Machine Learning", "Cybersecurity"],
+    certificate: "/tpc summer training.jpg"
+  }
 ];
 
-const typeColors: Record<string, string> = {
-  education: "bg-blue-500",
-  work: "bg-emerald-500",
-  training: "bg-amber-500",
-  leadership: "bg-purple-500",
-};
-
-const typeLabel: Record<string, string> = {
-  education: "Education",
-  work: "Experience",
-  training: "Training",
-  leadership: "Leadership",
-};
-
-/* Individual tilt card */
-const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean }) => {
-  const { cardRef, spotRef, onMouseMove, onMouseLeave } = useTiltCard(6);
+export default function Timeline() {
+  const { ref, isVisible } = useScrollAnimation();
 
   return (
-    <div
-      ref={cardRef}
-      onMouseMove={onMouseMove}
-      onMouseLeave={onMouseLeave}
-      onClick={(e) => {
-        const rect = cardRef.current?.getBoundingClientRect();
-        if (!rect || !cardRef.current) return;
-        const ripple = document.createElement("div");
-        ripple.className = "card-ripple-effect";
-        ripple.style.left = `${e.clientX - rect.left}px`;
-        ripple.style.top = `${e.clientY - rect.top}px`;
-        cardRef.current.appendChild(ripple);
-        setTimeout(() => ripple.remove(), 700);
-      }}
-      className="glass-card group h-full p-6 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden transition-all duration-300 opacity-100 hover:brightness-110"
-    >
-      <div className="card-spotlight" ref={spotRef} />
+    <section id="experience" ref={ref} className={`py-24 transition-opacity duration-300 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+      <div className="max-w-4xl mx-auto px-6">
+        <div className="mb-12">
+          <span className="eyebrow">Experience</span>
+          <h2 className="display-heading text-3xl font-bold mt-2">Work & Leadership</h2>
+        </div>
+        
+        <div className="space-y-12">
+          {timelineData.map((item, i) => (
+            <div key={i} className="flex flex-col md:flex-row gap-4 md:gap-8">
+              <div className="md:w-1/4 shrink-0">
+                <p className="text-sm font-medium text-muted-foreground">{item.date}</p>
+              </div>
+              <div className="md:w-3/4">
+                <h3 className="text-lg font-bold text-foreground">{item.role}</h3>
+                <p className="text-base text-foreground/80 mb-4 font-medium">{item.company}</p>
+                
+                <ul className="list-disc list-outside ml-4 space-y-2 mb-4 text-muted-foreground text-sm">
+                  {item.bullets.map((b, idx) => <li key={idx}>{b}</li>)}
+                </ul>
+                
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {item.skills.map(s => (
+                    <span key={s} className="px-2 py-0.5 text-xs bg-secondary text-secondary-foreground rounded border border-border">
+                      {s}
+                    </span>
+                  ))}
+                </div>
 
-      <div className="flex items-center gap-2 mb-3">
-        <span className={`w-2 h-2 rounded-full ${typeColors[item.type || "education"]} flex-shrink-0`} />
-        <span className="text-[11px] uppercase tracking-[0.2em] text-muted-foreground font-semibold">
-          {typeLabel[item.type || "education"]}
-        </span>
-      </div>
-
-      <p className="text-xs text-muted-foreground mb-1 font-medium tabular-nums">{item.period || item.date}</p>
-      <h3 className="text-lg font-bold mb-1 text-foreground leading-snug">{item.title}</h3>
-
-      {item.company && <p className="text-sm text-muted-foreground mb-3">{item.company}</p>}
-
-      {item.logos && item.logos.length > 0 && (
-        <div className="mb-3 flex flex-wrap items-center gap-2">
-          {item.logos.map((logo) => (
-            <img
-              key={logo}
-              src={logo}
-              alt={item.company || "Institution logo"}
-              className="w-9 h-9 rounded-md object-contain border border-border bg-white p-1"
-            />
+                {item.certificate && (
+                  <Dialog>
+                    <DialogTrigger asChild>
+                      <button className="text-sm font-medium text-accent hover:underline">View Certificate</button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-4xl p-1 bg-black/90 border-none">
+                      {item.certificate.endsWith('.pdf') ? (
+                        <iframe src={item.certificate} className="w-full h-[80vh] rounded-md bg-white" />
+                      ) : (
+                        <img src={item.certificate} alt="Certificate" className="w-full h-auto max-h-[85vh] object-contain rounded-md" />
+                      )}
+                    </DialogContent>
+                  </Dialog>
+                )}
+              </div>
+            </div>
           ))}
-        </div>
-      )}
-
-      <p className="text-sm text-muted-foreground leading-relaxed mt-2" style={{ textAlign: "justify" }}>
-        {item.summary}
-      </p>
-
-      {item.certificate && (
-        <a
-          href={item.certificate}
-          target="_blank"
-          rel="noopener noreferrer"
-          onClick={(e) => e.stopPropagation()}
-          className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-foreground text-background text-xs font-bold uppercase tracking-wider rounded-lg shadow-md hover:scale-105 transition-transform"
-        >
-          View Certificate
-        </a>
-      )}
-
-      <div className="mt-4 flex flex-wrap gap-1.5">
-        {item.tech.map((tag) => (
-          <span
-            key={tag}
-            className="tech-chip inline-flex items-center px-2.5 py-0.5 rounded-full text-xs bg-muted/80 text-foreground font-medium border border-transparent hover:border-foreground/20"
-          >
-            {tag}
-          </span>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index: number, total: number }) => {
-  const { ref, isVisible } = useScrollAnimation();
-
-  return (
-    <div className="flex-1 flex flex-col items-center group relative min-w-[280px]">
-      <div 
-        ref={ref}
-        className={`w-full flex-1 pt-8 px-4 transition-all duration-300 ease-out opacity-100 translate-y-0`}
-      >
-        <TiltCard item={item} revealed={isVisible} />
-      </div>
-      
-      <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
-        <div className={`w-5 h-5 rounded-full border-2 transition-all duration-500 bg-background ${isVisible ? typeColors[item.type || "education"] + ' border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110' : 'border-border scale-75 opacity-50'}`} />
-        <div className={`h-8 w-px transition-all duration-500 bg-gradient-to-b ${isVisible ? "from-border to-transparent" : "from-border to-transparent opacity-0"}`} />
-      </div>
-    </div>
-  );
-};
-
-const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
-  const { ref, isVisible } = useScrollAnimation();
-  
-  return (
-    <div ref={ref} className="relative">
-      <div className="absolute -left-[26px] top-4">
-        <div className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${isVisible ? typeColors[item.type || "education"] + ' border-white/40 shadow-lg scale-125' : 'bg-background border-border scale-75 opacity-0'}`} />
-      </div>
-      <div className={`ml-4 transition-all duration-300 ease-out opacity-100 translate-y-0`}>
-        <TiltCard item={item} revealed={isVisible} />
-      </div>
-    </div>
-  );
-};
-
-const Timeline = () => {
-  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
-  const { ref: trackRef, isVisible: trackVisible } = useScrollAnimation();
-  const total = timelineData.length;
-
-  return (
-    <section className="py-20 lg:py-28 px-6 lg:px-8 relative overflow-hidden" id="timeline">
-      
-      <div className="max-w-7xl mx-auto relative z-10">
-        <div
-          ref={titleRef}
-          className={`${titleVisible ? "scroll-animate" : "opacity-0"} text-center mb-16 lg:mb-24`}
-        >
-          <span className="eyebrow justify-center">The Journey</span>
-          <h2 className="display-heading text-5xl md:text-6xl lg:text-7xl font-bold mt-4">Tracing the Arc</h2>
-          <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
-            From foundations to frontier — revealed right to left, the way the story was built.
-          </p>
-        </div>
-
-        <div className="hidden lg:block relative mt-8">
-          <div className="absolute top-8 left-0 right-0 h-px bg-border" />
-          
-          <div
-            ref={trackRef}
-            className="absolute top-8 left-0 right-0 h-px bg-gradient-to-l from-accent via-primary to-accent transition-transform duration-1000 ease-out origin-right"
-            style={{ 
-              transform: `scaleX(${trackVisible ? 1 : 0})`,
-              willChange: "transform",
-              boxShadow: "0 0 12px hsl(var(--accent) / 0.6)"
-            }}
-          />
-
-          <div className="flex justify-between items-start pt-6 gap-6 relative z-10">
-            {[...timelineData].reverse().map((item, index) => (
-              <TimelineItemDesktop key={item.period || item.date} item={item} index={index} total={total} />
-            ))}
-          </div>
-        </div>
-
-        <div className="lg:hidden relative pl-8 mt-8">
-          <div className="absolute left-4 top-0 bottom-0 w-px bg-border" />
-          <div
-            className="absolute left-4 top-0 w-px bg-gradient-to-b from-accent via-primary to-accent transition-all duration-1000 ease-out origin-top"
-            style={{
-              height: "100%",
-              transform: `scaleY(${trackVisible ? 1 : 0})`,
-              willChange: "transform",
-              boxShadow: "0 0 12px hsl(var(--accent) / 0.6)"
-            }}
-          />
-
-          <div className="space-y-12">
-            {[...timelineData].reverse().map((item) => (
-              <TimelineItemMobile key={item.period || item.date} item={item} />
-            ))}
-          </div>
         </div>
       </div>
     </section>
   );
-};
-
-export default Timeline;
+}
