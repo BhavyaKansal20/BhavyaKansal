@@ -58,7 +58,7 @@ const Hero = () => {
               size="lg"
               variant="outline"
               className="rounded-full gap-2 px-8 py-6 text-base font-medium border-2 border-black dark:border-white hover:bg-black hover:text-white hover:border-white dark:hover:bg-white dark:hover:text-black dark:hover:border-black"
-              onClick={() => window.open("/Bhavya-Kansal-Resume.pdf", "_blank")}
+              onClick={() => window.open("/Bhavya_Kansal_Resume.pdf", "_blank")}
             >
               View Resume
               <Download className="w-5 h-5" />

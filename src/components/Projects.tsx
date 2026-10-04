@@ -302,35 +302,20 @@ const Projects = () => {
         {/* ── Project Grid ── */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {displayedProjects.map((project, index) => {
-            const catStyle = categoryAccents[project.category] || {
-              accent: "#94a3b8",
-              glow: "rgba(148,163,184,0.25)",
-              ring: "rgba(148,163,184,0.35)",
-              label: project.category,
-            };
-            const accent = projectAccents[project.id] || catStyle.accent;
             const isLive = Boolean(project.liveUrl);
             const isFeatured = featuredKeys.has(project.title);
             const isCardVisible = visibleCards.has(index);
-            const isHovered = hoveredCard === project.id;
 
             return (
               <div
                 key={project.id}
                 ref={setCardRef(index)}
                 onClick={() => setSelectedProject(project)}
-                onMouseEnter={() => setHoveredCard(project.id)}
-                onMouseLeave={() => setHoveredCard(null)}
-                className={`proj-card group relative rounded-2xl overflow-hidden cursor-pointer border border-border/60 bg-background/80 backdrop-blur-sm ${
-                  isCardVisible ? "proj-visible" : ""
+                className={`group relative flex flex-col rounded-[24px] overflow-hidden cursor-pointer bg-card/40 border border-border/40 hover:border-border/80 transition-all duration-500 hover:shadow-2xl hover:-translate-y-1 ${
+                  isCardVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
                 style={{
-                  animationDelay: `${index * 80}ms`,
-                  transition: "transform 0.4s cubic-bezier(0.22,1,0.36,1), box-shadow 0.4s ease, border-color 0.4s ease",
-                  boxShadow: isHovered
-                    ? `0 20px 60px -15px ${accent}40, 0 0 0 1px ${accent}30`
-                    : "0 4px 20px -5px rgba(0,0,0,0.1)",
-                  borderColor: isHovered ? `${accent}50` : undefined,
+                  transitionDelay: `${index * 50}ms`
                 }}
                 role="button"
                 tabIndex={0}
@@ -341,154 +326,77 @@ const Projects = () => {
                   }
                 }}
               >
-                {/* ── Glow border on hover ── */}
-                <div
-                  className="proj-glow-border absolute inset-0 rounded-2xl pointer-events-none opacity-0 transition-opacity duration-500 z-10"
-                  style={{
-                    background: `radial-gradient(circle at 50% 0%, ${accent}20 0%, transparent 60%)`,
-                  }}
-                />
-
-                {/* ── Top accent line ── */}
-                <div
-                  className="absolute inset-x-0 top-0 h-[2px] z-20"
-                  style={{
-                    background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
-                    opacity: isHovered ? 1 : 0.5,
-                    transition: "opacity 0.3s",
-                  }}
-                />
-
-                {/* ── Featured badge ── */}
-                {isFeatured && (
-                  <div className="absolute top-3 left-3 z-30 flex items-center gap-1.5 bg-black/70 dark:bg-white/10 backdrop-blur-md text-white px-3 py-1.5 rounded-full text-[10px] font-black tracking-widest uppercase border border-white/10">
-                    <Star className="w-3 h-3 fill-amber-400 text-amber-400" />
-                    <span>Featured</span>
-                    <div className="absolute inset-0 rounded-full proj-featured-shimmer pointer-events-none" />
-                  </div>
-                )}
-
-                {/* ── Live status badge ── */}
-                {isLive && (
-                  <div className="absolute top-3 right-3 z-30 flex items-center gap-1.5 bg-emerald-500/20 backdrop-blur-md text-emerald-300 px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wider uppercase border border-emerald-500/30">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-400" />
-                    </span>
-                    Live
-                  </div>
-                )}
-
-                {/* ── Hero Image Area ── */}
-                <div className="relative overflow-hidden h-52 bg-slate-950">
-                  {/* Background gradient */}
+                {/* ── Top Image Area ── */}
+                <div className="relative h-60 overflow-hidden bg-muted/30">
                   <div
-                    className="absolute inset-0"
-                    style={{
-                      background: `linear-gradient(135deg, ${accent}15 0%, rgba(15,23,42,1) 60%)`,
-                    }}
+                    className="absolute inset-0 bg-cover bg-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    style={{ backgroundImage: `url('${project.image}')` }}
                   />
-
-                  {/* Project image */}
-                  <div
-                    className="proj-image absolute inset-0 bg-cover bg-center transition-all duration-700 ease-out"
-                    style={{
-                      backgroundImage: `url('${project.image}')`,
-                      opacity: isHovered ? 0.55 : 0.3,
-                    }}
-                  />
-
-                  {/* Gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/50 to-transparent" />
-
-                  {/* Animated scan bar on hover */}
-                  <div
-                    className="proj-scan-bar absolute left-0 right-0 top-0 h-[2px] pointer-events-none z-10"
-                    style={{
-                      background: `linear-gradient(90deg, transparent, ${accent}, transparent)`,
-                      boxShadow: `0 0 20px ${accent}80`,
-                      opacity: 0,
-                    }}
-                  />
-
-                  {/* Floating glow orb */}
-                  <div
-                    className="absolute -top-10 -right-10 w-40 h-40 rounded-full blur-3xl pointer-events-none"
-                    style={{
-                      background: `radial-gradient(circle, ${accent}30 0%, transparent 70%)`,
-                      animation: "proj-glow-pulse 3s ease-in-out infinite",
-                    }}
-                  />
-
-                  {/* Center content */}
-                  <div className="absolute inset-0 flex items-center justify-center z-10 px-6">
-                    <div className="text-center space-y-2">
-                      <div
-                        className="text-[10px] uppercase tracking-[0.4em] font-bold"
-                        style={{ color: `${accent}CC` }}
-                      >
-                        {catStyle.label}
-                      </div>
-                      <h3 className="text-2xl md:text-3xl font-bold text-white">
-                        {project.title}
-                      </h3>
+                  <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent opacity-80" />
+                  
+                  {isFeatured && (
+                    <div className="absolute top-4 left-4 z-10">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-background/90 backdrop-blur-md text-xs font-medium text-foreground border border-border/50">
+                        <Star className="w-3.5 h-3.5 fill-foreground" />
+                        Featured
+                      </span>
                     </div>
-                  </div>
+                  )}
 
-                  {/* Bottom metrics chips */}
-                  {project.metrics && project.metrics.length > 0 && (
-                    <div className="absolute bottom-3 left-3 right-3 z-10 flex flex-wrap gap-1.5">
-                      {project.metrics.slice(0, 3).map((metric, idx) => (
-                        <div
-                          key={idx}
-                          className="inline-flex items-center gap-1 bg-black/60 backdrop-blur-sm text-white/90 px-2 py-0.5 rounded-md text-[10px] font-semibold border border-white/10"
-                        >
-                          <span style={{ color: accent }}>{metric.value}</span>
-                          <span className="text-white/50">·</span>
-                          <span className="text-white/70">{metric.label}</span>
-                        </div>
-                      ))}
+                  {isLive && (
+                    <div className="absolute top-4 right-4 z-10">
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-500/10 backdrop-blur-md text-emerald-600 dark:text-emerald-400 text-xs font-medium border border-emerald-500/20">
+                        <span className="relative flex h-2 w-2">
+                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75" />
+                          <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+                        </span>
+                        Live
+                      </span>
                     </div>
                   )}
                 </div>
 
-                {/* ── Card Body ── */}
-                <div className="p-5 space-y-4 bg-background">
-                  {/* Description */}
-                  <p className="text-sm text-muted-foreground leading-relaxed line-clamp-2">
+                {/* ── Content Area ── */}
+                <div className="flex flex-col flex-grow p-6 lg:p-8 bg-gradient-to-b from-background/90 to-background/50 backdrop-blur-xl">
+                  <div className="mb-4">
+                    <p className="text-xs font-semibold uppercase tracking-widest text-muted-foreground mb-2">
+                      {project.category}
+                    </p>
+                    <h3 className="text-2xl font-semibold tracking-tight text-foreground group-hover:text-primary transition-colors">
+                      {project.title}
+                    </h3>
+                  </div>
+
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-grow line-clamp-3">
                     {project.description}
                   </p>
 
-                  {/* Tech Stack Row */}
-                  <div className="flex flex-wrap gap-1.5">
-                    {project.techStack.slice(0, 5).map((tech) => (
-                      <TechIcon key={tech} name={tech} />
+                  <div className="flex flex-wrap gap-2 mb-8">
+                    {project.techStack.slice(0, 4).map((tech) => (
+                      <span
+                        key={tech}
+                        className="px-3 py-1 text-xs font-medium bg-secondary/50 text-secondary-foreground rounded-lg"
+                      >
+                        {tech}
+                      </span>
                     ))}
-                    {project.techStack.length > 5 && (
-                      <div className="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold text-muted-foreground bg-muted/50 border border-border">
-                        +{project.techStack.length - 5}
-                      </div>
+                    {project.techStack.length > 4 && (
+                      <span className="px-3 py-1 text-xs font-medium bg-secondary/30 text-muted-foreground rounded-lg">
+                        +{project.techStack.length - 4}
+                      </span>
                     )}
                   </div>
 
-                  {/* Divider */}
-                  <div className="h-px bg-gradient-to-r from-transparent via-border to-transparent" />
-
-                  {/* Action Buttons */}
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-3 mt-auto pt-4 border-t border-border/40">
                     {project.liveUrl && (
                       <a
                         href={project.liveUrl}
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 text-[11px] font-bold text-white tracking-wider uppercase px-3.5 py-2 rounded-lg transition-all duration-200 hover:shadow-lg hover:scale-[1.02]"
-                        style={{
-                          background: accent,
-                          boxShadow: `0 2px 10px ${accent}40`,
-                        }}
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-primary-foreground bg-primary rounded-xl hover:bg-primary/90 transition-colors"
                       >
-                        <ExternalLink className="w-3.5 h-3.5" />
+                        <ExternalLink className="w-4 h-4" />
                         Live Demo
                       </a>
                     )}
@@ -498,16 +406,14 @@ const Projects = () => {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={(e) => e.stopPropagation()}
-                        className="inline-flex items-center gap-1.5 text-[11px] font-bold text-foreground tracking-wider uppercase px-3.5 py-2 rounded-lg border border-border bg-secondary/50 hover:bg-secondary hover:border-foreground/30 transition-all duration-200"
+                        className="inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium text-foreground bg-secondary hover:bg-secondary/80 rounded-xl transition-colors"
                       >
-                        <Github className="w-3.5 h-3.5" />
-                        {project.liveUrl ? "Code" : "Repo"}
+                        <Github className="w-4 h-4" />
+                        {project.liveUrl ? "Code" : "Repository"}
                       </a>
                     )}
                     <div className="flex-1" />
-                    <div
-                      className="w-8 h-8 rounded-full flex items-center justify-center bg-muted/50 text-muted-foreground hover:text-foreground hover:bg-muted transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-                    >
+                    <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center text-foreground opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-x-2 group-hover:translate-x-0">
                       <ArrowUpRight className="w-4 h-4" />
                     </div>
                   </div>

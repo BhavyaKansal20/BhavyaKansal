@@ -88,63 +88,40 @@ const MobileFAB: React.FC = () => {
         aria-label="Open AI chatbot"
         onClick={handleClick}
         id="mobile-fab"
-        className="fixed bottom-6 right-4 md:bottom-8 md:right-8 z-40 w-16 h-16 md:w-20 md:h-20 rounded-full bg-transparent p-0 group flex items-center justify-center cursor-pointer aagni-float"
+        className="fixed bottom-6 right-6 md:bottom-10 md:right-10 z-50 w-[68px] h-[68px] rounded-full p-0 group flex items-center justify-center cursor-pointer transition-transform hover:scale-105 active:scale-95"
+        style={{
+          boxShadow: '0 8px 32px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(255, 255, 255, 0.1) inset'
+        }}
       >
-        <div className="w-full h-full rounded-full overflow-hidden relative aagni-glow-blink">
+        <div className="absolute inset-0 rounded-full bg-gradient-to-tr from-foreground/10 to-foreground/5 backdrop-blur-xl pointer-events-none" />
+        <div className="absolute inset-[1px] rounded-full bg-background/90 z-0" />
+        <div className="absolute inset-0 rounded-full border border-border/50 z-10" />
+        
+        <div className="w-[85%] h-[85%] rounded-full overflow-hidden relative z-20 shadow-inner bg-card">
           <img 
             src="/aagni-avatar.png" 
             alt="AAGNI AI" 
-            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110 relative z-10"
+            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
           />
         </div>
+
+        {/* Ambient glow behind button */}
+        <div className="absolute inset-[-20%] rounded-full bg-primary/20 blur-[20px] -z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
       </button>
 
       {/* Welcome speech bubble */}
       {showTooltip && (
         <div 
-          className="fixed bottom-24 right-4 md:bottom-32 md:right-8 z-50 max-w-[220px] aagni-popup-appear"
+          className="fixed bottom-[100px] right-6 md:bottom-[116px] md:right-10 z-50 max-w-[240px] animate-in fade-in slide-in-from-bottom-4 duration-500"
         >
-          <div className="bg-[#111b21] border border-[#2a3942] text-[#e9edef] px-4 py-3 rounded-2xl rounded-br-sm text-sm shadow-2xl">
-            <span className="text-base mr-1">👋</span> Hey! I'm <strong className="text-cyan-400">AAGNI AI</strong> — ask me anything about Bhavya!
+          <div className="bg-background/80 backdrop-blur-xl border border-border/50 text-foreground px-5 py-4 rounded-2xl rounded-br-sm shadow-2xl">
+            <p className="text-sm leading-relaxed font-medium">
+              <span className="text-base mr-2">✨</span> 
+              Hello! I'm <strong className="text-primary font-bold">AAGNI AI</strong>. Ask me anything about Bhavya's work or experience.
+            </p>
           </div>
         </div>
       )}
-
-      <style>{`
-        @keyframes aagniFloat {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-6px); }
-        }
-
-        @keyframes aagniGlowBlink {
-          0%, 100% { box-shadow: 0 0 0px rgba(6, 182, 212, 0), 0 0 0px rgba(59, 130, 246, 0); }
-          50% { box-shadow: 0 0 14px rgba(6, 182, 212, 0.6), 0 0 28px rgba(59, 130, 246, 0.3); }
-        }
-
-        @keyframes aagniPopupAppear {
-          0% { opacity: 0; transform: translateY(12px) scale(0.9); }
-          100% { opacity: 1; transform: translateY(0) scale(1); }
-        }
-
-        @keyframes aagniPopupFade {
-          0% { opacity: 1; }
-          100% { opacity: 0; transform: translateY(-8px) scale(0.95); }
-        }
-
-        .aagni-float {
-          animation: aagniFloat 3s ease-in-out infinite;
-        }
-
-        .aagni-glow-blink {
-          animation: aagniGlowBlink 2.5s ease-in-out infinite;
-          border-radius: 9999px;
-        }
-
-        .aagni-popup-appear {
-          animation: aagniPopupAppear 0.4s ease-out, aagniPopupFade 0.5s ease-in 7.5s forwards;
-          animation-fill-mode: both;
-        }
-      `}</style>
     </>
   );
 };

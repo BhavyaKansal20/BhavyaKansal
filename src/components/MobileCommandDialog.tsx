@@ -121,15 +121,14 @@ const MobileCommandDialog: React.FC<MobileCommandDialogProps> = ({ open, onOpenC
   return (
     <DialogPrimitive.Root open={open} onOpenChange={onOpenChange}>
       <DialogPrimitive.Portal>
-        <DialogPrimitive.Overlay className="fixed inset-0 z-[9998] bg-black/55 backdrop-blur-md" />
+        <DialogPrimitive.Overlay className="fixed inset-0 z-[9998] bg-foreground/20 backdrop-blur-md" />
 
         <DialogPrimitive.Content 
           ref={contentRef as any} 
-          className="fixed left-0 right-0 bottom-0 z-[9999] mx-auto w-full max-w-3xl rounded-t-[28px] border border-white/10 bg-black/70 p-4 shadow-[0_-20px_80px_rgba(0,0,0,0.5)] overflow-auto overflow-x-hidden animate-slide-up mobile-command-content backdrop-blur-3xl"
+          className="fixed left-0 right-0 bottom-0 z-[9999] mx-auto w-full max-w-3xl rounded-t-[28px] border border-border/50 bg-background/85 p-4 shadow-[0_-20px_80px_rgba(0,0,0,0.15)] overflow-auto overflow-x-hidden animate-slide-up mobile-command-content backdrop-blur-2xl"
           style={{
             maxHeight: `${Math.min(viewportHeight * 0.92, viewportHeight - 20)}px`,
             height: 'auto',
-            // Ensure the dialog is positioned correctly relative to the visual viewport
             bottom: window.visualViewport && window.visualViewport.height !== window.innerHeight 
               ? `${Math.max(0, window.innerHeight - window.visualViewport.height)}px`
               : '0px'
@@ -137,7 +136,7 @@ const MobileCommandDialog: React.FC<MobileCommandDialogProps> = ({ open, onOpenC
         >
           {/* drag handle */}
           <div className="w-full flex justify-center mb-3">
-            <div className="h-1.5 w-14 rounded-full bg-border/60" />
+            <div className="h-1.5 w-14 rounded-full bg-border" />
           </div>
 
           <div className="relative flex flex-col h-full">

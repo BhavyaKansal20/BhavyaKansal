@@ -64,41 +64,43 @@ const FAQ = () => {
             <h2 className="display-heading text-4xl md:text-5xl font-bold mt-5 sm:whitespace-nowrap tracking-tight">
               Frequently Asked Questions
             </h2>
-            <div className="section-rule mt-8 mb-8 max-w-xs" />
+            <div className="w-12 h-1 bg-primary rounded-full mt-8 mb-8" />
             <p className="text-muted-foreground text-base leading-relaxed max-w-sm">
               Everything you might want to know — and if something isn't covered here, a quick email is the
               fastest way to reach me.
             </p>
             <a href="mailto:kansalbhavya27@gmail.com" target="_blank" rel="noopener noreferrer">
-              <Button className="mt-6 rounded-full gap-2 px-6 py-5 text-sm font-medium">
+              <Button className="mt-8 rounded-2xl gap-3 px-8 py-6 text-base font-semibold shadow-xl shadow-primary/20 hover:shadow-primary/40 hover:-translate-y-1 transition-all duration-300">
                 Ask me directly
-                <ArrowUpRight className="w-4 h-4" />
+                <div className="w-8 h-8 rounded-full bg-background/20 flex items-center justify-center">
+                  <ArrowUpRight className="w-4 h-4" />
+                </div>
               </Button>
             </a>
           </div>
 
           {/* Right — accordion */}
           <div className="w-full mt-4 lg:mt-0">
-            <Accordion type="single" collapsible className="space-y-0">
+            <Accordion type="single" collapsible className="space-y-4">
               {faqs.map((faq, index) => (
                 <AccordionItem
                   key={index}
                   value={`item-${index}`}
-                  className={`group border-0 bg-transparent ${
+                  className={`group bg-card/40 border border-border/40 hover:border-border/80 rounded-2xl overflow-hidden transition-all duration-300 px-2 ${
                     faqVisible ? `scroll-animate scroll-animate-delay-${Math.min((index % 4) + 1, 4)}` : "opacity-0"
                   }`}
                 >
-                  <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 px-0 text-left leading-snug transition-colors duration-200 bg-transparent border-0">
+                  <AccordionTrigger className="text-base md:text-lg font-semibold hover:no-underline py-6 px-4 text-left leading-snug transition-colors duration-200">
                     <span className="flex items-start gap-4 w-full pr-4">
-                      <span className="text-muted-foreground/70 font-normal text-sm min-w-[2rem] tabular-nums mt-0.5">
+                      <span className="text-primary/70 font-mono text-sm min-w-[2rem] tabular-nums mt-0.5">
                         {String(index + 1).padStart(2, "0")}
                       </span>
-                      <span className="group-hover:text-foreground transition-colors duration-200">
+                      <span className="group-hover:text-primary transition-colors duration-200">
                         {faq.question}
                       </span>
                     </span>
                   </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] text-base leading-relaxed border-0 bg-transparent">
+                  <AccordionContent className="text-muted-foreground pb-6 pl-[3.5rem] pr-4 text-base leading-relaxed">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>

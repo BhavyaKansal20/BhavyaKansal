@@ -228,7 +228,7 @@ const CommandPalette = () => {
         }
       ]);
     } else if (suggestion === "Get Resume") {
-      window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
+      window.open('/Bhavya_Kansal_Resume.pdf', '_blank');
       setMessages(prev => [
         ...prev,
         {
@@ -241,7 +241,7 @@ const CommandPalette = () => {
         {
           id: Math.random().toString(36).substring(7),
           sender: "bot",
-          text: "Certainly! I've opened Bhavya's resume in a new tab. You can also [download it directly](/Bhavya-Kansal-Resume.pdf) for offline review.",
+          text: "Certainly! I've opened Bhavya's resume in a new tab. You can also [download it directly](/Bhavya_Kansal_Resume.pdf) for offline review.",
           timestamp: new Date()
         }
       ]);
@@ -285,7 +285,7 @@ const CommandPalette = () => {
         }
       ]);
     } else if (type === "resume") {
-      window.open('/Bhavya-Kansal-Resume.pdf', '_blank');
+      window.open('/Bhavya_Kansal_Resume.pdf', '_blank');
     }
   };
 

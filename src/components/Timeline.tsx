@@ -11,7 +11,8 @@ interface TimelineItem {
   summary: string;
   tech: string[];
   logos?: string[];
-  type?: "education" | "work" | "training";
+  certificate?: string;
+  type?: "education" | "work" | "training" | "leadership";
 }
 
 const timelineData: TimelineItem[] = [
@@ -36,6 +37,7 @@ const timelineData: TimelineItem[] = [
       "Completed intensive summer training in Python, AI/ML, and cybersecurity through practical labs, model implementation workshops, and security assessment mini-projects.",
     tech: ["Python", "Machine Learning", "Cybersecurity", "Hands-on Labs"],
     logos: ["/tpc_logo.png"],
+    certificate: "/tpc summer training.jpg",
   },
   {
     date: "JAN 2026 - JUL 2026",
@@ -47,6 +49,7 @@ const timelineData: TimelineItem[] = [
       "Industrial AI/ML training at IIT Ropar & NIELIT — focused on applied machine learning workflows, model experimentation, computer vision pipelines, and real-world deployment.",
     tech: ["Deep Learning", "Applied ML", "Computer Vision", "Model Deployment", "PyTorch"],
     logos: ["/iit_logo.png", "/nielit_logo.png"],
+    certificate: "/iit certificate.pdf",
   },
   {
     date: "JUL 2026 - JUN 2029",
@@ -59,18 +62,31 @@ const timelineData: TimelineItem[] = [
     tech: ["Deep Learning", "Data Science", "AI Systems", "Software Engineering", "Research"],
     logos: ["/tiet_logo.png"],
   },
+  {
+    date: "PRESENT",
+    title: "General Secretary",
+    company: "CODE METRICS Research Society",
+    period: "Present",
+    type: "leadership",
+    summary:
+      "As General Secretary, I oversee society operations, coordinate across 4 departments (Research, Tech, Marketing & PR, Media & Design), and drive initiatives that bridge academic research with real-world innovation. Spearheading society strategy, team coordination, and event execution. Collaborating with faculty leadership including Dr. Prashant Singh Rana (President, Associate Professor & Associate Head, CSED) and Ishan Jindal Sir. Working closely with VP Himanshu Gautam and department heads to build a research-driven student ecosystem. Contributing to TICSR (Thapar International Conference for Student Research) — an international hybrid conference where Code Metrics serves as the main student lead collaborator.",
+    tech: ["Leadership", "Research Skills", "Research and Development (R&D)", "Team Leadership", "Team Building"],
+    logos: ["/code metrics logo.webp"],
+  },
 ];
 
 const typeColors: Record<string, string> = {
   education: "bg-blue-500",
   work: "bg-emerald-500",
   training: "bg-amber-500",
+  leadership: "bg-purple-500",
 };
 
 const typeLabel: Record<string, string> = {
   education: "Education",
   work: "Experience",
   training: "Training",
+  leadership: "Leadership",
 };
 
 /* Individual tilt card */
@@ -92,9 +108,7 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
         cardRef.current.appendChild(ripple);
         setTimeout(() => ripple.remove(), 700);
       }}
-      className={`glass-card group h-full p-5 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden
-        transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-transform
-        ${revealed ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}`}
+      className="glass-card group h-full p-6 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden transition-all duration-300 opacity-100 hover:brightness-110"
     >
       <div className="card-spotlight" ref={spotRef} />
 
@@ -127,7 +141,19 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
         {item.summary}
       </p>
 
-      <div className="mt-3 flex flex-wrap gap-1.5">
+      {item.certificate && (
+        <a
+          href={item.certificate}
+          target="_blank"
+          rel="noopener noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="inline-flex items-center gap-2 mt-5 px-5 py-2.5 bg-foreground text-background text-xs font-bold uppercase tracking-wider rounded-lg shadow-md hover:scale-105 transition-transform"
+        >
+          View Certificate
+        </a>
+      )}
+
+      <div className="mt-4 flex flex-wrap gap-1.5">
         {item.tech.map((tag) => (
           <span
             key={tag}
@@ -142,66 +168,28 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
 };
 
 const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index: number, total: number }) => {
-  const { ref, isVisible } = useScrollAnimation();
-  const reverseIdx = total - 1 - index;
-  const delayMs = reverseIdx * 350;
-
   return (
     <div className="flex-1 flex flex-col items-center group relative min-w-[280px]">
-      <div 
-        ref={ref}
-        className="w-full flex-1 pt-8 px-4 transition-all duration-700 ease-out"
-        style={{
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? "translateY(0)" : "translateY(40px)",
-          transitionDelay: `${delayMs}ms`
-        }}
-      >
-        <TiltCard item={item} revealed={isVisible} />
+      <div className="w-full flex-1 pt-8 px-4 transition-all duration-300 ease-out opacity-100 translate-y-0">
+        <TiltCard item={item} revealed={true} />
       </div>
       
       <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
-        <div
-          className={`w-5 h-5 rounded-full border-2 transition-all duration-500 bg-background ${
-            isVisible 
-              ? `${typeColors[item.type || "education"]} border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110` 
-              : "border-border scale-75 opacity-50"
-          }`}
-          style={{ transitionDelay: `${delayMs}ms` }}
-        />
-        <div 
-          className={`h-8 w-px transition-all duration-500 bg-gradient-to-b ${
-            isVisible ? "from-white/20 to-transparent" : "from-border to-transparent opacity-0"
-          }`}
-          style={{ transitionDelay: `${delayMs}ms` }}
-        />
+        <div className={`w-5 h-5 rounded-full border-2 transition-all duration-300 bg-background ${typeColors[item.type || "education"]} border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110`} />
+        <div className="h-8 w-px transition-all duration-300 bg-gradient-to-b from-border to-transparent" />
       </div>
     </div>
   );
 };
 
 const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
-  const { ref, isVisible } = useScrollAnimation();
-  
   return (
-    <div ref={ref} className="relative">
+    <div className="relative">
       <div className="absolute -left-[26px] top-4">
-        <div
-          className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
-            isVisible
-              ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
-              : "bg-background border-border scale-75 opacity-0"
-          }`}
-        />
+        <div className={`w-4 h-4 rounded-full border-2 transition-all duration-300 ${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`} />
       </div>
-      <div 
-        className="ml-4 transition-all duration-700 ease-out"
-        style={{
-          opacity: isVisible ? 1 : 0,
-          transform: isVisible ? "translateY(0)" : "translateY(20px)"
-        }}
-      >
-        <TiltCard item={item} revealed={isVisible} />
+      <div className="ml-4 transition-all duration-300 ease-out opacity-100 translate-y-0">
+        <TiltCard item={item} revealed={true} />
       </div>
     </div>
   );

@@ -20,7 +20,7 @@ export const PROFILE_LINKS = {
   leetcode: "https://leetcode.com/u/BhavyaKansal20/",
   gfg: "https://www.geeksforgeeks.org/profile/kansalbhavya20",
   google: "https://g.dev/kansalbhavya20",
-  resume: "/Bhavya-Kansal-Resume.pdf",
+  resume: "/Bhavya_Kansal_Resume.pdf",
   emailPrimary: "kansalbhavya27@gmail.com",
   emailSecondary: "kansalbhavya20@icloud.com",
 } as const;
