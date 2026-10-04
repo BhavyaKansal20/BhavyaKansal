@@ -72,7 +72,7 @@
   /* ── Ultra Premium Animated Mesh Background ── */
   body {
     @apply bg-background text-foreground;
-    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
     margin: 0;
     padding: 0;
@@ -111,12 +111,12 @@
 
   /* ── TYPOGRAPHY: Times New Roman EVERYWHERE (universal, no escapes) ── */
   * {
-    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     position: relative;
     margin: 0;
     padding: 0;
@@ -127,12 +127,12 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     letter-spacing: -0.015em;
   }
 
   p, span, a, button, input, textarea, label, li, kbd, code, pre, div, text {
-    font-family: 'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   /* ── Premium editorial primitives ── */
