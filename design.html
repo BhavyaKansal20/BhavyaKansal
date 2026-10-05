@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Bhavya Kansal — AI/ML Engineer Portfolio</title>
+<!-- Google Fonts: Anton (Display), Plus Jakarta Sans (Headings/Buttons), Inter (Body), JetBrains Mono (Mono/Metrics) -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&amp;family=Inter:wght@300;400;500;600&amp;family=JetBrains+Mono:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols Outlined -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS CDN -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<!-- Tailwind Config verbatum from system -->
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "surface-container": "#221f1e",
+            "primary-fixed-dim": "#ffb59e",
+            "on-surface-variant": "#e4beb3",
+            "primary": "#ffb59e",
+            "border-prominent": "rgba(255, 91, 31, 0.35)",
+            "on-surface": "#e8e1de",
+            "on-error-container": "#ffdad6",
+            "surface-tint": "#ffb59e",
+            "secondary-container": "#4d4845",
+            "on-secondary-fixed-variant": "#4b4643",
+            "text-muted": "#A39B93",
+            "ember-glow": "#FF8A3D",
+            "surface": "#151312",
+            "on-tertiary-container": "#4b1e00",
+            "on-secondary": "#342f2d",
+            "primary-container": "#ff5b1f",
+            "on-primary": "#5e1800",
+            "on-background": "#e8e1de",
+            "on-error": "#690005",
+            "surface-container-lowest": "#100e0d",
+            "primary-fixed": "#ffdbd0",
+            "surface-base": "#0B0908",
+            "surface-container-highest": "#373433",
+            "text-inverse": "#0B0908",
+            "on-primary-fixed": "#3a0b00",
+            "surface-bright": "#3c3837",
+            "secondary-fixed": "#eae1dd",
+            "surface-glass": "rgba(20, 17, 16, 0.72)",
+            "tertiary-fixed-dim": "#ffb68d",
+            "on-tertiary-fixed-variant": "#763300",
+            "tertiary-container": "#e27428",
+            "surface-variant": "#373433",
+            "surface-container-high": "#2c2928",
+            "secondary-fixed-dim": "#cdc5c1",
+            "secondary": "#cdc5c1",
+            "tertiary": "#ffb68d",
+            "surface-dim": "#151312",
+            "outline": "#ab897f",
+            "surface-overlay": "#1C1816",
+            "surface-container-low": "#1e1b1a",
+            "inverse-primary": "#ad3300",
+            "background": "#151312",
+            "on-primary-container": "#551400",
+            "text-primary": "#F5F1EC",
+            "inverse-surface": "#e8e1de",
+            "error": "#ffb4ab",
+            "surface-raised": "#141110",
+            "border-subtle": "rgba(255, 255, 255, 0.08)",
+            "on-secondary-fixed": "#1f1b19",
+            "on-tertiary": "#532200",
+            "on-secondary-container": "#bfb7b3",
+            "on-primary-fixed-variant": "#842500",
+            "outline-variant": "#5b4138",
+            "on-tertiary-fixed": "#321200",
+            "inverse-on-surface": "#33302e",
+            "tertiary-fixed": "#ffdbc9",
+            "error-container": "#93000a"
+          },
+          "borderRadius": {
+            "DEFAULT": "1rem",
+            "lg": "2rem",
+            "xl": "3rem",
+            "full": "9999px"
+          },
+          "spacing": {
+            "space-xs": "0.25rem",
+            "space-2xl": "4rem",
+            "space-sm": "0.5rem",
+            "space-md": "1rem",
+            "margin": "1.5rem",
+            "space-xl": "2.5rem",
+            "space-lg": "1.5rem",
+            "gutter": "1.5rem",
+            "space-3xl": "6rem",
+            "margin-lg": "4rem",
+            "gutter-sm": "1rem",
+            "gutter-lg": "2rem",
+            "margin-sm": "1rem"
+          },
+          "fontFamily": {
+            "headline-lg": ["Plus Jakarta Sans"],
+            "headline-md": ["Plus Jakarta Sans"],
+            "body-sm": ["Inter"],
+            "body-lg": ["Inter"],
+            "headline-sm": ["Plus Jakarta Sans"],
+            "headline-lg-mobile": ["Plus Jakarta Sans"],
+            "button-text": ["Plus Jakarta Sans"],
+            "display-ticker": ["Anton"],
+            "label-mono-lg": ["JetBrains Mono"],
+            "display-hero": ["Anton"],
+            "body-md": ["Inter"],
+            "display-ticker-mobile": ["Anton"],
+            "label-mono-sm": ["JetBrains Mono"],
+            "display-hero-mobile": ["Anton"]
+          },
+          "fontSize": {
+            "headline-lg": ["40px", { "lineHeight": "48px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "headline-md": ["28px", { "lineHeight": "36px", "letterSpacing": "-0.015em", "fontWeight": "600" }],
+            "body-sm": ["13px", { "lineHeight": "20px", "letterSpacing": "0.01em", "fontWeight": "400" }],
+            "body-lg": ["18px", { "lineHeight": "28px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "headline-sm": ["20px", { "lineHeight": "28px", "letterSpacing": "-0.01em", "fontWeight": "600" }],
+            "headline-lg-mobile": ["30px", { "lineHeight": "38px", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+            "button-text": ["14px", { "lineHeight": "18px", "letterSpacing": "0.01em", "fontWeight": "600" }],
+            "display-ticker": ["44px", { "lineHeight": "48px", "letterSpacing": "0.04em", "fontWeight": "400" }],
+            "label-mono-lg": ["16px", { "lineHeight": "22px", "letterSpacing": "0.02em", "fontWeight": "500" }],
+            "display-hero": ["112px", { "lineHeight": "104px", "letterSpacing": "0.02em", "fontWeight": "400" }],
+            "body-md": ["15px", { "lineHeight": "24px", "letterSpacing": "0em", "fontWeight": "400" }],
+            "display-ticker-mobile": ["28px", { "lineHeight": "32px", "letterSpacing": "0.04em", "fontWeight": "400" }],
+            "label-mono-sm": ["12px", { "lineHeight": "16px", "letterSpacing": "0.06em", "fontWeight": "500" }],
+            "display-hero-mobile": ["56px", { "lineHeight": "58px", "letterSpacing": "0.02em", "fontWeight": "400" }]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      display: inline-block;
+      vertical-align: middle;
+      line-height: 1;
+    }
+    /* Ambient Ember glow filters */
+    .ember-radial-hero {
+      background: radial-gradient(circle at 50% 28%, rgba(255, 91, 31, 0.28) 0%, rgba(255, 91, 31, 0.08) 45%, rgba(11, 9, 8, 0) 75%);
+    }
+    .card-top-lit {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0) 100%);
+    }
+    /* Infinite Marquee */
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
+    }
+    .animate-marquee {
+      display: flex;
+      width: 200%;
+      animation: marquee 24s linear infinite;
+    }
+    .animate-marquee:hover {
+      animation-play-state: paused;
+    }
+    /* Smooth scroll */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-surface-base text-text-primary antialiased selection:bg-primary-container selection:text-text-inverse overflow-x-hidden min-h-screen">
+<!-- ========================================================================= -->
+<!-- SHARED COMPONENT: TopNavBar (from JSON Specs)                             -->
+<!-- ========================================================================= -->
+<nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 py-3 rounded-full mt-6 mx-auto w-[92%] max-w-6xl bg-surface-glass dark:bg-surface-glass backdrop-blur-xl border border-border-subtle dark:border-border-subtle shadow-2xl shadow-surface-base/80">
+<!-- Brand Mark (Exact Content: Bhavya Kansal) -->
+<a class="font-headline-sm text-headline-sm font-bold tracking-tight text-text-primary dark:text-text-primary flex items-center gap-2 group" href="#home">
+<span class="inline-block w-2.5 h-2.5 rounded-full bg-primary-container group-hover:scale-125 transition-transform duration-200"></span>
+<span>Bhavya Kansal</span>
+</a>
+<!-- Navigation Links (Active: Home) -->
+<div class="hidden md:flex items-center space-x-1">
+<!-- Active navigation link: Home -->
+<a class="bg-text-primary text-text-inverse dark:bg-text-primary dark:text-text-inverse rounded-full px-4 py-1.5 font-button-text text-button-text" href="#home">Home</a>
+<!-- Inactive navigation links -->
+<a class="text-text-muted hover:text-text-primary dark:text-text-muted dark:hover:text-text-primary px-3 py-1.5 font-button-text text-button-text transition-colors duration-200" href="#about">About</a>
+<a class="text-text-muted hover:text-text-primary dark:text-text-muted dark:hover:text-text-primary px-3 py-1.5 font-button-text text-button-text transition-colors duration-200" href="#projects">Projects</a>
+<a class="text-text-muted hover:text-text-primary dark:text-text-muted dark:hover:text-text-primary px-3 py-1.5 font-button-text text-button-text transition-colors duration-200" href="#experience">Experience</a>
+<a class="text-text-muted hover:text-text-primary dark:text-text-muted dark:hover:text-text-primary px-3 py-1.5 font-button-text text-button-text transition-colors duration-200" href="#contact">Contact</a>
+</div>
+<!-- Trailing Actions (dark_mode icon + Resume button) -->
+<div class="flex items-center space-x-3">
+<button aria-label="Toggle theme mode" class="w-9 h-9 rounded-full flex items-center justify-center border border-border-subtle bg-surface-raised text-text-muted hover:text-text-primary transition-colors duration-200 active:scale-95" type="button">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+</button>
+<a class="hidden sm:inline-flex items-center gap-1.5 bg-primary-container text-text-inverse px-4 py-1.5 rounded-full font-button-text text-button-text hover:shadow-[0px_8px_24px_rgba(255,91,31,0.45)] hover:-translate-y-0.5 active:scale-95 transition-all duration-200" href="#contact">
+<span>Resume</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</nav>
+<!-- ========================================================================= -->
+<!-- MAIN CONTENT CANVAS CONTAINER                                            -->
+<!-- ========================================================================= -->
+<main class="w-full max-w-[1320px] mx-auto pt-28 px-4 sm:px-6 lg:px-8 space-y-24">
+<!-- ======================================================================= -->
+<!-- SECTION 1: HERO SECTION                                                 -->
+<!-- ======================================================================= -->
+<section class="relative rounded-xl border border-border-subtle bg-surface-raised overflow-hidden pt-12 md:pt-16 pb-12 px-6 sm:px-10 lg:px-16 ember-radial-hero" id="home">
+<!-- Top Eyebrow Row -->
+<div class="flex flex-wrap items-center justify-between gap-4 relative z-20 mb-8">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border-subtle bg-surface-overlay backdrop-blur-md">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-primary">Jai Shree Ram</span>
+<span class="text-text-muted text-xs">•</span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-muted">Hey, I'm</span>
+</div>
+<div class="font-label-mono-sm text-label-mono-sm text-text-muted flex items-center gap-2">
+<span class="material-symbols-outlined text-[15px] text-primary-container">location_on</span>
+<span>Thapar Institute / IIT Ropar</span>
+</div>
+</div>
+<!-- Monumental Display Title & Behind Aura Layer -->
+<div class="relative w-full text-center z-10 flex flex-col items-center">
+<!-- Giant Display Name -->
+<h1 class="font-display-hero text-display-hero-mobile md:text-display-hero uppercase tracking-tight text-text-primary leading-none select-none drop-shadow-md">
+          BHAVYA KANSAL
+        </h1>
+<!-- Ember Orange Aura behind cutout -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/3 w-[340px] sm:w-[480px] h-[340px] sm:h-[480px] rounded-full bg-primary-container/20 blur-3xl -z-10 pointer-events-none"></div>
+<!-- Centered Sharp Portrait Cut-out Anchored -->
+<div class="relative mt-2 -mb-8 sm:-mb-12 z-10 flex justify-center w-full max-w-md mx-auto">
+<img class="w-64 sm:w-80 md:w-96 object-cover object-top mask-gradient drop-shadow-2xl rounded-2xl" data-alt="Editorial cinematic studio portrait cutout of Bhavya Kansal, a focused Indian male AI and Machine Learning engineer in modern minimalist dark clothing. Dramatic warm rim lighting in amber-orange highlights his silhouette against a velvet obsidian background, sharp focus, technical prestige, ultra-clean high-end portfolio photography." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDaUmPod-lZsHj5-40PhJvvUpJ0_q5NbRCaNBDKFfYzXuKoNR2T8ejLF7XtoNAt5VpwaO7CKL2e67vGHupyVucLK5Ln33JJnyUJ2IMXTanS8ZN_VfQ0kWxTPqXN0NVAbL9pnGoGwSg5w519Iwt50XCvH4iONWZUjYQkJWrm4AaSG-8mFoktvU0PBdTlO_1wNjLQ7ch9VyJNnyU5pHIUi1IWrXDRcRME0oyYTsDVH7MLUWyIBQU0EN6w"/>
+</div>
+</div>
+<!-- Sub-headlines Split Block -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-end relative z-20 pt-8 border-t border-border-subtle/50 mt-6">
+<div class="md:col-span-4">
+<span class="font-label-mono-sm text-label-mono-sm uppercase text-primary-container tracking-wider block mb-1">Discipline</span>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-md text-text-primary font-bold">
+            AI/ML Engineer
+          </h2>
+</div>
+<div class="md:col-span-8 flex flex-col md:flex-row md:items-end justify-between gap-6">
+<p class="font-body-lg text-body-md md:text-body-lg text-text-muted max-w-xl">
+            I build computer vision and generative AI systems that ship to production with mathematical rigor and sub-millisecond edge efficiency.
+          </p>
+<div class="flex items-center gap-3 shrink-0">
+<a class="inline-flex items-center gap-2 bg-primary-container text-text-inverse px-5 py-2.5 rounded-full font-button-text text-button-text hover:shadow-[0px_8px_32px_rgba(255,91,31,0.45)] hover:-translate-y-0.5 active:scale-95 transition-all duration-200" href="#projects">
+<span>View Projects</span>
+<span class="material-symbols-outlined text-[18px]">arrow_downward</span>
+</a>
+<a class="inline-flex items-center gap-1.5 border border-border-subtle px-4 py-2.5 rounded-full font-button-text text-button-text text-text-primary hover:border-text-primary/30 hover:bg-white/[0.03] active:scale-95 transition-all duration-200" href="#about">
+<span>GitHub</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Row of 4 Numbered Focus Pills -->
+<div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-8 relative z-20">
+<div class="p-3.5 rounded-xl bg-surface-overlay/80 border border-border-subtle flex items-center gap-2.5">
+<span class="font-label-mono-sm text-label-mono-sm font-bold text-primary-container">#01</span>
+<span class="font-button-text text-button-text text-text-primary">Computer Vision</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-overlay/80 border border-border-subtle flex items-center gap-2.5">
+<span class="font-label-mono-sm text-label-mono-sm font-bold text-primary-container">#02</span>
+<span class="font-button-text text-button-text text-text-primary">Generative AI</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-overlay/80 border border-border-subtle flex items-center gap-2.5">
+<span class="font-label-mono-sm text-label-mono-sm font-bold text-primary-container">#03</span>
+<span class="font-button-text text-button-text text-text-primary">Deep Learning Pipelines</span>
+</div>
+<div class="p-3.5 rounded-xl bg-surface-overlay/80 border border-border-subtle flex items-center gap-2.5">
+<span class="font-label-mono-sm text-label-mono-sm font-bold text-primary-container">#04</span>
+<span class="font-button-text text-button-text text-text-primary">Production Deployment</span>
+</div>
+</div>
+<!-- Frosted Glass Credential Floating Card (Bottom-Right Anchor) -->
+<div class="mt-6 flex justify-end">
+<div class="inline-flex items-center gap-3 px-4 py-2.5 rounded-2xl bg-surface-glass border border-white/10 backdrop-blur-xl shadow-xl">
+<span class="w-8 h-8 rounded-full bg-primary-container/20 flex items-center justify-center text-primary-container">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+</span>
+<div>
+<div class="font-label-mono-sm text-label-mono-sm font-medium text-text-primary">6-month AI/ML training</div>
+<div class="text-[11px] text-text-muted">IIT Ropar x NIELIT Ropar Certified</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 2: HORIZONTAL TICKER STRIP                                      -->
+<!-- ======================================================================= -->
+<div class="w-full overflow-hidden border-y border-border-subtle py-4 bg-surface-overlay">
+<div class="animate-marquee whitespace-nowrap flex items-center">
+<div class="flex items-center space-x-8 font-display-ticker text-display-ticker-mobile md:text-display-ticker uppercase tracking-wider text-text-muted/60">
+<span class="hover:text-text-primary transition-colors">AI/ML ENGINEER</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">COMPUTER VISION</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">GENERATIVE AI</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">IIT ROPAR x NIELIT</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">TIET</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">DEEP LEARNING</span>
+<span class="text-primary-container">✦</span>
+</div>
+<div class="flex items-center space-x-8 font-display-ticker text-display-ticker-mobile md:text-display-ticker uppercase tracking-wider text-text-muted/60 pl-8">
+<span class="hover:text-text-primary transition-colors">AI/ML ENGINEER</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">COMPUTER VISION</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">GENERATIVE AI</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">IIT ROPAR x NIELIT</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">TIET</span>
+<span class="text-primary-container">✦</span>
+<span class="hover:text-text-primary transition-colors">DEEP LEARNING</span>
+<span class="text-primary-container">✦</span>
+</div>
+</div>
+</div>
+<!-- ======================================================================= -->
+<!-- SECTION 3: METRIC / STAT CARDS                                          -->
+<!-- ======================================================================= -->
+<section class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+<!-- Stat Card 1 -->
+<div class="p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 group">
+<div class="font-label-mono-sm text-label-mono-sm text-text-muted uppercase tracking-widest mb-4">Milestone</div>
+<div class="font-label-mono-lg text-4xl font-bold text-text-primary mb-2 group-hover:text-primary-container transition-colors">
+          6 <span class="text-primary-container text-2xl">months</span>
+</div>
+<p class="font-body-md text-body-sm text-text-muted">
+          AI/ML industrial training at IIT Ropar x NIELIT with enterprise deployment focus.
+        </p>
+</div>
+<!-- Stat Card 2 -->
+<div class="p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 group">
+<div class="font-label-mono-sm text-label-mono-sm text-text-muted uppercase tracking-widest mb-4">Leadership</div>
+<div class="font-label-mono-lg text-4xl font-bold text-text-primary mb-2 group-hover:text-primary-container transition-colors">
+          4 <span class="text-primary-container text-2xl">depts</span>
+</div>
+<p class="font-body-md text-body-sm text-text-muted">
+          Coordinated as General Secretary, Code Metrics Research Society across collegiate chapters.
+        </p>
+</div>
+<!-- Stat Card 3 -->
+<div class="p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 group">
+<div class="font-label-mono-sm text-label-mono-sm text-text-muted uppercase tracking-widest mb-4">Initiative</div>
+<div class="font-label-mono-lg text-3xl font-bold text-text-primary mb-2 group-hover:text-primary-container transition-colors">
+          TICSR
+        </div>
+<p class="font-body-md text-body-sm text-text-muted">
+          Main student lead collaborator steering machine intelligence workshops and hackathons.
+        </p>
+</div>
+<!-- Stat Card 4 -->
+<div class="p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 group">
+<div class="font-label-mono-sm text-label-mono-sm text-text-muted uppercase tracking-widest mb-4">Degree</div>
+<div class="font-label-mono-lg text-2xl font-bold text-text-primary mb-2 group-hover:text-primary-container transition-colors">
+          B.E. AI &amp; DS
+        </div>
+<p class="font-body-md text-body-sm text-text-muted">
+          Thapar Institute of Engineering &amp; Technology (TIET) specialization in neural networks.
+        </p>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 4: ABOUT SECTION (Behind the Work)                              -->
+<!-- ======================================================================= -->
+<section class="rounded-xl bg-surface-raised border border-border-subtle p-8 md:p-14 lg:p-16 relative overflow-hidden" id="about">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<div class="lg:col-span-7 space-y-6">
+<div class="inline-flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-mono-sm text-label-mono-sm text-primary-container uppercase tracking-widest font-semibold">Behind the Work</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-text-primary font-bold tracking-tight">
+            Engineering Intelligent Systems with Mathematical Rigor
+          </h2>
+<div class="space-y-4 font-body-lg text-body-md md:text-body-lg text-text-muted leading-relaxed">
+<p>
+              I bridge theoretical machine learning and scalable production architecture. My technical focus centers on architecting real-time computer vision inference engines, diffusion models, and edge-optimized tensors that hold up under stringent latency thresholds.
+            </p>
+<p>
+              From leading deep learning research symposiums to executing intensive industrial training at IIT Ropar, every system I deploy prioritizes measurable precision, clean microservice contracts, and GPU efficiency.
+            </p>
+</div>
+<div class="pt-4 flex flex-wrap items-center gap-4">
+<a class="inline-flex items-center gap-2 bg-primary-container text-text-inverse px-6 py-3 rounded-full font-button-text text-button-text hover:shadow-[0px_8px_32px_rgba(255,91,31,0.45)] active:scale-95 transition-all" href="#experience">
+<span>Read Full Background</span>
+<span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+</a>
+<div class="flex items-center gap-2 font-label-mono-sm text-label-mono-sm text-text-muted px-4 py-2 rounded-full border border-border-subtle">
+<span class="material-symbols-outlined text-[16px] text-primary-container">terminal</span>
+<span>PyTorch • TensorRT • ONNX • CUDA</span>
+</div>
+</div>
+</div>
+<div class="lg:col-span-5 relative">
+<!-- Monochromatic lab atmosphere photo -->
+<div class="relative rounded-2xl overflow-hidden border border-border-subtle group">
+<img class="w-full h-[400px] object-cover filter grayscale contrast-125 group-hover:scale-105 transition-transform duration-500" data-alt="Black and white high-contrast editorial photography of an AI researcher working in a modern computing laboratory with multi-monitor workstation displaying neural network architectures and loss curves. Soft rim lighting, cinematic depth of field, warm charcoal tones with subtle grain texture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBUbaA19Y6KDZmPOxh2HS2fqhA1EV_gvtsOQExSo-xUzGyTMEdPULENMgVIggU4sHqEiVzUtBpeJpmr0DKAtb2WxjTavjfAz2GxDiXuiWK-_97kP9hbEEa7LG0qxHMoFIu_HCmq5A7tDEeSEZU2VV1WalLw64cfZksBH6oWmbD1F-NXxCXsfy77hPI6_cGIcKruYtFkjiXwjFRcAF__HZDoJxE6ZCkE2umnY1ju6KyVV8KHGh1XHYOY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-base via-transparent to-transparent opacity-80"></div>
+<div class="absolute bottom-5 left-5 right-5 p-4 rounded-xl bg-surface-overlay/90 border border-border-subtle backdrop-blur-md">
+<div class="flex items-center justify-between">
+<div>
+<div class="font-button-text text-button-text text-text-primary">Research &amp; Deployment Lab</div>
+<div class="font-label-mono-sm text-[11px] text-text-muted">TIET Center of AI Excellence</div>
+</div>
+<span class="material-symbols-outlined text-primary-container text-[20px]">science</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 5: FEATURED PROJECTS SECTION (Staggered Grid)                   -->
+<!-- ======================================================================= -->
+<section class="space-y-12" id="projects">
+<!-- Section Header with Progress Tracker -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4 border-b border-border-subtle pb-6">
+<div>
+<div class="font-label-mono-sm text-label-mono-sm text-primary-container uppercase tracking-wider mb-2">Selected Works</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-text-primary font-bold">
+            Production AI &amp; Research Projects
+          </h2>
+</div>
+<div class="flex items-center gap-3">
+<span class="font-label-mono-lg text-label-mono-lg text-text-primary font-semibold">01 — 04</span>
+<div class="w-32 h-[2px] bg-surface-overlay overflow-hidden rounded-full">
+<div class="w-full h-full bg-primary-container"></div>
+</div>
+</div>
+</div>
+<!-- 2-Column Staggered Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- PROJECT 1: EdgeVision -->
+<article class="p-6 md:p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 flex flex-col justify-between group">
+<div>
+<!-- Media Container with faint giant watermark -->
+<div class="relative h-64 sm:h-72 rounded-xl overflow-hidden mb-6 border border-border-subtle bg-surface-overlay">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" data-alt="Industrial computer vision quality inspection stream UI running in a high-tech smart factory. Dark mode interface with glowing orange bounding boxes identifying manufacturing micro-defects with sub-millisecond telemetry metrics, sharp clarity, technical editorial palette." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBirjfCh7K7O5b33IOtK_r84bdcdRIjAFd77nakjhkU18k3jxP_c5iLeDvQeWAj8zeEzZuw6X6843stA4t_sZ3ABFHOgD87W0ID0yZmIMhmxrAUIs1CF2Z-fjmjBDjKNDA4oKUon5htwdRwd02D92bZusX-pbvywT9RhS-rOupzNhFwkzJwxA6bKTDbo3_i7xrQBxfdG9vFDEpndzUOBbqdW54gdOJvoPvFG6uXKmobMijRIMTsQoGH"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent"></div>
+<!-- Giant watermark -->
+<span class="absolute top-2 right-4 font-display-ticker text-6xl text-white/5 select-none pointer-events-none">VISION</span>
+<!-- Latency Chip -->
+<div class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-base/90 border border-white/10 font-label-mono-sm text-label-mono-sm text-text-primary">
+<span class="w-2 h-2 rounded-full bg-primary-container animate-pulse"></span>
+<span>Latency: 11.4ms</span>
+</div>
+</div>
+<!-- Project Meta -->
+<div class="space-y-3">
+<div class="flex items-center justify-between">
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-primary-container transition-colors">
+                  EdgeVision Real-Time Defect Detection
+                </h3>
+</div>
+<p class="font-body-md text-body-md text-text-muted">
+                Sub-12ms inference pipeline with 99.4% precision on industrial inspection streams using quantized YOLOv8 models compiled on TensorRT.
+              </p>
+</div>
+<!-- Mono Tech Chips -->
+<div class="flex flex-wrap gap-2 mt-5">
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">PyTorch</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">TensorRT</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">CUDA</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">DeepStream</span>
+</div>
+</div>
+<!-- Action Links -->
+<div class="flex items-center justify-between pt-6 mt-6 border-t border-border-subtle/60">
+<a class="inline-flex items-center gap-1.5 font-button-text text-button-text text-text-primary hover:text-primary-container transition-colors" href="#">
+<span>Live Demonstration</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="p-2 rounded-full border border-border-subtle hover:border-text-primary text-text-muted hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</a>
+</div>
+</article>
+<!-- PROJECT 2: LatentCraft -->
+<article class="p-6 md:p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="relative h-64 sm:h-72 rounded-xl overflow-hidden mb-6 border border-border-subtle bg-surface-overlay">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" data-alt="Digital art generation studio canvas displaying generative AI diffusion nodes and continuous latent space representations. Sleek dark user interface highlighted with warm amber glowing paths, tensor weights visualization, modern creative technology editorial aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBxsXjW97qioE4AcSNGLuS17Y1h7Cgm-fXMmF-ZKc3TUQZPn-2ubuV81SphVk0MrTzi64SD6bTjhJgIHGIZF8iPTFon3AF9ir_K6H1Yk78y6xYRV9zY7BxPEBkfGZx3HMIni8YWErUBT4XpkmPk9EO8e-4TQ70k4D08eqZyad-_Z6ElEKeoTe_ypVgcOv3NQs64h8fpETFwEK8HcbrzucvKDgqI0Te2kvAzJTA0LdgYp_-zdcub6Y83"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent"></div>
+<span class="absolute top-2 right-4 font-display-ticker text-6xl text-white/5 select-none pointer-events-none">GENAI</span>
+<div class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-base/90 border border-white/10 font-label-mono-sm text-label-mono-sm text-text-primary">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Speedup: 85% cycle cut</span>
+</div>
+</div>
+<div class="space-y-3">
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-primary-container transition-colors">
+                LatentCraft Generative Diffusion Studio
+              </h3>
+<p class="font-body-md text-body-md text-text-muted">
+                Enterprise prompt-guided asset generation engine reducing 3D rendering cycles by 85% via personalized LoRA checkpoints and ControlNet orchestration.
+              </p>
+</div>
+<div class="flex flex-wrap gap-2 mt-5">
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">Stable Diffusion</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">Diffusers</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">LoRA</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">FastAPI</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 mt-6 border-t border-border-subtle/60">
+<a class="inline-flex items-center gap-1.5 font-button-text text-button-text text-text-primary hover:text-primary-container transition-colors" href="#">
+<span>Live Demonstration</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="p-2 rounded-full border border-border-subtle hover:border-text-primary text-text-muted hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</a>
+</div>
+</article>
+<!-- PROJECT 3: NeuroSeg -->
+<article class="p-6 md:p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="relative h-64 sm:h-72 rounded-xl overflow-hidden mb-6 border border-border-subtle bg-surface-overlay">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" data-alt="3D volumetric MRI brain scan visualization with precise algorithmic neural segmentation masks. Minimalist high-contrast medical tech interface in dark obsidian with glowing amber overlay borders outlining tumor contours, clean scientific presentation." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6gNgf367w9_0dvOZT0YsBSWJHxQC6SRzFCklHPNyXnt3wGKCe8zhWa8oqt1yvK_gNUY07dSnpSIFhQXxSpAjVG2fjoP8LcEDEJX_nuvNimCjQYczEttzzUqmB5noj11I8-tg2Buou4Yuuprmf40W6aIPn7mk9zCQhf3YhaMq-DJecImCYV4ChXllO6OIuXr5v2rqUU8kzY2l4SlZbHxXjCwD0P_j8_Ihd4ae0iignh-NkzLNOqyKZ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent"></div>
+<span class="absolute top-2 right-4 font-display-ticker text-6xl text-white/5 select-none pointer-events-none">PIPELINE</span>
+<div class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-base/90 border border-white/10 font-label-mono-sm text-label-mono-sm text-text-primary">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Dice Score: 0.92</span>
+</div>
+</div>
+<div class="space-y-3">
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-primary-container transition-colors">
+                NeuroSeg Medical Image Segmentation
+              </h3>
+<p class="font-body-md text-body-md text-text-muted">
+                3D volumetric MRI tumor boundary delineation achieving 0.92 Dice score using attention-gated 3D U-Nets with self-supervised pretraining.
+              </p>
+</div>
+<div class="flex flex-wrap gap-2 mt-5">
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">MONAI</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">PyTorch 3D</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">CUDA</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">DICOM</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 mt-6 border-t border-border-subtle/60">
+<a class="inline-flex items-center gap-1.5 font-button-text text-button-text text-text-primary hover:text-primary-container transition-colors" href="#">
+<span>View Case Study</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="p-2 rounded-full border border-border-subtle hover:border-text-primary text-text-muted hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</a>
+</div>
+</article>
+<!-- PROJECT 4: Multimodal RAG -->
+<article class="p-6 md:p-8 rounded-[24px] bg-surface-raised border border-border-subtle hover:border-border-prominent transition-all duration-300 flex flex-col justify-between group">
+<div>
+<div class="relative h-64 sm:h-72 rounded-xl overflow-hidden mb-6 border border-border-subtle bg-surface-overlay">
+<img class="w-full h-full object-cover opacity-60 group-hover:opacity-80 group-hover:scale-105 transition-all duration-500" data-alt="Interactive vector graph network rendering millions of high-dimensional document nodes with glowing clustered semantic embeddings. Deep warm-black backdrop accented by crisp ember data points, knowledge graph telemetry, advanced AI systems aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5aHJt9k1AtMnbChjSElNbk1kRA4tD7NVvyaze-IYkR0oY3VDl45gMc_Q8i-zofT5xY5q2xAinwJ9vBMPwwx2NynCoAz8jRXWPCdOpIdxgxdtJeM-ZKytkBh2EeGbAnCEhP6GmOHrCyTjKECtmdGSsffUry5fcy9-8iry9Jbiqzt29nGRQx8NGGBTTTww4XytSLthxIgxURCn929deJIAxyl9gwwX0djp3Zf2IOi5ZsDXSra1hWPSB"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-raised via-transparent to-transparent"></div>
+<span class="absolute top-2 right-4 font-display-ticker text-6xl text-white/5 select-none pointer-events-none">EDGE</span>
+<div class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-3 py-1 rounded-full bg-surface-base/90 border border-white/10 font-label-mono-sm text-label-mono-sm text-text-primary">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Scale: 5M+ Papers</span>
+</div>
+</div>
+<div class="space-y-3">
+<h3 class="font-headline-sm text-headline-sm text-text-primary font-bold group-hover:text-primary-container transition-colors">
+                Multimodal RAG Knowledge Engine
+              </h3>
+<p class="font-body-md text-body-md text-text-muted">
+                High-throughput vector search and contextual reasoning platform indexing 5M+ academic papers with hybrid sparse-dense retrieval and cross-encoder reranking.
+              </p>
+</div>
+<div class="flex flex-wrap gap-2 mt-5">
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">Qdrant</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">LangChain</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">Ollama</span>
+<span class="px-2.5 py-1 rounded-md bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-muted">Docker</span>
+</div>
+</div>
+<div class="flex items-center justify-between pt-6 mt-6 border-t border-border-subtle/60">
+<a class="inline-flex items-center gap-1.5 font-button-text text-button-text text-text-primary hover:text-primary-container transition-colors" href="#">
+<span>Live Demonstration</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+<a class="p-2 rounded-full border border-border-subtle hover:border-text-primary text-text-muted hover:text-text-primary transition-all" href="#">
+<span class="material-symbols-outlined text-[18px]">code</span>
+</a>
+</div>
+</article>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 6: EXPERIENCE & CREDENTIALS TIMELINE                            -->
+<!-- ======================================================================= -->
+<section class="rounded-xl bg-surface-raised border border-border-subtle p-8 md:p-14 lg:p-16" id="experience">
+<div class="max-w-2xl mb-12">
+<div class="font-label-mono-sm text-label-mono-sm text-primary-container uppercase tracking-wider mb-2">Track Record</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-lg text-text-primary font-bold">
+          Experience &amp; Academic Honors
+        </h2>
+</div>
+<!-- Vertical Timeline -->
+<div class="relative pl-6 md:pl-10 space-y-12 border-l border-border-subtle">
+<!-- Entry 1 -->
+<div class="relative group">
+<!-- Glowing Node Marker -->
+<div class="absolute -left-[31px] md:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-surface-base border-2 border-primary-container flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">
+              General Secretary <span class="text-text-muted font-normal">@</span> Code Metrics Research Society
+            </h3>
+<span class="font-label-mono-sm text-label-mono-sm text-primary-container font-medium shrink-0">
+              2023 — Present
+            </span>
+</div>
+<p class="font-body-md text-body-md text-text-muted mb-4 max-w-3xl">
+            Led university-wide technical initiatives, managed algorithmic hackathons, and coordinated four major student branches in applied artificial intelligence and computational research.
+          </p>
+<ul class="space-y-2 font-body-md text-body-sm text-text-muted max-w-2xl">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Directly steered 4 departmental verticals representing 300+ active engineering members.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Spearheaded TICSR research seminars introducing vision transformer architectures and quantization.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Curated university coding competitions with custom automated evaluation sandboxes.</span>
+</li>
+</ul>
+<div class="mt-4">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-primary hover:border-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[15px] text-primary-container">badge</span>
+<span>View credential document</span>
+</a>
+</div>
+</div>
+<!-- Entry 2 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-surface-base border-2 border-primary-container flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">
+              AI/ML Industrial Trainee <span class="text-text-muted font-normal">@</span> IIT Ropar x NIELIT Ropar
+            </h3>
+<span class="font-label-mono-sm text-label-mono-sm text-primary-container font-medium shrink-0">
+              6-Month Intensive
+            </span>
+</div>
+<p class="font-body-md text-body-md text-text-muted mb-4 max-w-3xl">
+            Underwent specialized training in production machine learning workflows, hardware acceleration using CUDA, and scalable deployment of vision models.
+          </p>
+<ul class="space-y-2 font-body-md text-body-sm text-text-muted max-w-2xl">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Formulated high-accuracy object recognition pipelines adapted for edge edge-TPU constraints.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Completed hands-on evaluations on model quantization (FP16/INT8) and pruning benchmarks.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Earned dual-institute honors for high engineering precision in final industrial project defense.</span>
+</li>
+</ul>
+<div class="mt-4">
+<a class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-surface-overlay border border-border-subtle font-label-mono-sm text-label-mono-sm text-text-primary hover:border-primary-container transition-all" href="#">
+<span class="material-symbols-outlined text-[15px] text-primary-container">verified</span>
+<span>IIT Ropar x NIELIT Certification</span>
+</a>
+</div>
+</div>
+<!-- Entry 3 -->
+<div class="relative group">
+<div class="absolute -left-[31px] md:-left-[47px] top-1.5 w-4 h-4 rounded-full bg-surface-base border-2 border-primary-container flex items-center justify-center">
+<span class="w-1.5 h-1.5 rounded-full bg-primary-container"></span>
+</div>
+<div class="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 mb-2">
+<h3 class="font-headline-sm text-headline-sm font-bold text-text-primary">
+              Undergraduate Researcher <span class="text-text-muted font-normal">@</span> Thapar Institute of Engineering &amp; Technology
+            </h3>
+<span class="font-label-mono-sm text-label-mono-sm text-primary-container font-medium shrink-0">
+              TIET Patiala
+            </span>
+</div>
+<p class="font-body-md text-body-md text-text-muted mb-4 max-w-3xl">
+            Candidate for Bachelor of Engineering in Artificial Intelligence &amp; Data Science. Dedicated coursework in Convex Optimization, Deep Learning, Tensor Analysis, and Distributed Systems.
+          </p>
+<ul class="space-y-2 font-body-md text-body-sm text-text-muted max-w-2xl">
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Consistent high academic standing across math and neural computing curricula.</span>
+</li>
+<li class="flex items-start gap-2">
+<span class="material-symbols-outlined text-primary-container text-[16px] mt-0.5">check_circle</span>
+<span>Active collaborator in college department publications addressing semantic segmentation.</span>
+</li>
+</ul>
+</div>
+</div>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 7: FAQ SECTION                                                  -->
+<!-- ======================================================================= -->
+<section class="max-w-4xl mx-auto space-y-6">
+<div class="text-center mb-8">
+<div class="font-label-mono-sm text-label-mono-sm text-primary-container uppercase tracking-wider mb-2">Inquiries &amp; Clarity</div>
+<h2 class="font-headline-lg text-headline-lg-mobile md:text-headline-md text-text-primary font-bold">
+          Frequently Answered Points
+        </h2>
+</div>
+<!-- FAQ Item 1 -->
+<details class="group rounded-[20px] bg-surface-raised border border-border-subtle p-6 transition-all duration-200 open:border-border-prominent">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-text-primary font-medium">
+<span>What is your primary engineering stack for Computer Vision?</span>
+<span class="material-symbols-outlined text-primary-container group-open:rotate-180 transition-transform duration-200">expand_more</span>
+</summary>
+<p class="mt-4 font-body-md text-body-md text-text-muted border-t border-border-subtle pt-4">
+          I primarily design within PyTorch and OpenCV for prototype experimentation, and convert models into TensorRT or ONNX Runtime for edge deployments. For distributed streaming inference, I rely on Triton Inference Server and NVIDIA DeepStream.
+        </p>
+</details>
+<!-- FAQ Item 2 -->
+<details class="group rounded-[20px] bg-surface-raised border border-border-subtle p-6 transition-all duration-200 open:border-border-prominent">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-text-primary font-medium">
+<span>Are you open to contract or full-time machine learning opportunities?</span>
+<span class="material-symbols-outlined text-primary-container group-open:rotate-180 transition-transform duration-200">expand_more</span>
+</summary>
+<p class="mt-4 font-body-md text-body-md text-text-muted border-t border-border-subtle pt-4">
+          Yes. I am currently evaluating high-impact AI/ML engineering roles, specialized research internships, and ambitious contract contracts focusing on computer vision and generative modeling infrastructure.
+        </p>
+</details>
+<!-- FAQ Item 3 -->
+<details class="group rounded-[20px] bg-surface-raised border border-border-subtle p-6 transition-all duration-200 open:border-border-prominent">
+<summary class="flex items-center justify-between cursor-pointer list-none font-headline-sm text-headline-sm text-text-primary font-medium">
+<span>How do you handle production model observability and latency drift?</span>
+<span class="material-symbols-outlined text-primary-container group-open:rotate-180 transition-transform duration-200">expand_more</span>
+</summary>
+<p class="mt-4 font-body-md text-body-md text-text-muted border-t border-border-subtle pt-4">
+          Every model endpoint is equipped with Prometheus metrics logging p95 and p99 inference latency, alongside real-time input feature distribution tracking using Evidently AI or Weights &amp; Biases to rapidly catch distribution shifts before accuracy degrades.
+        </p>
+</details>
+</section>
+<!-- ======================================================================= -->
+<!-- SECTION 8: LET'S BUILD CONTACT BLOCK                                   -->
+<!-- ======================================================================= -->
+<section class="rounded-xl bg-surface-raised border border-border-subtle p-8 md:p-16 text-center relative overflow-hidden" id="contact">
+<!-- Background Ambient Glow -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl h-64 bg-primary-container/15 blur-3xl pointer-events-none"></div>
+<div class="relative z-10 max-w-3xl mx-auto space-y-6">
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-border-subtle bg-surface-overlay">
+<span class="w-2 h-2 rounded-full bg-primary-container"></span>
+<span class="font-label-mono-sm text-label-mono-sm text-text-primary">Available for Q3/Q4 Initiatives</span>
+</div>
+<h2 class="font-display-hero text-5xl sm:text-7xl md:text-8xl uppercase tracking-tight text-text-primary leading-none">
+          LET'S BUILD THE FUTURE OF AI
+        </h2>
+<p class="font-body-lg text-body-md md:text-body-lg text-text-muted max-w-xl mx-auto">
+          Whether you need a custom generative diffusion studio, an edge vision pipeline, or computational research collaboration — my terminal is ready.
+        </p>
+<!-- Primary Action Contact Row -->
+<div class="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+<!-- Copy email pill -->
+<button class="inline-flex items-center gap-3 bg-primary-container text-text-inverse px-6 py-3.5 rounded-full font-button-text text-button-text hover:shadow-[0px_8px_32px_rgba(255,91,31,0.5)] active:scale-95 transition-all duration-200" onclick="navigator.clipboard.writeText('bhavyakansal@example.com'); alert('Email copied to clipboard!');" type="button">
+<span class="material-symbols-outlined text-[18px]">mail</span>
+<span>bhavyakansal@example.com</span>
+<span class="material-symbols-outlined text-[16px] opacity-75">content_copy</span>
+</button>
+<a class="inline-flex items-center gap-2 border border-border-subtle px-6 py-3.5 rounded-full font-button-text text-button-text text-text-primary hover:border-text-primary/40 hover:bg-white/[0.04] active:scale-95 transition-all" href="#">
+<span>LinkedIn</span>
+<span class="material-symbols-outlined text-[16px]">arrow_outward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- ========================================================================= -->
+<!-- FLOATING CHATBOT LAUNCHER (Bottom Right Monogram)                         -->
+<!-- ========================================================================= -->
+<aside class="fixed bottom-6 right-6 z-40">
+<button aria-label="Open AI Assistant" class="w-12 h-12 rounded-full bg-surface-overlay border border-border-prominent shadow-2xl flex items-center justify-center text-text-primary hover:bg-primary-container hover:text-text-inverse transition-all duration-200 active:scale-95 group" type="button">
+<span class="font-display-hero text-xl tracking-tight group-hover:scale-110 transition-transform">BK</span>
+</button>
+</aside>
+<!-- ========================================================================= -->
+<!-- SHARED COMPONENT: Footer (from JSON Specs)                                -->
+<!-- ========================================================================= -->
+<footer class="mt-24 border-t border-border-subtle dark:border-border-subtle bg-surface-base dark:bg-surface-base">
+<div class="w-full py-12 px-6 md:px-16 flex flex-col md:flex-row justify-between items-center max-w-7xl mx-auto gap-6">
+<!-- Brand & Copyright from JSON -->
+<div class="flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+<span class="font-headline-sm text-headline-sm font-bold text-text-primary dark:text-text-primary">Bhavya Kansal</span>
+<span class="hidden sm:inline text-text-muted text-xs">•</span>
+<span class="text-body-sm font-body-sm text-text-muted dark:text-text-muted">
+          © 2025 Bhavya Kansal. Engineered with Precision.
+        </span>
+</div>
+<!-- Links from JSON -->
+<div class="flex flex-wrap items-center justify-center gap-6">
+<a class="text-text-muted dark:text-text-muted hover:text-primary dark:hover:text-primary text-body-sm font-body-sm transition-colors duration-200" href="#">GitHub</a>
+<a class="text-text-muted dark:text-text-muted hover:text-primary dark:hover:text-primary text-body-sm font-body-sm transition-colors duration-200" href="#">LinkedIn</a>
+<a class="text-text-muted dark:text-text-muted hover:text-primary dark:hover:text-primary text-body-sm font-body-sm transition-colors duration-200" href="#">HuggingFace</a>
+<a class="text-text-muted dark:text-text-muted hover:text-primary dark:hover:text-primary text-body-sm font-body-sm transition-colors duration-200" href="#">ArXiv</a>
+<a class="text-text-muted dark:text-text-muted hover:text-primary dark:hover:text-primary text-body-sm font-body-sm transition-colors duration-200" href="#contact">Contact</a>
+</div>
+</div>
+</footer>
+</body></html>

@@ -68,10 +68,38 @@
     <link rel="icon" href="/favicon.png?v=20260405-2" type="image/png" />
     <link rel="alternate icon" href="/favicon.png?v=20260405-2" />
     <link rel="apple-touch-icon" sizes="180x180" href="/favicon.png?v=20260405-2" />
-  </head>
+  
+    <script>
+      (function() {
+        try {
+          var d = document.documentElement, c = d.classList;
+          c.remove('light', 'dark');
+          var e = localStorage.getItem('theme');
+          if ('system' === e || (!e && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            c.add('dark');
+          } else if (e) {
+            c.add(e);
+          } else {
+            c.add('dark'); // default dark
+          }
+        } catch (e) {}
+      })();
+    </script>
+</head>
 
   <body>
-    <div id="root"></div>
+    <div id="root">
+
+  <section class="min-h-[88vh] relative overflow-hidden pt-32 pb-16 mx-4 rounded-[3rem] mt-4" style="visibility: hidden;">
+    <div>
+      <span>PORTFOLIO — BHAVYA KANSAL</span>
+      <h1>Building production-ready AI systems across machine learning, computer vision & intelligent automation.</h1>
+      <p>Hi, I'm Bhavya Kansal. I architect and build scalable AI systems — machine-learning models, multimodal applications, and deep-tech solutions for real-world engineering challenges.</p>
+      <p>Based in Patiala, Punjab — pursuing B.Tech in Data Science & AI at TIET.</p>
+    </div>
+  </section>
+
+</div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>

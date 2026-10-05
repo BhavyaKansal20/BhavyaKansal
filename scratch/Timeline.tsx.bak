@@ -1,9 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useTiltCard } from "@/hooks/useTiltCard";
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import { Maximize2 } from "lucide-react";
-
 
 interface TimelineItem {
   date: string;
@@ -14,21 +11,10 @@ interface TimelineItem {
   summary: string;
   tech: string[];
   logos?: string[];
-  type?: "education" | "work" | "training" | "leadership";
-  certificate?: string;
+  type?: "education" | "work" | "training";
 }
 
 const timelineData: TimelineItem[] = [
-  {
-    date: "PRESENT",
-    title: "General Secretary",
-    company: "CODE METRICS Research Society",
-    period: "Present",
-    type: "leadership",
-    summary: "Spearheading society strategy, team coordination, and event execution at Thapar Institute of Engineering & Technology, operating under CSED and DORSP.",
-    tech: ["Leadership", "Research Skills", "R&D", "Team Building"],
-    logos: ["/tiet_logo.png"],
-  },
   {
     date: "2023 - 2026",
     title: "Diploma in Computer Science Engineering",
@@ -45,7 +31,6 @@ const timelineData: TimelineItem[] = [
     title: "AI/ML & Cybersecurity Trainee",
     company: "Thapar Polytechnic College",
     period: "Jun 2025 – Aug 2025",
-    certificate: "/tpc summer training.jpg",
     type: "training",
     summary:
       "Completed intensive summer training in Python, AI/ML, and cybersecurity through practical labs, model implementation workshops, and security assessment mini-projects.",
@@ -57,7 +42,6 @@ const timelineData: TimelineItem[] = [
     title: "AI/ML Intern",
     company: "IIT & NIELIT Ropar",
     period: "Jan 2026 – Jul 2026",
-    certificate: "/iit certificate.pdf",
     type: "work",
     summary:
       "Industrial AI/ML training at IIT Ropar & NIELIT — focused on applied machine learning workflows, model experimentation, computer vision pipelines, and real-world deployment.",
@@ -108,7 +92,7 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
         cardRef.current.appendChild(ripple);
         setTimeout(() => ripple.remove(), 700);
       }}
-      className={`bg-card border-border shadow-md rounded-[2rem] relative overflow-hidden
+      className={`glass-card group h-full p-5 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden
         transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-transform
         ${revealed ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}`}
     >
