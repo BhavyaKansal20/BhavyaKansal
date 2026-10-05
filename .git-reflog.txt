@@ -1,0 +1,20 @@
+468dfc9 HEAD@{0}: checkout: moving from main to overhaul-repair
+468dfc9 HEAD@{1}: commit: feat: portfolio redesign adhering strictly to visual tokens and original content parity
+ef7a871 HEAD@{2}: reset: moving to ef7a871778b77baf6f566bf471d039eb4c7f99c1
+0d3fa3c HEAD@{3}: reset: moving to HEAD
+0d3fa3c HEAD@{4}: checkout: moving from agent-ui-upgrade to main
+1b384e6 HEAD@{5}: commit: fix: resolve unclosed string in font-family css
+4bd118d HEAD@{6}: checkout: moving from main to agent-ui-upgrade
+0d3fa3c HEAD@{7}: checkout: moving from agent-ui-upgrade to main
+4bd118d HEAD@{8}: cherry-pick: Massive UI upgrade: premium background, modern system font, simple sleek project cards, instant timeline scroll reveal, updated resume, FAQ & chatbot styling, certificate dialogs.
+0d3fa3c HEAD@{9}: checkout: moving from main to agent-ui-upgrade
+0d3fa3c HEAD@{10}: reset: moving to 0d3fa3c
+8797dee HEAD@{11}: revert: Revert "Merge pull request #2 from BhavyaKansal20/overhaul/premium"
+c3c1c8b HEAD@{12}: pull origin main: Fast-forward
+0a61396 HEAD@{13}: checkout: moving from overhaul/premium to main
+778832d HEAD@{14}: commit: feat: complete portfolio overhaul for big tech recruitment standards
+0a61396 HEAD@{15}: checkout: moving from main to overhaul/premium
+0a61396 HEAD@{16}: commit: Massive UI upgrade: premium background, modern system font, simple sleek project cards, instant timeline scroll reveal, updated resume, FAQ & chatbot styling, certificate dialogs.
+0d3fa3c HEAD@{17}: commit: Ultra-premium redesign: Animated mesh background, restored fluid animations, glassmorphism cards, and colorful dimensional icons
+0b13d64 HEAD@{18}: pull --rebase (finish): returning to refs/heads/main
+0b13d64 HEAD@{19}: pull --rebase (pick): Massive UI/UX overhaul: Premium redesign, SEO, loading optimizations, new resume & certificates

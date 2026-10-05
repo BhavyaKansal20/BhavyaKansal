@@ -67,11 +67,13 @@ const Hero = () => {
         </div>
 
         {/* Right content — profile image */}
-        <div className={`relative mt-14 lg:mt-0 ${heroVisible ? "scroll-animate scroll-animate-delay-2" : "opacity-0"}`}>
+        <div className={`relative mt-14 lg:mt-0 ${heroVisible ? "scroll-animate scroll-animate-delay-2" : ""}`}>
           <div className="relative rounded-3xl overflow-hidden shadow-2xl group">
             <div className="rounded-3xl p-1 bg-white/60 dark:bg-black/30 relative">
               <img
-                src="/Bhavya-Kansal-PFP.jpg?v=20260509"
+                src="/Bhavya-Kansal-PFP.jpg"
+                srcSet="/Bhavya-Kansal-PFP.jpg 1x"
+                width="560" height="560"
                 alt="Bhavya Kansal — AI Systems Architect & Developer"
                 loading="eager"
                 decoding="async"

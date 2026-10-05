@@ -1,5 +1,5 @@
 # TODO for Owner
 
-1. **Degree Name Mismatch:** The original hero text says "B.Tech in Data Science & AI at TIET", while your personal profile/resume wording states "B.E. in AI & Data Science". Please confirm which is the officially correct version and update the `Hero.tsx` component if necessary. The original text was left intact as per instructions.
-2. **Footer Contrast/Accessibility:** The footer uses existing styling from the original main branch. Please ensure the contrast of the footer links against the dark/light mode background is optimal (some links might be too dim).
-3. **Resume Update:** The requested `Bhavya_Kansal_Resume (2).pdf` was missing in the restored repository state. Please manually replace `Bhavya-Kansal-Resume.pdf` in the `public/` directory with the updated resume file, ensuring the filename remains `Bhavya-Kansal-Resume.pdf` so the download links do not break.
+1. **Resume Update:** The requested resume update was lost during the reset. Please copy `Bhavya_Kansal_Resume (2).pdf` to `public/Bhavya-Kansal-Resume.pdf`. A build script will fail if this is not updated.
+2. **Certificates Missing:** The files for the IIT Ropar and Thapar Summer Trainee certificates were deleted during the reset. Please add `tpc_summer_training.jpg` and `iit_certificate.pdf` to the `public/certificates/` directory. (The references have been removed from the Timeline temporarily to avoid 404s).
+3. **Footer Claims:** The footer claims "Experience: 1+ Year, Projects: 12+, AI Systems: 10+". Ensure your Projects section and GitHub can substantiate these numbers, as recruiters cross-check.
