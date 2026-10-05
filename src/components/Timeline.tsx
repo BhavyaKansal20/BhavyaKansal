@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 import { useTiltCard } from "@/hooks/useTiltCard";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Maximize2 } from "lucide-react";
+
 
 interface TimelineItem {
   date: string;
@@ -11,10 +14,21 @@ interface TimelineItem {
   summary: string;
   tech: string[];
   logos?: string[];
-  type?: "education" | "work" | "training";
+  type?: "education" | "work" | "training" | "leadership";
+  certificate?: string;
 }
 
 const timelineData: TimelineItem[] = [
+  {
+    date: "PRESENT",
+    title: "General Secretary",
+    company: "CODE METRICS Research Society",
+    period: "Present",
+    type: "leadership",
+    summary: "Spearheading society strategy, team coordination, and event execution at Thapar Institute of Engineering & Technology, operating under CSED and DORSP.",
+    tech: ["Leadership", "Research Skills", "R&D", "Team Building"],
+    logos: ["/tiet_logo.png"],
+  },
   {
     date: "2023 - 2026",
     title: "Diploma in Computer Science Engineering",
@@ -31,6 +45,7 @@ const timelineData: TimelineItem[] = [
     title: "AI/ML & Cybersecurity Trainee",
     company: "Thapar Polytechnic College",
     period: "Jun 2025 – Aug 2025",
+    certificate: "/tpc summer training.jpg",
     type: "training",
     summary:
       "Completed intensive summer training in Python, AI/ML, and cybersecurity through practical labs, model implementation workshops, and security assessment mini-projects.",
@@ -42,6 +57,7 @@ const timelineData: TimelineItem[] = [
     title: "AI/ML Intern",
     company: "IIT & NIELIT Ropar",
     period: "Jan 2026 – Jul 2026",
+    certificate: "/iit certificate.pdf",
     type: "work",
     summary:
       "Industrial AI/ML training at IIT Ropar & NIELIT — focused on applied machine learning workflows, model experimentation, computer vision pipelines, and real-world deployment.",
@@ -92,8 +108,8 @@ const TiltCard = ({ item, revealed }: { item: TimelineItem; revealed: boolean })
         cardRef.current.appendChild(ripple);
         setTimeout(() => ripple.remove(), 700);
       }}
-      className={`glass-card group h-full p-5 rounded-2xl border border-black/10 dark:border-white/10 relative overflow-hidden
-        transition-all duration-700 cubic-bezier(0.16, 1, 0.3, 1) will-change-transform
+      className={`bg-card border-border shadow-md rounded-[2rem] relative overflow-hidden
+        transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 cubic-bezier(0.16, 1, 0.3, 1) will-change-transform
         ${revealed ? "opacity-100 translate-y-0 scale-100" : "opacity-0 translate-y-8 scale-95"}`}
     >
       <div className="card-spotlight" ref={spotRef} />
@@ -150,7 +166,7 @@ const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index
     <div className="flex-1 flex flex-col items-center group relative min-w-[280px]">
       <div 
         ref={ref}
-        className="w-full flex-1 pt-8 px-4 transition-all duration-700 ease-out"
+        className="w-full flex-1 pt-8 px-4 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ease-out"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "translateY(0)" : "translateY(40px)",
@@ -162,7 +178,7 @@ const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index
       
       <div className="absolute top-[-10px] left-1/2 -translate-x-1/2 flex flex-col items-center z-10">
         <div
-          className={`w-5 h-5 rounded-full border-2 transition-all duration-500 bg-background ${
+          className={`w-5 h-5 rounded-full border-2 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 bg-background ${
             isVisible 
               ? `${typeColors[item.type || "education"]} border-white/40 shadow-[0_0_15px_rgba(255,255,255,0.3)] scale-110` 
               : "border-border scale-75 opacity-50"
@@ -170,7 +186,7 @@ const TimelineItemDesktop = ({ item, index, total }: { item: TimelineItem, index
           style={{ transitionDelay: `${delayMs}ms` }}
         />
         <div 
-          className={`h-8 w-px transition-all duration-500 bg-gradient-to-b ${
+          className={`h-8 w-px transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 bg-gradient-to-b ${
             isVisible ? "from-white/20 to-transparent" : "from-border to-transparent opacity-0"
           }`}
           style={{ transitionDelay: `${delayMs}ms` }}
@@ -187,7 +203,7 @@ const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
     <div ref={ref} className="relative">
       <div className="absolute -left-[26px] top-4">
         <div
-          className={`w-4 h-4 rounded-full border-2 transition-all duration-500 ${
+          className={`w-4 h-4 rounded-full border-2 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ${
             isVisible
               ? `${typeColors[item.type || "education"]} border-white/40 shadow-lg scale-125`
               : "bg-background border-border scale-75 opacity-0"
@@ -195,7 +211,7 @@ const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
         />
       </div>
       <div 
-        className="ml-4 transition-all duration-700 ease-out"
+        className="ml-4 transition-all duration-300 motion-reduce:transition-none motion-reduce:transform-none motion-reduce:opacity-100 ease-out"
         style={{
           opacity: isVisible ? 1 : 0,
           transform: isVisible ? "translateY(0)" : "translateY(20px)"
@@ -208,7 +224,7 @@ const TimelineItemMobile = ({ item }: { item: TimelineItem }) => {
 };
 
 const Timeline = () => {
-  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation({ rootMargin: "0px 0px 200px 0px", threshold: 0 });
   const { ref: trackRef, isVisible: trackVisible } = useScrollAnimation();
   const total = timelineData.length;
 

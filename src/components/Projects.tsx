@@ -461,12 +461,12 @@ const Projects = () => {
 
                   {/* Tech Stack Row */}
                   <div className="flex flex-wrap gap-1.5">
-                    {project.techStack.slice(0, 5).map((tech) => (
+                    {project.techStack.slice(0, 4).map((tech) => (
                       <TechIcon key={tech} name={tech} />
                     ))}
-                    {project.techStack.length > 5 && (
+                    {project.techStack.length > 4 && (
                       <div className="inline-flex items-center px-2 py-1 rounded-md text-[10px] font-bold text-muted-foreground bg-muted/50 border border-border">
-                        +{project.techStack.length - 5}
+                        +{project.techStack.length - 4}
                       </div>
                     )}
                   </div>

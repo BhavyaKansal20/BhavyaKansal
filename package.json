@@ -10,11 +10,12 @@
     "dev": "vite",
     "dev:api": "npm --prefix backend run dev",
     "start:api": "npm --prefix backend start",
-    "build": "vite build",
+    "build": "node scripts/check-resume.mjs && vite build --outDir dist/static && vite build --ssr src/entry-server.tsx --outDir dist/server && node scripts/prerender-ssr.mjs && cp -r dist/static/* dist/ && rm -rf dist/static dist/server",
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "refresh:github": "node scripts/fetch-github-contributions.mjs BhavyaKansal20"
+    "refresh:github": "node scripts/fetch-github-contributions.mjs BhavyaKansal20",
+    "verify": "bash scripts/verify/run-all.sh"
   },
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
@@ -58,6 +59,7 @@
     "lucide-react": "^0.462.0",
     "next-themes": "^0.4.6",
     "node-fetch": "^3.3.2",
+    "playwright": "^1.63.0",
     "react": "^18.3.1",
     "react-calendar-heatmap": "^1.10.0",
     "react-day-picker": "^8.10.1",
